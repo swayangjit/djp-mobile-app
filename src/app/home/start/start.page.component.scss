@@ -1,9 +1,61 @@
-.container {
-    height: 100vh;
+:host {
+  --ion-background-color: var(--ion-color-primary);
+  --ion-text-color: var(--ion-color-primary-contrast);
 }
-.lang-select {
+
+.splash-screen {
+  height: 100%;
+  background-color: var(--ion-color-primary);
+
+  .rectangle-box {
     position: absolute;
-    top: 20%;
-    margin: 1rem;
+    width: 600px;
+    background: rgba(255, 255, 255, 0.03);
+    transform: rotate(-32deg);
+    -webkit-transform-origin-y: 280px;
+
+    &--one {
+      height: 190px;
+      top: 20%;
+    }
+
+    &--two {
+      height: 30px;
+      top: 52%;
+    }
+  }
+
+  .pitara-container {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+
+    .heading {
+        margin-bottom: 1rem;
+        img {
+            max-width: 100%;
+        }
+    }
+  }
+
+  .circle {
+    background-color: var(--ion-color-primary-contrast);
+    width: 156px;
+    height: 156px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        max-width: 100%;
+    }
+  }
 }
