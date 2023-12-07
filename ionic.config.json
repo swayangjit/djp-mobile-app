@@ -1,0 +1,7 @@
+{
+  "name": "khel-khel-me",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

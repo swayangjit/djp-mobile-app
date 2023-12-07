@@ -1,0 +1,30 @@
+ion-tab-bar {
+  --background: var(--ion-color-primary);
+}
+
+ion-tab-button {
+  --color: var(--ion-color-primary-contrast);
+  --color-selected: var(--ion-color-primary-contrast);
+}
+
+ion-icon {
+  width: 18px;
+  height: 18px;
+}
+
+ion-tab-button {
+    ion-icon {
+        fill: var(--ion-color-primary-contrast);
+        // stroke: var(--ion-color-primary-contrast);
+    }
+    
+    &.tab-selected ion-icon {
+        fill: var(--ion-color-primary);
+        // stroke: var(--ion-color-primary);
+        background: var(--ion-color-primary-contrast);
+        width: 22px;
+        height: 22px;
+        padding: 4px;
+        border-radius: 50%;    
+    }
+}
