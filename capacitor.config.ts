@@ -10,7 +10,10 @@ const config: CapacitorConfig = {
   plugins: {
     CapacitorSQLite: {
       androidIsEncryption: false
-    }
+    },
+    SplashScreen: {
+      "launchShowDuration": 100
+    },
   }
 };
 

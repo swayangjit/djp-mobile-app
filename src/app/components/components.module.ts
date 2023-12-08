@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ApplicationHeaderComponent } from './application-header/application-header.component';
 import { FilterComponent } from './filter/filter.component';
 import { ContentCardComponent } from './content-card/content-card.component';
+import { StorageService, TelemetryService, UtilService } from '../services';
 @NgModule({
     declarations: [
         ApplicationHeaderComponent,
@@ -25,7 +26,7 @@ import { ContentCardComponent } from './content-card/content-card.component';
         FilterComponent,
         ContentCardComponent
     ],
-    providers: [],
+    providers: [UtilService, TelemetryService, StorageService],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA
     ]

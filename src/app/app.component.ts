@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AppInitializeService } from './services';
+import { AppHeaderService } from './services/app-header.service';
+import { HeaderConfig } from './appConstants';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,13 @@ import { AppInitializeService } from './services';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit{
-  constructor(
-    private appinitialise: AppInitializeService) {
-      this.appinitialise.initialize();
+  headerConfig!: HeaderConfig;
+  constructor(private headerService: AppHeaderService) {
   }
 
   async ngOnInit() {
+    this.headerService.headerConfigEmitted$.subscribe((config: HeaderConfig) => {
+      this.headerConfig = config;
+    });
   }
 }

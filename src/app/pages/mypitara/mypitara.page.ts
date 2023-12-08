@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UtilService } from 'src/app/services';
+import { AppHeaderService } from 'src/app/services/app-header.service';
 
 @Component({
   selector: 'app-mypitara',
@@ -7,6 +9,9 @@ import { Component } from '@angular/core';
 })
 export class MyPitaraPage {
 
-  constructor() {}
+  constructor(private headerService: AppHeaderService, 
+    private utilService: UtilService) {
+    this.headerService.showHeader(this.utilService.translateMessage("My Pitara"));
+  }
 
 }

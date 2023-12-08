@@ -20,27 +20,27 @@ export class StorageService {
     Preferences.configure({group: StorageService.groupPreferenceName})
     Preferences.get({key}).then((res: any) => {
 
-    }).catch(err => {})
+    }).catch(err => {return err})
   }
 
   async removeData(key: string): Promise<any> {
     Preferences.configure({group: StorageService.groupPreferenceName})
     Preferences.remove({key}).then((res: any) => {
 
-    }).catch(err => {})
+    }).catch(err => {return err})
   }
 
   async getStorageKeys(): Promise<any> {
     Preferences.configure({group: StorageService.groupPreferenceName})
     Preferences.keys().then((res: any) => {
 
-    }).catch(err => {})
+    }).catch(err => {return err})
   }
 
   async clearStorage(): Promise<any> {
     Preferences.configure({group: StorageService.groupPreferenceName})
     Preferences.clear().then((res: any) => {
 
-    }).catch(err => {})
+    }).catch(err => {return err})
   }
 }

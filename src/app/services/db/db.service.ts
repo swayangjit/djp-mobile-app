@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection, CapacitorSQLitePlugin } from '@capacitor-community/sqlite';
+import { dbinfo } from '../../appConstants';
+import { TelemetryConfigEntry } from './telemetrySchema';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +17,8 @@ export class DbService {
   async initializePlugin(): Promise<boolean> {
     this.sqlitePlugin = CapacitorSQLite;
     this.sqliteConnection = new SQLiteConnection(this.sqlitePlugin);
-    await this.openDatabase('digital_jaddu_pitara.db', false, "no-encryption", 3, false);
-    await this.createTable('telemetry', `(_id  INTEGER PRIMARY KEY,event_type TEXT, event TEXT, timestamp INTEGER, priority INTEGER )`);
+    await this.openDatabase(dbinfo.dbName, false, "no-encryption", dbinfo.version, false);
+    await this.createTable(TelemetryConfigEntry.getCreateEntry());
     return true;
   }
 
@@ -41,9 +43,8 @@ export class DbService {
     return await this.sqliteConnection.closeConnection(database, readOnly);
   }
 
-  async createTable(table: string, col: any): Promise<any> {
+  async createTable(stmt: string): Promise<any> {
     try {
-      const stmt: string = `CREATE TABLE IF NOT EXISTS ${table} ${col};`
       const retValues = (await this.sqliteDBConnection.query(stmt)).values;
       console.log('retValues ', retValues);
       const ret = retValues!.length > 0 ? retValues! : null;
@@ -54,17 +55,15 @@ export class DbService {
     }
   }
   
-  async readDbData(table: string, where?: any): Promise<any> {
+  async readDbData(stmt: string, where?: any): Promise<any> {
     try {
-        const fetchCndtn: boolean = where ? true : false;
-        if(fetchCndtn) {
+        if(where) {
           const key: string = Object.keys(where)[0];
-          const stmt: string = `SELECT * FROM ${table} WHERE ${key}=${where[key]};`
-          const retValues = (await this.sqliteDBConnection.query(stmt)).values;
+          const q: string = `${stmt} WHERE ${key}=${where[key]};`;
+          const retValues = (await this.sqliteDBConnection.query(q)).values;
           const ret = retValues!.length > 0 ? retValues! : null;
           return ret;
         } else {
-          const stmt: string = `SELECT * FROM ${table};`
           const retValues = (await this.sqliteDBConnection.query(stmt)).values;
           const ret = retValues!.length > 0 ? retValues![0] : null;
           return ret;
@@ -75,7 +74,7 @@ export class DbService {
     }
   }
 
-  async save(table: string, mObj: any, where?: any): Promise<void> {
+  async save(query: string, mObj: any, where?: any): Promise<void> {
       const isUpdate: boolean = where ? true : false;
       const keys: string[] = Object.keys(mObj);
       let stmt: string = '';
@@ -89,7 +88,7 @@ export class DbService {
         for (const key of keys) {
           qMarks.push('?');
         }
-        stmt = `INSERT INTO ${table} (${keys.toString()}) VALUES (${qMarks.toString()});`;
+        stmt = `${query} (${keys.toString()}) VALUES (${qMarks.toString()});`;
       } else {
         // UPDATE
         const wKey: string = Object.keys(where)[0];
@@ -98,7 +97,7 @@ export class DbService {
         if(setString.length === 0) {
           return Promise.reject(`save: update no SET`);
         }
-        stmt = `UPDATE ${table} SET ${setString} WHERE ${wKey}=${where[wKey]}`;
+        stmt = `${query} ${setString} WHERE ${wKey}=${where[wKey]}`;
       }
       const ret = await this.sqliteDBConnection.run(stmt,values);
       if(ret.changes!.changes != 1) {
@@ -108,9 +107,9 @@ export class DbService {
   }
 
   // delete data from table
-  async remove(table: string, where: any): Promise<any> {
+  async remove(query: string, where: any): Promise<any> {
     const key: string = Object.keys(where)[0];
-    const stmt: string = `DELETE FROM ${table} WHERE ${key}=${where[key]};`
+    const stmt: string = `${query} ${key}=${where[key]};`
     const ret = (await this.sqliteDBConnection.run(stmt)).changes;
     return ret;
   }
