@@ -9,7 +9,8 @@ import { telemetryConfig } from 'src/app/services/telemetry/telemetryConstants';
   styleUrls: ['./application-header.component.scss'],
 })
 export class ApplicationHeaderComponent  implements OnInit {
-  @Input() headerConfig: HeaderConfig = {showHeader: false, pageTitle: ''};
+
+  @Input() headerConfig: HeaderConfig = {showHeader: false, pageTitle: '', showbackButton: false};
   @Output() headerEvents = new EventEmitter();
   constructor(private utilService: UtilService,
     private storageService: StorageService,

@@ -1,6 +1,7 @@
 export interface HeaderConfig {
     showHeader: boolean,
-    pageTitle: String
+    pageTitle: String,
+    showbackButton: boolean
 }
 
 export const dbinfo = {
@@ -21,4 +22,10 @@ export class DbConstants {
     static BLOB_TYPE = 'BLOB';
     static NOT_NULL = 'NOT NULL';
     static NULL = 'NULL';
+}
+
+export interface Content {
+    name: string,
+    liked: boolean,
+    type: string
 }

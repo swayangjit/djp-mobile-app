@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'activity',
     loadChildren: () => import('./pages/activity/activity.module').then(m => m.ActivityPageModule)
   },
+  {
+    path: 'player',
+    loadChildren: () => import('./pages/player/player.module').then( m => m.PlayerPageModule)
+  }
 ];
 
 @NgModule({

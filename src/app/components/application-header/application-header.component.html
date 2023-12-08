@@ -1,28 +1,29 @@
 <ion-header [hidden]="!headerConfig.showHeader">
   <ion-toolbar class="custom-header">
     <img class="custom-header-img" src="assets/images/header-toy-pattern.png" alt="header">
-    <ion-buttons slot="start" class="start-icon">
-      <ion-button>
-        <ion-icon aria-hidden="true" class="pitara-icon" src="assets/images/pitara-empty-box.svg"></ion-icon>
-      </ion-button>
-      <!-- Back button image -->
-      <!-- <ion-button>
-        <ion-icon aria-hidden="true" src="assets/icon/arrow-back.svg"></ion-icon>
-      </ion-button> -->
-    </ion-buttons>
-    <ion-title role="heading" aria-level="1">{{headerConfig.pageTitle}}</ion-title>
+    <div class="header-content">
+      <ion-buttons slot="start" class="start-icon">
+        <ion-button [hidden]="headerConfig.showbackButton">
+          <ion-icon aria-hidden="true" class="pitara-icon" src="assets/images/pitara-empty-box.svg"></ion-icon>
+        </ion-button>
+        <!-- Back button image -->
+        <ion-button [hidden]="!headerConfig.showbackButton">
+          <ion-icon aria-hidden="true" src="assets/icon/arrow-back.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title role="heading" aria-level="1" [hidden]="headerConfig.showbackButton">{{headerConfig.pageTitle}}</ion-title>
 
-    <ion-buttons slot="end" class="end-icon">
-      <ion-button (click)="scan($event)">
-        <ion-icon aria-hidden="true" src="assets/icon/qr-scan.svg"></ion-icon>
-      </ion-button>
-      <ion-button (click)="editProfile($event)">
-        <ion-icon aria-hidden="true" src="assets/icon/profile-icon.svg"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
+      <ion-buttons slot="end" class="end-icon" [hidden]="headerConfig.showbackButton">
+        <ion-button (click)="scan($event)">
+          <ion-icon aria-hidden="true" src="assets/icon/qr-scan.svg"></ion-icon>
+        </ion-button>
+        <ion-button (click)="editProfile($event)">
+          <ion-icon aria-hidden="true" src="assets/icon/profile-icon.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
   </ion-toolbar>
-  <ion-toolbar class="custom-search-header">
+  <ion-toolbar class="custom-search-header" [hidden]="headerConfig.showbackButton">
     <img class="custom-header-img" src="assets/images/header-toy-pattern.png" alt="header">
     <ion-searchbar [search-icon]="false" placeholder="Search">
       <ion-icon aria-hidden="true" src="assets/icon/mic.svg" class="mic-icon"></ion-icon>

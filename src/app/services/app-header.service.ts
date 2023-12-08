@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Animation, StatusBar, Style } from '@capacitor/status-bar';
 import { Subject } from 'rxjs/internal/Subject';
 import { UtilService } from './util.service';
+import { HeaderConfig } from '../appConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -29,16 +30,18 @@ export class AppHeaderService {
   }
 
   getDefaultPageConfig() {
-    const defaultConfig = {
+    const defaultConfig: HeaderConfig = {
       showHeader: true,
       pageTitle: this.utilService.translateMessage('Jaadui Pitara'),
+      showbackButton: false
     };
     return defaultConfig;
   }
 
-  async showHeader(pageTitle?: string) {
+  async showHeader(pageTitle?: string, backbutton?: boolean) {
     const defaultConfig = this.getDefaultPageConfig();
     defaultConfig.pageTitle = pageTitle ? pageTitle : this.utilService.translateMessage('Jaadui Pitara');
+    defaultConfig.showbackButton = backbutton ?? false
     this.updatePageConfig(defaultConfig);
   }
 
@@ -49,6 +52,7 @@ export class AppHeaderService {
   showStatusBar() {
     StatusBar.show({animation: Animation.None});
     StatusBar.setStyle({style: Style.Dark});
-    StatusBar.setBackgroundColor({color: '#675fce'})
+    StatusBar.setBackgroundColor({color: '#FFFFFF'})
+    StatusBar.setOverlaysWebView({overlay: true})
   }
 }

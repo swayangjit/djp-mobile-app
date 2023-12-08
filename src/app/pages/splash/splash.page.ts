@@ -20,7 +20,7 @@ export class SplashPage implements OnInit {
     private utilService: UtilService) {}
     
   async ngOnInit() {
-    this.headerService.hideStatusBar();
+    this.headerService.showStatusBar();
     this.headerService.hideHeader();
     setTimeout(async () => {
       this.startTelemetry()
