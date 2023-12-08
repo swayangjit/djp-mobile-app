@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
-import { Content, Filter } from 'src/app/appConstants';
+import { Content } from 'src/app/appConstants';
 import { AppHeaderService, UtilService } from 'src/app/services';
 import { Share } from "@capacitor/share";
 import { ConfigService } from 'src/app/services/config.service';
@@ -17,15 +17,12 @@ export class HomePage implements OnInit {
   constructor(
     private headerService: AppHeaderService,
     private utilService: UtilService,
-    private router: Router,
-    private configService: ConfigService) {
+    private router: Router) {
       this.contents = [{name: "pdf content", liked: false, type:'pdf'}, {name: "video content", liked: false, type:'video'}]
     }
     
   async ngOnInit(): Promise<void> {
     this.headerService.showHeader(this.utilService.translateMessage('Jaadui Pitara'));
-    let config = this.configService.getConfigMeta();
-    console.log('config ', config);
   }
 
   async playContent(event: Event, content: Content) {
