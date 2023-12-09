@@ -1,85 +1,151 @@
 <ion-content [fullscreen]="true">
-    <!--slider-->
-    <div class="djp-grid-slider">
-        <div class="djp-grid-slider__header">
-            <div class="">Recently Viewed</div>
-            <div class="djp-grid-slider__header__link">See All</div>
+  <!--slider-->
+  <div class="djp-grid-slider">
+      <div class="djp-grid-slider__header">
+          <div class="">{{'recentlyviewed'|translate}}</div>
+          <div class="djp-grid-slider__header__link">{{'seeAll'|translate}}</div>
+      </div>
+      <div class="djp-grid-slider__container">
+          <ion-card class="djp-grid-slider__container__card">
+              <div class="djp-grid-slider__container__card__img">
+                  <img src="../../../assets/images/slider-img.svg" alt="" />
+              </div>
+              <ion-card-header>
+                <ion-card-title>{{'birdsounds'|translate}}</ion-card-title>
+              </ion-card-header>
+          </ion-card>
+          <ion-card class="djp-grid-slider__container__card">
+              <div class="djp-grid-slider__container__card__img">
+                  <img src="../../../assets/images/slider-img-1.png" alt="" />
+              </div>
+              <ion-card-header>
+                <ion-card-title>{{'cardtitle'|translate}}</ion-card-title>
+              </ion-card-header>
+          </ion-card>
+      </div>
+  </div>
+  <!--slider ends here-->
+  <div class="djp-play-list">
+    <div class="djp-play-list__slider">
+      <div class="djp-play-list__slider__header">
+          <div class="">{{'playlist'|translate}}</div>
+          <div class="djp-play-list__slider__header__link">{{'seeAll'|translate}}</div>
+      </div>
+      <div class="djp-play-list__slider__container">
+        <div class="djp-play-list__slider__container__item">
+          <ion-card class="djp-play-list__slider__container__item__card">
+            <div class="djp-play-list__slider__container__item__card__img">
+                <img src="../../../assets/images/slider-img.svg" alt="" />
+            </div>
+            <ion-card-header>
+              <ion-card-title>{{'birdsounds'|translate}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+          <div class="djp-play-list-metadata">
+            <div class="left-side">
+              <span class="title">Title</span>
+              <span class="meta">sub title</span>
+            </div>
+            <div class="right-side">
+              <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
+            </div>
+          </div>
         </div>
-        <div class="djp-grid-slider__container">
-            <ion-card class="djp-grid-slider__container__card">
-                <div class="djp-grid-slider__container__card__img">
-                    <img src="../../../assets/images/slider-img.svg" alt="" />
-                </div>
-                <ion-card-header>
-                  <ion-card-title>Bird sounds</ion-card-title>
-                </ion-card-header>
-            </ion-card>
-            <ion-card class="djp-grid-slider__container__card">
-                <div class="djp-grid-slider__container__card__img">
-                    <img src="../../../assets/images/slider-img-1.png" alt="" />
-                </div>
-                <ion-card-header>
-                  <ion-card-title>Card Title</ion-card-title>
-                </ion-card-header>
-            </ion-card>
+        <div class="djp-play-list__slider__container__item">
+          <ion-card class="djp-play-list__slider__container__item__card">
+            <div class="djp-play-list__slider__container__item__card__img">
+                <img src="../../../assets/images/slider-img.svg" alt="" />
+            </div>
+            <ion-card-header>
+              <ion-card-title>{{'birdsounds'|translate}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+          <div class="djp-play-list-metadata">
+            <div class="left-side">
+              <span class="title">Title</span>
+              <span class="meta">sub title</span>
+            </div>
+            <div class="right-side">
+              <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
+            </div>
+          </div>
         </div>
-    </div>
-    <!--slider ends here-->
-
-    <!--grid cards-->
-    <ion-grid>
-        <ion-row>
-          <ion-col size="6" size-md="4">
-            <ion-card class="djp-grid-card">
-                <div class="djp-grid-card__img">
-                    <img src="../../../assets/images/grid-card-img-1.png" alt="" />
-                </div>
-                <ion-card-header>
-                  <ion-card-title>Parents</ion-card-title>
-                </ion-card-header>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6" size-md="4">
-            <ion-card class="djp-grid-card">
-                <div class="djp-grid-card__img">
-                    <img src="../../../assets/images/grid-card-img-2.png" alt="" />
-                </div>
-                <ion-card-header>
-                  <ion-card-title>Teacher</ion-card-title>
-                </ion-card-header>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6" size-md="4">
-            <ion-card class="djp-grid-card">
-                <div class="djp-grid-card__img">
-                    <img src="../../../assets/images/grid-card-img-3.png" alt="" />
-                </div>
-                <ion-card-header>
-                  <ion-card-title>Tribal</ion-card-title>
-                </ion-card-header>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6" size-md="4">
-            <ion-card class="djp-grid-card">
-                <div class="djp-grid-card__img">
-                    <img src="../../../assets/images/grid-card-img-4.png" alt="" />
-                </div>
-                <ion-card-header>
-                  <ion-card-title>Handicapped</ion-card-title>
-                </ion-card-header>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6" size-md="4">
-            <ion-card class="djp-grid-card">
-                <div class="djp-grid-card__img">
-                    <img src="../../../assets/images/grid-card-img-5.png" alt="" />
-                </div>
-                <ion-card-header>
-                  <ion-card-title>My box</ion-card-title>
-                </ion-card-header>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <!--grid cards ends here-->
+        <div class="djp-play-list__slider__container__item">
+          <ion-card class="djp-play-list__slider__container__item__card">
+            <div class="djp-play-list__slider__container__item__card__img">
+                <img src="../../../assets/images/slider-img.svg" alt="" />
+            </div>
+            <ion-card-header>
+              <ion-card-title>{{'birdsounds'|translate}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+          <div class="djp-play-list-metadata">
+            <div class="left-side">
+              <span class="title">Title</span>
+              <span class="meta">sub title</span>
+            </div>
+            <div class="right-side">
+              <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+  <!--grid cards-->
+  <!-- <ion-grid>
+      <ion-row>
+        <ion-col size="6" size-md="4">
+          <ion-card class="djp-grid-card">
+              <div class="djp-grid-card__img">
+                  <img src="../../../assets/images/grid-card-img-1.png" alt="" />
+              </div>
+              <ion-card-header>
+                <ion-card-title>{{'parents'|translate}}</ion-card-title>
+              </ion-card-header>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6" size-md="4">
+          <ion-card class="djp-grid-card">
+              <div class="djp-grid-card__img">
+                  <img src="../../../assets/images/grid-card-img-2.png" alt="" />
+              </div>
+              <ion-card-header>
+                <ion-card-title>{{'teacher'|translate}}</ion-card-title>
+              </ion-card-header>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6" size-md="4">
+          <ion-card class="djp-grid-card">
+              <div class="djp-grid-card__img">
+                  <img src="../../../assets/images/grid-card-img-3.png" alt="" />
+              </div>
+              <ion-card-header>
+                <ion-card-title>{{'tribal'|translate}}</ion-card-title>
+              </ion-card-header>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6" size-md="4">
+          <ion-card class="djp-grid-card">
+              <div class="djp-grid-card__img">
+                  <img src="../../../assets/images/grid-card-img-4.png" alt="" />
+              </div>
+              <ion-card-header>
+                <ion-card-title>{{'handicapped'|translate}}</ion-card-title>
+              </ion-card-header>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6" size-md="4">
+          <ion-card class="djp-grid-card">
+              <div class="djp-grid-card__img">
+                  <img src="../../../assets/images/grid-card-img-5.png" alt="" />
+              </div>
+              <ion-card-header>
+                <ion-card-title>{{'mybox'|translate}}</ion-card-title>
+              </ion-card-header>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+    <!--grid cards ends here-->
 </ion-content>

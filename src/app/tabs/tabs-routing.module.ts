@@ -17,6 +17,10 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'bot',
+        loadChildren: () => import('../pages/bot/bot.module').then(m => m.BotPageModule)
+      },
+      {
         path: 'my-pitara',
         loadChildren: () => import('../pages/mypitara/mypitara.module').then(m => m.MyPitaraPageModule)
       },
@@ -24,20 +28,20 @@ const routes: Routes = [
         path: 'story',
         loadChildren: () => import('../pages/story/story.module').then(m => m.StoryPageModule)
       },
+      // {
+      //   path: 'activity',
+      //   loadChildren: () => import('../pages/activity/activity.module').then(m => m.ActivityPageModule)
+      // },
       {
-        path: 'activity',
-        loadChildren: () => import('../pages/activity/activity.module').then(m => m.ActivityPageModule)
-      },
-      {
-        path: '/tabs/home',
-        redirectTo: '/tabs/home',
+        path: 'tabs/home',
+        redirectTo: 'tabs/home',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/home',
+    redirectTo: 'tabs/home',
     pathMatch: 'full'
   }
 ];

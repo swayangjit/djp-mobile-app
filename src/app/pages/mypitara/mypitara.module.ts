@@ -5,13 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { MyPitaraPage } from './mypitara.page';
 
 import { MyPitaraPageRoutingModule } from './mypitara-routing.module';
-
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    MyPitaraPageRoutingModule
+    MyPitaraPageRoutingModule,
+    TranslateModule
   ],
   declarations: [MyPitaraPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
