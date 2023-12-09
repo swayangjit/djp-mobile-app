@@ -4,7 +4,6 @@ import { IonRefresher } from '@ionic/angular';
 import { Content } from 'src/app/appConstants';
 import { AppHeaderService, UtilService } from 'src/app/services';
 import { Share } from "@capacitor/share";
-import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
   selector: 'app-home',
