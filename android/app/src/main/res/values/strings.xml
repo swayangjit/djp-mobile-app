@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">khel-khel-me</string>
-    <string name="title_activity_main">khel-khel-me</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">Jaduka Pitara</string>
+    <string name="title_activity_main">Jaduka Pitara</string>
+    <string name="package_name">org.ekstep.djp</string>
+    <string name="custom_url_scheme">org.ekstep.djp</string>
 </resources>

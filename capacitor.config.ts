@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'khel-khel-me',
+  appId: 'org.ekstep.djp',
+  appName: 'Jadui Pitara',
   webDir: 'www',
   server: {
     androidScheme: 'https'
