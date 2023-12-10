@@ -36,6 +36,7 @@ export class MyPitaraPage {
   }
 
   async getPlaylistContent() {
+    this.playlists = [];
     await this.playListService.getAllPlayLists('guest').then((result: Array<any>) => {
       if (result) {
         result.forEach((e) => {
