@@ -89,3 +89,13 @@ export const telemetryConfig: any = {
     ets: '',
     mid: ''
 }
+
+export const syncTelemetryReq = {
+    id: "api.djp.telemetry",
+    ver: "3.0",
+    params: {
+        msgid: "17afd6b09dd6448c891829d9f4af904a"
+    },
+    ets: 0,
+    events: [{}]
+}

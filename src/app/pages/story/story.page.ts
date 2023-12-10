@@ -1,16 +1,22 @@
-import { Component } from '@angular/core';
-import { AppHeaderService, UtilService } from 'src/app/services';
+import { Component, OnInit } from '@angular/core';
+import { AppHeaderService, UtilService } from '../../../app/services';
 
 @Component({
   selector: 'app-story',
   templateUrl: 'story.page.html',
   styleUrls: ['story.page.scss']
 })
-export class StoryPage {
+export class StoryPage implements OnInit{
 
   constructor(private headerService: AppHeaderService,
     private utilService: UtilService) {
-    this.headerService.showHeader(this.utilService.translateMessage("Today's Story"));
-  }
+    }
+
+    ngOnInit() {
+    }
+    
+    ionViewWillEnter()  {
+      this.headerService.showHeader(this.utilService.translateMessage("Today's Story"));
+    }
 
 }

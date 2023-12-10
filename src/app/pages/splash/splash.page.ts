@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppHeaderService, TelemetryService, UtilService } from 'src/app/services';
-import { AppInitializeService } from 'src/app/services/appInitialize.service';
-import { StorageService } from 'src/app/services/storage.service';
-import { startTelemetryConfig } from 'src/app/services/telemetry/telemetryConstants';
+import { AppHeaderService, CachingService, TelemetryService, UtilService } from '../../../app/services';
+import { AppInitializeService } from '../../../app/services/appInitialize.service';
+import { StorageService } from '../../../app/services/storage.service';
+import { startTelemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
 import { v4 as uuidv4 } from "uuid";
 
 @Component({
@@ -17,7 +17,10 @@ export class SplashPage implements OnInit {
     private router: Router,
     private headerService: AppHeaderService,
     private telemetryService: TelemetryService,
-    private utilService: UtilService) {}
+    private utilService: UtilService,
+    private cachingService: CachingService) {
+      this.cachingService.initStorage();
+    }
     
   async ngOnInit() {
     this.headerService.showStatusBar();
