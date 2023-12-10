@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonModal, ModalController } from '@ionic/angular';
-import { PlaylistModalComponent } from 'src/app/components/playlist-modal/playlist-modal.component';
 import { AppHeaderService } from 'src/app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
@@ -22,7 +21,6 @@ export class ViewAllPage implements OnInit {
   constructor(
     private contentService: ContentService,
     private router: Router,
-    private _modalController: ModalController,
     private headerService: AppHeaderService,
     private playListService: PlaylistService
   ) {
@@ -51,7 +49,6 @@ export class ViewAllPage implements OnInit {
 
         })
       }
-      console.log('result......', this.playlists);
     }).catch((error) => {
       console.log('error', error)
     })
@@ -59,7 +56,6 @@ export class ViewAllPage implements OnInit {
 
   async getRecentlyviewedContent() {
     await this.contentService.getRecentlyViewedContent('guest').then((result) => {
-      console.log('getRecentlyviewedContent', result)
       this.contentList = result;
       this.contentList.map((e: { metaData: string; }) => e.metaData = (typeof e.metaData === 'string') ? JSON.parse(e.metaData) : e.metaData)
     }).catch((err) => {
@@ -90,7 +86,6 @@ export class ViewAllPage implements OnInit {
 
   async deletePlaylist() {
     let contentIds = this.deleteContent.playListcontentList.map((e: { identifier: any; }) => e.identifier)
-    console.log('llllllllll', contentIds)
     await this.playListService.deleteContentFromPlayList(this.deleteContent.identifier, contentIds).then((data) => {
       this.getPlaylistContent()
     })

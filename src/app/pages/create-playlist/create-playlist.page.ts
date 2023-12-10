@@ -84,11 +84,9 @@ export class CreatePlaylistPage implements OnInit {
         result.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
       }
     });
-    console.log('................', result, name)
     if (obj.role === 'create') {
       this.playListService.createPlayList(name, 'guest', result).then((data) => {
         // API
-        console.log('////////////////////0', data)
         this.location.back();
       }).catch((err) => {
         console.log('errrrr', err)
