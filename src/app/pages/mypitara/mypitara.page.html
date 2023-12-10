@@ -3,25 +3,27 @@
   <div class="djp-grid-slider">
       <div class="djp-grid-slider__header">
           <div class="">{{'recentlyviewed'|translate}}</div>
-          <div class="djp-grid-slider__header__link">{{'seeAll'|translate}}</div>
+          <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{'seeAll'|translate}}</div>
       </div>
-      <div class="djp-grid-slider__container">
-          <ion-card class="djp-grid-slider__container__card">
+        <div class="djp-grid-slider__container">
+          <div  *ngFor="let content of contentList">
+            <ion-card class="djp-grid-slider__container__card">
               <div class="djp-grid-slider__container__card__img">
                   <img src="../../../assets/images/slider-img.svg" alt="" />
               </div>
               <ion-card-header>
-                <ion-card-title>{{'birdsounds'|translate}}</ion-card-title>
+                <ion-card-title>{{content.metaData.name |translate}}</ion-card-title>
               </ion-card-header>
           </ion-card>
-          <ion-card class="djp-grid-slider__container__card">
+          </div>
+          <!-- <ion-card class="djp-grid-slider__container__card">
               <div class="djp-grid-slider__container__card__img">
                   <img src="../../../assets/images/slider-img-1.png" alt="" />
               </div>
               <ion-card-header>
                 <ion-card-title>{{'cardtitle'|translate}}</ion-card-title>
               </ion-card-header>
-          </ion-card>
+          </ion-card> -->
       </div>
   </div>
   <!--slider ends here-->
@@ -29,10 +31,29 @@
     <div class="djp-play-list__slider">
       <div class="djp-play-list__slider__header">
           <div class="">{{'playlist'|translate}}</div>
-          <div class="djp-play-list__slider__header__link">{{'seeAll'|translate}}</div>
+          <div class="djp-play-list__slider__header__link" (click)="viewAllCards('playlist')">{{'seeAll'|translate}}</div>
       </div>
       <div class="djp-play-list__slider__container">
-        <div class="djp-play-list__slider__container__item">
+        <div class="djp-play-list__slider__container__item" *ngFor="let playlist of playlists">
+          <ion-card class="djp-play-list__slider__container__item__card">
+            <div class="djp-play-list__slider__container__item__card__img">
+                <img src="../../../assets/images/slider-img.svg" alt="" />
+            </div>
+            <ion-card-header>
+              <ion-card-title>{{playlist.metaData.name |translate}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+          <div class="djp-play-list-metadata">
+            <div class="left-side">
+              <span class="title">Title</span>
+              <span class="meta">sub title</span>
+            </div>
+            <div class="right-side">
+              <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="djp-play-list__slider__container__item">
           <ion-card class="djp-play-list__slider__container__item__card">
             <div class="djp-play-list__slider__container__item__card__img">
                 <img src="../../../assets/images/slider-img.svg" alt="" />
@@ -69,26 +90,7 @@
               <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
             </div>
           </div>
-        </div>
-        <div class="djp-play-list__slider__container__item">
-          <ion-card class="djp-play-list__slider__container__item__card">
-            <div class="djp-play-list__slider__container__item__card__img">
-                <img src="../../../assets/images/slider-img.svg" alt="" />
-            </div>
-            <ion-card-header>
-              <ion-card-title>{{'birdsounds'|translate}}</ion-card-title>
-            </ion-card-header>
-          </ion-card>
-          <div class="djp-play-list-metadata">
-            <div class="left-side">
-              <span class="title">Title</span>
-              <span class="meta">sub title</span>
-            </div>
-            <div class="right-side">
-              <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
-            </div>
-          </div>
-        </div>
+        </div> -->
       </div>
   </div>
   </div>

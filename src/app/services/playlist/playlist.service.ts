@@ -50,8 +50,8 @@ export class PlaylistService {
     return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'identifier': playListId }).then((playListDetails) => {
       return this.getPlayListContents(playListId).then((plContentList: Array<PlayListContentMix>) => {
         return Promise.resolve({
-          identifier: playListDetails[0]['name'],
-          name: playListDetails[0]['identifier'],
+          identifier: playListDetails[0]['identifier'],
+          name: playListDetails[0]['name'],
           uid: playListDetails[0]['uid'],
           playListcontentList: plContentList
         })
