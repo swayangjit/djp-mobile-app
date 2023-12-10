@@ -1,25 +1,24 @@
 <ion-content [fullscreen]="true">
     <!-- For now pasting code for testing purpose Needs to be removed-->
-    <div class="pills-container">
-        <div class="pills active">All</div>
-        <div class="pills">Board</div>
-        <div class="pills">Medium</div>
-        <div class="pills">Subject</div>
-        <div class="pills">Mathematics</div>
-        <div class="pills">English</div>
-    </div>
-
     <div class="spinner-div" *ngIf="refresh">
         <ion-spinner icon="spiral" class="refreshspinner"></ion-spinner>
     </div>
-    <ion-refresher #refresher slot="fixed">
+    <ion-refresher #refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content refreshingSpinner="circles"></ion-refresher-content>
     </ion-refresher>
+    
+    <div class="filter">
+      <div class="pills-container" *ngFor="let filter of filters let i=index">
+          <div class="pills" [ngClass]="{'active':filter?.active}" (click)="handleFilter(filter)">{{filter.label | translate }}</div>
+      </div>
+    </div>
+
     <!-- Cards -->
-    <div *ngFor="let content of contents; let i = index">
+    <div *ngIf="configContents.length > 0">
+      <div *ngFor="let content of configContents; let i = index">
         <div class="djp-card">
           <div class="djp-card__img" (click)="playContent($event, content)">
-            <img src="assets/images/card-img-1.png" alt="">
+            <ion-img [src]="content.metaData.thumbnail" alt="" />
           </div>
           <div class="djp-card__metadata">
             <div class="djp-card__action-btns">
@@ -28,9 +27,10 @@
               <ion-icon aria-hidden="true" src="assets/icon/share.svg" (click)="shareContent($event, content)"></ion-icon>
               <ion-icon name="add-circle-outline" (click)="addContentToMyPitara($event, content)"></ion-icon>
             </div>
-            <div class="djp-card__title">{{content.name}}</div>
+            <div class="djp-card__title">{{content.metaData?.name}}</div>
           </div>
         </div>
+      </div>
     </div>
 
 </ion-content>

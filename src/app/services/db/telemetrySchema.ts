@@ -1,4 +1,4 @@
-import { DbConstants } from "src/app/appConstants";
+import { DbConstants } from "../../../app/appConstants";
 
 export namespace TelemetryConfigEntry {
     export const TABLE_NAME = 'telemtry';

@@ -1,5 +1,8 @@
 // For now pasting code for testing purpose Needs to be removed
-
+.filter {
+  margin-top: 1.5rem;
+  display: flex;
+}
 
 .pills-container {
   display: grid;
@@ -8,7 +11,7 @@
   overflow-x: auto;
   grid-auto-flow: column;
   justify-content: flex-start;
-  padding: 16px;
+  padding: 10px;
 
   .pills {
     padding: 6px 12px;
@@ -58,4 +61,24 @@
     font-weight: bold;
     margin-top: 8px;
   }
+}
+
+.lang-modal {
+  --border-radius: '16px';
+}
+
+.refreshspinner {
+  stroke: #024f9d !important;
+  width: 1.875rem;
+  left: 0;
+  top: 0;
+  height: 2.5rem;
+  position: relative !important;
+}
+
+.spinner-div {
+  padding: 40px;
+  background-color: #ECEFF0;
+  text-align: center;
+  border: none !important;
 }

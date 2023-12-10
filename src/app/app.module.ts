@@ -14,6 +14,8 @@ import { AppInitializeService } from './services/appInitialize.service';
 import { TelemetryService } from './services/telemetry/telemetry.service';
 import { AppHeaderService } from './services/app-header.service';
 import { UtilService } from './services/util.service';
+import { ApiService } from './services/api.service';
+import { ConfigService } from './services/config.service';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -40,7 +42,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     AppInitializeService,
     TelemetryService,
     AppHeaderService,
-    UtilService
+    UtilService,
+    ApiService,
+    ConfigService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -53,5 +57,6 @@ export class AppModule {
 
   private setDefaultLanguage() {
     this.translate.setDefaultLang('en');
+    this.translate.use("en");
   }
 }

@@ -7,11 +7,13 @@ import { ApplicationHeaderComponent } from './application-header/application-hea
 import { FilterComponent } from './filter/filter.component';
 import { ContentCardComponent } from './content-card/content-card.component';
 import { StorageService, TelemetryService, UtilService } from '../services';
+import { LangaugeSelectComponent } from './langauge-select/langauge-select.component';
 @NgModule({
     declarations: [
         ApplicationHeaderComponent,
         FilterComponent,
-        ContentCardComponent
+        ContentCardComponent,
+        LangaugeSelectComponent
     ],
     imports: [
         CommonModule,
@@ -24,7 +26,8 @@ import { StorageService, TelemetryService, UtilService } from '../services';
     exports: [
         ApplicationHeaderComponent,
         FilterComponent,
-        ContentCardComponent
+        ContentCardComponent,
+        LangaugeSelectComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [
