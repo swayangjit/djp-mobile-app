@@ -9,16 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../pages/home/home.module').then(m => m.HomePageModule)
-          }
-        ]
-      },
-      {
-        path: 'bot',
-        loadChildren: () => import('../pages/bot/bot.module').then(m => m.BotPageModule)
+        loadChildren: () => import('../pages/home/home.module').then(m => m.HomePageModule)
       },
       {
         path: 'my-pitara',
@@ -33,8 +24,8 @@ const routes: Routes = [
       //   loadChildren: () => import('../pages/activity/activity.module').then(m => m.ActivityPageModule)
       // },
       {
-        path: 'tabs/home',
-        redirectTo: 'tabs/home',
+        path: '',
+        redirectTo: '/tabs/home',
         pathMatch: 'full'
       }
     ]

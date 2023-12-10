@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ITelemetryContext, IProducerdata, IActor, ITelemetry, } from './telemetry-request';
 import { DbService } from '../db/db.service';
-import { initTelemetryContext } from './telemetryConstants';
+import { initTelemetryContext, syncTelemetryReq } from './telemetryConstants';
 import { StorageService } from '../storage.service';
 import { UtilService } from '../util.service';
 import { TelemetryConfigEntry } from '../db/telemetrySchema';
+import { ApiService } from '../api.service';
+import { APIConstants } from 'src/app/appConstants';
 
 declare const window: any;
 
@@ -21,7 +23,8 @@ export class TelemetryService {
     constructor(
         private dbService: DbService,
         private storageService: StorageService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        private apiService: ApiService
     ) { }
 
     public async initializeTelemetry() {
@@ -32,6 +35,7 @@ export class TelemetryService {
         context.config.dispatcher = {
             dispatch: async function (event: any) {
             let tableData = {event_type: event.eid, event: JSON.stringify(event), timestamp: Date.now(), priority: 1}
+            that.syncTelemetry(event);
             await that.dbService.save(TelemetryConfigEntry.insertData(), tableData);
         }}
         this.initTelemetry(context);
@@ -89,4 +93,12 @@ export class TelemetryService {
             this.telemetryProvider.end(endEventObject.edata, endEventObject.options);
         }
     }
-}
+
+    public syncTelemetry(event: any) {
+        let body = syncTelemetryReq;
+        body.events = [];
+        body.events.push(event);
+        console.log('telemetry sync');
+        this.apiService.post(APIConstants.BASE_URL+APIConstants.TELEMETRY_SYNC, body)
+    }
+}   

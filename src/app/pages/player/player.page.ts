@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppHeaderService } from 'src/app/services';
+import { AppHeaderService } from '../../../app/services';
 import { ScreenOrientation } from "@capacitor/screen-orientation";
 import { Location } from '@angular/common';
 import { playerConfig, videoConfig } from './playerData';

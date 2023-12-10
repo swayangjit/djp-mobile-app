@@ -16,6 +16,8 @@ import { AppHeaderService } from './services/app-header.service';
 import { UtilService } from './services/util.service';
 import { ContentService } from './services/content/content.service';
 import { PlaylistService } from './services/playlist/playlist.service';
+import { ApiService } from './services/api.service';
+import { ConfigService } from './services/config.service';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -44,7 +46,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     AppHeaderService,
     UtilService,
     ContentService,
-    PlaylistService
+    PlaylistService,
+    ApiService,
+    ConfigService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -57,5 +61,6 @@ export class AppModule {
 
   private setDefaultLanguage() {
     this.translate.setDefaultLang('en');
+    this.translate.use("en");
   }
 }

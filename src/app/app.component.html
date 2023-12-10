@@ -1,6 +1,6 @@
 <ion-app>
   <div style="z-index: 1;" >
-    <app-application-header [headerConfig]="headerConfig"></app-application-header>
+    <app-application-header [headerConfig]="headerConfig" (headerEvents)="handleHeaderEvents($event)"></app-application-header>
   </div>
   <ion-router-outlet></ion-router-outlet>
   <app-tabs></app-tabs>

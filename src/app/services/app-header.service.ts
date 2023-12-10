@@ -32,7 +32,7 @@ export class AppHeaderService {
   getDefaultPageConfig() {
     const defaultConfig: HeaderConfig = {
       showHeader: true,
-      pageTitle: this.utilService.translateMessage('Jaadui Pitara'),
+      pageTitle: this.utilService.translateMessage('Title'),
       showbackButton: false
     };
     return defaultConfig;
@@ -40,7 +40,7 @@ export class AppHeaderService {
 
   async showHeader(pageTitle?: string, backbutton?: boolean) {
     const defaultConfig = this.getDefaultPageConfig();
-    defaultConfig.pageTitle = pageTitle ? pageTitle : this.utilService.translateMessage('Jaadui Pitara');
+    defaultConfig.pageTitle = pageTitle ? pageTitle : this.utilService.translateMessage('Title');
     defaultConfig.showbackButton = backbutton ?? false
     this.updatePageConfig(defaultConfig);
   }
