@@ -4,7 +4,8 @@ export namespace RecentlyViewedContentEntry {
    
     export const TABLE_NAME = 'recently_viewed_content';
     export const _ID = '_id';
-    export const COLUMN_NAME_IDENTIFIER = 'content_identifier';
+    export const COLUMN_NAME_IDENTIFIER = 'identifier';
+    export const COLUMN_NAME_CONTENT_IDENTIFIER = 'content_identifier';
     export const COLUMN_NAME_UID = 'uid';
     export const COLUMN_NAME_MIME_TYPE = 'mime_type';
     export const COLUMN_NAME_TIME_STAMP = 'ts';
@@ -12,6 +13,7 @@ export namespace RecentlyViewedContentEntry {
     export interface SchemaMap {
         [_ID]?: string;
         [COLUMN_NAME_IDENTIFIER]: string;
+        [COLUMN_NAME_CONTENT_IDENTIFIER]: string;
         [COLUMN_NAME_UID]: string;
         [COLUMN_NAME_MIME_TYPE]: string;
         [COLUMN_NAME_TIME_STAMP]: number;
@@ -21,6 +23,7 @@ export namespace RecentlyViewedContentEntry {
         return 'CREATE TABLE IF NOT EXISTS ' + RecentlyViewedContentEntry.TABLE_NAME + ' (' +
             RecentlyViewedContentEntry._ID + ' INTEGER PRIMARY KEY' + DbConstants.COMMA_SEP +
             RecentlyViewedContentEntry.COLUMN_NAME_IDENTIFIER + DbConstants.SPACE + DbConstants.TEXT_TYPE +DbConstants.COMMA_SEP +
+            RecentlyViewedContentEntry.COLUMN_NAME_CONTENT_IDENTIFIER + DbConstants.SPACE + DbConstants.TEXT_TYPE +DbConstants.COMMA_SEP +
             RecentlyViewedContentEntry.COLUMN_NAME_UID + DbConstants.SPACE + DbConstants.TEXT_TYPE + DbConstants.COMMA_SEP +
             RecentlyViewedContentEntry.COLUMN_NAME_MIME_TYPE + DbConstants.SPACE + DbConstants.INT_TYPE + DbConstants.COMMA_SEP +
             RecentlyViewedContentEntry.COLUMN_NAME_TIME_STAMP + DbConstants.SPACE + DbConstants.TEXT_TYPE +
@@ -33,9 +36,10 @@ export namespace RecentlyViewedContentEntry {
     export const insertQueryWithColumns: (() => string) = () => {
         return `INSERT INTO ${TABLE_NAME}(
                     ${RecentlyViewedContentEntry.COLUMN_NAME_IDENTIFIER},
+                    ${RecentlyViewedContentEntry.COLUMN_NAME_CONTENT_IDENTIFIER},
                     ${RecentlyViewedContentEntry.COLUMN_NAME_UID},
                     ${RecentlyViewedContentEntry.COLUMN_NAME_MIME_TYPE},
-                    ${RecentlyViewedContentEntry.COLUMN_NAME_TIME_STAMP}) VALUES (?,?,?,?)`
+                    ${RecentlyViewedContentEntry.COLUMN_NAME_TIME_STAMP}) VALUES (?,?,?,?,?)`
     };
 
     export const insertQuery: (() => string) = () => {

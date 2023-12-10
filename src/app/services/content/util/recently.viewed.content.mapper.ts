@@ -2,9 +2,10 @@ import { Content } from "src/app/services/content/models/content";
 import { RecentlyViewedContentEntry } from "../db/recently.viewed.content.schema";
 
 export class RecentlyViewedContentMapper {
-    public static mapContentToRecentlyViewedContentEntry(content: Content, uid: string): RecentlyViewedContentEntry.SchemaMap {
+    public static mapContentToRecentlyViewedContentEntry(content: Content, uid: string, identifier: string): RecentlyViewedContentEntry.SchemaMap {
         return {
-            [RecentlyViewedContentEntry.COLUMN_NAME_IDENTIFIER]: content.metaData.identifier,
+            [RecentlyViewedContentEntry.COLUMN_NAME_IDENTIFIER]: identifier,
+            [RecentlyViewedContentEntry.COLUMN_NAME_CONTENT_IDENTIFIER]: content.metaData.identifier,
             [RecentlyViewedContentEntry.COLUMN_NAME_UID]: uid,
             [RecentlyViewedContentEntry.COLUMN_NAME_MIME_TYPE]: content.metaData.mimeType,
             [RecentlyViewedContentEntry.COLUMN_NAME_TIME_STAMP]: Date.now(),

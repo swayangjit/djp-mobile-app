@@ -15,6 +15,7 @@ import { TelemetryService } from './services/telemetry/telemetry.service';
 import { AppHeaderService } from './services/app-header.service';
 import { UtilService } from './services/util.service';
 import { ContentService } from './services/content/content.service';
+import { PlaylistService } from './services/playlist/playlist.service';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -42,7 +43,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     TelemetryService,
     AppHeaderService,
     UtilService,
-    ContentService
+    ContentService,
+    PlaylistService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

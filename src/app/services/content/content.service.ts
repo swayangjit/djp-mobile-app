@@ -9,7 +9,7 @@ import { RecentlyViewedContentMapper } from './util/recently.viewed.content.mapp
 import { RecentlyViewedContent } from './models/recently.viewed.content';
 import { ContentRVCEntry } from './db/content.rvc';
 import { ContentRVCMixMapper } from './util/content.rvc.mix.entry.mapper';
-
+import { v4 as uuidv4 } from "uuid";
 @Injectable({
   providedIn: 'root'
 })
@@ -19,12 +19,12 @@ export class ContentService {
     private readonly dbService: DbService
   ) { }
 
-  saveContents(contentList: Array<Content>) {
+  saveContents(contentList: Array<Content>): Promise<any> {
     const capSQLiteSet: capSQLiteSet[] = [];
     contentList.map((content) => {
       capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(content) })
     });
-    this.dbService.executeSet(capSQLiteSet)
+    return this.dbService.executeSet(capSQLiteSet)
   }
 
   async getRecentlyViewedContent(uid: string): Promise<Array<RecentlyViewedContent>> {
@@ -37,13 +37,13 @@ export class ContentService {
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);
     const recentlyViewedContent: Array<RecentlyViewedContent> = []
     result.map((contentRVC:ContentRVCEntry.ContentRVCMixedSchemaMap)=>{
-      recentlyViewedContent.push(ContentRVCMixMapper.mapContentRVCtoRecentlyViedContent(contentRVC))
+      recentlyViewedContent.push(ContentRVCMixMapper.mapContentRVCtoRecentlyViedContent(contentRVC, uuidv4()))
     })
     return Promise.resolve(recentlyViewedContent)
   }
 
   markContentAsViewed(content: Content): Promise<void> {
-    return this.dbService.save(RecentlyViewedContentEntry.insertQuery(), RecentlyViewedContentMapper.mapContentToRecentlyViewedContentEntry(content, 'guest'))
+    return this.dbService.save(RecentlyViewedContentEntry.insertQuery(), RecentlyViewedContentMapper.mapContentToRecentlyViewedContentEntry(content, 'guest', uuidv4()))
   }
 
 }
