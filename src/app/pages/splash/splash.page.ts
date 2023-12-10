@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppHeaderService, CachingService, TelemetryService, UtilService } from '../../../app/services';
+import { AppHeaderService, TelemetryService, UtilService } from '../../../app/services';
 import { AppInitializeService } from '../../../app/services/appInitialize.service';
 import { StorageService } from '../../../app/services/storage.service';
 import { startTelemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
@@ -17,9 +17,7 @@ export class SplashPage implements OnInit {
     private router: Router,
     private headerService: AppHeaderService,
     private telemetryService: TelemetryService,
-    private utilService: UtilService,
-    private cachingService: CachingService) {
-      this.cachingService.initStorage();
+    private utilService: UtilService) {
     }
     
   async ngOnInit() {
