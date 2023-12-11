@@ -7,7 +7,7 @@
       </div>
         <div class="djp-grid-slider__container">
           <div  *ngFor="let content of contentList">
-            <ion-card class="djp-grid-slider__container__card">
+            <ion-card class="djp-grid-slider__container__card" *ngIf=content.metaData>
               <div class="djp-grid-slider__container__card__img">
                   <!-- <img src="../../../assets/images/slider-img.svg" alt="" /> -->
                   <ion-img [src]="content.metaData.thumbnail" alt="" />
