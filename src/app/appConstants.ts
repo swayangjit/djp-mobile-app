@@ -3,6 +3,17 @@ export interface HeaderConfig {
     pageTitle: String,
     showbackButton: boolean
 }
+export const sidebarMenuItems = [
+    "All",
+    "Make a Story",
+    "Ask a doubt",
+    "Parents",
+    "Teachers",
+    "Divyang",
+    "Tribal",
+    "Lullabies",
+    "Games"
+]
 
 export const dbinfo = {
     dbName: 'digital_jaddu_pitara.db',

@@ -15,33 +15,27 @@
 
     <!-- Cards -->
     <div *ngIf="configContents.length > 0">
-      <div *ngFor="let content of configContents; let i = index">
-        <div class="djp-card">
+      <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
+        <div class="bot-section" *ngIf="!content.metaData || !content.metaData.name">
+          <div class="image">
+            <img src="assets/images/Story_bot.svg" alt="">
+            <div class="image-title">Make a Story</div>
+          </div>
+          <div class="image">
+            <img src="assets/images/Question_bot.svg" alt="">
+            <div class="image-title">Ask a Doubt</div>
+          </div>
+        </div>
+        <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
           <div class="djp-card__img" (click)="playContent($event, content)">
             <ion-img [src]="content.metaData.thumbnail" alt="" />
           </div>
           <div class="djp-card__metadata">
-            <div class="djp-card__action-btns">
-              <ion-icon aria-hidden="true" src="assets/icon/thumb-up.svg" *ngIf="!content.liked" (click)="contentLiked($event, content)"></ion-icon>
-              <ion-icon aria-hidden="true" src="assets/icon/like.svg" *ngIf="content.liked"></ion-icon>
-              <ion-icon aria-hidden="true" src="assets/icon/share.svg" (click)="shareContent($event, content)"></ion-icon>
-              <ion-icon name="add-circle-outline" (click)="addContentToMyPitara($event, content)"></ion-icon>
-            </div>
-            <div class="djp-card__title">{{content.metaData?.name}}</div>
+             <div class="djp-card__title">{{content.metaData?.name}}</div>
+             <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Cards -->
-<div class="djp-cards-container">
-  <div class="djp-card">
-    <div class="djp-card__img">
-      <img src="assets/images/card-img-1.png" alt="">
-    </div>
-    <div class="djp-card__metadata">
-      <div class="djp-card__title">vegetable sorting</div>
-      <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg"></ion-icon>
     </div>
   </div>
   <div class="djp-card">
@@ -78,6 +72,7 @@
     <div class="djp-card__title">Title comes here</div>
   </div>
 </div>
+
 
 
 </ion-content>

@@ -1,10 +1,20 @@
 <div id="playerFullscreen" class="player-fullscreen">
   <ion-fab *ngIf="playerType" slot="fixed" vertical="top" horizontal="start" size="small">
-    <ion-fab-button (click)="closePlayer()">
+    <ion-fab-button (click)="closePlayer()" color="danger">
       <ion-icon name="close"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <div #pdf class="pdf-player" *ngIf="playerType==='pdf'"></div>
 
   <div #video class="video-player" *ngIf="playerType==='video'"></div>
+
+  <div *ngIf="playerType==='youtube'">
+    <div class="plyr__video-embed" id="player">
+      <iframe title=""
+        [src]="srcUrl"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
+    </div>
+  </div>
 </div>

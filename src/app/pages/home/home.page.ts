@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
 import { ContentSrc} from '../../../app/appConstants';
-import { AppHeaderService, DikshaPreprocessorService, PreprocessorService, UtilService } from '../../../app/services';
+import { AppHeaderService, PreprocessorService, UtilService } from '../../../app/services';
 import { Share } from "@capacitor/share";
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
@@ -12,6 +12,7 @@ import { ModalController } from '@ionic/angular';
 import { LangaugeSelectComponent } from 'src/app/components/langauge-select/langauge-select.component';
 import { Filter, Language, Mapping, MappingElement, MetadataMapping, SourceConfig } from 'src/app/services/config/models/config';
 import { Content } from 'src/app/services/content/models/content';
+import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -53,11 +54,9 @@ export class HomePage implements OnInit {
     private playListService: PlaylistService,
     private configService: ConfigService,
     private sunbirdProcess: SunbirdPreprocessorService,
-    private dikshaProcess: DikshaPreprocessorService,
     private preprocessor: PreprocessorService,
     private modalCtrl: ModalController) {
       this.configContents = [];
-      this.contents = [{name: "pdf content", liked: false, type:'pdf'}, {name: "video content", liked: false, type:'video'}]
       // this.contentService.saveContents(this.contentList)
     }
     
@@ -107,6 +106,24 @@ export class HomePage implements OnInit {
     }));
   }
 
+  async moreOtions(content: any) {
+    const modal = await this.modalCtrl.create({
+      component: SheetModalComponent,
+      componentProps: {
+        content: content
+      },
+      cssClass: 'sheet-modal',
+      breakpoints: [0.3],
+      showBackdrop: false,
+      initialBreakpoint: 0.3,
+      handle: false,
+      handleBehavior: "none"
+    });
+    await modal.present();
+
+    modal.onDidDismiss().then((_ => {
+    }));
+  }
   initialiseSources(sourceConfig: SourceConfig, mapping: MetadataMapping) {
     const mappingList = mapping.mappings;
     if(sourceConfig.sources && sourceConfig.sources.length > 0) {
@@ -114,8 +131,7 @@ export class HomePage implements OnInit {
         if(config.sourceType == 'sunbird') {
         const mappingElement: MappingElement | undefined  = mappingList.find((element) => element.sourceType == 'sunbird') ;
           this.sunbirdProcess.process(config, mappingElement);
-        } 
-        this.dikshaProcess.process(config);
+        }
       });
     }
   }

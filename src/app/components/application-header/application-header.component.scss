@@ -58,3 +58,24 @@ ion-icon {
     }
   }
 }
+
+.sb-side-menu {
+  ion-toolbar {
+    --background: white;
+    --color: black;
+    margin: 0 0 0 1.5rem;
+  }
+  ion-label {
+    display: flex;
+    align-items: center;
+  }
+  div {
+    display: block;
+  }
+  .sb-menu-list  {
+    padding: 0 !important;
+    .sb-menu-item{
+      margin: 0 0 0 0.5rem; 
+    }
+  }
+}
