@@ -85,7 +85,9 @@ export class PlaylistService {
   }
 
   public deletePlayList(playListId: string): Promise<any> {
-    return this.dbService.remove(PlaylistEntry.deleteQuery(), { 'identifier': playListId })
+    return this.dbService.remove(PlaylistEntry.deleteQuery(), { 'identifier': playListId }).then(() => {
+      return this.dbService.remove(PlaylistContentEntry.deleteQueryOne(), {'playlist_identifier': playListId})
+    })
   }
 
   public deleteContentFromPlayList(playListId: string, contentIdentifierList: string[]): Promise<any> {

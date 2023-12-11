@@ -142,7 +142,7 @@ export class DbService {
   // delete data from table
   async remove(query: string, where: any): Promise<any> {
     const key: string = Object.keys(where)[0];
-    const stmt: string = `${query} ${key}=${where[key]};`
+    const stmt: string = `${query} WHERE ${key}=${where[key]};`
     const ret = (await this.sqliteDBConnection.run(stmt)).changes;
     return ret;
   }
