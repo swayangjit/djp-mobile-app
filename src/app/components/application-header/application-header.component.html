@@ -1,6 +1,5 @@
-<ion-header [hidden]="!headerConfig.showHeader">
+<ion-header [hidden]="!headerConfig.showHeader || false">
   <ion-toolbar class="custom-header">
-    <!-- <img class="custom-header-img" src="assets/images/header-toy-pattern.png" alt="header"> -->
     <div class="header-content">
       <ion-buttons slot="start" class="start-icon">
         <ion-button [hidden]="headerConfig.showbackButton">
@@ -26,7 +25,7 @@
       </ion-buttons>
     </div>
     <div class="pills-container">
-      <ion-chip class="pills">
+      <ion-chip class="pills" (click)="toggleMenu()">
         <ion-icon aria-hidden="true" src="assets/icon/list.svg"></ion-icon>
       </ion-chip>
       <ion-chip class="pills active">All</ion-chip>
@@ -40,3 +39,19 @@
     </div>
   </ion-toolbar>
 </ion-header>
+
+<ion-menu contentId="mainContent" class="sb-side-menu" side="start" persistent="true"
+  [swipeGesture]="false">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>{{'All Categories' | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list class="sb-menu-list">
+      <ion-item lines="none" *ngFor="let item of sidebarMenuItems" (click)="emitSideMenuItemEvent($event, item)">
+        <ion-label class="sb-menu-item" role="button" menuClose>{{item | translate}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu> 

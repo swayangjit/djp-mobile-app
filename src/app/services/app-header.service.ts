@@ -15,10 +15,17 @@ export class AppHeaderService {
   private headerConfig = new Subject<any>();
   headerConfigEmitted$ = this.headerConfig.asObservable();
 
+  private sideMenuItemEvent = new Subject<any>();
+  sideMenuItemEventEmitted$ = this.sideMenuItemEvent.asObservable();
+
   sidebarEvent(name: any) {
     this.headerEvent.next(name);
   }
 
+  sideMenuItemEvents($event: any) {
+    this.sideMenuItemEvent.next($event);
+  }
+  
   updatePageConfig(config: any) {
     this.headerConfig.next(config);
   }
@@ -41,7 +48,7 @@ export class AppHeaderService {
   async showHeader(pageTitle?: string, backbutton?: boolean) {
     const defaultConfig = this.getDefaultPageConfig();
     defaultConfig.pageTitle = pageTitle ? pageTitle : this.utilService.translateMessage('Title');
-    defaultConfig.showbackButton = backbutton ?? false
+    defaultConfig.showbackButton = backbutton ?? false;
     this.updatePageConfig(defaultConfig);
   }
 
