@@ -29,8 +29,8 @@ export namespace ContentEntry {
             ContentEntry.COLUMN_NAME_TIME_STAMP + DbConstants.SPACE + DbConstants.TEXT_TYPE +
             ' )';
     };
-    export const deleteTable: (() => string) = () => {
-        return 'DROP TABLE IF EXISTS' + ContentEntry.TABLE_NAME;
+    export const deleteQuery: (() => string) = () => {
+        return 'DELETE FROM ' + ContentEntry.TABLE_NAME;
     };
 
     export const insertQuery: (() => string) = () => {

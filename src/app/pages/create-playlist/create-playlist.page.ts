@@ -39,7 +39,7 @@ export class CreatePlaylistPage implements OnInit {
   ngOnInit() {
     this.contentService.getRecentlyViewedContent('guest').then((result) => {
       this.contentList = result;
-      this.contentList.map((e: { metaData: string; }) => (typeof e.metaData === 'string') ? JSON.parse(e.metaData) : e.metaData)
+      // this.contentList.map((e: { metaData: string; }) => (typeof e.metaData === 'string') ? JSON.parse(e.metaData) : e.metaData)
       console.log('result', result)
     })
   }

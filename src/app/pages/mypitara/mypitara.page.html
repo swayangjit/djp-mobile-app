@@ -9,7 +9,8 @@
           <div  *ngFor="let content of contentList">
             <ion-card class="djp-grid-slider__container__card">
               <div class="djp-grid-slider__container__card__img">
-                  <img src="../../../assets/images/slider-img.svg" alt="" />
+                  <!-- <img src="../../../assets/images/slider-img.svg" alt="" /> -->
+                  <ion-img [src]="content.metaData.thumbnail" alt="" />
               </div>
               <ion-card-header>
                 <ion-card-title>{{content.metaData.name |translate}}</ion-card-title>
@@ -37,10 +38,10 @@
         <div class="djp-play-list__slider__container__item" *ngFor="let playlist of playlists">
           <ion-card class="djp-play-list__slider__container__item__card">
             <div class="djp-play-list__slider__container__item__card__img">
-                <img src="../../../assets/images/slider-img.svg" alt="" />
+                <img [src]="playlist?.playListcontentList.length > 0 ? playlist?.playListcontentList[0]?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'" alt="" />
             </div>
             <ion-card-header>
-              <ion-card-title>{{playlist.metaData.name |translate}}</ion-card-title>
+              <ion-card-title>{{playlist.name |translate}}</ion-card-title>
             </ion-card-header>
           </ion-card>
           <div class="djp-play-list-metadata">

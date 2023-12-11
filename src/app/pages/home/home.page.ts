@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
-import { ContentSrc, Filter, Language } from '../../../app/appConstants';
+import { ContentSrc} from '../../../app/appConstants';
 import { AppHeaderService, DikshaPreprocessorService, PreprocessorService, UtilService } from '../../../app/services';
 import { Share } from "@capacitor/share";
 import { ContentService } from 'src/app/services/content/content.service';
@@ -10,6 +10,8 @@ import { ConfigService } from '../../../app/services/config.service';
 import { SunbirdPreprocessorService } from '../../services/sources/sunbird-preprocessor.service';
 import { ModalController } from '@ionic/angular';
 import { LangaugeSelectComponent } from 'src/app/components/langauge-select/langauge-select.component';
+import { Filter, Language, Mapping, MappingElement, MetadataMapping, SourceConfig } from 'src/app/services/config/models/config';
+import { Content } from 'src/app/services/content/models/content';
 
 @Component({
   selector: 'app-home',
@@ -60,8 +62,10 @@ export class HomePage implements OnInit {
     }
     
   async ngOnInit(): Promise<void> {  
-    this.preprocessor.sourceProcessEmitted$.subscribe((content: any) => {
+    this.preprocessor.sourceProcessEmitted$.subscribe(async (content: any) => {
       console.log('content form preprocessor ', content);
+      await this.contentService.deleteAllContents()
+      this.contentService.saveContents(content).then()
       if(content.length > 0) {
         content.forEach((ele: any) => {
           this.configContents.push(ele)
@@ -69,11 +73,11 @@ export class HomePage implements OnInit {
         console.log("configContents ", this.configContents);
       }
     })
-    let res = await this.configService.getConfigMeta();
-    this.initialiseSources(res.sourceConfig);
-    this.filters = res.filters.sort((a: Filter, b: Filter) => a.index - b.index);
+    let config = await this.configService.getConfigMeta();
+    this.initialiseSources(config.sourceConfig, config.metadataMapping);
+    this.filters = config.filters.sort((a: Filter, b: Filter) => a.index - b.index);
     this.filters[0].active = true;
-    this.languages = res.languages.sort((a: Language, b: Language) => a.identifier.localeCompare(b.identifier));
+    this.languages = config.languages.sort((a: Language, b: Language) => a.identifier.localeCompare(b.identifier));
   }
 
   async ionViewWillEnter() {
@@ -103,20 +107,21 @@ export class HomePage implements OnInit {
     }));
   }
 
-  initialiseSources(data: any) {
-    console.log('data', data);
-    
-    if(data.sources && data.sources.length > 0) {
-      data.sources.forEach((config: any) => {
+  initialiseSources(sourceConfig: SourceConfig, mapping: MetadataMapping) {
+    const mappingList = mapping.mappings;
+    if(sourceConfig.sources && sourceConfig.sources.length > 0) {
+      sourceConfig.sources.forEach((config: any) => {
         if(config.sourceType == 'sunbird') {
-          this.sunbirdProcess.process(config);
+        const mappingElement: MappingElement | undefined  = mappingList.find((element) => element.sourceType == 'sunbird') ;
+          this.sunbirdProcess.process(config, mappingElement);
         } 
         this.dikshaProcess.process(config);
       });
     }
   }
 
-  async playContent(event: Event, content: ContentSrc) {
+  async playContent(event: Event, content: Content) {
+    this.contentService.markContentAsViewed(content)
     await this.router.navigate(['/player'], {state: {content}});
   }
 

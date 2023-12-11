@@ -44,10 +44,6 @@ export class ViewAllPage implements OnInit {
     await this.playListService.getAllPlayLists('guest').then((result) => {
       if (result) {
         this.playlists = result;
-        this.playlists.forEach((e) => {
-          e.playListcontentList.map((e: { metaData: string; }) => e.metaData = (typeof e.metaData === 'string') ? JSON.parse(e.metaData) : e.metaData)
-
-        })
       }
     }).catch((error) => {
       console.log('error', error)

@@ -76,7 +76,7 @@ export class PlaylistService {
             type: playListContent['type'],
             source: playListContent['source'],
             sourceType: playListContent['source_type'],
-            metaData: playListContent['metadata']
+            metaData: JSON.parse(playListContent['metadata'])
           })
         })
       }

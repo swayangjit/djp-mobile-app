@@ -7,9 +7,10 @@
     </div>
     <div class="content-card" *ngFor="let content of contentList; let i=index">
       <div class="img-container">
-        <img aria-hidden="true" style="   border-radius: 16px;
+        <!-- <img aria-hidden="true" style="   border-radius: 16px;
         padding: 5px;"
-          src="../../../assets/images/{{content?.metaData?.appIcon}}"/>
+          src="{{content?.metaData?.appIcon}}"/> -->
+        <ion-img [src]="content?.metaData?.thumbnail" alt="" />
       </div>
       <div class="card-details">
         <div class="card-content">
@@ -37,7 +38,7 @@
         <div class="img-container">
           <img aria-hidden="true" style="   border-radius: 16px;
           padding: 5px;"
-            src="../../../assets/images/{{content?.playListcontentList[0].metaData?.appIcon}}"/>
+            [src]="content?.playListcontentList[0]?.metaData?.thumbnail"/>
             <div style="font-size: 20px; font-weight: 800;">{{content?.playListcontentList.length}}</div>
         </div>
         <div class="card-details">

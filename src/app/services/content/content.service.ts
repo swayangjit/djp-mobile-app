@@ -19,6 +19,9 @@ export class ContentService {
     private readonly dbService: DbService
   ) { }
 
+  deleteAllContents(): Promise<any>{
+    return this.dbService.executeQuery(ContentEntry.deleteQuery())
+  }
   saveContents(contentList: Array<Content>): Promise<any> {
     const capSQLiteSet: capSQLiteSet[] = [];
     contentList.map((content) => {
