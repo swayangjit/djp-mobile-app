@@ -1,6 +1,6 @@
 <ion-header [hidden]="!headerConfig.showHeader">
   <ion-toolbar class="custom-header">
-    <img class="custom-header-img" src="assets/images/header-toy-pattern.png" alt="header">
+    <!-- <img class="custom-header-img" src="assets/images/header-toy-pattern.png" alt="header"> -->
     <div class="header-content">
       <ion-buttons slot="start" class="start-icon">
         <ion-button [hidden]="headerConfig.showbackButton">
@@ -13,7 +13,10 @@
       </ion-buttons>
       <ion-title role="heading" aria-level="1" [hidden]="headerConfig.showbackButton">{{headerConfig.pageTitle}}</ion-title>
 
-      <ion-buttons slot="end" class="end-icon" [hidden]="headerConfig.showbackButton">
+      <ion-buttons slot="end" [hidden]="headerConfig.showbackButton">
+        <ion-button>
+          <ion-icon aria-hidden="true" src="assets/icon/search.svg"></ion-icon>
+        </ion-button>
         <ion-button (click)="scan($event)">
           <ion-icon aria-hidden="true" src="assets/icon/qr-scan.svg"></ion-icon>
         </ion-button>
@@ -22,12 +25,18 @@
         </ion-button>
       </ion-buttons>
     </div>
+    <div class="pills-container">
+      <ion-chip class="pills">
+        <ion-icon aria-hidden="true" src="assets/icon/list.svg"></ion-icon>
+      </ion-chip>
+      <ion-chip class="pills active">All</ion-chip>
+      <ion-chip class="pills">children's song</ion-chip>
+      <ion-chip class="pills">Stories</ion-chip>
+      <ion-chip class="pills">activities</ion-chip>
+      <ion-chip class="pills">Default</ion-chip>
+      <ion-chip class="pills">Default</ion-chip>
+      <ion-chip class="pills">Default</ion-chip>
+      <ion-chip class="pills">Default</ion-chip>
+    </div>
   </ion-toolbar>
-  <ion-toolbar class="custom-search-header" [hidden]="headerConfig.showbackButton">
-    <img class="custom-header-img" src="assets/images/header-toy-pattern.png" alt="header">
-    <ion-searchbar [search-icon]="false" placeholder="Search">
-      <ion-icon aria-hidden="true" src="assets/icon/mic.svg" class="mic-icon"></ion-icon>
-    </ion-searchbar>
-  </ion-toolbar>
-
 </ion-header>

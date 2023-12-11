@@ -1,5 +1,8 @@
 ion-tab-bar {
-  --background: var(--ion-color-primary);
+  --background: #FF3B53;
+  border-radius: 50px;
+  border: 3px solid var(--ion-color-primary-contrast);
+
 }
 
 ion-tab-button {
@@ -8,23 +11,38 @@ ion-tab-button {
 }
 
 ion-icon {
-  width: 18px;
-  height: 18px;
+  width: 1.375rem;
+  height: 1.5rem;
+  opacity: 0.6;
 }
 
 ion-tab-button {
-    ion-icon {
-        fill: var(--ion-color-primary-contrast);
-        // stroke: var(--ion-color-primary-contrast);
-    }
-    
     &.tab-selected ion-icon {
-        fill: var(--ion-color-primary);
-        // stroke: var(--ion-color-primary);
-        background: var(--ion-color-primary-contrast);
-        width: 22px;
-        height: 22px;
-        padding: 4px;
-        border-radius: 50%;    
+        opacity: initial; 
     }
+}
+.home-screen{
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 31px;
+  height: auto;
+  z-index: 9999;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0.188rem solid var(--ion-color-primary-contrast);
+  border-radius: 50%;
+  --background: #FF3B53;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  transform: rotate(-45deg);
+  ion-icon{
+    transform: rotate(45deg);
+    background: var(--ion-color-primary-contrast);
+    border-radius: 50%;
+    width: 1.625rem;
+    height: 1.625rem;
+    padding: 0.25rem;
+  }
 }
