@@ -421,3 +421,131 @@ export const videoConfig = {
     },
     data: {}
   }
+export const youtubeContentArr = [
+    {
+        "source": "Rocket Learning",
+        "sourceType": "Rocket Learning",
+        "metaData": {
+            "name": "Describing a Park",
+            "identifier": "Mx4K2L6vSls",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=Mx4K2L6vSls",
+            "focus": "",
+            "keyword": ""
+        }
+    },
+    {
+        "source": "Rocket Learning",
+        "sourceType": "Rocket Learning",
+        "metaData": {
+            "name": "Matching objects to their starting letters",
+            "identifier": "L8nTu3xViv0",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=L8nTu3xViv0",
+            "focus": "",
+            "keyword": ""
+        }
+    },
+    {
+        "source": "Rocket Learning",
+        "sourceType": "Rocket Learning",
+        "metaData": {
+            "name": "Thumb Painting",
+            "identifier": "blfaEEODGyE",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=blfaEEODGyE",
+            "focus": "",
+            "keyword": ""
+        }
+    },
+    {
+        "source": "Pratham Open School",
+        "sourceType": "Pratham Open School",
+        "metaData": {
+            "name": "Lalli ko mila laal gubbara",
+            "identifier": "8vnPaSU-2NE",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=8vnPaSU-2NE",
+            "focus": "",
+            "keyword": ""
+        }
+    },
+    {
+        "source": "Pratham Open School",
+        "sourceType": "Pratham Open School",
+        "metaData": {
+            "name": "Latto",
+            "identifier": "JybjiAof6yU",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=JybjiAof6yU",
+            "focus": "",
+            "keyword": ""
+        }
+    },
+    {
+        "source": "Pratham Open School",
+        "sourceType": "Pratham Open School",
+        "metaData": {
+            "name": "Aam gira thap",
+            "identifier": "AcW_lgxZLng",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=AcW_lgxZLng",
+            "focus": "",
+            "keyword": ""
+        }
+    },
+    {
+        "source": "Rocket Learning",
+        "sourceType": "Rocket Learning",
+        "metaData": {
+            "name": "Poem/Rhyme: Thirsty Crow",
+            "identifier": "UqO3sEx6LoE",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=UqO3sEx6LoE",
+            "focus": "",
+            "keyword": ""
+        }
+    },
+    {
+        "source": "Pratham Open School",
+        "sourceType": "Pratham Open School",
+        "metaData": {
+            "name": "Riddles",
+            "identifier": "uMipr4LLkB0",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=uMipr4LLkB0",
+            "focus": "",
+            "keyword": ""
+        }
+    },
+    {
+        "source": "Pratham Open School",
+        "sourceType": "Pratham Open School",
+        "metaData": {
+            "name": "Akkad Bakkad Bambe Bo",
+            "identifier": "f0BxVrSpatY",
+            "thumbnail": "https://obj.diksha.gov.in/ntp-content-production/content/do_31289124474680115213912/artifact/c2b0abce4a259f64bf9b0ac0ecf23815_1488431382105.thumb.jpeg",
+            "description": "",
+            "mimeType": "video/x-youtube",
+            "url": "https://www.youtube.com/watch?v=f0BxVrSpatY",
+            "focus": "",
+            "keyword": ""
+        }
+    }
+]

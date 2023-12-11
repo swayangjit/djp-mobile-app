@@ -1,7 +1,11 @@
 <ion-app>
   <div style="z-index: 1;" >
-    <app-application-header [headerConfig]="headerConfig" (headerEvents)="handleHeaderEvents($event)"></app-application-header>
+    <app-application-header [headerConfig]="headerConfig" (headerEvents)="handleHeaderEvents($event)"
+    (sideMenuItemEvent)="menuItemAction($event)"></app-application-header>
   </div>
+  <ion-split-pane contentId="mainContent">
+    <ion-router-outlet #ionRouterOutlet id="mainContent" main [swipeGesture]="false"></ion-router-outlet>
+  </ion-split-pane>
   <ion-router-outlet></ion-router-outlet>
   <app-tabs></app-tabs>
 </ion-app>

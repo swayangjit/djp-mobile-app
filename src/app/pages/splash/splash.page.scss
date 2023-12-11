@@ -1,62 +1,16 @@
-:host {
-    --ion-background-color: var(--ion-color-primary);
-    --ion-text-color: var(--ion-color-primary-contrast);
-  }
-  
-  .splash-screen {
-    height: 100%;
-    background-color: var(--ion-color-primary) !important;
-    --background: none;
-  
-    .rectangle-box {
-      position: absolute;
-      width: 37.5rem;
-      background: rgba(255, 255, 255, 0.03);
-      transform: rotate(-32deg);
-      -webkit-transform-origin-y: 17.5rem;
-  
-      &--one {
-        height: 11.875rem;
-        top: 20%;
-      }
-  
-      &--two {
-        height: 1.875rem;
-        top: 52%;
-      }
-    }
-  
-    .pitara-container {
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-  
-      .heading {
-          margin-bottom: 1rem;
-          img {
-              max-width: 100%;
-          }
-      }
-    }
-  
-    .circle {
-      background-color: var(--ion-color-primary-contrast);
-      width: 9.75rem;
-      height: 9.75rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  
-      img {
-          max-width: 100%;
-      }
+
+.splash-screen {
+  height: 100%;
+  --background: none;
+  .pitara-container {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    .Jaadui-Pitara-txt{
+      margin-top: 1rem;
     }
   }
+}

@@ -98,7 +98,6 @@ export class TelemetryService {
         let body = syncTelemetryReq;
         body.events = [];
         body.events.push(event);
-        console.log('telemetry sync');
         this.apiService.post(APIConstants.BASE_URL+APIConstants.TELEMETRY_SYNC, body)
     }
 }   
