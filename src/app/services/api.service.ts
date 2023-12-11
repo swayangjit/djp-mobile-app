@@ -1,7 +1,7 @@
 import { CapacitorHttp } from '@capacitor/core';
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { Network } from '@capacitor/network';
+// import { Network } from '@capacitor/network';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,9 @@ export class ApiService {
   public constructor(
     private toastController: ToastController
   ){
-    Network.addListener('networkStatusChange', async status => {
-      this.connected = status.connected;
-    });
+    // Network.addListener('networkStatusChange', async status => {
+    //   this.connected = status.connected;
+    // });
 
     this.toastController.create({ animated: false }).then(t => { t.present(); t.dismiss(); });
   }

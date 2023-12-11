@@ -1,0 +1,31 @@
+<ion-content [fullscreen]="true">
+  <div class="djp-grid-slider">
+    <div class="djp-grid-slider__header">
+        <div class="djp-grid-slider__header__add">Add Video</div>
+        <div class="djp-grid-slider__header__link" (click)="createList()">Next</div>
+    </div>
+    <div class="content-card" *ngFor="let content of contentList; let i=index">
+      <div class="img-container">
+        <img aria-hidden="true" style="   border-radius: 16px;
+        padding: 5px;"
+          [src] ="content?.metaData?.thumbnail"/>
+      </div>
+      <div class="card-details">
+        <div class="card-content">
+          <div class="title" *ngIf="content?.metaData?.name">{{content?.metaData?.name}}</div>
+          <div class="info grade_ellipsis">
+            <span class="class" *ngIf="content?.metaData?.description">{{content?.metaData?.description}}</span>
+            <span class="separator-dot"></span>
+            <!-- <p class="subject">{{content.subject}}</p> -->
+          </div>
+        </div>
+      </div>
+      <div class="check-container">
+        <ion-label>
+          <ion-checkbox [checked]="content.isSelected" (ionChange)="isContentSelect($event, i)">
+          </ion-checkbox>
+        </ion-label>
+      </div>
+    </div>
+    </div>
+</ion-content>

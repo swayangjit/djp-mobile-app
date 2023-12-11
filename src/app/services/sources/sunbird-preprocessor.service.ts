@@ -3,41 +3,40 @@ import { ApiPreprocessor } from '../api-preprocessor';
 import { APIConstants, Content, request, sourceConfig } from '../../appConstants';
 import { ApiService } from '../api.service';
 import { PreprocessorService } from './preprocessor.service';
+import { Mapping, MappingElement, Source } from '../config/models/config';
+import { ContentMetaData } from '../content/models/content';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SunbirdPreprocessorService implements ApiPreprocessor {
   sunbirdConfig!: Content;
-  processorArray!: Array<any>;
+  processorContentList!: Array<any>;
   constructor(private apiService: ApiService,
-    private preprocessService: PreprocessorService) {}
+    private preprocessService: PreprocessorService) { }
 
-  async process(input: sourceConfig) {
-    console.log('sunbird input ', input);
-    this.sunbirdConfig = {source: '', sourceType: '', metaData: {name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '', focus: '', keyword:''}};
-    this.processorArray = [];
-    let requestBody = request
-    this.sunbirdConfig.sourceType = input.sourceType;
-    this.sunbirdConfig.metaData.name = input.sourceName;
-    this.sunbirdConfig.source = input.sourceName;
+  async process(source: Source, mappingElement: MappingElement | undefined) {
+    this.sunbirdConfig = { source: '', sourceType: '', metaData: { name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '', focus: '', keyword: '' } };
+    this.processorContentList = [];
     // APi call base url
-    let searchData: any = await this.apiService.post(input.baseURL+'/'+APIConstants.SEARCH_API, requestBody);
+    let searchData: any = await this.apiService.post(source.baseURL + '/' + APIConstants.SEARCH_API, { 'request': source['searchCriteria'] });
     console.log('data ', searchData);
     if (searchData.status == 200) {
-      let conData = searchData.data.result.content;
-      conData.forEach((data: any) => {
-        this.sunbirdConfig.metaData.identifier = data.identifier;
-        this.sunbirdConfig.metaData.thumbnail = data.appIcon;
-        this.sunbirdConfig.metaData.description = "";
-        this.sunbirdConfig.metaData.mimeType = data.mimeType;
-        this.sunbirdConfig.metaData.url = "";
-        this.sunbirdConfig.metaData.focus = "";
-        this.sunbirdConfig.metaData.keyword = '';
+      let contentList = searchData.data.result.content;
+
+      contentList.forEach((content: any) => {
+        if (mappingElement) {
+          const processedContent: Content = { source: source.sourceName, sourceType: source.sourceType, metaData: { name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '', focus: '', keyword: '' } };
+          Object.keys(mappingElement.mapping).forEach((key: string) => {
+            const value = mappingElement.mapping[key as keyof Mapping]
+            processedContent.metaData[key as keyof ContentMetaData] = content[value] ?? undefined
+          })
+          this.processorContentList.push(processedContent);
+        }
+
       });
-      this.processorArray.push(this.sunbirdConfig);
-      this.preprocessService.sunbirdSrcProcess(this.processorArray)
+      this.preprocessService.sunbirdSrcProcess(this.processorContentList)
     }
-    
+
   }
 }

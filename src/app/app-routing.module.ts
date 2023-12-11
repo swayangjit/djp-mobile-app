@@ -34,7 +34,16 @@ const routes: Routes = [
   {
     path: 'bot',
     loadChildren: () => import('./pages/bot/bot.module').then( m => m.BotPageModule)
+  },
+  {
+    path: 'view-all',
+    loadChildren: () => import('./pages/view-all/view-all.module').then( m => m.ViewAllPageModule)
+  },
+  {
+    path: 'create-playlist',
+    loadChildren: () => import('./pages/create-playlist/create-playlist.module').then( m => m.CreatePlaylistPageModule)
   }
+
 
 ];
 

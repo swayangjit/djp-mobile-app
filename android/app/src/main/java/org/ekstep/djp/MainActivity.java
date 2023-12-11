@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package org.ekstep.djp;
 
 import com.getcapacitor.BridgeActivity;
 
