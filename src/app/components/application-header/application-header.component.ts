@@ -4,6 +4,7 @@ import { TelemetryService } from '../../../app/services/telemetry/telemetry.serv
 import { telemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
 import { sidebarMenuItems } from 'src/app/appConstants';
 import { MenuController } from '@ionic/angular';
+
 @Component({
   selector: 'app-application-header',
   templateUrl: './application-header.component.html',

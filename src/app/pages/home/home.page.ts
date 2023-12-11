@@ -124,7 +124,6 @@ export class HomePage implements OnInit {
     modal.onDidDismiss().then((_ => {
     }));
   }
-
   initialiseSources(sourceConfig: SourceConfig, mapping: MetadataMapping) {
     const mappingList = mapping.mappings;
     if(sourceConfig.sources && sourceConfig.sources.length > 0) {
