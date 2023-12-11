@@ -34,7 +34,7 @@ export namespace PlaylistEntry {
                     ${PlaylistEntry.COLUMN_NAME_IDENTIFIER},
                     ${PlaylistEntry.COLUMN_NAME_NAME},
                     ${PlaylistEntry.COLUMN_NAME_UID},
-                    ${PlaylistEntry.COLUMN_NAME_UID},
+                    ${PlaylistEntry.COLUMN_NAME_CONTENT_COUNT},
                     ${PlaylistEntry.COLUMN_NAME_TIME_STAMP}) 
                 VALUES (?,?,?,?,?)`
     };
