@@ -6,7 +6,8 @@ import { Location } from '@angular/common';
 import { playerConfig, videoConfig } from './playerData';
 import { Content } from 'src/app/services/content/models/content';
 import { DomSanitizer } from '@angular/platform-browser';
-declare var Plyr:any;
+import Plyr from 'plyr';
+
 @Component({
   selector: 'app-player',
   templateUrl: './player.page.html',

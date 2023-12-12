@@ -30,7 +30,8 @@ export class TelemetryService {
     public async initializeTelemetry() {
         let that = this;
         let context = initTelemetryContext
-        context.config.sid = await this.storageService.getData('sid');
+        let sid = await this.storageService.getData('sid');
+        context.config.sid = sid!;
         context.config.did = await this.utilService.getDeviceId();
         context.config.dispatcher = {
             dispatch: async function (event: any) {

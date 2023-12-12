@@ -44,14 +44,16 @@
             "styles": [
               "src/theme/variables.scss", "src/global.scss",
               "node_modules/@project-sunbird/sunbird-pdf-player-web-component/styles.css",
-              "node_modules/@project-sunbird/sunbird-video-player-web-component/styles.css"
+              "node_modules/@project-sunbird/sunbird-video-player-web-component/styles.css",
+              "node_modules/plyr/dist/plyr.css"
             ],
             "scripts": [
               "node_modules/reflect-metadata/Reflect.js",
               "node_modules/@project-sunbird/sunbird-pdf-player-web-component/sunbird-pdf-player.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/@project-sunbird/sunbird-video-player-web-component/sunbird-video-player.js",
-              "node_modules/@project-sunbird/telemetry-sdk/index.js"
+              "node_modules/@project-sunbird/telemetry-sdk/index.js",
+              "node_modules/plyr/dist/plyr.js"
             ]
           },
           "configurations": {
