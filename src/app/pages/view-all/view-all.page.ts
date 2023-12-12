@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonModal, ModalController } from '@ionic/angular';
+import { IonModal, ModalController, Platform } from '@ionic/angular';
 import { AppHeaderService } from 'src/app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-view-all',
@@ -22,7 +23,9 @@ export class ViewAllPage implements OnInit {
     private contentService: ContentService,
     private router: Router,
     private headerService: AppHeaderService,
-    private playListService: PlaylistService
+    private playListService: PlaylistService,
+    private platform: Platform,
+    private location: Location
   ) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
@@ -32,7 +35,10 @@ export class ViewAllPage implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
-  
+    this.platform.backButton.subscribeWithPriority(11, async () => {
+      this.location.back();
+      this.headerService.deviceBackBtnEvent({name: 'backBtn'})
+    });
     if (this.type === 'recentlyviewed') {
       this.getRecentlyviewedContent()
     } else if (this.type === 'playlist') {
