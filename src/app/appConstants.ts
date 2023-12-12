@@ -3,6 +3,13 @@ export interface HeaderConfig {
     pageTitle: String,
     showbackButton: boolean
 }
+
+export class PlayerType {
+    static PDF = "application/pdf";
+    static MP4 = "video/mp4";
+    static YOUTUBE = "video/x-youtube"
+}
+
 export const sidebarMenuItems = [
     "All",
     "Make a Story",

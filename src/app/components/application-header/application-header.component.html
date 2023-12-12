@@ -13,7 +13,7 @@
       <ion-title role="heading" aria-level="1" [hidden]="headerConfig.showbackButton">{{headerConfig.pageTitle}}</ion-title>
 
       <ion-buttons slot="end" [hidden]="headerConfig.showbackButton">
-        <ion-button>
+        <ion-button (click)="handleSearch($event)">
           <ion-icon aria-hidden="true" src="assets/icon/search.svg"></ion-icon>
         </ion-button>
         <ion-button (click)="scan($event)">

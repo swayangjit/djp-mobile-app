@@ -43,12 +43,21 @@ export class ApplicationHeaderComponent  implements OnInit {
     this.emitEvent(event, 'scan');
   }
 
+  async handleSearch(event: Event) {
+    console.log('search ');
+    let interactConfig = telemetryConfig;
+    interactConfig.edata = { type: "select-search", subtype: "", pageid: "app-header", uri: "app-header"};
+    interactConfig.options.context.did = await this.utilService.getDeviceId();
+    interactConfig.options.context.sid = await this.storageService.getData('sid');
+    interactConfig.options.context.env = 'app-header';
+    interactConfig.options.context.pdata = {"id": this.appInfo.id, "pid": this.appInfo.name, "ver": this.appInfo.version};
+    interactConfig.actor = {type: 'User', id: ''}
+    this.telemetryService.raiseInteractTelemetry(interactConfig)
+    this.emitEvent(event, 'search');
+  }
+
   emitEvent(event: Event, name: string) {
-    if (name === 'scan') {
-        this.headerEvents.emit({ name, event });
-    } else {
-      this.headerEvents.emit({ name, event });
-    }
+    this.headerEvents.emit({ name, event });
   }
 
   async editProfile(event: Event) {

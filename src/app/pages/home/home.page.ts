@@ -80,6 +80,7 @@ export class HomePage implements OnInit {
         console.log("configContents ", this.configContents);
       }
     })
+    this.networkConnected = await this.networkService.getNetworkStatus()
     let forceRefresh = await this.cacheService.getCacheTimeout();
     if(forceRefresh) {
       this.getServerMetaConfig();
@@ -179,6 +180,7 @@ export class HomePage implements OnInit {
 
   doRefresh(refresher: any) {
     this.refresh = true;
+    this.getServerMetaConfig();
     setTimeout(() => {
       this.refresh = false;
       if (refresher) {
