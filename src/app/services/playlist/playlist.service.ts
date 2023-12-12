@@ -47,7 +47,7 @@ export class PlaylistService {
 
 
   public getPlayListDetails(playListId: string): Promise<PlayList> {
-    return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'identifier': playListId }).then((playListDetails) => {
+    return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'identifier': playListId }, `ORDER BY ${PlaylistEntry.COLUMN_NAME_TIME_STAMP} DESC`).then((playListDetails) => {
       return this.getPlayListContents(playListId).then((plContentList: Array<PlayListContentMix>) => {
         return Promise.resolve({
           identifier: playListDetails[0]['identifier'],

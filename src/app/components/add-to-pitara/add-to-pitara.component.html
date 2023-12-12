@@ -1,0 +1,26 @@
+<div class="inner-content">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium">Add to Pitara</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [strong]="true" (click)="newPitaraList()" class="new-pitara">
+        <ion-icon name="add-circle-outline" style="padding-right: 4px;"></ion-icon>
+        New Pitara
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <hr style="border: 1px solid lightgray;">
+  <ion-radio-group [(ngModel)]="selectedContentId" (ionChange)="playlistSelected($event)">
+    <ion-list lines=“none”>
+      <ion-item *ngFor="let playlist of playlists" class="no-border">
+        <ion-label lines=“none”>{{playlist.name}}</ion-label>
+        <ion-radio slot="start" value="{{playlist.identifier}}" class="liked-icon"></ion-radio>
+      </ion-item>
+    </ion-list>
+  </ion-radio-group>
+  <hr style="border: 1px solid lightgray;">
+  <ion-toolbar>
+    <ion-button class="btn-info" slot="end" [strong]="true" color="warning" (click)="saveContent()">Done</ion-button>
+  </ion-toolbar>
+</div>
