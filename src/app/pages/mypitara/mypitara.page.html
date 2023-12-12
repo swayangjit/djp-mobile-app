@@ -2,8 +2,8 @@
   <!--slider-->
   <div class="djp-grid-slider hide">
     <div class="djp-grid-slider__header">
-      <div class="">{{'recentlyviewed'|translate}}</div>
-      <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{'seeAll'|translate}}</div>
+      <div class="">{{'Recently Viewed'|translate}}</div>
+      <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{'View All'|translate}}</div>
     </div>
     <div class="djp-grid-slider__container">
       <div  *ngFor="let content of contentList">
@@ -31,8 +31,8 @@
   <div class="djp-play-list hide">
     <div class="djp-play-list__slider">
       <div class="djp-play-list__slider__header">
-        <div class="">{{'playlist'|translate}}</div>
-        <div class="djp-play-list__slider__header__link" (click)="viewAllCards('playlist')">{{'seeAll'|translate}}</div>
+        <div class="">{{'Playlists'|translate}}</div>
+        <div class="djp-play-list__slider__header__link" (click)="viewAllCards('playlist')">{{'View All'|translate}}</div>
       </div>
       <div class="djp-play-list__slider__container">
         <div class="djp-play-list__slider__container__item" *ngFor="let playlist of playlists">

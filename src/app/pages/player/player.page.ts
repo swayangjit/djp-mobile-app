@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import Plyr from 'plyr';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
+import { PlayerType } from 'src/app/appConstants';
 
 @Component({
   selector: 'app-player',
@@ -43,11 +44,11 @@ export class PlayerPage implements OnInit {
   }
 
   private getPlayerType(mimeType: string): string {
-    if (mimeType == 'application/pdf') {
+    if (mimeType == PlayerType.PDF) {
       return 'pdf'
-    } else if (mimeType == 'video/mp4') {
+    } else if (mimeType == PlayerType.MP4) {
       return 'video'
-    } else if (mimeType == 'video/x-youtube') {
+    } else if(mimeType == PlayerType.YOUTUBE) {
       return 'youtube'
     }
     return ''

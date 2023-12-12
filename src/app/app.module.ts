@@ -72,7 +72,7 @@ export class AppModule {
   }
 
   private setDefaultLanguage() {
-    this.translate.setDefaultLang('en');
-    this.translate.use("en");
+    this.translate.setDefaultLang('hi');
+    this.translate.use("hi");
   }
 }

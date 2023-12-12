@@ -4,6 +4,13 @@ export interface HeaderConfig {
     showbackButton: boolean
 }
 
+export class PlayerType {
+    static PDF = "application/pdf";
+    static MP4 = "video/mp4";
+    static YOUTUBE = "video/x-youtube";
+    static AUDIO = "audio/mp3";
+}
+
 export const dbinfo = {
     dbName: 'digital_jaddu_pitara.db',
     version: 3

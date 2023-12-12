@@ -17,8 +17,15 @@ export class AppHeaderService {
 
   private deviceBackbtnConfig = new Subject<any>();
   deviceBackbtnEmitted$ = this.deviceBackbtnConfig.asObservable();
+  private filterConfig = new Subject<any>();
+  filterConfigEmitted$ = this.filterConfig.asObservable();
+
   private sideMenuItemEvent = new Subject<any>();
   sideMenuItemEventEmitted$ = this.sideMenuItemEvent.asObservable();
+
+  filterEvent(filter: any) {
+    this.filterConfig.next(filter);
+  }
 
   sidebarEvent(name: any) {
     this.headerEvent.next(name);
@@ -45,7 +52,7 @@ export class AppHeaderService {
   getDefaultPageConfig() {
     const defaultConfig: HeaderConfig = {
       showHeader: true,
-      pageTitle: this.utilService.translateMessage('Title'),
+      pageTitle: 'Title',
       showbackButton: false
     };
     return defaultConfig;
@@ -53,7 +60,7 @@ export class AppHeaderService {
 
   async showHeader(pageTitle?: string, backbutton?: boolean) {
     const defaultConfig = this.getDefaultPageConfig();
-    defaultConfig.pageTitle = pageTitle ? pageTitle : this.utilService.translateMessage('Title');
+    defaultConfig.pageTitle = pageTitle ? pageTitle : 'Title';
     defaultConfig.showbackButton = backbutton ?? false;
     this.updatePageConfig(defaultConfig);
   }
@@ -64,8 +71,8 @@ export class AppHeaderService {
 
   showStatusBar() {
     StatusBar.show({animation: Animation.None});
-    StatusBar.setStyle({style: Style.Dark});
-    StatusBar.setBackgroundColor({color: '#FFFFFF'})
+    StatusBar.setStyle({style: Style.Light});
+    StatusBar.setBackgroundColor({color: '#00000'})
     StatusBar.setOverlaysWebView({overlay: true})
   }
 }

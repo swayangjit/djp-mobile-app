@@ -10,10 +10,10 @@
           <ion-icon aria-hidden="true" src="assets/icon/arrow-back.svg"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title role="heading" aria-level="1" [hidden]="headerConfig.showbackButton">{{headerConfig.pageTitle}}</ion-title>
+      <ion-title role="heading" aria-level="1" [hidden]="headerConfig.showbackButton">{{ headerConfig.pageTitle | translate}}</ion-title>
 
       <ion-buttons slot="end" [hidden]="headerConfig.showbackButton">
-        <ion-button>
+        <ion-button (click)="handleSearch($event)">
           <ion-icon aria-hidden="true" src="assets/icon/search.svg"></ion-icon>
         </ion-button>
         <ion-button (click)="scan($event)">
@@ -28,15 +28,11 @@
       <ion-chip class="pills" (click)="toggleMenu()">
         <ion-icon aria-hidden="true" src="assets/icon/list.svg"></ion-icon>
       </ion-chip>
-      <ion-chip class="pills active">All</ion-chip>
-      <ion-chip class="pills">children's song</ion-chip>
-      <ion-chip class="pills">Stories</ion-chip>
-      <ion-chip class="pills">activities</ion-chip>
-      <ion-chip class="pills">Default</ion-chip>
-      <ion-chip class="pills">Default</ion-chip>
-      <ion-chip class="pills">Default</ion-chip>
-      <ion-chip class="pills">Default</ion-chip>
-    </div>
+      <ion-chip class="pills active">{{"All" | translate }}</ion-chip>
+      <div *ngFor="let filter of filters; let i=index">
+        <ion-chip class="pills">{{filter.label | translate }}</ion-chip>
+      </div>
+     </div>
   </ion-toolbar>
 </ion-header>
 
@@ -49,8 +45,8 @@
   </ion-header>
   <ion-content class="ion-padding">
     <ion-list class="sb-menu-list">
-      <ion-item lines="none" *ngFor="let item of sidebarMenuItems" (click)="emitSideMenuItemEvent($event, item)">
-        <ion-label class="sb-menu-item" role="button" menuClose>{{item | translate}}</ion-label>
+      <ion-item lines="none" *ngFor="let item of filters" (click)="emitSideMenuItemEvent($event, item)">
+        <ion-label class="sb-menu-item" role="button" menuClose>{{item.label | translate}}</ion-label>
       </ion-item>
     </ion-list>
   </ion-content>

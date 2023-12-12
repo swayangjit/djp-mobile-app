@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StorageService, UtilService } from '../../../app/services';
+import { AppHeaderService, StorageService, UtilService } from '../../../app/services';
 import { TelemetryService } from '../../../app/services/telemetry/telemetry.service';
 import { telemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
-import { sidebarMenuItems } from 'src/app/appConstants';
 import { MenuController } from '@ionic/angular';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
@@ -16,19 +15,21 @@ export class ApplicationHeaderComponent  implements OnInit {
   @Input() headerConfig: any = false;
   @Output() headerEvents = new EventEmitter();
   @Output() sideMenuItemEvent = new EventEmitter();
-  sidebarMenuItems: any;
   isMenuOpen: boolean = false;
-
+  filters: Array<any> = []
   constructor(private utilService: UtilService,
     private storageService: StorageService,
     private telemetryGeneratorService: TelemetryGeneratorService,
     public menuCtrl: MenuController,
-    ) { 
-      this.sidebarMenuItems = sidebarMenuItems
-    }
+    public headerService: AppHeaderService
+    ) {}
 
   async ngOnInit() {
     this.appInfo = await this.utilService.getAppInfo();
+    this.filters = [];
+    this.headerService.filterConfigEmitted$.subscribe((val: any) => {
+      this.filters = val;
+    })
   }
 
   async scan(event: Event) {
@@ -36,12 +37,12 @@ export class ApplicationHeaderComponent  implements OnInit {
     this.emitEvent(event, 'scan');
   }
 
+  async handleSearch(event: Event) {
+    this.emitEvent(event, 'search');
+  }
+
   emitEvent(event: Event, name: string) {
-    if (name === 'scan') {
-        this.headerEvents.emit({ name, event });
-    } else {
-      this.headerEvents.emit({ name, event });
-    }
+    this.headerEvents.emit({ name, event });
   }
 
   async editProfile(event: Event) {

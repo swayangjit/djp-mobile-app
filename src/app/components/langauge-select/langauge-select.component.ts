@@ -29,6 +29,7 @@ export class LangaugeSelectComponent  implements OnInit {
     this.selectedLanguage = val;
     let res = this.translateService.instant('Title')
     console.log(res);
+    this.dismissModal();
   }
 
   dismissModal() {
