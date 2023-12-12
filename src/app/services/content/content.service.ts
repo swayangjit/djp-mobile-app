@@ -45,6 +45,12 @@ export class ContentService {
     return Promise.resolve(recentlyViewedContent)
   }
 
+  async getAllContent(): Promise<Array<Content>> {
+    const query = `SELECT * FROM ${ContentEntry.TABLE_NAME}`;
+    let res = await this.dbService.readDbData(query);
+    return Promise.resolve(res);
+  }
+
   markContentAsViewed(content: Content): Promise<void> {
     return this.dbService.save(RecentlyViewedContentEntry.insertQuery(), RecentlyViewedContentMapper.mapContentToRecentlyViewedContentEntry(content, 'guest', uuidv4()))
   }

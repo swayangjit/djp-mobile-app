@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
 import { ContentSrc} from '../../../app/appConstants';
-import { AppHeaderService, PreprocessorService, UtilService } from '../../../app/services';
+import { AppHeaderService, CachingService, DbService, PreprocessorService, UtilService } from '../../../app/services';
 import { Share } from "@capacitor/share";
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
@@ -13,6 +13,7 @@ import { LangaugeSelectComponent } from 'src/app/components/langauge-select/lang
 import { Filter, Language, Mapping, MappingElement, MetadataMapping, SourceConfig } from 'src/app/services/config/models/config';
 import { Content } from 'src/app/services/content/models/content';
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-home',
@@ -46,6 +47,7 @@ export class HomePage implements OnInit {
   isOpen: boolean = false;
   configContents!: Array<any>;
   @ViewChild('refresher', { static: false }) refresher!: IonRefresher;
+  networkConnected: boolean = false;
   constructor(
     private headerService: AppHeaderService,
     private utilService: UtilService,
@@ -55,9 +57,15 @@ export class HomePage implements OnInit {
     private configService: ConfigService,
     private sunbirdProcess: SunbirdPreprocessorService,
     private preprocessor: PreprocessorService,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController,
+    private networkService: NetworkService,
+    private cacheService: CachingService) {
       this.configContents = [];
       // this.contentService.saveContents(this.contentList)
+      this.networkService.networkConnection$.subscribe(ev => {
+        console.log(ev);
+        this.networkConnected = ev;
+      })
     }
     
   async ngOnInit(): Promise<void> {  
@@ -72,6 +80,19 @@ export class HomePage implements OnInit {
         console.log("configContents ", this.configContents);
       }
     })
+    let forceRefresh = await this.cacheService.getCacheTimeout();
+    if(forceRefresh) {
+      this.getServerMetaConfig();
+    } else if(!this.networkConnected) {
+      this.configContents = [];
+      this.configContents = await this.contentService.getAllContent();
+      if (this.configContents.length == 0) this.getServerMetaConfig();
+    } else {
+      this.getServerMetaConfig();
+    }
+  }
+
+  async getServerMetaConfig() {
     let config = await this.configService.getConfigMeta();
     this.initialiseSources(config.sourceConfig, config.metadataMapping);
     this.filters = config.filters.sort((a: Filter, b: Filter) => a.index - b.index);

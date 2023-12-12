@@ -9,3 +9,5 @@ export { ConfigService } from './config.service';
 export { PreprocessorService } from './sources/preprocessor.service';
 export { SunbirdPreprocessorService } from './sources/sunbird-preprocessor.service';
 export { DikshaPreprocessorService } from './sources/diksha-preprocessor.service';
+export { CachingService } from './caching.service';
+

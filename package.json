@@ -42,6 +42,7 @@
     "@project-sunbird/telemetry-sdk": "0.0.29",
     "ionicons": "^7.0.0",
     "jquery": "^3.7.1",
+    "plyr": "^3.7.8",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

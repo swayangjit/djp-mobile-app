@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiPreprocessor } from '../api-preprocessor';
-import { APIConstants, Content, request, sourceConfig } from '../../appConstants';
+import { APIConstants, Content } from '../../appConstants';
 import { ApiService } from '../api.service';
 import { PreprocessorService } from './preprocessor.service';
 import { Mapping, MappingElement, Source } from '../config/models/config';
