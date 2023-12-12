@@ -34,7 +34,7 @@ export class ContentService {
     const query = `SELECT rvc.* ,c.*
     FROM ${RecentlyViewedContentEntry.TABLE_NAME} rvc
     LEFT JOIN ${ContentEntry.TABLE_NAME} c
-    ON rvc.content_identifier=c.identifier where rvc.uid='${uid}'`;
+    ON rvc.content_identifier=c.identifier where rvc.uid='${uid}' ORDER BY rvc.ts DESC`;
     console.log('get RecentlyViewed', query);
     
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);

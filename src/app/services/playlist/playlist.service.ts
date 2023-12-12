@@ -33,7 +33,7 @@ export class PlaylistService {
   }
 
   public async getAllPlayLists(uid: string): Promise<Array<PlayList>> {
-    return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'uid': uid }).then(async (playListDbLists: any[]) => {
+    return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'uid': uid }, `ORDER BY ${PlaylistEntry.COLUMN_NAME_TIME_STAMP} DESC`).then(async (playListDbLists: any[]) => {
       const playLists: Array<PlayList> = []
       if (playLists && playListDbLists.length) {
         for (let i = 0; i < playListDbLists.length; i++) {
@@ -64,8 +64,9 @@ export class PlaylistService {
     pc.identifier  as plc_identifier, pc.type, c.*
     FROM ${PlaylistContentEntry.TABLE_NAME}  pc
     LEFT JOIN ${ContentEntry.TABLE_NAME} c
-    ON pc.content_id = c.identifier WHERE ${PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER} = '${playListId}'`;
-    console.log('Query', query);
+    ON pc.content_id = c.identifier 
+    WHERE ${PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER} = '${playListId}'
+    ORDER BY pc.ts DESC`;
 
     return this.dbService.executeQuery(query).then((playlistContentList: any[]) => {
       const plContentList: Array<PlayListContentMix> = []

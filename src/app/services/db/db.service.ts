@@ -6,6 +6,7 @@ import { PlaylistEntry } from '../playlist/db/playlist.schema';
 import { RecentlyViewedContentEntry } from '../content/db/recently.viewed.content.schema';
 import { TelemetryConfigEntry } from './telemetrySchema';
 import { ContentEntry } from '../content/db/content.schema';
+import { TelemetryProcessedEntry } from '../telemetry/db/telemetry.processed.schema';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,10 @@ export class DbService {
     this.sqliteConnection = new SQLiteConnection(this.sqlitePlugin);
     await this.openDatabase(dbinfo.dbName, false, "no-encryption", dbinfo.version, false);
     await this.createTable(TelemetryConfigEntry.getCreateEntry());
-    
+    await this.createTable(TelemetryProcessedEntry.getCreateEntry());
     await this.createTable(ContentEntry.getCreateEntry());
     await this.createTable(RecentlyViewedContentEntry.getCreateEntry());
     await this.createTable(PlaylistEntry.getCreateEntry());
-    console.log('PlaylistContentEntry', PlaylistContentEntry.getCreateEntry());
     await this.createTable(PlaylistContentEntry.getCreateEntry());
     return true;
   }
@@ -88,11 +88,11 @@ export class DbService {
     }
   }
 
-  async readDbData(stmt: string, where?: any): Promise<any> {
+  async readDbData(stmt: string, where?: any, orderBy?: string): Promise<any> {
     try {
       if (where) {
         const key: string = Object.keys(where)[0];
-        const q: string = `${stmt} WHERE ${key}='${where[key]}';`;
+        const q: string = `${stmt} WHERE ${key}='${where[key]}' ${orderBy}`;
         const retValues = (await this.sqliteDBConnection.query(q)).values;
         const ret = retValues!.length > 0 ? retValues! : null;
         return ret;
