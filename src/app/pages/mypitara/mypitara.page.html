@@ -1,23 +1,23 @@
 <ion-content [fullscreen]="true">
   <!--slider-->
-  <div class="djp-grid-slider">
-      <div class="djp-grid-slider__header">
-          <div class="">{{'recentlyviewed'|translate}}</div>
-          <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{'seeAll'|translate}}</div>
-      </div>
-        <div class="djp-grid-slider__container">
-          <div  *ngFor="let content of contentList">
-            <ion-card class="djp-grid-slider__container__card">
-              <div class="djp-grid-slider__container__card__img">
-                  <!-- <img src="../../../assets/images/slider-img.svg" alt="" /> -->
-                  <ion-img [src]="content.metaData.thumbnail" alt="" />
-              </div>
-              <ion-card-header>
-                <ion-card-title>{{content.metaData.name |translate}}</ion-card-title>
-              </ion-card-header>
-          </ion-card>
+  <div class="djp-grid-slider hide">
+    <div class="djp-grid-slider__header">
+      <div class="">{{'recentlyviewed'|translate}}</div>
+      <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{'seeAll'|translate}}</div>
+    </div>
+    <div class="djp-grid-slider__container">
+      <div  *ngFor="let content of contentList">
+        <ion-card class="djp-grid-slider__container__card">
+          <div class="djp-grid-slider__container__card__img">
+            <!-- <img src="../../../assets/images/slider-img.svg" alt="" /> -->
+            <ion-img [src]="content.metaData.thumbnail" alt="" />
           </div>
-          <!-- <ion-card class="djp-grid-slider__container__card">
+          <ion-card-header>
+            <ion-card-title>{{content.metaData.name |translate}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </div>
+      <!-- <ion-card class="djp-grid-slider__container__card">
               <div class="djp-grid-slider__container__card__img">
                   <img src="../../../assets/images/slider-img-1.png" alt="" />
               </div>
@@ -25,20 +25,20 @@
                 <ion-card-title>{{'cardtitle'|translate}}</ion-card-title>
               </ion-card-header>
           </ion-card> -->
-      </div>
+    </div>
   </div>
   <!--slider ends here-->
-  <div class="djp-play-list">
+  <div class="djp-play-list hide">
     <div class="djp-play-list__slider">
       <div class="djp-play-list__slider__header">
-          <div class="">{{'playlist'|translate}}</div>
-          <div class="djp-play-list__slider__header__link" (click)="viewAllCards('playlist')">{{'seeAll'|translate}}</div>
+        <div class="">{{'playlist'|translate}}</div>
+        <div class="djp-play-list__slider__header__link" (click)="viewAllCards('playlist')">{{'seeAll'|translate}}</div>
       </div>
       <div class="djp-play-list__slider__container">
         <div class="djp-play-list__slider__container__item" *ngFor="let playlist of playlists">
           <ion-card class="djp-play-list__slider__container__item__card">
             <div class="djp-play-list__slider__container__item__card__img">
-                <img [src]="playlist?.playListcontentList.length > 0 ? playlist?.playListcontentList[0]?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'" alt="" />
+              <img [src]="playlist?.playListcontentList.length > 0 ? playlist?.playListcontentList[0]?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'" alt="" />
             </div>
             <ion-card-header>
               <ion-card-title>{{playlist.name |translate}}</ion-card-title>
@@ -93,62 +93,150 @@
           </div>
         </div> -->
       </div>
+    </div>
   </div>
+
+  <!--djp new slider-->
+  <div class="djp-grid-slider">
+    <div class="djp-grid-slider__header">
+      <div class="">{{'recentlyviewed'|translate}}</div>
+      <div class="djp-grid-slider__header__link">View All</div>
+    </div>
+    <div class="djp-grid-slider__container">
+      <div class="djp-grid-slider__container__card">
+        <ion-card>
+          <img src="../../../assets/images/card-img-2.png" alt="" />
+        </ion-card>
+        <div class="card-title">Name of the content , supports two lines</div>
+      </div>
+      <div class="djp-grid-slider__container__card">
+        <ion-card>
+          <img src="../../../assets/images/card-img-2.png" alt="" />
+        </ion-card>
+      </div>
+      <div class="djp-grid-slider__container__card">
+        <ion-card>
+          <img src="../../../assets/images/card-img-2.png" alt="" />
+        </ion-card>
+      </div>
+      <div class="djp-grid-slider__container__card">
+        <ion-card>
+          <img src="../../../assets/images/card-img-2.png" alt="" />
+        </ion-card>
+      </div>
+    </div>
   </div>
-  <!--grid cards-->
-  <!-- <ion-grid>
-      <ion-row>
-        <ion-col size="6" size-md="4">
-          <ion-card class="djp-grid-card">
-              <div class="djp-grid-card__img">
-                  <img src="../../../assets/images/grid-card-img-1.png" alt="" />
-              </div>
-              <ion-card-header>
-                <ion-card-title>{{'parents'|translate}}</ion-card-title>
-              </ion-card-header>
+  <!--djp new slider ends here-->
+
+  <!--djp my playlist cards-->
+  <div class="djp-playlist">
+    <div class="djp-playlist__header">
+      <div class="">My Playlist</div>
+      <div class="djp-grid-slider__header__button">
+        <ion-button>New Playlist <ion-icon slot="end" aria-hidden="true"
+            src="../../../assets/icon/Add-circle-outline.svg"></ion-icon></ion-button>
+      </div>
+    </div>
+    <div class="djp-playlist__container">
+      <div class="djp-playlist__container__items">
+        <div class="djp-playlist__container__items__cards">
+          <ion-card>
+            <img src="../../../assets/images/card-img-2.png" alt="" />
           </ion-card>
-        </ion-col>
-        <ion-col size="6" size-md="4">
-          <ion-card class="djp-grid-card">
-              <div class="djp-grid-card__img">
-                  <img src="../../../assets/images/grid-card-img-2.png" alt="" />
-              </div>
-              <ion-card-header>
-                <ion-card-title>{{'teacher'|translate}}</ion-card-title>
-              </ion-card-header>
+          <div class="layer1"></div>
+          <div class="layer2"></div>
+        </div>
+        <div class="djp-playlist__container__items__metadata">
+          Name of the Playlist , supports 2 lines
+        </div>
+        <div class="kabab-menu-icon">
+          <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
+        </div>
+      </div>
+      <div class="djp-playlist__container__items">
+        <div class="djp-playlist__container__items__cards">
+          <ion-card>
+            <img src="../../../assets/images/card-img-2.png" alt="" />
           </ion-card>
-        </ion-col>
-        <ion-col size="6" size-md="4">
-          <ion-card class="djp-grid-card">
-              <div class="djp-grid-card__img">
-                  <img src="../../../assets/images/grid-card-img-3.png" alt="" />
-              </div>
-              <ion-card-header>
-                <ion-card-title>{{'tribal'|translate}}</ion-card-title>
-              </ion-card-header>
+          <div class="layer1"></div>
+          <div class="layer2"></div>
+        </div>
+        <div class="djp-playlist__container__items__metadata">
+          Name of the Playlist , supports 2 lines
+        </div>
+        <div class="kabab-menu-icon">
+          <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
+        </div>
+      </div>
+      <div class="djp-playlist__container__items">
+        <div class="djp-playlist__container__items__cards">
+          <ion-card>
+            <img src="../../../assets/images/card-img-2.png" alt="" />
           </ion-card>
-        </ion-col>
-        <ion-col size="6" size-md="4">
-          <ion-card class="djp-grid-card">
-              <div class="djp-grid-card__img">
-                  <img src="../../../assets/images/grid-card-img-4.png" alt="" />
-              </div>
-              <ion-card-header>
-                <ion-card-title>{{'handicapped'|translate}}</ion-card-title>
-              </ion-card-header>
-          </ion-card>
-        </ion-col>
-        <ion-col size="6" size-md="4">
-          <ion-card class="djp-grid-card">
-              <div class="djp-grid-card__img">
-                  <img src="../../../assets/images/grid-card-img-5.png" alt="" />
-              </div>
-              <ion-card-header>
-                <ion-card-title>{{'mybox'|translate}}</ion-card-title>
-              </ion-card-header>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid> -->
-    <!--grid cards ends here-->
+          <div class="layer1"></div>
+          <div class="layer2"></div>
+        </div>
+        <div class="djp-playlist__container__items__metadata">
+          Name of the Playlist , supports 2 lines
+        </div>
+        <div class="kabab-menu-icon">
+          <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--djp my playlist cards-->
+
+
+
+  <!--New playlist page-->
+  <div class="new-playlist-container">
+    <div class="new-playlist-heading">
+    </div>
+    <div class="new-playlist-card">
+      <div class="new-playlist-card__image">
+        <img src="assets/images/card-img-2.png" alt="Playlist Image" class="playlist-card__image-img">
+      </div>
+      <div class="new-playlist-card__details">
+        <div class="new-playlist-card__title">Name of the content , supports 2 lines</div>
+        <div class="new-playlist-card__actions">
+          <ion-checkbox class="playlist-card__checkbox"></ion-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="new-playlist-card">
+      <div class="new-playlist-card__image">
+        <img src="assets/images/card-img-2.png" alt="Playlist Image" class="playlist-card__image-img">
+      </div>
+      <div class="new-playlist-card__details">
+        <div class="new-playlist-card__title">Name of the content , supports 2 lines</div>
+        <div class="new-playlist-card__actions">
+          <ion-checkbox class="playlist-card__checkbox"></ion-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="new-playlist-card">
+      <div class="new-playlist-card__image">
+        <img src="assets/images/card-img-2.png" alt="Playlist Image" class="playlist-card__image-img">
+      </div>
+      <div class="new-playlist-card__details">
+        <div class="new-playlist-card__title">Name of the content , supports 2 lines</div>
+        <div class="new-playlist-card__actions">
+          <ion-checkbox class="playlist-card__checkbox"></ion-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="new-playlist-card">
+      <div class="new-playlist-card__image">
+        <img src="assets/images/card-img-2.png" alt="Playlist Image" class="playlist-card__image-img">
+      </div>
+      <div class="new-playlist-card__details">
+        <div class="new-playlist-card__title">Name of the content , supports 2 lines</div>
+        <div class="new-playlist-card__actions">
+          <ion-checkbox class="playlist-card__checkbox"></ion-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--New playlist page ends here-->
 </ion-content>
