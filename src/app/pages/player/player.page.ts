@@ -7,6 +7,8 @@ import { playerConfig, videoConfig } from './playerData';
 import { Content } from 'src/app/services/content/models/content';
 import { DomSanitizer } from '@angular/platform-browser';
 import Plyr from 'plyr';
+import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
+import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 
 @Component({
   selector: 'app-player',
@@ -25,13 +27,19 @@ export class PlayerPage implements OnInit {
   constructor(private router: Router,
     private headerService: AppHeaderService,
     private location: Location,
-    private domSanitiser: DomSanitizer) {
+    private domSanitiser: DomSanitizer,
+    private telemetryGeneratorService: TelemetryGeneratorService) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.content = extras.state?.['content'] as Content;
       this.playerType = this.getPlayerType(this.content.metaData.mimeType);
       this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url);
     }
+    this.telemetryGeneratorService.generateStartTelemetry(
+      'player',
+      new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimeType!, ''),
+      { l1: this.content?.metaData.identifier! },
+      []);
   }
 
   private getPlayerType(mimeType: string): string {
@@ -39,7 +47,7 @@ export class PlayerPage implements OnInit {
       return 'pdf'
     } else if (mimeType == 'video/mp4') {
       return 'video'
-    } else if(mimeType == 'video/x-youtube') {
+    } else if (mimeType == 'video/x-youtube') {
       return 'youtube'
     }
     return ''
@@ -86,7 +94,7 @@ export class PlayerPage implements OnInit {
         this.video.nativeElement.append(epubElement);
       }
     }
-    const player = new Plyr('#player', {autoplay: true});
+    const player = new Plyr('#player', { autoplay: true });
     console.log('player ', player);
   }
 

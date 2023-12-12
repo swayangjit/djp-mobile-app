@@ -1,13 +1,16 @@
 import { ITelemetryContext } from "./telemetry-request";
-
+export class TelemetryConstants {
+    static PRODUCER_ID = 'org.ekstep.djp';
+    static PRODUCER_PID = 'org.ekstep';
+}
 export const initTelemetryContext: ITelemetryContext = {
     config: {
         "pdata": {
-        "id": "genie",
-        "ver": "6.5.2567",
-        "pid": ""
+            "id": TelemetryConstants.PRODUCER_ID,
+            "ver": "0.0.1",
+            "pid": TelemetryConstants.PRODUCER_PID
         },
-        "env": "initTelemetry",
+        "env": "",
         "channel": "",
         "did": '',
         "authtoken": "",
@@ -16,7 +19,7 @@ export const initTelemetryContext: ITelemetryContext = {
         "batchsize": 20,
         "mode": "",
         "host": "",
-        "endpoint": "/v3/telemetry",  
+        "endpoint": "/v3/telemetry",
         "tags": [],
         "cdata": [],
         'dispatcher': {
@@ -40,7 +43,7 @@ export const startTelemetryConfig: any = {
     context: {
         "cdata": [],
         "env": "",
-        "channel": "0126796199493140480",
+        "channel": "",
         "pdata": {
             "id": "",
             "pid": "",
@@ -61,27 +64,27 @@ export const telemetryConfig: any = {
     edata: {},
     options: {
         context: {
-          "cdata": [],
-          "env": "",
-          "channel": "0126796199493140480",
-          "pdata": {
-            "id": "",
-            "pid": "",
-            "ver": ""
+            "cdata": [],
+            "env": "",
+            "channel": "0126796199493140480",
+            "pdata": {
+                "id": "",
+                "pid": "",
+                "ver": ""
             },
-          "sid": '',
-          "did": "",
-          "rollup": {}
+            "sid": '',
+            "did": "",
+            "rollup": {}
         },
         object: {
-          "id": "",
-          "type": "",
-          "ver": "",
-          "rollup": {}
+            "id": "",
+            "type": "",
+            "ver": "",
+            "rollup": {}
         },
         actor: {
-          "type": "User",
-          "id": ""
+            "type": "User",
+            "id": ""
         },
         tags: [''],
     },

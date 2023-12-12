@@ -13,6 +13,5 @@ export class AppInitializeService {
 
   async initialize() {
     await this.dbService.initializePlugin();
-    await this.telemetryService.initializeTelemetry();
   }
 }

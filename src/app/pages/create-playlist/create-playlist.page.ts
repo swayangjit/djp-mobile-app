@@ -3,13 +3,17 @@ import { AlertController } from '@ionic/angular';
 import { ContentService } from 'src/app/services/content/content.service';
 import { Location } from '@angular/common';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
-import {PlayListContentMix, PlayListContent} from '../../services/playlist/models/playlist.content'
+import { PlayListContentMix, PlayListContent } from '../../services/playlist/models/playlist.content'
+import { FilePicker, PickedFile } from '@capawesome/capacitor-file-picker';
+import { MimeType } from 'src/app/appConstants';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-create-playlist',
   templateUrl: './create-playlist.page.html',
   styleUrls: ['./create-playlist.page.scss'],
 })
+
 export class CreatePlaylistPage implements OnInit {
   contentList: Array<any> = [];
   selectedContents = [];
@@ -29,6 +33,16 @@ export class CreatePlaylistPage implements OnInit {
       },
     },
   ];
+  public files: PickedFile[] = [];
+  resolveNativePath = (path : string) =>
+  new Promise((resolve, reject) => {
+    (window as any).FilePath.resolveNativePath(path, resolve, (err : any) => {
+      console.error(
+        `${path} could not be resolved by the plugin: ${err.message}`
+      )
+      reject(err)
+    })
+  })
   constructor(
     private contentService: ContentService,
     private alertController: AlertController,
@@ -46,7 +60,7 @@ export class CreatePlaylistPage implements OnInit {
 
   isContentSelect(event: any, index: any) {
     this.contentList[index]['isSelected'] = event.detail.checked;
-   }
+  }
 
   async createList() {
     const alert = await this.alertController.create({
@@ -92,6 +106,19 @@ export class CreatePlaylistPage implements OnInit {
         console.log('errrrr', err)
       })
     }
+  }
+
+
+  public async openFilePicker() {
+    let mimeType: string[] = [MimeType.PDF];
+    mimeType = mimeType.concat(MimeType.VIDEOS).concat(MimeType.AUDIO);
+    const { files } = await FilePicker.pickFiles({ types: mimeType, multiple: true, readData: true });
+    this.files = files;
+    files.map(async (file: any)=>{
+      const path = await this.resolveNativePath(file.path!)
+      console.log('path', path);
+    })
+    console.log('Files:::', files);
   }
 
 }

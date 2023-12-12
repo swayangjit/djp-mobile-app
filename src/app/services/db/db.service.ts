@@ -56,7 +56,6 @@ export class DbService {
   async createTable(stmt: string): Promise<any> {
     try {
       const retValues = (await this.sqliteDBConnection.query(stmt)).values;
-      console.log('retValues ', retValues);
       const ret = retValues!.length > 0 ? retValues! : null;
       return ret;
     } catch (err: any) {
@@ -68,7 +67,6 @@ export class DbService {
   async executeQuery(query: string): Promise<any> {
     try {
       const retValues = (await this.sqliteDBConnection.query(query)).values;
-      console.log('retValues ', retValues);
       const ret = retValues!.length > 0 ? retValues! : null;
       return ret;
     } catch (err: any) {
@@ -80,7 +78,6 @@ export class DbService {
   async executeSet(capSqlSet: capSQLiteSet[]): Promise<any> {
     try {
       const result = await this.sqliteDBConnection.executeSet(capSqlSet);
-      console.log('retValues ', result);
       return result;
     } catch (err: any) {
       const msg = err.message ? err.message : err;

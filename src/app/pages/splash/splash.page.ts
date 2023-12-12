@@ -5,6 +5,7 @@ import { AppInitializeService } from '../../../app/services/appInitialize.servic
 import { StorageService } from '../../../app/services/storage.service';
 import { startTelemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
 import { v4 as uuidv4 } from "uuid";
+import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
 @Component({
   selector: 'app-splash',
@@ -16,7 +17,7 @@ export class SplashPage implements OnInit {
     private storage: StorageService,
     private router: Router,
     private headerService: AppHeaderService,
-    private telemetryService: TelemetryService,
+    private telemetryGeneratorService: TelemetryGeneratorService,
     private utilService: UtilService,
     private cachingService: CachingService) {
       this.cachingService.initStorage();
@@ -35,14 +36,6 @@ export class SplashPage implements OnInit {
   }
 
   async startTelemetry(): Promise<void> {
-    let info = await this.utilService.getAppInfo();
-    let startConfig = startTelemetryConfig;
-    startConfig.edata = { type: "app"};
-    startConfig.context.did = await this.utilService.getDeviceId();
-    startConfig.context.sid = await this.storage.getData('sid');
-    startConfig.context.env = 'splash';
-    startConfig.context.pdata = {"id": info.id, "pid": info.name, "ver": info.version};
-    startConfig.actor = {type: 'User', id: ''}
-    this.telemetryService.raiseStartTelemetry(startConfig)
+    this.telemetryGeneratorService.genererateAppStartTelemetry(await this.utilService.getDeviceSpec());
   }
 } 

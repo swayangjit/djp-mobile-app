@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { App } from '@capacitor/app';
+import { App, AppInfo } from '@capacitor/app';
 import { Device } from '@capacitor/device';
 import { TranslateService } from '@ngx-translate/core';
+import { DeviceSpecification } from './telemetry/models/telemetry';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,19 @@ export class UtilService {
 
   constructor(private translate: TranslateService) { }
 
-  async getDeviceId(): Promise<string> {
-    return await (await Device.getId()).identifier;
+  async getDeviceSpec(): Promise<DeviceSpecification> {
+    const spec = await Device.getInfo();
+    const did = await this.getDeviceId();
+    return {
+      os: `${spec.operatingSystem} ${spec.osVersion}`,
+      make: spec.manufacturer,
+      id: did
+    } as DeviceSpecification
   }
-  async getAppInfo(): Promise<any> {
+  async getDeviceId(): Promise<string> {
+    return (await Device.getId()).identifier;
+  }
+  async getAppInfo(): Promise<AppInfo> {
     return await App.getInfo();
   }
 
@@ -22,15 +32,15 @@ export class UtilService {
     let replaceObject: any = '';
 
     if (typeof (fields) === 'object') {
-        replaceObject = fields;
+      replaceObject = fields;
     } else {
-        replaceObject = { '%s': fields };
+      replaceObject = { '%s': fields };
     }
 
     this.translate.get(messageConst, replaceObject).subscribe(
-        (value: any) => {
-            translatedMsg = value;
-        }
+      (value: any) => {
+        translatedMsg = value;
+      }
     );
     return translatedMsg;
   }

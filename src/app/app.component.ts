@@ -3,6 +3,10 @@ import { AppHeaderService } from './services/app-header.service';
 import { HeaderConfig } from './appConstants';
 import { TranslateService } from '@ngx-translate/core';
 import { IonRouterOutlet } from '@ionic/angular';
+import { TelemetryService } from './services';
+import { TelemetryAutoSyncService } from './services/telemetry/telemetry.auto.sync.service';
+import { combineLatest, mergeMap } from 'rxjs';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +17,8 @@ export class AppComponent implements OnInit{
   headerConfig!: HeaderConfig;
   @ViewChild('mainContent', { read: IonRouterOutlet, static: false }) routerOutlet!: IonRouterOutlet;
   constructor(private headerService: AppHeaderService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private telemetryAutoSyncService: TelemetryAutoSyncService) {
   }
 
   async ngOnInit() {
@@ -21,6 +26,9 @@ export class AppComponent implements OnInit{
       this.headerConfig = config;
     });
     this.translate.addLangs([ 'en', 'hi', 'te']);
+    this.autoSyncTelemetry()
+    App.addListener('pause', ()=>  this.telemetryAutoSyncService.pause() );
+		App.addListener('resume', ()=> this.telemetryAutoSyncService.continue() );
   }
 
   async handleHeaderEvents($event: Event) {
@@ -59,5 +67,9 @@ export class AppComponent implements OnInit{
       default:
         break;
     }
+  }
+
+  private autoSyncTelemetry() {
+    this.telemetryAutoSyncService.start(30 * 1000).subscribe();
   }
 }
