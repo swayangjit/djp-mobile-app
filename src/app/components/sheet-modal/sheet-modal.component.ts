@@ -35,6 +35,7 @@ export class SheetModalComponent implements OnInit {
   }
 
   addContentToMyPitara(event: Event) {
+    this.modalCtrl.dismiss({type: 'addToPitara', content: this.content});
   }
 
   handleItemSelected(ev: any) {

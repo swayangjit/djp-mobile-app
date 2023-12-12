@@ -14,6 +14,7 @@ import { Filter, Language, Mapping, MappingElement, MetadataMapping, SourceConfi
 import { Content } from 'src/app/services/content/models/content';
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 import { NetworkService } from 'src/app/services/network.service';
+import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 
 @Component({
   selector: 'app-home',
@@ -142,8 +143,11 @@ export class HomePage implements OnInit {
     });
     await modal.present();
 
-    modal.onDidDismiss().then((_ => {
-    }));
+    modal.onDidDismiss().then((result: any) => {
+      if(result.data && result.data.type === 'addToPitara') {
+         this.addContentToMyPitara(result.data.content || content)
+      }
+    });
   }
   initialiseSources(sourceConfig: SourceConfig, mapping: MetadataMapping) {
     const mappingList = mapping.mappings;
@@ -174,7 +178,22 @@ export class HomePage implements OnInit {
     }
   }
 
-  addContentToMyPitara(event: Event, content: ContentSrc) {
+  async addContentToMyPitara(content: ContentSrc) {
+    const modal = await this.modalCtrl.create({
+      component: AddToPitaraComponent,
+      componentProps: {
+        content
+      },
+      cssClass: 'add-to-pitara',
+      breakpoints: [0, 1],
+      showBackdrop: false,
+      initialBreakpoint: 1,
+      handle: false,
+      handleBehavior: "none"
+    });
+    await modal.present();
+    modal.onWillDismiss().then((result) => {
+    });
   }
 
   doRefresh(refresher: any) {

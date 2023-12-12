@@ -25,6 +25,28 @@ ion-modal.sheet-modal {
     --border-radius: 20px;
 }
 
+ion-modal.add-to-pitara {
+    &.bottom {
+        align-items: flex-end;
+    }
+
+    --height: auto;
+    --border-radius: 20px;
+    --width: 90%;
+
+    .ion-page {
+        position: relative;
+        display: block;
+        contain: content;
+
+        .inner-content {
+            max-height: 80vh;
+            overflow: auto;
+            padding: 10px;
+        }
+    }
+}
+
 ion-modal::part(backdrop) {
     background: rgba(209, 213, 219);
     opacity: 1;

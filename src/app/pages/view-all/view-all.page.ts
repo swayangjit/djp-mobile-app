@@ -87,9 +87,10 @@ export class ViewAllPage implements OnInit {
   }
 
   async deletePlaylist() {
-    let contentIds = this.deleteContent.playListcontentList.map((e: { identifier: any; }) => e.identifier)
-    await this.playListService.deleteContentFromPlayList(this.deleteContent.identifier, contentIds).then((data) => {
+    await this.playListService.deletePlayList(this.deleteContent.identifier).then((data) => {
       this.getPlaylistContent()
+    }).catch((err) => {
+      console.log('err', err)
     })
   }
 
