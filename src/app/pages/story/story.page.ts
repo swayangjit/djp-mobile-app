@@ -16,7 +16,7 @@ export class StoryPage implements OnInit{
     }
     
     ionViewWillEnter()  {
-      this.headerService.showHeader(this.utilService.translateMessage("Today's Story"));
+      this.headerService.showHeader("Stories");
     }
 
 }

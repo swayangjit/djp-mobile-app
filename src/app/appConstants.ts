@@ -3,17 +3,13 @@ export interface HeaderConfig {
     pageTitle: String,
     showbackButton: boolean
 }
-export const sidebarMenuItems = [
-    "All",
-    "Make a Story",
-    "Ask a doubt",
-    "Parents",
-    "Teachers",
-    "Divyang",
-    "Tribal",
-    "Lullabies",
-    "Games"
-]
+
+export class PlayerType {
+    static PDF = "application/pdf";
+    static MP4 = "video/mp4";
+    static YOUTUBE = "video/x-youtube";
+    static AUDIO = "audio/mp3";
+}
 
 export const dbinfo = {
     dbName: 'digital_jaddu_pitara.db',

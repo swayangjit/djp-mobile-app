@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UtilService } from 'src/app/services';
 import { AppHeaderService } from 'src/app/services/app-header.service';
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlayList } from 'src/app/services/playlist/models/playlist.content';
@@ -16,11 +15,10 @@ export class MyPitaraPage {
   playlists: Array<any> = [];
 
   constructor(private headerService: AppHeaderService, 
-    private utilService: UtilService,
     private contentService: ContentService,
     private router: Router,
     private playListService: PlaylistService) {
-    this.headerService.showHeader(this.utilService.translateMessage("My Pitara"));
+    this.headerService.showHeader("My Jaadui Pitara");
   }
 
   async ngOnInit(): Promise<void> {
