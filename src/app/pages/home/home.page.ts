@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
-import { ContentSrc} from '../../../app/appConstants';
-import { AppHeaderService, CachingService, DbService, PreprocessorService, UtilService } from '../../../app/services';
+import { ContentSrc, PlayerType} from '../../../app/appConstants';
+import { AppHeaderService, CachingService, PreprocessorService } from '../../../app/services';
 import { Share } from "@capacitor/share";
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
@@ -10,10 +10,11 @@ import { ConfigService } from '../../../app/services/config.service';
 import { SunbirdPreprocessorService } from '../../services/sources/sunbird-preprocessor.service';
 import { ModalController } from '@ionic/angular';
 import { LangaugeSelectComponent } from 'src/app/components/langauge-select/langauge-select.component';
-import { Filter, Language, Mapping, MappingElement, MetadataMapping, SourceConfig } from 'src/app/services/config/models/config';
+import { Filter, Language, MappingElement, MetadataMapping, SourceConfig } from 'src/app/services/config/models/config';
 import { Content } from 'src/app/services/content/models/content';
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 import { NetworkService } from 'src/app/services/network.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -50,7 +51,6 @@ export class HomePage implements OnInit {
   networkConnected: boolean = false;
   constructor(
     private headerService: AppHeaderService,
-    private utilService: UtilService,
     private router: Router,
     private contentService: ContentService,
     private playListService: PlaylistService,
@@ -59,7 +59,8 @@ export class HomePage implements OnInit {
     private preprocessor: PreprocessorService,
     private modalCtrl: ModalController,
     private networkService: NetworkService,
-    private cacheService: CachingService) {
+    private cacheService: CachingService,
+    private domSanitiser: DomSanitizer) {
       this.configContents = [];
       // this.contentService.saveContents(this.contentList)
       this.networkService.networkConnection$.subscribe(ev => {
@@ -97,7 +98,7 @@ export class HomePage implements OnInit {
     let config = await this.configService.getConfigMeta();
     this.initialiseSources(config.sourceConfig, config.metadataMapping);
     this.filters = config.filters.sort((a: Filter, b: Filter) => a.index - b.index);
-    this.filters[0].active = true;
+    this.headerService.filterEvent(this.filters);
     this.languages = config.languages.sort((a: Language, b: Language) => a.identifier.localeCompare(b.identifier));
   }
 
@@ -105,9 +106,11 @@ export class HomePage implements OnInit {
     this.headerService.headerEventEmitted$.subscribe((event: any) => {
       if(event.name = "profile") {
         this.presentModal()
+      } else if(event.name = "search") {
+
       }
     })
-    this.headerService.showHeader(this.utilService.translateMessage('Title'));
+    this.headerService.showHeader('Title');
   }
 
   async presentModal() {
@@ -160,7 +163,9 @@ export class HomePage implements OnInit {
 
   async playContent(event: Event, content: Content) {
     this.contentService.markContentAsViewed(content)
-    await this.router.navigate(['/player'], {state: {content}});
+    if(content.metaData.mimeType !== PlayerType.YOUTUBE) {
+      await this.router.navigate(['/player'], {state: {content}});
+    }
   }
 
   contentLiked(event: Event, content: ContentSrc) {
@@ -191,5 +196,9 @@ export class HomePage implements OnInit {
 
   handleFilter(filter: any) {
     alert('handle filter '+  filter);
+  }
+
+  sanitiseUrl(url: string): SafeResourceUrl {
+    return this.domSanitiser.bypassSecurityTrustResourceUrl(url.replace('watch?v=', 'embed/')+'?controls=1');
   }
 }

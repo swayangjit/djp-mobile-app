@@ -10,7 +10,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "ionic-build": "ng build && ionic cap run android --source-map=true --target emulator-5556"
+    "ionic-build": "ng build && ionic cap run android --source-map=true --target emulator-5554"
   },
   "private": true,
   "dependencies": {
@@ -35,8 +35,8 @@
     "@capacitor/share": "^5.0.6",
     "@capacitor/status-bar": "5.0.6",
     "@ionic/angular": "^7.0.0",
-    "@ngx-translate/core": "^15.0.0",
-    "@ngx-translate/http-loader": "^8.0.0",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "@project-sunbird/sunbird-pdf-player-web-component": "1.1.0",
     "@project-sunbird/sunbird-video-player-web-component": "1.1.1",
     "@project-sunbird/telemetry-sdk": "0.0.29",

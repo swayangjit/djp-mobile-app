@@ -4,6 +4,7 @@ ion-header {
 
 ion-toolbar {
   padding: 0.5rem !important;
+  margin-top: 1rem;
 }
 ::ng-deep {
   .toolbar-container{
@@ -15,7 +16,7 @@ ion-title {
   font-weight: 700;
   padding: 0 0.5rem;
   color: #FF3B53;
-  font-size: 1.125rem;
+  font-size: 1.5rem;
 }
 
 ion-icon {

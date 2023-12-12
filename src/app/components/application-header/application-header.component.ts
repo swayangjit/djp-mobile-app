@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StorageService, UtilService } from '../../../app/services';
+import { AppHeaderService, StorageService, UtilService } from '../../../app/services';
 import { TelemetryService } from '../../../app/services/telemetry/telemetry.service';
 import { telemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
-import { sidebarMenuItems } from 'src/app/appConstants';
 import { MenuController } from '@ionic/angular';
 
 @Component({
@@ -15,19 +14,21 @@ export class ApplicationHeaderComponent  implements OnInit {
   @Input() headerConfig: any = false;
   @Output() headerEvents = new EventEmitter();
   @Output() sideMenuItemEvent = new EventEmitter();
-  sidebarMenuItems: any;
   isMenuOpen: boolean = false;
-
+  filters: Array<any> = []
   constructor(private utilService: UtilService,
     private storageService: StorageService,
     private telemetryService: TelemetryService,
     public menuCtrl: MenuController,
-    ) { 
-      this.sidebarMenuItems = sidebarMenuItems
-    }
+    public headerService: AppHeaderService
+    ) {}
 
   async ngOnInit() {
     this.appInfo = await this.utilService.getAppInfo();
+    this.filters = [];
+    this.headerService.filterConfigEmitted$.subscribe((val: any) => {
+      this.filters = val;
+    })
   }
 
   async scan(event: Event) {
@@ -44,15 +45,6 @@ export class ApplicationHeaderComponent  implements OnInit {
   }
 
   async handleSearch(event: Event) {
-    console.log('search ');
-    let interactConfig = telemetryConfig;
-    interactConfig.edata = { type: "select-search", subtype: "", pageid: "app-header", uri: "app-header"};
-    interactConfig.options.context.did = await this.utilService.getDeviceId();
-    interactConfig.options.context.sid = await this.storageService.getData('sid');
-    interactConfig.options.context.env = 'app-header';
-    interactConfig.options.context.pdata = {"id": this.appInfo.id, "pid": this.appInfo.name, "ver": this.appInfo.version};
-    interactConfig.actor = {type: 'User', id: ''}
-    this.telemetryService.raiseInteractTelemetry(interactConfig)
     this.emitEvent(event, 'search');
   }
 

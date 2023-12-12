@@ -7,20 +7,9 @@ export interface HeaderConfig {
 export class PlayerType {
     static PDF = "application/pdf";
     static MP4 = "video/mp4";
-    static YOUTUBE = "video/x-youtube"
+    static YOUTUBE = "video/x-youtube";
+    static AUDIO = "audio/mp3";
 }
-
-export const sidebarMenuItems = [
-    "All",
-    "Make a Story",
-    "Ask a doubt",
-    "Parents",
-    "Teachers",
-    "Divyang",
-    "Tribal",
-    "Lullabies",
-    "Games"
-]
 
 export const dbinfo = {
     dbName: 'digital_jaddu_pitara.db',
