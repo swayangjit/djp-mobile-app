@@ -5,7 +5,8 @@ import { ScreenOrientation } from "@capacitor/screen-orientation";
 import { Location } from '@angular/common';
 import { playerConfig, videoConfig } from './playerData';
 import { Content } from 'src/app/services/content/models/content';
-
+import { DomSanitizer } from '@angular/platform-browser';
+declare var Plyr:any;
 @Component({
   selector: 'app-player',
   templateUrl: './player.page.html',
@@ -17,16 +18,18 @@ export class PlayerPage implements OnInit {
   playerConfig: any;
   videoConfig: any;
   playerType: string = '';
-
+  srcUrl: any;
   @ViewChild('pdf') pdf!: ElementRef;
   @ViewChild('video') video!: ElementRef;
   constructor(private router: Router,
     private headerService: AppHeaderService,
-    private location: Location,) {
+    private location: Location,
+    private domSanitiser: DomSanitizer) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.content = extras.state?.['content'] as Content;
       this.playerType = this.getPlayerType(this.content.metaData.mimeType);
+      this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url);
     }
   }
 
@@ -35,6 +38,8 @@ export class PlayerPage implements OnInit {
       return 'pdf'
     } else if (mimeType == 'video/mp4') {
       return 'video'
+    } else if(mimeType == 'video/x-youtube') {
+      return 'youtube'
     }
     return ''
   }
@@ -80,6 +85,8 @@ export class PlayerPage implements OnInit {
         this.video.nativeElement.append(epubElement);
       }
     }
+    const player = new Plyr('#player', {autoplay: true});
+    console.log('player ', player);
   }
 
   ionViewWillLeave() {

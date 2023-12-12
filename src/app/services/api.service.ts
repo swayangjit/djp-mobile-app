@@ -11,9 +11,9 @@ export class ApiService {
   public constructor(
     private toastController: ToastController
   ){
-    // Network.addListener('networkStatusChange', async status => {
-    //   this.connected = status.connected;
-    // });
+    Network.addListener('networkStatusChange', async (status: any) => {
+      this.connected = status.connected;
+    });
 
     this.toastController.create({ animated: false }).then(t => { t.present(); t.dismiss(); });
   }
