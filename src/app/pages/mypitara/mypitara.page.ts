@@ -22,6 +22,11 @@ export class MyPitaraPage {
   }
 
   async ngOnInit(): Promise<void> {
+    this.headerService.deviceBackbtnEmitted$.subscribe((event: any) => {
+      if(event.name = "backBtn") {
+        this.getPlaylistContent();
+      }
+    })
   
   }
 
@@ -62,5 +67,6 @@ export class MyPitaraPage {
       console.log('error', err)
     })
   }
+  
 
 }

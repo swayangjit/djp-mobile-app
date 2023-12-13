@@ -16,11 +16,9 @@ export class StorageService {
     }).catch(err => {return err})
   }
 
-  async getData(key: string): Promise<string | null> {
+  async getData(key: string): Promise<string | undefined> {
     await Preferences.configure({group: StorageService.groupPreferenceName})
-    console.log('key ', key);
     return await Preferences.get({key}).then((res: GetResult) => {
-      console.log('res ', res);
       return res.value;
     }).catch(err => {return err})
   }

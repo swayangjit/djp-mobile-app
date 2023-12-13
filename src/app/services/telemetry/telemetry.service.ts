@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ITelemetryContext, IProducerdata, IActor, ITelemetry, } from './telemetry-request';
 import { DbService } from '../db/db.service';
-import { initTelemetryContext, syncTelemetryReq } from './telemetryConstants';
 import { StorageService } from '../storage.service';
 import { UtilService } from '../util.service';
 import { TelemetryConfigEntry } from '../db/telemetrySchema';
 import { ApiService } from '../api.service';
-import { APIConstants } from 'src/app/appConstants';
+import { defer, from, mergeMap, Observable, of, zip } from 'rxjs';
+import { Device } from '@capacitor/device';
+import { TelemetrySyncHandler } from './utils/telemetry.sync.handler';
+import { TelemetryEndRequest, TelemetryImpressionRequest, TelemetryInteractRequest, TelemetryStartRequest } from './models/telemetry.request';
+import { DJPTelemetry } from './models/telemetry';
+import { TelemetryDecorator } from './models/telemetry.decorator';
+import { v4 as uuidv4 } from "uuid";
 
 declare const window: any;
 
@@ -14,91 +19,91 @@ declare const window: any;
     providedIn: 'root'
 })
 export class TelemetryService {
-    _isInitialsed: boolean = false;
-    telemetryProvider: any;
-    context!: ITelemetryContext;
-    pData!: IProducerdata;
-    actor!: IActor;
-    config!: ITelemetry;
+    deviceId: string = '';
     constructor(
         private dbService: DbService,
         private storageService: StorageService,
         private utilService: UtilService,
-        private apiService: ApiService
-    ) { }
-
-    public async initializeTelemetry() {
-        let that = this;
-        let context = initTelemetryContext
-        let sid = await this.storageService.getData('sid');
-        context.config.sid = sid!;
-        context.config.did = await this.utilService.getDeviceId();
-        context.config.dispatcher = {
-            dispatch: async function (event: any) {
-            let tableData = {event_type: event.eid, event: JSON.stringify(event), timestamp: Date.now(), priority: 1}
-            that.syncTelemetry(event);
-            await that.dbService.save(TelemetryConfigEntry.insertData(), tableData);
-        }}
-        this.initTelemetry(context);
+        private apiService: ApiService,
+        private decorator: TelemetryDecorator
+    ) {
+        Device.getId().then(response => {
+            this.deviceId = response.identifier
+            return this.deviceId
+        })
     }
 
-    public initTelemetry(telemetryContext: ITelemetryContext) {
-        if (window['EkTelemetry']) {
-            this.telemetryProvider = window['EkTelemetry'];
-            this._isInitialsed = true;
-            this.context = telemetryContext;
-            console.log('context ', this.context);
-            this.telemetryProvider.initialize(telemetryContext.config);
-        }
+    start({
+        type, deviceSpecification, loc, mode, duration, pageId, env,
+        objId, objType, objVer, rollup, correlationData
+    }: TelemetryStartRequest): Observable<boolean> {
+        const start = new DJPTelemetry.Start(type, deviceSpecification, loc, mode, duration, pageId, env, objId,
+            objType, objVer, rollup, correlationData);
+        return this.decorateAndPersist(start);
+    }
+    end({
+        type, mode, duration, pageId, summaryList, env,
+        objId, objType, objVer, rollup, correlationData
+    }: TelemetryEndRequest): Observable<boolean> {
+        const end = new DJPTelemetry.End(type, mode, duration, pageId, summaryList, env, objId,
+            objType, objVer, rollup, correlationData);
+        return this.decorateAndPersist(end);
     }
 
-    public initTelmetry(pdata: IProducerdata, actor: IActor, channel: string, sid: string, did: string) {
-        if (this.context != null && this.telemetryProvider) {
-            this.telemetryProvider.initialize(this.context.config);
-        } else {
-            this.config.pdata = pdata;
-            this.config.channel = channel;
-            this.config.did = did;
-            this.config.sid = sid;
-            this.actor = actor;
-        }
-    }
-    public setTelemetryAttributes(pdata: IProducerdata, actor: IActor, channel: string, sid: string, did: string) {
-        this.config.pdata = pdata;
-        this.config.channel = channel;
-        this.config.did = did;
-        this.config.sid = sid;
-        this.actor = actor;
+    interact({
+        type, subType, id, pageId, pos, env, rollup,
+        valueMap, correlationData, objId, objType, objVer
+    }: TelemetryInteractRequest): Observable<boolean> {
+        const interact = new DJPTelemetry.Interact(type!, subType!, id, pageId, pos, valueMap, env!, objId,
+            objType, objVer, rollup, correlationData);
+        return this.decorateAndPersist(interact);
     }
 
-    private isTelemetryInitialised() {
-        return this._isInitialsed;
+    impression({
+        type, subType, pageId, env, objId,
+        objType, objVer, rollup, correlationData
+    }: TelemetryImpressionRequest): Observable<boolean> {
+        const impression = new DJPTelemetry.Impression(type, subType, pageId, [], env, objId,
+            objType, objVer, rollup!, correlationData);
+        return this.decorateAndPersist(impression);
     }
 
-    public raiseInteractTelemetry(interactObject: any) {
-        if (this.isTelemetryInitialised()) {
-            this.telemetryProvider.interact(interactObject.edata, interactObject.options);
-        }
+    private decorateAndPersist(telemetry: DJPTelemetry.Telemetry): Observable<any> {
+        return zip(
+            from(this.utilService.getAppInfo()),
+            from(this.utilService.getDeviceId())
+        ).pipe(
+            mergeMap((ids) => {
+                const version = ids[0].version;
+                const did = ids[1];
+                return from(this.storageService.getData('sid')).pipe(
+                    mergeMap((sid: string | undefined) => {
+                        const telemetrySchema = this.decorator.prepare(this.decorator.decorate(
+                            telemetry, sid ?? '', did, uuidv4(),
+                            version, '', []
+                        ), 1);
+                        console.log('Telemetry Generated', telemetry);
+                        
+                        return this.dbService.save(TelemetryConfigEntry.insertData(), telemetrySchema)
+                    })
+                )
+            })
+        );
     }
 
-    public raiseStartTelemetry(startEventObject: any) {
-        if (this.isTelemetryInitialised()) {
-            console.log('start event ', startEventObject.edata);
-            this.telemetryProvider.start(this.context.config, startEventObject.options.object.id, startEventObject.options.object.ver,
-                startEventObject.edata, startEventObject.options
-            );
-        }
-    }
-    public raiseEndTelemetry(endEventObject: any) {
-        if (this.isTelemetryInitialised()) {
-            this.telemetryProvider.end(endEventObject.edata, endEventObject.options);
-        }
+    saveTelemetry(request: string): Observable<boolean> {
+        return defer(() => {
+            try {
+                const telemetry: DJPTelemetry.Telemetry = JSON.parse(request);
+                return this.decorateAndPersist(telemetry);
+            } catch (e) {
+                console.error(e);
+                return of(false);
+            }
+        });
     }
 
-    public syncTelemetry(event: any) {
-        let body = syncTelemetryReq;
-        body.events = [];
-        body.events.push(event);
-        this.apiService.post(APIConstants.BASE_URL+APIConstants.TELEMETRY_SYNC, body)
+    sync(): Observable<boolean> {
+        return new TelemetrySyncHandler(this.dbService, this.apiService).handle(this.deviceId);
     }
 }   

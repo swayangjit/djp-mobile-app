@@ -9,6 +9,7 @@ import { ContentCardComponent } from './content-card/content-card.component';
 import { StorageService, TelemetryService, UtilService } from '../services';
 import { LangaugeSelectComponent } from './langauge-select/langauge-select.component';
 import { SheetModalComponent } from './sheet-modal/sheet-modal.component';
+import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { SheetModalComponent } from './sheet-modal/sheet-modal.component';
         FilterComponent,
         ContentCardComponent,
         LangaugeSelectComponent,
-        SheetModalComponent
+        SheetModalComponent,
+        AddToPitaraComponent
     ],
     imports: [
         CommonModule,
@@ -31,7 +33,8 @@ import { SheetModalComponent } from './sheet-modal/sheet-modal.component';
         FilterComponent,
         ContentCardComponent,
         LangaugeSelectComponent,
-        SheetModalComponent
+        SheetModalComponent,
+        AddToPitaraComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [

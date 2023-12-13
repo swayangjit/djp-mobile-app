@@ -18,7 +18,14 @@ import { ContentService } from './services/content/content.service';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { ApiService } from './services/api.service';
 import { ConfigService } from './services/config.service';
-import { CachingService, DikshaPreprocessorService, PreprocessorService, SunbirdPreprocessorService } from './services';
+import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx'
+import { TelemetryAutoSyncService } from './services/telemetry/telemetry.auto.sync.service';
+import { DikshaPreprocessorService, PreprocessorService, SunbirdPreprocessorService } from './services';
+import { CachingService } from './services/caching.service';
+import { TelemetryDecorator } from './services/telemetry/models/telemetry.decorator';
+import { TelemetryGeneratorService } from './services/telemetry/telemetry.generator.service';
+import { ScannerService } from './services/scan/scanner.service';
+import { PermissionsService } from './services/scan/permissions.service';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -44,6 +51,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     DbService,
     AppInitializeService,
     TelemetryService,
+    TelemetryAutoSyncService,
     AppHeaderService,
     UtilService,
     ContentService,
@@ -53,7 +61,12 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     PreprocessorService,
     SunbirdPreprocessorService,
     DikshaPreprocessorService,
-    CachingService
+    CachingService,
+    TelemetryDecorator,
+    TelemetryGeneratorService,
+    ScannerService,
+    PermissionsService,
+    Diagnostic
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
