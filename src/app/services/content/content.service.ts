@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { capSQLiteSet } from '@capacitor-community/sqlite';
-import { DbService } from '..';
+import { ApiService, DbService } from '..';
 import { Content } from './models/content';
 import { ContentEntry } from './db/content.schema';
 import { RecentlyViewedContentEntry } from './db/recently.viewed.content.schema';
@@ -10,16 +10,21 @@ import { RecentlyViewedContent } from './models/recently.viewed.content';
 import { ContentRVCEntry } from './db/content.rvc';
 import { ContentRVCMixMapper } from './util/content.rvc.mix.entry.mapper';
 import { v4 as uuidv4 } from "uuid";
+import { MimeType } from 'src/app/appConstants';
+import { HttpResponse } from '@capacitor/core';
+import { ContentUtil } from './util/content.util';
 @Injectable({
   providedIn: 'root'
 })
 export class ContentService {
+  public results: Array<any> = [];
 
   constructor(
-    private readonly dbService: DbService
+    private readonly dbService: DbService,
+    private readonly apiService: ApiService
   ) { }
 
-  deleteAllContents(): Promise<any>{
+  deleteAllContents(): Promise<any> {
     return this.dbService.executeQuery(ContentEntry.deleteQuery())
   }
   saveContents(contentList: Array<Content>): Promise<any> {
@@ -36,10 +41,10 @@ export class ContentService {
     LEFT JOIN ${ContentEntry.TABLE_NAME} c
     ON rvc.content_identifier=c.identifier where rvc.uid='${uid}' ORDER BY rvc.ts DESC`;
     console.log('get RecentlyViewed', query);
-    
+
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);
     const recentlyViewedContent: Array<RecentlyViewedContent> = []
-    result.map((contentRVC:ContentRVCEntry.ContentRVCMixedSchemaMap)=>{
+    result.map((contentRVC: ContentRVCEntry.ContentRVCMixedSchemaMap) => {
       recentlyViewedContent.push(ContentRVCMixMapper.mapContentRVCtoRecentlyViedContent(contentRVC, uuidv4()))
     })
     return Promise.resolve(recentlyViewedContent)
@@ -53,6 +58,123 @@ export class ContentService {
 
   markContentAsViewed(content: Content): Promise<void> {
     return this.dbService.save(RecentlyViewedContentEntry.insertQuery(), RecentlyViewedContentMapper.mapContentToRecentlyViewedContentEntry(content, 'guest', uuidv4()))
+  }
+
+  public searchContentInDiksha(query: string) {
+    let url = "https://diksha.gov.in/api/content/v1/search"
+    let body = {
+      "request": {
+        "filters": {
+          "channel": "01246375399411712074",
+          "primaryCategory": [
+            "Collection",
+            "Resource",
+            "Content Playlist",
+            "Course",
+            "Course Assessment",
+            "Digital Textbook",
+            "eTextbook",
+            "Explanation Content",
+            "Learning Resource",
+            "Practice Question Set",
+            "Teacher Resource",
+            "Textbook Unit",
+            "LessonPlan",
+            "FocusSpot",
+            "Learning Outcome Definition",
+            "Curiosity Questions",
+            "MarkingSchemeRubric",
+            "ExplanationResource",
+            "ExperientialResource",
+            "Practice Resource",
+            "TVLesson",
+            "Question paper"
+          ],
+          "visibility": [
+            "Default",
+            "Parent"
+          ]
+        },
+        "limit": 100,
+        "query": query ? query : "H2H2D7",
+        "sort_by": {
+          "lastPublishedOn": "desc"
+        },
+        "fields": [
+          "name",
+          "appIcon",
+          "mimeType",
+          "gradeLevel",
+          "identifier",
+          "medium",
+          "pkgVersion",
+          "board",
+          "subject",
+          "resourceType",
+          "primaryCategory",
+          "contentType",
+          "channel",
+          "organisation",
+          "trackable"
+        ],
+        "softConstraints": {
+          "badgeAssertions": 98,
+          "channel": 100
+        },
+        "mode": "soft",
+        "facets": [
+          "se_boards",
+          "se_gradeLevels",
+          "se_subjects",
+          "se_mediums",
+          "primaryCategory"
+        ],
+        "offset": 0
+      }
+    }
+    return this.apiService.post(url, body);
+  }
+
+  public getCollectionHierarchy(identifier: string) {
+    let url = `https://diksha.gov.in/action/content/v3/hierarchy/${identifier}`
+    return this.apiService.get(url);
+  }
+
+  public getContents(query: string): Promise<any> {
+    return this.searchContentInDiksha(query)
+      .then((response: HttpResponse) => {
+        return this.getCollectionHierarchy(
+          response.data.result.content[0].identifier
+        );
+      })
+      .then((hierarchyResponse) => {
+        this.showAllChild(hierarchyResponse.result.content)
+        console.log(this.results);
+        return this.results;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  private showAllChild(content: any) {
+    if (
+      content.children === undefined ||
+      !content.children.length ||
+      ContentUtil.isTrackable(content) === 1) {
+      if (
+        (content.mimeType !== MimeType.COLLECTION ||
+          ContentUtil.isTrackable(content) === 1) && [MimeType.VIDEO, MimeType.PDF].indexOf(content.mimeType) > -1
+      ) {
+        this.results.push(content);
+      }
+      return;
+    }
+    content.children.forEach((child: any) => {
+      this.showAllChild(child);
+    });
+    console.log('Results', this.results);
+
   }
 
 }

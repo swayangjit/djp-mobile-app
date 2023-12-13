@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { App, AppInfo } from '@capacitor/app';
-import { Device } from '@capacitor/device';
+import { Device, DeviceId } from '@capacitor/device';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceSpecification } from './telemetry/models/telemetry';
-
+import * as SHA1 from 'crypto-js/sha1';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +21,8 @@ export class UtilService {
     } as DeviceSpecification
   }
   async getDeviceId(): Promise<string> {
-    return (await Device.getId()).identifier;
+    const deviceId: DeviceId = await Device.getId()
+    return SHA1(deviceId.identifier).toString();
   }
   async getAppInfo(): Promise<AppInfo> {
     return await App.getInfo();

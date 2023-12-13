@@ -11,6 +11,7 @@ import { TelemetrySyncHandler } from './utils/telemetry.sync.handler';
 import { TelemetryEndRequest, TelemetryImpressionRequest, TelemetryInteractRequest, TelemetryStartRequest } from './models/telemetry.request';
 import { DJPTelemetry } from './models/telemetry';
 import { TelemetryDecorator } from './models/telemetry.decorator';
+import { v4 as uuidv4 } from "uuid";
 
 declare const window: any;
 
@@ -78,7 +79,7 @@ export class TelemetryService {
                 return from(this.storageService.getData('sid')).pipe(
                     mergeMap((sid: string | undefined) => {
                         const telemetrySchema = this.decorator.prepare(this.decorator.decorate(
-                            telemetry, sid ?? '', did,
+                            telemetry, sid ?? '', did, uuidv4(),
                             version, '', []
                         ), 1);
                         console.log('Telemetry Generated', telemetry);
