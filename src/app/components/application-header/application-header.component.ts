@@ -32,9 +32,8 @@ export class ApplicationHeaderComponent  implements OnInit {
     })
   }
 
-  async scan(event: Event) {
+  async scan() {
     this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'qrscanner-clicked', 'home', 'home');
-    this.emitEvent(event, 'scan');
   }
 
   async handleSearch(event: Event) {

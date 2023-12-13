@@ -63,7 +63,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     SunbirdPreprocessorService,
     DikshaPreprocessorService,
     CachingService,
-    RecordingService
+    RecordingService,
     TelemetryDecorator,
     TelemetryGeneratorService,
     ScannerService,
