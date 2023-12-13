@@ -1,0 +1,79 @@
+.btn-info{
+    height: 3rem;
+    width: 34%;
+    --border-radius: 20px;
+    font-size: 17px;
+    &__left{
+        margin-left: 10px;
+    };
+    &__right{
+        margin-top: 3rem;
+    }
+}
+.header-info{
+    padding: 11px 16px;
+    color: #2F2C2A;
+    font-size: 18px;
+    font-family: Noto Sans Devanagari;
+    font-weight: 700;
+    line-height: 25.20px;
+    word-wrap: break-word
+}
+
+.roundedInput {
+    --border-color: var(--ion-color-medium-shade);
+    --border-radius: 4rem;
+    --border-width: 1px;
+    --box-shadow: 2px gray;
+    --highlight-height: 0;
+   // opacity: 0.6;
+    --background: #f8f9fa;
+    padding: 8px 18px 15px;
+   }
+
+
+   .app-rate-btn-outline{
+    border-color: #fff;
+    color: #9E9E9E;
+    height: 3rem;
+    --border-radius: 20px;
+    font-size: 14px;
+    font-family: Noto Sans;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 19.60px;
+    word-wrap: break-word;
+    --border-color: #9E9E9E;
+  }
+
+  .app-rate-btn-ellipsis span{
+    display: block;
+  }
+
+  .app-rate-btn{
+    height: 3rem;
+    --border-radius: 20px;
+    font-size: 14px;
+    font-family: Noto Sans;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 19.60px;
+    word-wrap: break-word
+  }
+
+  .app-rate-btn::part(native) {
+    --ion-color-contrast: #fff;
+}
+
+  .btn-row{
+    padding: 0 10px 10px;
+    margin-top: 10px;
+  }
+
+  .btn-pr-8{
+    padding-right: 1rem;
+  }
+
+  .btn-pl-8{
+    padding-right: 1rem;
+  }

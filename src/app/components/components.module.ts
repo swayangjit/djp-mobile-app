@@ -10,6 +10,8 @@ import { StorageService, TelemetryService, UtilService } from '../services';
 import { LangaugeSelectComponent } from './langauge-select/langauge-select.component';
 import { SheetModalComponent } from './sheet-modal/sheet-modal.component';
 import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
+import { EditRemovedModalComponent } from './edit-removed-modal/edit-removed-modal.component';
+import { NewPlaylistModalComponent } from './new-playlist-modal/new-playlist-modal.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +20,9 @@ import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
         ContentCardComponent,
         LangaugeSelectComponent,
         SheetModalComponent,
-        AddToPitaraComponent
+        AddToPitaraComponent,
+        EditRemovedModalComponent,
+        NewPlaylistModalComponent
     ],
     imports: [
         CommonModule,
@@ -34,7 +38,9 @@ import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
         ContentCardComponent,
         LangaugeSelectComponent,
         SheetModalComponent,
-        AddToPitaraComponent
+        AddToPitaraComponent,
+        EditRemovedModalComponent,
+        NewPlaylistModalComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [

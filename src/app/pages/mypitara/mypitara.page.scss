@@ -1,6 +1,7 @@
 //slider cards styles
 .djp-grid-slider{
     padding: 1rem;
+    margin-top: 7px;
     &__header{
         display: flex;
         justify-content: space-between;
@@ -124,8 +125,11 @@
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
+                margin-right: 1.5rem;
             }
             .kabab-menu-icon{
+                position: absolute;
+                right: 1rem;
                 ion-icon{
                     width: 1.5rem;
                     height: 1.5rem;
@@ -144,55 +148,7 @@
     --box-shadow: none;
 }
 
-//new playlist styles
-  :host ion-checkbox {
-    --border-radius: 50% !important;
-    --border-color: #908c89 !important;
-    --size: 1.5rem !important;
-    --checkbox-background-checked: #01c9ba !important;
-    --border-color-checked: #01c9ba !important;
-  }
-  .new-playlist-card {
-    display: flex;
-    width: 100%;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    padding: 0 1rem;
-  }
-  .new-playlist-card__image {
-    flex-shrink: 0;
-    width: 7.5rem;
-    height: 4.5rem;
-    border-radius: 0.5rem;
-    overflow: hidden;
-  }
-  .new-playlist-card__image img {
-    max-width: 100%;
-    width: 100%;
-    height: 100%;
-  }
-  .new-playlist-card__details {
-    flex-grow: 1;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  .new-playlist-card__title {
-    font-size: 0.875rem;
-    word-break: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    margin: 0; /* Remove default margin for the heading */
-  }
-  .new-playlist-card__actions {
-    display: flex;
-    align-items: center;
-  }
-  ion-checkbox {
-    margin-right: 0.5rem; /* Add spacing between checkbox and other actions */
-  }
+
+ion-modal {
+    --height: fit-content;
+}
