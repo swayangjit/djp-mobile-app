@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar class="custom-header">
+    <div class="header-content">
+      <ion-buttons slot="start" class="start-icon">
+
+        <ion-button (click)="navigateBack()">
+          <ion-icon aria-hidden="true" src="assets/icon/back.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-input type="search" #searchInput [placeholder]="'SEARCH_HINT' | translate"></ion-input>
+      <ion-buttons slot="end">
+        <ion-button #recordbtn>
+          <ion-icon aria-hidden="true" src="assets/icon/mic.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+</ion-content>

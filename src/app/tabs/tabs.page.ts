@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonTabs, Platform } from '@ionic/angular';
 import { AppHeaderService } from '../services/app-header.service';
+import { OnTabViewWillEnter } from './on-tabs-view-will-enter';
 
 @Component({
   selector: 'app-tabs',
@@ -9,6 +10,7 @@ import { AppHeaderService } from '../services/app-header.service';
 })
 export class TabsPage {
   subscription: any;
+  @ViewChild('tabRef', { static: false }) tabRef!: IonTabs;
   constructor(private platform: Platform,
     private headerService: AppHeaderService) {
     this.headerService.showStatusBar();
@@ -20,6 +22,12 @@ export class TabsPage {
       // do nothing
     }
   )}
+
+  ionViewWillEnter() {
+    if (this.tabRef.outlet.component['tabViewWillEnter']) {
+      (this.tabRef.outlet.component as unknown as OnTabViewWillEnter).tabViewWillEnter();
+    }
+  }
   
   ionViewWillLeave() {
     this.subscription.unsubscribe();

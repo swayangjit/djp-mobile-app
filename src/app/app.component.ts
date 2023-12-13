@@ -23,7 +23,7 @@ export class AppComponent implements OnInit{
     this.translate.addLangs([ 'en', 'hi', 'te']);
   }
 
-  async handleHeaderEvents($event: Event) {
+  async handleHeaderEvents($event: any) {
     this.headerService.sidebarEvent($event);
   }
 

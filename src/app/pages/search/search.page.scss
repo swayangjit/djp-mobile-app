@@ -1,0 +1,31 @@
+.header-content {
+    display: flex;
+}
+
+ion-header {
+    box-shadow: none;
+  }
+  
+  ion-toolbar {
+    padding: 1.3rem 0.5rem 0.5rem !important;
+  }
+  ::ng-deep {
+    .toolbar-container{
+      padding: 0 !important;
+      min-height: auto;
+    }
+  }
+  ion-input {
+    border: 1px solid;
+    --border-radius: 25px;
+    border-radius: 25px;
+    padding: 0.2rem 0 0 1rem !important;
+    margin-top: 0.5rem;
+    min-height: 2rem !important;
+  }
+
+ion-icon {
+    width: 1.875rem;
+    height: 1.875rem;
+    margin-left: 0;
+  }

@@ -42,8 +42,11 @@ const routes: Routes = [
   {
     path: 'create-playlist',
     loadChildren: () => import('./pages/create-playlist/create-playlist.module').then( m => m.CreatePlaylistPageModule)
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
   }
-
 
 ];
 

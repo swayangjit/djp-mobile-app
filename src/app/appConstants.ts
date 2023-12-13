@@ -1,7 +1,8 @@
 export interface HeaderConfig {
     showHeader: boolean,
     pageTitle: String,
-    showbackButton: boolean
+    showbackButton: boolean,
+    actionButtons: Array<string>
 }
 
 export class PlayerType {

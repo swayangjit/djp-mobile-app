@@ -31,7 +31,7 @@ export class ApplicationHeaderComponent  implements OnInit {
     })
   }
 
-  async scan(event: Event) {
+  async scan() {
     console.log('scan ');
     let interactConfig = telemetryConfig;
     interactConfig.edata = { type: "select-scan", subtype: "", pageid: "app-header", uri: "app-header"};
@@ -41,27 +41,13 @@ export class ApplicationHeaderComponent  implements OnInit {
     interactConfig.options.context.pdata = {"id": this.appInfo.id, "pid": this.appInfo.name, "ver": this.appInfo.version};
     interactConfig.actor = {type: 'User', id: ''}
     this.telemetryService.raiseInteractTelemetry(interactConfig)
-    this.emitEvent(event, 'scan');
-  }
-
-  async handleSearch(event: Event) {
-    this.emitEvent(event, 'search');
   }
 
   emitEvent(event: Event, name: string) {
-    this.headerEvents.emit({ name, event });
-  }
-
-  async editProfile(event: Event) {
-    let interactConfig = telemetryConfig;
-    interactConfig.edata = { type: "select-language", subtype: "", pageid: "app-header", uri: "app-header"};
-    interactConfig.options.context.did = await this.utilService.getDeviceId();
-    interactConfig.options.context.sid = await this.storageService.getData('sid');
-    interactConfig.options.context.env = 'app-header';
-    interactConfig.options.context.pdata = {"id": this.appInfo.id, "pid": this.appInfo.name, "ver": this.appInfo.version};
-    interactConfig.actor = {type: 'User', id: ''}
-    this.telemetryService.raiseInteractTelemetry(interactConfig)
-    this.emitEvent(event, 'profile');
+    if (name == 'scan') {
+      this.scan();
+    }
+    this.headerEvents.emit({event, name});
   }
 
   async toggleMenu() {

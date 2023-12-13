@@ -18,7 +18,7 @@ import { ContentService } from './services/content/content.service';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { ApiService } from './services/api.service';
 import { ConfigService } from './services/config.service';
-import { CachingService, DikshaPreprocessorService, PreprocessorService, SunbirdPreprocessorService } from './services';
+import { CachingService, DikshaPreprocessorService, PreprocessorService, RecordingService, SunbirdPreprocessorService } from './services';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -53,7 +53,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     PreprocessorService,
     SunbirdPreprocessorService,
     DikshaPreprocessorService,
-    CachingService
+    CachingService,
+    RecordingService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

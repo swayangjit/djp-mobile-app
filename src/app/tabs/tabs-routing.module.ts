@@ -19,6 +19,10 @@ const routes: Routes = [
         path: 'story',
         loadChildren: () => import('../pages/story/story.module').then(m => m.StoryPageModule)
       },
+      {
+        path: 'bot',
+        loadChildren: () => import('../pages/bot/bot.module').then( m => m.BotPageModule)
+      },
       // {
       //   path: 'activity',
       //   loadChildren: () => import('../pages/activity/activity.module').then(m => m.ActivityPageModule)
