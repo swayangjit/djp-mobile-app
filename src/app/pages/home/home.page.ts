@@ -17,6 +17,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -182,7 +183,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
 
   async playContent(event: Event, content: Content) {
     this.contentService.markContentAsViewed(content)
-    await this.router.navigate(['/player'], {state: {content}});
+    if(content.metaData.mimeType !== PlayerType.YOUTUBE) {
+      await this.router.navigate(['/player'], {state: {content}});
+    }
   }
 
   contentLiked(event: Event, content: ContentSrc) {

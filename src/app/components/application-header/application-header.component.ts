@@ -43,6 +43,10 @@ export class ApplicationHeaderComponent  implements OnInit {
     this.telemetryService.raiseInteractTelemetry(interactConfig)
   }
 
+  async handleSearch(event: Event) {
+    this.emitEvent(event, 'search');
+  }
+
   emitEvent(event: Event, name: string) {
     if (name == 'scan') {
       this.scan();
