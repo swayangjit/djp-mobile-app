@@ -48,6 +48,9 @@ export namespace PlaylistContentEntry {
                 ${PlaylistContentEntry.COLUMN_NAME_IDENTIFIER} = ? AND 
                 ${PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER} = ?`
     };
+    export const deleteQueryOne: (() => string) = () => {
+        return `DELETE FROM ${TABLE_NAME}`
+    };
 
     export const deleteTable: (() => string) = () => {
         return 'DROP TABLE IF EXISTS' + PlaylistContentEntry.TABLE_NAME;

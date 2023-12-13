@@ -33,7 +33,7 @@ export class PlaylistService {
   }
 
   public async getAllPlayLists(uid: string): Promise<Array<PlayList>> {
-    return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'uid': uid }).then(async (playListDbLists: any[]) => {
+    return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'uid': uid }, `ORDER BY ${PlaylistEntry.COLUMN_NAME_TIME_STAMP} DESC`).then(async (playListDbLists: any[]) => {
       const playLists: Array<PlayList> = []
       if (playLists && playListDbLists.length) {
         for (let i = 0; i < playListDbLists.length; i++) {
@@ -47,7 +47,7 @@ export class PlaylistService {
 
 
   public getPlayListDetails(playListId: string): Promise<PlayList> {
-    return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'identifier': playListId }).then((playListDetails) => {
+    return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'identifier': playListId }, `ORDER BY ${PlaylistEntry.COLUMN_NAME_TIME_STAMP} DESC`).then((playListDetails) => {
       return this.getPlayListContents(playListId).then((plContentList: Array<PlayListContentMix>) => {
         return Promise.resolve({
           identifier: playListDetails[0]['identifier'],
@@ -64,8 +64,9 @@ export class PlaylistService {
     pc.identifier  as plc_identifier, pc.type, c.*
     FROM ${PlaylistContentEntry.TABLE_NAME}  pc
     LEFT JOIN ${ContentEntry.TABLE_NAME} c
-    ON pc.content_id = c.identifier WHERE ${PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER} = '${playListId}'`;
-    console.log('Query', query);
+    ON pc.content_id = c.identifier 
+    WHERE ${PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER} = '${playListId}'
+    ORDER BY pc.ts DESC`;
 
     return this.dbService.executeQuery(query).then((playlistContentList: any[]) => {
       const plContentList: Array<PlayListContentMix> = []
@@ -85,7 +86,9 @@ export class PlaylistService {
   }
 
   public deletePlayList(playListId: string): Promise<any> {
-    return this.dbService.remove(PlaylistEntry.deleteQuery(), { 'identifier': playListId })
+    return this.dbService.remove(PlaylistEntry.deleteQuery(), { 'identifier': playListId }).then(() => {
+      return this.dbService.remove(PlaylistContentEntry.deleteQueryOne(), {'playlist_identifier': playListId})
+    })
   }
 
   public deleteContentFromPlayList(playListId: string, contentIdentifierList: string[]): Promise<any> {

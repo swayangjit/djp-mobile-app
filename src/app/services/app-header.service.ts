@@ -15,6 +15,8 @@ export class AppHeaderService {
   private headerConfig = new Subject<any>();
   headerConfigEmitted$ = this.headerConfig.asObservable();
 
+  private deviceBackbtnConfig = new Subject<any>();
+  deviceBackbtnEmitted$ = this.deviceBackbtnConfig.asObservable();
   private filterConfig = new Subject<any>();
   filterConfigEmitted$ = this.filterConfig.asObservable();
 
@@ -35,6 +37,10 @@ export class AppHeaderService {
   
   updatePageConfig(config: any) {
     this.headerConfig.next(config);
+  }
+
+  deviceBackBtnEvent(config: any) {
+    this.deviceBackbtnConfig.next(config)
   }
 
   async hideHeader() {

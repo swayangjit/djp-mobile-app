@@ -6,6 +6,7 @@ import { PlaylistEntry } from '../playlist/db/playlist.schema';
 import { RecentlyViewedContentEntry } from '../content/db/recently.viewed.content.schema';
 import { TelemetryConfigEntry } from './telemetrySchema';
 import { ContentEntry } from '../content/db/content.schema';
+import { TelemetryProcessedEntry } from '../telemetry/db/telemetry.processed.schema';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,10 @@ export class DbService {
     this.sqliteConnection = new SQLiteConnection(this.sqlitePlugin);
     await this.openDatabase(dbinfo.dbName, false, "no-encryption", dbinfo.version, false);
     await this.createTable(TelemetryConfigEntry.getCreateEntry());
-    
+    await this.createTable(TelemetryProcessedEntry.getCreateEntry());
     await this.createTable(ContentEntry.getCreateEntry());
     await this.createTable(RecentlyViewedContentEntry.getCreateEntry());
     await this.createTable(PlaylistEntry.getCreateEntry());
-    console.log('PlaylistContentEntry', PlaylistContentEntry.getCreateEntry());
     await this.createTable(PlaylistContentEntry.getCreateEntry());
     return true;
   }
@@ -56,7 +56,6 @@ export class DbService {
   async createTable(stmt: string): Promise<any> {
     try {
       const retValues = (await this.sqliteDBConnection.query(stmt)).values;
-      console.log('retValues ', retValues);
       const ret = retValues!.length > 0 ? retValues! : null;
       return ret;
     } catch (err: any) {
@@ -68,7 +67,6 @@ export class DbService {
   async executeQuery(query: string): Promise<any> {
     try {
       const retValues = (await this.sqliteDBConnection.query(query)).values;
-      console.log('retValues ', retValues);
       const ret = retValues!.length > 0 ? retValues! : null;
       return ret;
     } catch (err: any) {
@@ -80,7 +78,6 @@ export class DbService {
   async executeSet(capSqlSet: capSQLiteSet[]): Promise<any> {
     try {
       const result = await this.sqliteDBConnection.executeSet(capSqlSet);
-      console.log('retValues ', result);
       return result;
     } catch (err: any) {
       const msg = err.message ? err.message : err;
@@ -88,11 +85,11 @@ export class DbService {
     }
   }
 
-  async readDbData(stmt: string, where?: any): Promise<any> {
+  async readDbData(stmt: string, where?: any, orderBy?: string): Promise<any> {
     try {
       if (where) {
         const key: string = Object.keys(where)[0];
-        const q: string = `${stmt} WHERE ${key}='${where[key]}';`;
+        const q: string = `${stmt} WHERE ${key}='${where[key]}' ${orderBy}`;
         const retValues = (await this.sqliteDBConnection.query(q)).values;
         const ret = retValues!.length > 0 ? retValues! : null;
         return ret;
@@ -142,7 +139,7 @@ export class DbService {
   // delete data from table
   async remove(query: string, where: any): Promise<any> {
     const key: string = Object.keys(where)[0];
-    const stmt: string = `${query} ${key}=${where[key]};`
+    const stmt: string = `${query} WHERE ${key}='${where[key]}';`
     const ret = (await this.sqliteDBConnection.run(stmt)).changes;
     return ret;
   }

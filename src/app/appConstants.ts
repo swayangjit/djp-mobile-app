@@ -29,7 +29,11 @@ export class APIConstants {
     static CONFIG = 'config/v1/read';
     static SEARCH_API = 'api/content/v1/search';
     static TELEMETRY_SYNC = 'v1/telemetry';
+    static PRODUCER_ID = 'org.ekstep.djp';
+    static PRODUCER_PID = 'v1/telemetry';
 }
+
+
 
 export class DbConstants {
     static DATE_TYPE = 'DATE';
@@ -169,3 +173,49 @@ export interface sourceConfig {
         }
     }
 }
+
+export class MimeType {
+    public static readonly COLLECTION = 'application/vnd.ekstep.content-collection';
+    public static readonly VIDEO = 'video/mp4';
+    public static readonly VIDEOS = ['video/mp4', 'video/webm', 'video/x-m4v', 'video/quicktime'];
+    public static readonly PDF = 'application/pdf';
+    public static readonly AUDIO = ['audio/mp3', 'audio/mp4', 'audio/mpeg', 'audio/ogg', 'audio/webm', 'audio/x-wav', 'audio/wav'];
+    public static readonly INTERACTION = ['application/vnd.ekstep.ecml-archive', 'application/vnd.ekstep.html-archive',
+        'application/vnd.android.package-archive', 'application/vnd.ekstep.content-archive',
+        'application/vnd.ekstep.plugin-archive', 'application/vnd.ekstep.h5p-archive'];
+    public static readonly DOCS = ['application/pdf', 'application/epub', 'application/msword'];
+    public static readonly ALL = ['video/mp4', 'video/x-youtube', 'video/webm', 'application/pdf', 'application/epub',
+        'application/pdf', 'application/epub', 'application/vnd.ekstep.ecml-archive', 'application/vnd.ekstep.h5p-archive',
+        'application/vnd.ekstep.html-archive'
+    ];
+}
+
+export enum TrackingEnabled {
+    YES = "Yes",
+    NO = "No"
+}
+
+export enum ContentType {
+    COURSE = "Course",
+    COURSE_UNIT = "CourseUnit",
+    E_TEXTBOOK = "eTextBook",
+    EXPLANATION_RESOURCE = "ExplanationResource",
+    EXPLANATION_VIDEO = "Explanation Video",
+    TEXTBOOK = "TextBook",
+    TEXTBOOK_UNIT = "TextBookUnit",
+    COLLECTION = "Collection",
+    TV_LESSION = "TVLesson",
+    RESOURCE = "Resource"
+}
+
+export const sidebarMenuItems = [
+    "All",
+    "Make a Story",
+    "Ask a doubt",
+    "Parents",
+    "Teachers",
+    "Divyang",
+    "Tribal",
+    "Lullabies",
+    "Games"
+]

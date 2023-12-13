@@ -1,20 +1,31 @@
 import { CapacitorHttp } from '@capacitor/core';
 import { Injectable } from '@angular/core';
+import { ToastController } from '@ionic/angular';
+import { Network } from '@capacitor/network';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  public constructor(){}
+  connected = true;
+  public constructor(
+    private toastController: ToastController
+  ) {
+    Network.addListener('networkStatusChange', async (status: any) => {
+      this.connected = status.connected;
+    });
 
-  public async get(url: string){
+    this.toastController.create({ animated: false }).then(t => { t.present(); t.dismiss(); });
+  }
+
+  public async get(url: string) {
     const options = {
       url,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-    }
+      }
     };
     return await CapacitorHttp.get(options).then((res: any) => {
       return res.data;
@@ -23,7 +34,7 @@ export class ApiService {
     })
   }
 
-  public post(url: string, data: any){
+  public post(url: string, data: any) {
     const options = {
       url,
       data,
@@ -31,8 +42,10 @@ export class ApiService {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-    }
+      }
     };
+    console.log('Post Options', options);
+
     return CapacitorHttp.post(options);
   }
 }

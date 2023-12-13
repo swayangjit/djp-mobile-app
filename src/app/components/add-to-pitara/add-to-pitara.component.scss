@@ -1,0 +1,27 @@
+ion-list {
+    overflow-y: auto;
+    overflow: scroll;
+    height: fit-content;
+    max-height: 200px;
+}
+
+.btn-info{
+    height: 3rem;
+    width: 34%;
+    --border-radius: 20px;
+    font-size: 17px;
+}
+
+ion-item{
+    --border-width: 0;
+    --inner-border-width: 0;
+  }
+
+.new-pitara{
+    font-size: 17px;
+    color: cadetblue;
+}
+
+.liked-icon {
+    color: #FFBC00;
+}

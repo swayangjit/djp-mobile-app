@@ -36,7 +36,7 @@
       </div>
       <div class="djp-play-list__slider__container">
         <div class="djp-play-list__slider__container__item" *ngFor="let playlist of playlists">
-          <ion-card class="djp-play-list__slider__container__item__card">
+          <ion-card class="djp-play-list__slider__container__item__card" *ngIf=playlist?.playListcontentList.length>
             <div class="djp-play-list__slider__container__item__card__img">
               <img [src]="playlist?.playListcontentList.length > 0 ? playlist?.playListcontentList[0]?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'" alt="" />
             </div>
@@ -44,7 +44,7 @@
               <ion-card-title>{{playlist.name |translate}}</ion-card-title>
             </ion-card-header>
           </ion-card>
-          <div class="djp-play-list-metadata">
+          <div class="djp-play-list-metadata" *ngIf=playlist?.playListcontentList.length>
             <div class="left-side">
               <span class="title">Title</span>
               <span class="meta">sub title</span>

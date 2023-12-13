@@ -14,6 +14,7 @@ import { Filter, Language, MappingElement, MetadataMapping, SourceConfig } from 
 import { Content } from 'src/app/services/content/models/content';
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 import { NetworkService } from 'src/app/services/network.service';
+import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 
@@ -164,8 +165,11 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       });
       await modal.present();
     }
-    modal.onDidDismiss().then(() => {
-      this.optModalOpen = false;
+
+    modal.onDidDismiss().then((result: any) => {
+      if(result.data && result.data.type === 'addToPitara') {
+         this.addContentToMyPitara(result.data.content || content)
+      }
     });
   }
 
@@ -200,7 +204,22 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     }
   }
 
-  addContentToMyPitara(event: Event, content: ContentSrc) {
+  async addContentToMyPitara(content: ContentSrc) {
+    const modal = await this.modalCtrl.create({
+      component: AddToPitaraComponent,
+      componentProps: {
+        content
+      },
+      cssClass: 'add-to-pitara',
+      breakpoints: [0, 1],
+      showBackdrop: false,
+      initialBreakpoint: 1,
+      handle: false,
+      handleBehavior: "none"
+    });
+    await modal.present();
+    modal.onWillDismiss().then((result) => {
+    });
   }
 
   doRefresh(refresher: any) {

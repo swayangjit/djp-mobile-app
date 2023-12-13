@@ -3,6 +3,7 @@ import { AppHeaderService, StorageService, UtilService } from '../../../app/serv
 import { TelemetryService } from '../../../app/services/telemetry/telemetry.service';
 import { telemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
 import { MenuController } from '@ionic/angular';
+import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
 @Component({
   selector: 'app-application-header',
@@ -18,7 +19,7 @@ export class ApplicationHeaderComponent  implements OnInit {
   filters: Array<any> = []
   constructor(private utilService: UtilService,
     private storageService: StorageService,
-    private telemetryService: TelemetryService,
+    private telemetryGeneratorService: TelemetryGeneratorService,
     public menuCtrl: MenuController,
     public headerService: AppHeaderService
     ) {}
@@ -31,16 +32,9 @@ export class ApplicationHeaderComponent  implements OnInit {
     })
   }
 
-  async scan() {
-    console.log('scan ');
-    let interactConfig = telemetryConfig;
-    interactConfig.edata = { type: "select-scan", subtype: "", pageid: "app-header", uri: "app-header"};
-    interactConfig.options.context.did = await this.utilService.getDeviceId();
-    interactConfig.options.context.sid = await this.storageService.getData('sid');
-    interactConfig.options.context.env = 'app-header';
-    interactConfig.options.context.pdata = {"id": this.appInfo.id, "pid": this.appInfo.name, "ver": this.appInfo.version};
-    interactConfig.actor = {type: 'User', id: ''}
-    this.telemetryService.raiseInteractTelemetry(interactConfig)
+  async scan(event: Event) {
+    this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'qrscanner-clicked', 'home', 'home');
+    this.emitEvent(event, 'scan');
   }
 
   async handleSearch(event: Event) {

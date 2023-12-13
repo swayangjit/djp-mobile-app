@@ -5,25 +5,23 @@
     <div class="djp-grid-slider__header">
         <div class="djp-grid-slider__header__add">History</div>
     </div>
-    <div class="content-card" *ngFor="let content of contentList; let i=index">
-      <div class="img-container">
-        <!-- <img aria-hidden="true" style="   border-radius: 16px;
-        padding: 5px;"
-          src="{{content?.metaData?.appIcon}}"/> -->
-        <ion-img [src]="content?.metaData?.thumbnail" alt="" />
-      </div>
-      <div class="card-details">
-        <div class="card-content">
-          <div class="title" *ngIf="content?.metaData?.name">{{content?.metaData?.name}}</div>
-          <div class="info grade_ellipsis">
-            <span class="class" *ngIf="content?.metaData?.description">{{content?.metaData?.description}}</span>
-            <span class="separator-dot"></span>
-            <!-- <p class="subject">{{content.subject}}</p> -->
+    <div *ngFor="let content of contentList; let i=index">
+      <div class="content-card" *ngIf="content.metaData">
+        <div class="img-container">
+          <ion-img [src]="content?.metaData?.thumbnail" alt="" />
+        </div>
+        <div class="card-details">
+          <div class="card-content">
+            <div class="title" *ngIf="content?.metaData?.name">{{content?.metaData?.name}}</div>
+            <div class="info grade_ellipsis">
+              <span class="class" *ngIf="content?.metaData?.description">{{content?.metaData?.description}}</span>
+              <span class="separator-dot"></span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="check-container" (click)="openModal()">
-        <img role="button" src="../../../assets/images/menu.svg" alt="menu">
+        <div class="check-container" (click)="openModal()">
+          <img role="button" src="../../../assets/images/menu.svg" alt="menu">
+        </div>
       </div>
     </div>
   </div>
