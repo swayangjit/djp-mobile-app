@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, NavParams } from '@ionic/angular';
 import { PlayList, PlayListContent } from 'src/app/services/playlist/models/playlist.content';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
+import { NewPlaylistModalComponent } from '../new-playlist-modal/new-playlist-modal.component';
 
 @Component({
   selector: 'app-add-to-pitara',
@@ -26,7 +27,6 @@ export class AddToPitaraComponent  implements OnInit {
   }
 
   async getAllPlaylists(name?: string) {
-    this.playlists = [];
     await this.playListService.getAllPlayLists('guest').then((result: Array<PlayList>) => {
       this.playlists = result;
       if (name) {
@@ -58,44 +58,21 @@ export class AddToPitaraComponent  implements OnInit {
   }
 
   async newPitaraList() {
-    const alert = await this.alertController.create({
-      header: 'New playlist',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text'
-        }],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        },
-        {
-          text: 'Create',
-          role: 'create',
-          handler: (alertData) => {
-            console.log(alertData.name);
-          }
-        }
-      ]
+    const modal = await this.modalCtrl.create({
+      component: NewPlaylistModalComponent,
+      cssClass: 'auto-height'
     });
-    await alert.present();
-    const obj = await alert.onDidDismiss();
-    let name = obj.data.values.name;
-
-    let request: Array<PlayListContent> = [{identifier: this.content.metaData.identifier, type: 'content' }];
-    if (obj.role === 'create') {
-      this.playListService.createPlayList(name, 'guest', [{identifier: '', type: 'content'}]).then((data) => {
-        // API
-        this.getAllPlaylists(name);
-      }).catch((err) => {
-        console.log('errrrr', err)
-      })
-    }
+    await modal.present();
+    modal.onWillDismiss().then((result) => {
+      if (result && result.data.type === 'create' && result.data.playlistName) {
+        this.playListService.createPlayList(result.data.playlistName, 'guest', [{ identifier: '', type: 'content' }]).then((data) => {
+          // API
+          this.getAllPlaylists(result.data.playlistName);
+        }).catch((err) => {
+          console.log('errrrr', err)
+        })
+      }
+    });
   }
 
   confirm(e: any) {

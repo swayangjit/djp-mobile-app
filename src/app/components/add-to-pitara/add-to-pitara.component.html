@@ -1,7 +1,7 @@
 <div class="inner-content">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button color="medium">Add to Pitara</ion-button>
+      <ion-button class="add-to">Add to Pitara</ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button [strong]="true" (click)="newPitaraList()" class="new-pitara">
@@ -15,7 +15,7 @@
     <ion-list lines=“none”>
       <ion-item *ngFor="let playlist of playlists" class="no-border">
         <ion-label lines=“none”>{{playlist.name}}</ion-label>
-        <ion-radio slot="start" value="{{playlist.identifier}}" class="liked-icon"></ion-radio>
+        <ion-radio value="custom-checked" slot="start" value="{{playlist.identifier}}"></ion-radio>
       </ion-item>
     </ion-list>
   </ion-radio-group>
