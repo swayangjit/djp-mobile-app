@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { FilePicker, PickedFile } from '@capawesome/capacitor-file-picker';
 import { MimeType } from 'src/app/appConstants';
-import { Capacitor } from '@capacitor/core';
 import { PlayListContent} from '../../services/playlist/models/playlist.content'
 import { AppHeaderService } from 'src/app/services';
 import { Router } from '@angular/router';
@@ -17,6 +15,7 @@ import { Router } from '@angular/router';
 
 export class CreatePlaylistPage implements OnInit {
   contentList: Array<any> = [];
+  playlistName = '';
   public files: PickedFile[] = [];
   resolveNativePath = (path : string) =>
   new Promise((resolve, reject) => {
@@ -28,9 +27,9 @@ export class CreatePlaylistPage implements OnInit {
     })
   });
   selectedContents: Array<any> = [];
+  reSelectedContent: Array<any> = []
   constructor(
     private contentService: ContentService,
-    private alertController: AlertController,
     private playListService: PlaylistService,
     private headerService: AppHeaderService,
     private router: Router
@@ -38,6 +37,7 @@ export class CreatePlaylistPage implements OnInit {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.selectedContents = extras.state?.['selectedContents'];
+      this.reSelectedContent = this.selectedContents;
     }
   }
 
@@ -54,46 +54,23 @@ export class CreatePlaylistPage implements OnInit {
 
   isContentSelect(event: any, index: any) {
     this.selectedContents[index]['isSelected'] = event.detail.checked;
+    this.reSelectedContent = [];
+    this.selectedContents.forEach((e: { [x: string]: any; }) => {
+      if (e['isSelected']) {
+        this.reSelectedContent.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
+      }
+    });
    }
 
   async createList() {
-    const alert = await this.alertController.create({
-      header: 'New playlist',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text'
-        }],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        },
-        {
-          text: 'Create',
-          role: 'create',
-          handler: (alertData) => {
-            console.log(alertData.name);
-          }
-        }
-      ]
-    });
-    await alert.present();
-    const obj = await alert.onDidDismiss();
-    let name = obj.data.values.name;
-
-    let result: Array<PlayListContent> = [];
+    let request: Array<PlayListContent> = [];
     this.selectedContents.forEach((e: { [x: string]: any; }) => {
       if (e['isSelected']) {
-        result.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
+        request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
       }
     });
-    if (obj.role === 'create') {
-      this.playListService.createPlayList(name, 'guest', result).then((data) => {
+    if (this.playlistName) {
+      this.playListService.createPlayList(this.playlistName, 'guest', request).then((data) => {
         // API
         this.headerService.deviceBackBtnEvent({name: 'backBtn'})
         window.history.go(-2)

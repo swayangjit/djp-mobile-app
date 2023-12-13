@@ -134,3 +134,66 @@ ion-checkbox {
 ion-checkbox {
   margin-right: 0.5rem;/* Add spacing between checkbox and other actions */
 }
+
+
+
+:host ion-button.view-playlist {
+  --background: #01c9ba;
+  --color: #fff;
+  --border-radius: 30px;
+  --border-color: #fff;
+  --border-style: solid;
+  --border-width: 1px;
+  --box-shadow: none;
+}
+
+.djp-view-playlist {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 4rem;
+  background-color: #01C9BA;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+
+  &__icon {
+      width: 3rem;
+      height: 3rem;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      .count {
+          position: absolute;
+          top: -3px;
+          right: -3px;
+          background: #FF3B53;
+          border-radius: 50%;
+          font-size: 10px;
+          width: 18px;
+          height: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
+      }
+
+      ion-icon {
+          width: 1.5rem;
+          height: 1.5rem;
+      }
+  }
+
+  &__button {
+      margin-left: auto;
+      ion-button {
+          font-size: 14px;
+          font-weight: bold;
+      }
+  }
+}

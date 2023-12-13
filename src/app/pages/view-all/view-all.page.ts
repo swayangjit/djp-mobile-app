@@ -17,6 +17,7 @@ export class ViewAllPage implements OnInit {
   type = '';
   playlists: Array<any> = [];
   deleteContent: any;
+  selectedContents: Array<any> = [];
   @ViewChild(IonModal) modal: IonModal | undefined;
   constructor(
     private contentService: ContentService,
@@ -81,7 +82,7 @@ export class ViewAllPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.headerService.showHeader('PlayLists', true);
+    this.headerService.showHeader('new play list', true);
     this.getPlaylistContent();
   }
 
@@ -93,6 +94,16 @@ export class ViewAllPage implements OnInit {
 
   isContentSelect(event: any, index: any) {
     this.contentList[index]['isSelected'] = event.detail.checked;
+    this.checkSelectedContent();
+   }
+
+   checkSelectedContent() {
+     this.selectedContents = []
+    this.contentList.forEach((e: { [x: string]: any; }) => {
+      if (e['isSelected']) {
+        this.selectedContents.push(e);
+      }
+    });
    }
 
 }

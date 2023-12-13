@@ -1,8 +1,8 @@
 <div class="inner-content">
     <ion-list >
       <ion-item>
-        <ion-button fill="clear" color="primary">
-          <ion-icon name="create-sharp"></ion-icon>
+        <ion-button fill="clear">
+          <ion-icon aria-hidden="true" src="assets/icon/edit.svg"></ion-icon>
         </ion-button>
         <ion-label (click)="confirm('edit')">
           <h2>Edit</h2>
@@ -10,8 +10,8 @@
       </ion-item>  
 
       <ion-item>
-        <ion-button fill="clear" color="danger">
-          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        <ion-button fill="clear">
+          <ion-icon aria-hidden="true" src="assets/icon/delete.svg"></ion-icon>
         </ion-button>
         <ion-label (click)="confirm('delete')">
           <h2>Delete</h2>

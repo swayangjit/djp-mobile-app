@@ -11,6 +11,7 @@ import { LangaugeSelectComponent } from './langauge-select/langauge-select.compo
 import { SheetModalComponent } from './sheet-modal/sheet-modal.component';
 import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
 import { EditRemovedModalComponent } from './edit-removed-modal/edit-removed-modal.component';
+import { NewPlaylistModalComponent } from './new-playlist-modal/new-playlist-modal.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { EditRemovedModalComponent } from './edit-removed-modal/edit-removed-mod
         LangaugeSelectComponent,
         SheetModalComponent,
         AddToPitaraComponent,
-        EditRemovedModalComponent
+        EditRemovedModalComponent,
+        NewPlaylistModalComponent
     ],
     imports: [
         CommonModule,
@@ -37,7 +39,8 @@ import { EditRemovedModalComponent } from './edit-removed-modal/edit-removed-mod
         LangaugeSelectComponent,
         SheetModalComponent,
         AddToPitaraComponent,
-        EditRemovedModalComponent
+        EditRemovedModalComponent,
+        NewPlaylistModalComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [

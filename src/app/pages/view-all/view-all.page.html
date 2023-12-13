@@ -27,5 +27,17 @@
 </ion-content>
 
 <div *ngIf="type==='playlist'">
-  <ion-button expand="block" class="btn-info" (click)="createList()">Create a new playlist</ion-button>
+  <!-- <ion-button expand="block" class="btn-info" (click)="createList()">Create a new playlist</ion-button> -->
+
+  <div class="djp-view-playlist">
+    <div class="djp-view-playlist__icon">
+      <div class="count">{{selectedContents.length}}</div>
+      <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
+    </div>
+    <div class="djp-view-playlist__button">
+      <ion-button fill="outline" class="view-playlist" [disabled]="!selectedContents.length" (click)="createList()">
+        View Playlist
+      </ion-button>
+    </div>
+  </div>
 </div>
