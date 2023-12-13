@@ -17,11 +17,14 @@ export class TelemetryDecorator {
         event: Telemetry,
         sid: string,
         did: string,
+        mid: string,
         version: string,
         channelId: string,
         globalCData?: CorrelationData[]
     ): any {
-
+        if (!event.mid) {
+            event.mid = mid;
+        }
         this.patchActor(event, '');
         this.patchContext(event, sid, did, version, channelId, globalCData);
         if (event.context.cdata) {
