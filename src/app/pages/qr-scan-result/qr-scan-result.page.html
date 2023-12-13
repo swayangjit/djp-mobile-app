@@ -1,0 +1,26 @@
+<ion-content>
+  <div *ngIf="configContents.length > 0">
+    <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
+      <div class="bot-section" *ngIf="!content.metaData || !content.metaData.name">
+        <div class="image">
+          <img src="assets/images/Story_bot.svg" alt="">
+          <div class="image-title">{{"Make a Story" | translate }}</div>
+        </div>
+        <div class="image">
+          <img src="assets/images/Question_bot.svg" alt="">
+          <div class="image-title">{{"Ask a Doubt" | translate }}</div>
+        </div>
+      </div>
+      <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
+        <div class="djp-card__img" (click)="playContent($event, content)">
+          <ion-img [src]="content.metaData.thumbnail" alt=""/>
+          <ion-img src="assets/images/defaultImg.png" alt=""/>
+        </div>
+        <div class="djp-card__metadata">
+          <div class="djp-card__title">{{content.metaData?.name}}</div>
+          <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

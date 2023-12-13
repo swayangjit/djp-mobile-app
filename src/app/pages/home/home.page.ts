@@ -120,6 +120,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
         // api call on search text
         this.router.navigate(['/search']);
       } else if(name == "scan") {
+        this.router.navigate(['/qr-scan-result'])
       }
     })
     this.headerService.showHeader('Title', false);

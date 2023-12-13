@@ -46,8 +46,11 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
+  },
+  {
+    path: 'qr-scan-result',
+    loadChildren: () => import('./pages/qr-scan-result/qr-scan-result.module').then( m => m.QrScanResultPageModule)
   }
-
 ];
 
 @NgModule({
