@@ -15,7 +15,7 @@
     <ion-list lines=“none”>
       <ion-item *ngFor="let playlist of playlists" class="no-border">
         <ion-label lines=“none”>{{playlist.name}}</ion-label>
-        <ion-radio slot="start" value="{{playlist.identifier}}" class="liked-icon"></ion-radio>
+        <ion-radio value="custom-checked" slot="start" value="{{playlist.identifier}}"></ion-radio>
       </ion-item>
     </ion-list>
   </ion-radio-group>

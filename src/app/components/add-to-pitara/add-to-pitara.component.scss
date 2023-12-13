@@ -22,6 +22,34 @@ ion-item{
     color: cadetblue;
 }
 
-.liked-icon {
-    color: #FFBC00;
+ion-radio{
+    margin-top: 1px;
 }
+
+
+ion-radio::part(container) {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ddd;
+  }
+  
+  ion-radio::part(mark) {
+    background: none;
+    transition: none;
+    transform: none;
+    border-radius: 0;
+  }
+  
+  ion-radio.radio-checked::part(container) {
+    background: #FFBC00;
+    border-color: transparent;
+  }
+  
+  ion-radio.radio-checked::part(mark) {
+    width: 6px;
+  
+    border-width: 0px 2px 2px 0px;
+    border-style: solid;
+    border-color: #fff;
+    transform: rotate(45deg);
+  }

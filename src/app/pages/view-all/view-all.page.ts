@@ -5,6 +5,7 @@ import { AppHeaderService } from 'src/app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { Location } from '@angular/common';
+import { PlayListContent } from 'src/app/services/playlist/models/playlist.content';
 
 @Component({
   selector: 'app-view-all',
@@ -14,8 +15,6 @@ import { Location } from '@angular/common';
 export class ViewAllPage implements OnInit {
   contentList: Array<any> = [];
   type = '';
-  modelData: any;
-  isOpen = false;
   playlists: Array<any> = [];
   deleteContent: any;
   @ViewChild(IonModal) modal: IonModal | undefined;
@@ -39,11 +38,7 @@ export class ViewAllPage implements OnInit {
       this.location.back();
       this.headerService.deviceBackBtnEvent({name: 'backBtn'})
     });
-    if (this.type === 'recentlyviewed') {
-      this.getRecentlyviewedContent()
-    } else if (this.type === 'playlist') {
-      this.getPlaylistContent()
-    }
+    this.getRecentlyviewedContent()
   }
 
   async getPlaylistContent() {
@@ -67,23 +62,14 @@ export class ViewAllPage implements OnInit {
 
 
   createList() {
-    this.router.navigate(['/create-playlist'])
-  }
-
-  confirm(event: any) {
-    this.modal?.dismiss()
-    this.isOpen = false;
-    switch (event) {
-      case 'remove':
-        console.log('event', event);
-        break;
-      case 'delete':
-        this.deletePlaylist();
-        console.log('delete', event)  
-        break;
-      default:
-        break;
-    }
+    let result: { [x: string]: any; }[] = [];
+    this.contentList.forEach((e: { [x: string]: any; }) => {
+      if (e['isSelected']) {
+        result.push(e);
+      }
+    });
+    console.log('...................', result)
+    this.router.navigate(['/create-playlist'], {state: {selectedContents: result}})
   }
 
   async deletePlaylist() {
@@ -101,12 +87,12 @@ export class ViewAllPage implements OnInit {
 
 
   openModal(content?: any) {
-    this.isOpen = true;
-    this.deleteContent = content;
+    console.log('create a modal for recently viewed content')
   }
 
-  viewPlaylists() {
-    this.router.navigate(['/play-list'])
-  }
+
+  isContentSelect(event: any, index: any) {
+    this.contentList[index]['isSelected'] = event.detail.checked;
+   }
 
 }

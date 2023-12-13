@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ContentService } from 'src/app/services/content/content.service';
-import { Location } from '@angular/common';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
-import { PlayListContentMix, PlayListContent } from '../../services/playlist/models/playlist.content'
 import { FilePicker, PickedFile } from '@capawesome/capacitor-file-picker';
 import { MimeType } from 'src/app/appConstants';
 import { Capacitor } from '@capacitor/core';
+import { PlayListContent} from '../../services/playlist/models/playlist.content'
+import { AppHeaderService } from 'src/app/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-playlist',
@@ -16,23 +17,6 @@ import { Capacitor } from '@capacitor/core';
 
 export class CreatePlaylistPage implements OnInit {
   contentList: Array<any> = [];
-  selectedContents = [];
-  public alertButtons = [
-    {
-      text: 'Cancel',
-      role: 'cancel',
-      handler: () => {
-        console.log('Alert canceled');
-      },
-    },
-    {
-      text: 'Create',
-      role: 'create',
-      handler: () => {
-        console.log('Alert created');
-      },
-    },
-  ];
   public files: PickedFile[] = [];
   resolveNativePath = (path : string) =>
   new Promise((resolve, reject) => {
@@ -42,25 +26,35 @@ export class CreatePlaylistPage implements OnInit {
       )
       reject(err)
     })
-  })
+  });
+  selectedContents: Array<any> = [];
   constructor(
     private contentService: ContentService,
     private alertController: AlertController,
-    private location: Location,
-    private playListService: PlaylistService
-  ) { }
+    private playListService: PlaylistService,
+    private headerService: AppHeaderService,
+    private router: Router
+  ) {
+    let extras = this.router.getCurrentNavigation()?.extras;
+    if (extras) {
+      this.selectedContents = extras.state?.['selectedContents'];
+    }
+  }
 
   ngOnInit() {
     this.contentService.getRecentlyViewedContent('guest').then((result) => {
       this.contentList = result;
-      // this.contentList.map((e: { metaData: string; }) => (typeof e.metaData === 'string') ? JSON.parse(e.metaData) : e.metaData)
       console.log('result', result)
     })
   }
 
-  isContentSelect(event: any, index: any) {
-    this.contentList[index]['isSelected'] = event.detail.checked;
+  ionViewWillEnter() {
+    this.headerService.showHeader('create new contentList', true)
   }
+
+  isContentSelect(event: any, index: any) {
+    this.selectedContents[index]['isSelected'] = event.detail.checked;
+   }
 
   async createList() {
     const alert = await this.alertController.create({
@@ -93,7 +87,7 @@ export class CreatePlaylistPage implements OnInit {
     let name = obj.data.values.name;
 
     let result: Array<PlayListContent> = [];
-    this.contentList.forEach((e: { [x: string]: any; }) => {
+    this.selectedContents.forEach((e: { [x: string]: any; }) => {
       if (e['isSelected']) {
         result.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
       }
@@ -101,7 +95,8 @@ export class CreatePlaylistPage implements OnInit {
     if (obj.role === 'create') {
       this.playListService.createPlayList(name, 'guest', result).then((data) => {
         // API
-        this.location.back();
+        this.headerService.deviceBackBtnEvent({name: 'backBtn'})
+        window.history.go(-2)
       }).catch((err) => {
         console.log('errrrr', err)
       })
@@ -120,5 +115,6 @@ export class CreatePlaylistPage implements OnInit {
     })
     console.log('Files:::', files);
   }
+  
 
 }
