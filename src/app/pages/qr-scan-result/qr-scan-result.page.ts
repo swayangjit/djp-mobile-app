@@ -60,9 +60,7 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
 
   async playContent(event: Event, content: Content) {
     this.contentService.markContentAsViewed(content)
-    if(content.metaData.mimeType !== PlayerType.YOUTUBE) {
-      await this.router.navigate(['/player'], {state: {content}});
-    }
+    await this.router.navigate(['/player'], {state: {content}});
   }
 
   async moreOtions(content: any) {
