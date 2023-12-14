@@ -33,22 +33,22 @@ export class PlayerPage implements OnInit {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.content = extras.state?.['content'] as Content;
-      this.playerType = this.getPlayerType(this.content.metaData.mimeType);
+      this.playerType = this.getPlayerType(this.content.metaData.mimetype);
       this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url);
     }
     this.telemetryGeneratorService.generateStartTelemetry(
       'player',
-      new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimeType!, ''),
+      new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
       { l1: this.content?.metaData.identifier! },
       []);
   }
 
-  private getPlayerType(mimeType: string): string {
-    if (mimeType == PlayerType.PDF) {
+  private getPlayerType(mimetype: string): string {
+    if (mimetype == PlayerType.PDF) {
       return 'pdf'
-    } else if (mimeType == PlayerType.MP4) {
+    } else if (mimetype == PlayerType.MP4) {
       return 'video'
-    } else if(mimeType == PlayerType.YOUTUBE) {
+    } else if(mimetype == PlayerType.YOUTUBE) {
       return 'youtube'
     }
     return ''

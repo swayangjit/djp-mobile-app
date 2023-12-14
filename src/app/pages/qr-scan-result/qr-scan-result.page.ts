@@ -59,7 +59,7 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
   }
 
   async playContent(event: Event, content: Content) {
-    this.contentService.markContentAsViewed(content)
+    // this.contentService.markContentAsViewed(content)
     await this.router.navigate(['/player'], {state: {content}});
   }
 

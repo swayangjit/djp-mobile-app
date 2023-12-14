@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppHeaderService, CachingService, TelemetryService, UtilService } from '../../../app/services';
+import { AppHeaderService, CachingService, ConfigService, UtilService } from '../../../app/services';
 import { AppInitializeService } from '../../../app/services/appInitialize.service';
 import { StorageService } from '../../../app/services/storage.service';
-import { startTelemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
 import { v4 as uuidv4 } from "uuid";
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-splash',
@@ -19,20 +19,31 @@ export class SplashPage implements OnInit {
     private headerService: AppHeaderService,
     private telemetryGeneratorService: TelemetryGeneratorService,
     private utilService: UtilService,
-    private cachingService: CachingService) {
+    private cachingService: CachingService,
+    private configService: ConfigService,
+    private translate: TranslateService) {
       this.cachingService.initStorage();
     }
     
   async ngOnInit() {
     this.headerService.showStatusBar();
     this.headerService.hideHeader();
+    let sid = uuidv4();
+    this.storage.setData("sid", sid);
     setTimeout(async () => {
+      console.log('route');
       this.startTelemetry()
       this.router.navigate(['/tabs/home']);
     }, 2000);
-    let sid = uuidv4();
-    this.storage.setData("sid", sid);
     this.appinitialise.initialize();
+    let config = await this.configService.getConfigMeta();
+    this.storage.setData('configMeta', JSON.stringify(config));
+    config.languages.forEach(lang => {
+      if (lang.default) {
+        this.translate.setDefaultLang(lang.id)
+        this.translate.use(lang.id);
+      }
+    })
   }
 
   async startTelemetry(): Promise<void> {

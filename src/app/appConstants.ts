@@ -20,14 +20,17 @@ export const dbinfo = {
 
 export class APIConstants {
     static BASE_URL = 'http://152.67.162.156:9000/';
-    static CONFIG = 'config/v1/read';
+    static CONFIG = 'v1/config/read';
+    static PAGE_SEARCH_API = 'v1/page/search';
     static SEARCH_API = 'api/content/v1/search';
     static TELEMETRY_SYNC = 'v1/telemetry';
     static PRODUCER_ID = 'org.ekstep.djp';
     static PRODUCER_PID = 'v1/telemetry';
 }
 
-
+export class PageId {
+    static HOME = 'djp.app.home';
+}
 
 export class DbConstants {
     static DATE_TYPE = 'DATE';
@@ -50,23 +53,41 @@ export interface ContentSrc {
     type: string
 }
 
+export interface Config {
+    pageConfig: Array<PageConfig>,
+    languages: Language[];
+}
+
+export interface PageConfig {
+    pageId: string,
+    defaultFilter: {
+        id: string,
+        label: string,
+        query: any,
+        filters: any,
+    },
+    additionalFilters: Array<Filter>
+}
+
 export interface Filter {
+    id: string,
     label: string,
-    identifier: string,
+    query: any,
+    filters: any,
     index: number,
-    active: boolean
 }
 
 export interface Language {
-    identifier: string,
+    id: string,
     label: string,
-    selected: boolean
+    default: boolean
 }
 
 export interface Content {
     source: string;
     sourceType: string;
     metaData: ContentMetaData;
+    play: boolean;
 }
 
 export interface ContentMetaData {
@@ -74,12 +95,28 @@ export interface ContentMetaData {
     name: string;
     thumbnail: string;
     description: string;
-    mimeType: string;
+    mimetype: string;
     url: string;
+    domain: string,
+    curriculargoal: null,
+    competencies: null,
+    language: string,
+    category: string,
+    audience: Array<any>,
     focus: string;
-    keyword: string;
+    keyword: any;
+    status: string,
+    createdon: string,
+    lastupdatedon: string
 }
 
+export interface Searchrequest {
+    request: {
+        pageId: string,
+        query: any,
+        filters: any
+    }
+}
 
 export const request = {
     "request": {

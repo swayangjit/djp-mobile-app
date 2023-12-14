@@ -2,12 +2,14 @@ import { CapacitorHttp } from '@capacitor/core';
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Network } from '@capacitor/network';
+import { Device } from '@capacitor/device';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   connected = true;
+  deviceId: string = '';
   public constructor(
     private toastController: ToastController
   ) {
@@ -16,6 +18,10 @@ export class ApiService {
     });
 
     this.toastController.create({ animated: false }).then(t => { t.present(); t.dismiss(); });
+    Device.getId().then(response => {
+      this.deviceId = response.identifier
+      return this.deviceId
+  })
   }
 
   public async get(url: string) {
@@ -25,6 +31,7 @@ export class ApiService {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
+        'x-device-id': this.deviceId
       }
     };
     return await CapacitorHttp.get(options).then((res: any) => {
@@ -42,6 +49,7 @@ export class ApiService {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
+        'x-device-id': this.deviceId
       }
     };
     console.log('Post Options', options);

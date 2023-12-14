@@ -8,15 +8,18 @@
     </ion-refresher>
 
     <ion-list class="m-n" *ngIf="showSheenAnimation">
-      <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background djp-cards-container">
+      <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background">
         <div class="djp-card">
           <div item-start class="djp-card__img">
-            <app-skeleton-item height="15rem" width="30rem"></app-skeleton-item>
+            <app-skeleton-item height="15rem" width="22rem"></app-skeleton-item>
           </div>
           <div class="djp-card__metadata">
-            <ion-label>
-              <app-skeleton-item height="12px" width="67%"></app-skeleton-item>
-            </ion-label>
+            <div style="width: 90%;">
+              <app-skeleton-item height="12px" width="100%"></app-skeleton-item>
+            </div>
+            <div style="padding-left: 1.5rem; width: 10%;">
+              <app-skeleton-item height="12px" width="100%"></app-skeleton-item>
+            </div>
           </div>
         </div>
       </ion-item>
@@ -36,10 +39,11 @@
         </div>
         <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
           <div class="djp-card__img" (click)="playContent($event, content)">
-            <ion-img [src]="content.metaData.thumbnail" alt=""/>
-            <!-- <div *ngIf="content.metaData.mimeType === 'video/x-youtube'">
-              <iframe id="player{{i}}" title="" width="380" height="200" allowfullscreen [src]="sanitiseUrl(content.metaData.url)"></iframe>
-            </div> -->
+            <ion-img *ngIf="content.metaData.thumbnail && !content.play" [src]="content.metaData.thumbnail" alt=""/>
+            <ion-img *ngIf="!content.metaData.thumbnail && !content.play" [src]="loadYoutubeImg(content.metaData.url)" alt=""/>
+            <div *ngIf="content.metaData.mimetype === 'video/x-youtube' && content.play">
+              <iframe title="" width="380" height="200" allowfullscreen [src]="sanitiseUrl(content.metaData.url)"></iframe>
+            </div>
             <!-- <div class="landscape-icon" (click)="switchLandscape(content)">
               <ion-icon name="scan" size="large" color="light"></ion-icon>
             </div> -->

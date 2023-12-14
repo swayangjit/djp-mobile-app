@@ -10,6 +10,7 @@ import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
+  showSheenAnimation: boolean = true;
   @ViewChild('searchInput', { static: false }) searchBar: any;
   @ViewChild('recordbtn', {read: ElementRef}) recordbtn: ElementRef | any;
   constructor(
