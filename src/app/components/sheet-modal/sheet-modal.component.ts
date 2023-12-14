@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Share } from '@capacitor/share';
 import { ModalController, NavParams } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
-import { ContentSrc } from 'src/app/appConstants';
 
 @Component({
   selector: 'app-sheet-modal',

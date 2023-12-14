@@ -27,8 +27,8 @@ export class AppHeaderService {
     this.filterConfig.next(filter);
   }
 
-  sidebarEvent(name: any) {
-    this.headerEvent.next(name);
+  sidebarEvent(event: any) {
+    this.headerEvent.next(event.name);
   }
 
   sideMenuItemEvents($event: any) {
@@ -53,15 +53,17 @@ export class AppHeaderService {
     const defaultConfig: HeaderConfig = {
       showHeader: true,
       pageTitle: 'Title',
-      showbackButton: false
+      showbackButton: false,
+      actionButtons: [''],
     };
     return defaultConfig;
   }
 
-  async showHeader(pageTitle?: string, backbutton?: boolean) {
+  async showHeader(pageTitle?: string, backbutton?: boolean, actionButtons?: Array<string>) {
     const defaultConfig = this.getDefaultPageConfig();
     defaultConfig.pageTitle = pageTitle ? pageTitle : 'Title';
     defaultConfig.showbackButton = backbutton ?? false;
+    defaultConfig.actionButtons = actionButtons ?? ['']
     this.updatePageConfig(defaultConfig);
   }
 
@@ -72,7 +74,7 @@ export class AppHeaderService {
   showStatusBar() {
     StatusBar.show({animation: Animation.None});
     StatusBar.setStyle({style: Style.Light});
-    StatusBar.setBackgroundColor({color: '#00000'})
+    StatusBar.setBackgroundColor({color: '#ffffff'})
     StatusBar.setOverlaysWebView({overlay: true})
   }
 }

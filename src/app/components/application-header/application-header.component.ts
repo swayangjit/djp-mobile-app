@@ -32,9 +32,8 @@ export class ApplicationHeaderComponent  implements OnInit {
     })
   }
 
-  async scan(event: Event) {
+  async scan() {
     this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'qrscanner-clicked', 'home', 'home');
-    this.emitEvent(event, 'scan');
   }
 
   async handleSearch(event: Event) {
@@ -42,12 +41,10 @@ export class ApplicationHeaderComponent  implements OnInit {
   }
 
   emitEvent(event: Event, name: string) {
-    this.headerEvents.emit({ name, event });
-  }
-
-  async editProfile(event: Event) {
-    this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'change-language-clicked', 'home', 'home')
-    this.emitEvent(event, 'profile');
+    if (name == 'scan') {
+      this.scan();
+    }
+    this.headerEvents.emit({event, name});
   }
 
   async toggleMenu() {

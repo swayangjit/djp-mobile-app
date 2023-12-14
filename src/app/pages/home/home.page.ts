@@ -16,13 +16,15 @@ import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.
 import { NetworkService } from 'src/app/services/network.service';
 import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
+
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnTabViewWillEnter {
   refresh: boolean = false;
   // contents!: Array<Content>
   contentList: Array<any> = [
@@ -48,6 +50,8 @@ export class HomePage implements OnInit {
   languages!: Array<Language>
   isOpen: boolean = false;
   configContents!: Array<any>;
+  langModalOpen: boolean = false;
+  optModalOpen: boolean = false;
   @ViewChild('refresher', { static: false }) refresher!: IonRefresher;
   networkConnected: boolean = false;
   constructor(
@@ -62,14 +66,14 @@ export class HomePage implements OnInit {
     private networkService: NetworkService,
     private cacheService: CachingService,
     private domSanitiser: DomSanitizer) {
-      this.configContents = [];
-      // this.contentService.saveContents(this.contentList)
-      this.networkService.networkConnection$.subscribe(ev => {
-        console.log(ev);
-        this.networkConnected = ev;
-      })
-    }
-    
+    this.configContents = [];
+    // this.contentService.saveContents(this.contentList)
+    this.networkService.networkConnection$.subscribe(ev => {
+      console.log(ev);
+      this.networkConnected = ev;
+    })
+  }
+
   async ngOnInit(): Promise<void> {  
     this.preprocessor.sourceProcessEmitted$.subscribe(async (content: any) => {
       console.log('content form preprocessor ', content);
@@ -103,15 +107,25 @@ export class HomePage implements OnInit {
     this.languages = config.languages.sort((a: Language, b: Language) => a.identifier.localeCompare(b.identifier));
   }
 
-  async ionViewWillEnter() {
-    this.headerService.headerEventEmitted$.subscribe((event: any) => {
-      if(event.name = "profile") {
-        this.presentModal()
-      } else if(event.name = "search") {
+  async tabViewWillEnter() {
+    await this.headerService.showHeader('', false);
+  }
 
+  async ionViewWillEnter() {
+    this.headerService.headerEventEmitted$.subscribe((name: any) => {
+      if(name == "profile") {
+        if(!this.langModalOpen) {
+          this.presentModal();
+          this.langModalOpen = true
+        }
+      } else if(name == "search") {
+        // api call on search text
+        this.router.navigate(['/search']);
+      } else if(name == "scan") {
+        this.router.navigate(['/qr-scan-result'])
       }
     })
-    this.headerService.showHeader('Title');
+    this.headerService.showHeader('Title', false);
   }
 
   async presentModal() {
@@ -127,25 +141,30 @@ export class HomePage implements OnInit {
       handleBehavior: "none"
     });
     await modal.present();
-
     modal.onDidDismiss().then((_ => {
+      console.log('dismiss');
+      this.langModalOpen = false
     }));
   }
 
   async moreOtions(content: any) {
-    const modal = await this.modalCtrl.create({
-      component: SheetModalComponent,
-      componentProps: {
-        content: content
-      },
-      cssClass: 'sheet-modal',
-      breakpoints: [0.3],
-      showBackdrop: false,
-      initialBreakpoint: 0.3,
-      handle: false,
-      handleBehavior: "none"
-    });
-    await modal.present();
+    let modal: any;
+    if(!this.optModalOpen) {
+      this.optModalOpen = true;
+      modal = await this.modalCtrl.create({
+        component: SheetModalComponent,
+        componentProps: {
+          content: content
+        },
+        cssClass: 'sheet-modal',
+        breakpoints: [0.3],
+        showBackdrop: false,
+        initialBreakpoint: 0.3,
+        handle: false,
+        handleBehavior: "none"
+      });
+      await modal.present();
+    }
 
     modal.onDidDismiss().then((result: any) => {
       if(result.data && result.data.type === 'addToPitara') {
@@ -153,6 +172,7 @@ export class HomePage implements OnInit {
       }
     });
   }
+
   initialiseSources(sourceConfig: SourceConfig, mapping: MetadataMapping) {
     const mappingList = mapping.mappings;
     if(sourceConfig.sources && sourceConfig.sources.length > 0) {

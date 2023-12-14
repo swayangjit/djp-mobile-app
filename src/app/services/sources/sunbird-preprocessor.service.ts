@@ -41,7 +41,7 @@ export class SunbirdPreprocessorService implements ApiPreprocessor {
         
       });
       youtubeContentArr.forEach((arr, i) => {
-        if(i>=5 && i%5 == 0) {
+        if(i==5 && i%5 == 0) {
           this.processorContentList.push(this.botConfig)
         }
         this.processorContentList.push(arr);

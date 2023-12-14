@@ -1,30 +1,39 @@
-<ion-header [hidden]="!headerConfig.showHeader || false">
+<ion-header [hidden]="!headerConfig?.showHeader || false">
   <ion-toolbar class="custom-header">
     <div class="header-content">
       <ion-buttons slot="start" class="start-icon">
-        <ion-button [hidden]="headerConfig.showbackButton">
+        <ion-button [hidden]="headerConfig?.showbackButton">
           <ion-icon aria-hidden="true" class="pitara-icon" src="assets/images/pitara-empty-box.svg"></ion-icon>
         </ion-button>
         <!-- Back button image -->
-        <ion-button [hidden]="!headerConfig.showbackButton">
-          <ion-icon aria-hidden="true" src="assets/icon/arrow-back.svg"></ion-icon>
+        <ion-button [hidden]="!headerConfig?.showbackButton" (click)="emitEvent($event, 'back')">
+          <ion-icon aria-hidden="true" src="assets/icon/back.svg"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title role="heading" aria-level="1" [hidden]="headerConfig.showbackButton">{{ headerConfig.pageTitle | translate}}</ion-title>
-
-      <ion-buttons slot="end" [hidden]="headerConfig.showbackButton">
-        <ion-button (click)="handleSearch($event)">
+      <ion-title role="heading" aria-level="1" *ngIf="!(headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0)">{{ headerConfig?.pageTitle | translate}}</ion-title>
+      <ion-input type="search" *ngIf="headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0" #searchInput [placeholder]="'SEARCH_HINT' | translate">
+    </ion-input>
+      <ion-buttons slot="end" [hidden]="headerConfig?.showbackButton">
+        <ion-button (click)="emitEvent($event, 'search')" appLongPress>
           <ion-icon aria-hidden="true" src="assets/icon/search.svg"></ion-icon>
         </ion-button>
-        <ion-button (click)="scan($event)">
+        <ion-button (click)="emitEvent($event, 'scan')">
           <ion-icon aria-hidden="true" src="assets/icon/qr-scan.svg"></ion-icon>
         </ion-button>
-        <ion-button (click)="editProfile($event)">
+        <ion-button (click)="emitEvent($event, 'profile')">
           <ion-icon aria-hidden="true" src="assets/icon/profile-icon.svg"></ion-icon>
         </ion-button>
       </ion-buttons>
+      <ion-buttons slot="end" [hidden]="!headerConfig?.showbackButton">
+        <!-- <ion-button *ngIf="headerConfig?.actionButtons?.indexOf('search') >=0">
+          <ion-icon aria-hidden="true" class="audio-record-mic" src="assets/icon/mic.svg"></ion-icon>
+        </ion-button> -->
+        <ion-button (click)="emitEvent($event, 'upload')" *ngIf="headerConfig?.actionButtons?.indexOf('upload') >=0">
+          <ion-icon aria-hidden="true" class="audio-record-mic" src="assets/icon/upload.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </div>
-    <div class="pills-container">
+    <div class="pills-container" *ngIf="!headerConfig?.showbackButton">
       <ion-chip class="pills" (click)="toggleMenu()">
         <ion-icon aria-hidden="true" src="assets/icon/list.svg"></ion-icon>
       </ion-chip>
