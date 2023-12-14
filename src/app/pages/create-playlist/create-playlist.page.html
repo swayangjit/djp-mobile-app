@@ -24,14 +24,16 @@
     </div>
 </ion-content>
 
-<div class="djp-view-playlist">
-  <div class="djp-view-playlist__icon">
-    <div class="count">{{reSelectedContent.length}}</div>
-    <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
-  </div>
-  <div class="djp-view-playlist__button">
-    <ion-button fill="outline" class="view-playlist" [disabled]="!(playlistName && reSelectedContent.length>0)" (click)="createList()">
-      {{'savePlaylist' | translate}}
-    </ion-button>
+<div class="view-all-btn">
+  <div class="djp-view-playlist">
+    <div class="djp-view-playlist__icon">
+      <div class="count">{{reSelectedContent.length}}</div>
+      <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
+    </div>
+    <div class="djp-view-playlist__button">
+      <ion-button fill="outline" class="view-playlist" [disabled]="!(playlistName && reSelectedContent.length>0)" (click)="createList()">
+        {{'savePlaylist' | translate}}
+      </ion-button>
+    </div>
   </div>
 </div>
