@@ -1,19 +1,19 @@
-#container {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 28%;
-    transform: translateY(-50%);
-  }
+ion-content{
+  --padding-top: 15%;
+}
 
   .djp-grid-slider{
     padding: 1rem;
+    margin-top: 10px;
     &__header{
         display: flex;
         justify-content: space-between;
         font-size: 1rem;
         margin-bottom: 1rem;
         color: var(--ion-color-dark);
+        position: sticky;
+        top: 15px;
+        background-color: #fff;
         &__add{
             font-size: 21px;
             font-weight: bold;
@@ -167,6 +167,7 @@ ion-checkbox {
       align-items: center;
       justify-content: center;
       position: relative;
+      margin-right: 5%;
 
       .count {
           position: absolute;
@@ -197,3 +198,4 @@ ion-checkbox {
       }
   }
 }
+

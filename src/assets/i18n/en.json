@@ -48,6 +48,7 @@
     "mybox": "My Box",
     "playlist": "Play List",
     "savePlaylist": "Save Playlist",
+    "viewPlaylist": "View Playlist",
     "chat-bot":{
         "messages":{
             "m01":"Activity: My Hygiene Checklist Age Group: 4 to 6 years Materials Required: Chart Paper",
@@ -61,5 +62,7 @@
     "Done": "Done",
     "New playlist": "New playlist",
     "Cancel": "Cancel",
-    "Create": "Create"
+    "Create": "Create",
+    "edit": "Edit",
+    "delete": "Delete"
 }

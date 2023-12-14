@@ -21,12 +21,12 @@ export class MyPitaraPage {
     private router: Router,
     private playListService: PlaylistService,
     private modalCtrl: ModalController) {
-    this.headerService.showHeader("My Jaadui Pitara");
   }
 
   async ngOnInit(): Promise<void> {
     this.headerService.deviceBackbtnEmitted$.subscribe((event: any) => {
       if(event.name = "backBtn") {
+        this.headerService.showHeader("My Jaadui Pitara");
         this.getPlaylistContent();
       }
     })
@@ -34,6 +34,7 @@ export class MyPitaraPage {
   }
 
   ionViewWillEnter() {
+    this.headerService.showHeader("My Jaadui Pitara");
     this.getRecentlyviewedContent();
     this.getPlaylistContent();
   }
