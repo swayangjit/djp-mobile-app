@@ -17,6 +17,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
+import { playerConfig } from '../player/playerData';
 
 
 @Component({
@@ -75,18 +76,19 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   }
 
   async ngOnInit(): Promise<void> {  
-    this.preprocessor.sourceProcessEmitted$.subscribe(async (content: any) => {
-      console.log('content form preprocessor ', content);
-      await this.contentService.deleteAllContents()
-      this.contentService.saveContents(content).then()
-      if(content.length > 0) {
-        this.showSheenAnimation = false;
-        content.forEach((ele: any) => {
-          this.configContents.push(ele)
-        });
-        console.log("configContents ", this.configContents);
-      }
-    })
+    // this.preprocessor.sourceProcessEmitted$.subscribe(async (content: any) => {
+    //   console.log('content form preprocessor ', content);
+    //   await this.contentService.deleteAllContents()
+    //   this.contentService.saveContents(content).then()
+    //   if(content.length > 0) {
+    //     this.showSheenAnimation = false;
+    //     content.forEach((ele: any) => {
+    //       this.configContents.push(ele)
+    //     });
+    //     console.log("configContents ", this.configContents);
+    //   }
+    // })
+    this.configContents.push(playerConfig)
     this.networkConnected = await this.networkService.getNetworkStatus()
     let forceRefresh = await this.cacheService.getCacheTimeout();
     if(forceRefresh) {
@@ -102,10 +104,10 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   }
 
   async getServerMetaConfig() {
-    let config = await this.configService.getConfigMeta();
-    this.initialiseSources(config.sourceConfig, config.metadataMapping);
-    this.filters = config.filters.sort((a: Filter, b: Filter) => a.index - b.index);
-    this.languages = config.languages.sort((a: Language, b: Language) => a.identifier.localeCompare(b.identifier));
+    // let config = await this.configService.getConfigMeta();
+    // this.initialiseSources(config.sourceConfig, config.metadataMapping);
+    // this.filters = config.filters.sort((a: Filter, b: Filter) => a.index - b.index);
+    // this.languages = config.languages.sort((a: Language, b: Language) => a.identifier.localeCompare(b.identifier));
     this.headerService.filterEvent({filter: this.filters, languages: this.languages});
   }
 

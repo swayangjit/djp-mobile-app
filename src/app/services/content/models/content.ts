@@ -8,7 +8,7 @@ export interface ContentMetaData {
     identifier: string;
     name: string;
     thumbnail: string;
-    description: string;
+    description?: string;
     mimeType: string;
     url: string;
     focus?: string;

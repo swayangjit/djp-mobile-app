@@ -6,6 +6,11 @@ import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { Location } from '@angular/common';
 import { PlayListContent } from 'src/app/services/playlist/models/playlist.content';
+import { MimeType } from 'src/app/appConstants';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
+import { Content } from 'src/app/services/content/models/content';
+import { v4 as uuidv4 } from "uuid";
+import { ContentUtil } from 'src/app/services/content/util/content.util';
 
 @Component({
   selector: 'app-view-all',
@@ -18,6 +23,15 @@ export class ViewAllPage implements OnInit {
   playlists: Array<any> = [];
   deleteContent: any;
   selectedContents: Array<any> = [];
+  resolveNativePath = (path: string) =>
+    new Promise((resolve, reject) => {
+      (window as any).FilePath.resolveNativePath(path, resolve, (err: any) => {
+        console.error(
+          `${path} could not be resolved by the plugin: ${err.message}`
+        )
+        reject(err)
+      })
+    });
   @ViewChild(IonModal) modal: IonModal | undefined;
   constructor(
     private contentService: ContentService,
@@ -37,7 +51,7 @@ export class ViewAllPage implements OnInit {
   async ngOnInit(): Promise<void> {
     this.platform.backButton.subscribeWithPriority(11, async () => {
       this.location.back();
-      this.headerService.deviceBackBtnEvent({name: 'backBtn'})
+      this.headerService.deviceBackBtnEvent({ name: 'backBtn' })
     });
     this.getRecentlyviewedContent()
   }
@@ -70,7 +84,7 @@ export class ViewAllPage implements OnInit {
       }
     });
     console.log('...................', result)
-    this.router.navigate(['/create-playlist'], {state: {selectedContents: result}})
+    this.router.navigate(['/create-playlist'], { state: { selectedContents: result } })
   }
 
   async deletePlaylist() {
@@ -99,19 +113,39 @@ export class ViewAllPage implements OnInit {
   isContentSelect(event: any, index: any) {
     this.contentList[index]['isSelected'] = event.detail.checked;
     this.checkSelectedContent();
-   }
+  }
 
-   checkSelectedContent() {
-     this.selectedContents = []
+  checkSelectedContent() {
+    this.selectedContents = []
     this.contentList.forEach((e: { [x: string]: any; }) => {
       if (e['isSelected']) {
         this.selectedContents.push(e);
       }
     });
-   }
+  }
 
-   fileUploading() {
-     console.log('upload files from local')
-   }
+  async openFilePicker() {
+    let mimeType: string[] = [MimeType.PDF];
+    mimeType = mimeType.concat(MimeType.VIDEOS).concat(MimeType.AUDIO);
+    const { files } = await FilePicker.pickFiles({ types: mimeType, multiple: true, readData: true });
+    const localContents: Array<Content> = []
+    files.map(async (file: any) => {
+      const path: string = await this.resolveNativePath(file.path!) as string
+      console.log('path', path);
+      const fileName = path.substring(path.lastIndexOf('/') + 1);
+      localContents.push({
+        source: 'local',
+        sourceType: 'local',
+        metaData: {
+          identifier: uuidv4(),
+          url: path,
+          name: fileName,
+          mimeType: ContentUtil.getMimeType(fileName),
+          thumbnail: ''
+        }
+      })
+    })
+    console.log('localContents:::', localContents);
+  }
 
 }
