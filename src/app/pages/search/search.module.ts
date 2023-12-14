@@ -1,21 +1,22 @@
-import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { TabsPageRoutingModule } from './tabs-routing.module';
+import { IonicModule } from '@ionic/angular';
 
-import { TabsPage } from './tabs.page';
+import { SearchPageRoutingModule } from './search-routing.module';
+
+import { SearchPage } from './search.page';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
-    IonicModule,
     CommonModule,
     FormsModule,
-    TabsPageRoutingModule,
+    IonicModule,
+    SearchPageRoutingModule,
     TranslateModule
   ],
-  declarations: [TabsPage]
+  declarations: [SearchPage]
 })
-export class TabsPageModule {}
+export class SearchPageModule {}

@@ -1,7 +1,8 @@
 export interface HeaderConfig {
     showHeader: boolean,
     pageTitle: String,
-    showbackButton: boolean
+    showbackButton: boolean,
+    actionButtons: Array<string>
 }
 
 export class PlayerType {
@@ -10,6 +11,7 @@ export class PlayerType {
     static YOUTUBE = "video/x-youtube";
     static AUDIO = "audio/mp3";
 }
+
 
 export const dbinfo = {
     dbName: 'digital_jaddu_pitara.db',

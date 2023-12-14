@@ -3,9 +3,7 @@ import { AppHeaderService } from './services/app-header.service';
 import { HeaderConfig } from './appConstants';
 import { TranslateService } from '@ngx-translate/core';
 import { IonRouterOutlet } from '@ionic/angular';
-import { TelemetryService } from './services';
 import { TelemetryAutoSyncService } from './services/telemetry/telemetry.auto.sync.service';
-import { combineLatest, mergeMap } from 'rxjs';
 import { App } from '@capacitor/app';
 import { ScannerService } from './services/scan/scanner.service';
 import { ContentService } from './services/content/content.service';
@@ -35,7 +33,7 @@ export class AppComponent implements OnInit {
     App.addListener('resume', () => this.telemetryAutoSyncService.continue());
   }
 
-  async handleHeaderEvents($event: Event) {
+  async handleHeaderEvents($event: any) {
     console.log('events', $event);
     if (($event as any).name == 'scan') {
       this.scannerService.requestPermission(
