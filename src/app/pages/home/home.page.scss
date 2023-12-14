@@ -1,11 +1,15 @@
 // For now pasting code for testing purpose Needs to be removed
-
+.animation-background {
+  background-color: #F2F2F2;
+}
 .djp-cards-container{
   padding: 0.2rem 1rem;
 }
 .djp-card {
+  position: relative;
   padding-bottom: 1rem;
   &__img {
+    border-radius: 16px;
     height: 194px;
     width: 100%;
     overflow: hidden;
@@ -78,5 +82,20 @@
       right: 0;
       text-align: center;
     }
+  }
+}
+
+.landscape-icon{ 
+  position: absolute;
+    width: 100%;
+    background: transparent;
+    bottom: 3.5rem;
+    z-index: 9999;
+    background: black;
+    opacity: 0.5;
+  ion-icon {
+    float: right;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
   }
 }

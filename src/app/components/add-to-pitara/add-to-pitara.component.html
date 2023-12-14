@@ -1,12 +1,12 @@
 <div class="inner-content">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button class="add-to">Add to Pitara</ion-button>
+      <ion-button color="medium">{{'Add to Pitara' | translate}}</ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button [strong]="true" (click)="newPitaraList()" class="new-pitara">
         <ion-icon name="add-circle-outline" style="padding-right: 4px;"></ion-icon>
-        New Pitara
+        {{'New Pitara' | translate}}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -21,6 +21,6 @@
   </ion-radio-group>
   <hr style="border: 1px solid lightgray;">
   <ion-toolbar>
-    <ion-button class="btn-info" slot="end" [strong]="true" color="warning" (click)="saveContent()">Done</ion-button>
+    <ion-button class="btn-info" slot="end" [strong]="true" color="warning" (click)="saveContent()">{{'Done' | translate}}</ion-button>
   </ion-toolbar>
 </div>

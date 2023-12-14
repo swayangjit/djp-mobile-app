@@ -28,7 +28,7 @@ export class ApplicationHeaderComponent  implements OnInit {
     this.appInfo = await this.utilService.getAppInfo();
     this.filters = [];
     this.headerService.filterConfigEmitted$.subscribe((val: any) => {
-      this.filters = val;
+      this.filters = val.filter;
     })
   }
 

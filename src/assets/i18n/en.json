@@ -27,8 +27,6 @@
     "Select Language": "Select Language",
     "SEARCH_HINT": "Search",
     "QrScan Result": "QrScan Result", 
-    
-    
     "Today's Story": "Today's Story",
     "search": "Search",
     "all": "All",
@@ -57,5 +55,11 @@
             "m03":"Once upon a time, there lived a boy named Ravi in a city named Behtal.",
             "m04":"Do you want another story?"
         }
-    }
+    },
+    "Add to Pitara": "Add to Pitara",
+    "New Pitara": "New Pitara",
+    "Done": "Done",
+    "New playlist": "New playlist",
+    "Cancel": "Cancel",
+    "Create": "Create"
 }

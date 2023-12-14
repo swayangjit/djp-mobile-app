@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, NavParams } from '@ionic/angular';
+import { UtilService } from 'src/app/services';
 import { PlayList, PlayListContent } from 'src/app/services/playlist/models/playlist.content';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { NewPlaylistModalComponent } from '../new-playlist-modal/new-playlist-modal.component';
@@ -18,7 +19,8 @@ export class AddToPitaraComponent  implements OnInit {
     private playListService: PlaylistService,
     private navParams: NavParams,
     private modalCtrl: ModalController,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private utilService: UtilService) { }
 
   async ngOnInit() {
     this.content = this.navParams.get('content')

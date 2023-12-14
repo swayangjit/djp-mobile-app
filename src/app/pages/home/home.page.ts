@@ -26,6 +26,7 @@ import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 })
 export class HomePage implements OnInit, OnTabViewWillEnter {
   refresh: boolean = false;
+  showSheenAnimation: boolean = true;
   // contents!: Array<Content>
   contentList: Array<any> = [
     {
@@ -50,7 +51,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   languages!: Array<Language>
   isOpen: boolean = false;
   configContents!: Array<any>;
-  langModalOpen: boolean = false;
   optModalOpen: boolean = false;
   @ViewChild('refresher', { static: false }) refresher!: IonRefresher;
   networkConnected: boolean = false;
@@ -80,6 +80,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       await this.contentService.deleteAllContents()
       this.contentService.saveContents(content).then()
       if(content.length > 0) {
+        this.showSheenAnimation = false;
         content.forEach((ele: any) => {
           this.configContents.push(ele)
         });
@@ -91,6 +92,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     if(forceRefresh) {
       this.getServerMetaConfig();
     } else if(!this.networkConnected) {
+      this.showSheenAnimation = false;
       this.configContents = [];
       this.configContents = await this.contentService.getAllContent();
       if (this.configContents.length == 0) this.getServerMetaConfig();
@@ -103,8 +105,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     let config = await this.configService.getConfigMeta();
     this.initialiseSources(config.sourceConfig, config.metadataMapping);
     this.filters = config.filters.sort((a: Filter, b: Filter) => a.index - b.index);
-    this.headerService.filterEvent(this.filters);
     this.languages = config.languages.sort((a: Language, b: Language) => a.identifier.localeCompare(b.identifier));
+    this.headerService.filterEvent({filter: this.filters, languages: this.languages});
   }
 
   async tabViewWillEnter() {
@@ -112,39 +114,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   }
 
   async ionViewWillEnter() {
-    this.headerService.headerEventEmitted$.subscribe((name: any) => {
-      if(name == "profile") {
-        if(!this.langModalOpen) {
-          this.presentModal();
-          this.langModalOpen = true
-        }
-      } else if(name == "search") {
-        // api call on search text
-        this.router.navigate(['/search']);
-      } else if(name == "scan") {
-        this.router.navigate(['/qr-scan-result'])
-      }
-    })
     this.headerService.showHeader('Title', false);
-  }
-
-  async presentModal() {
-    const modal = await this.modalCtrl.create({
-      component: LangaugeSelectComponent,
-      componentProps: {
-        languages: this.languages
-      },
-      cssClass: 'lang-modal',
-      breakpoints: [0.3],
-      initialBreakpoint: 0.3,
-      handle: false,
-      handleBehavior: "none"
-    });
-    await modal.present();
-    modal.onDidDismiss().then((_ => {
-      console.log('dismiss');
-      this.langModalOpen = false
-    }));
   }
 
   async moreOtions(content: any) {
@@ -167,6 +137,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     }
 
     modal.onDidDismiss().then((result: any) => {
+      this.optModalOpen = false;
       if(result.data && result.data.type === 'addToPitara') {
          this.addContentToMyPitara(result.data.content || content)
       }
