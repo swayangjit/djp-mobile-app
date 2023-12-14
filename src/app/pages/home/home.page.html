@@ -7,8 +7,22 @@
         <ion-refresher-content refreshingSpinner="circles"></ion-refresher-content>
     </ion-refresher>
 
+    <ion-list class="m-n" *ngIf="showSheenAnimation">
+      <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background djp-cards-container">
+        <div class="djp-card">
+          <div item-start class="djp-card__img">
+            <app-skeleton-item height="15rem" width="30rem"></app-skeleton-item>
+          </div>
+          <div class="djp-card__metadata">
+            <ion-label>
+              <app-skeleton-item height="12px" width="67%"></app-skeleton-item>
+            </ion-label>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
     <!-- Cards -->
-    <div *ngIf="configContents.length > 0">
+    <div *ngIf="!showSheenAnimation && configContents.length > 0">
       <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
         <div class="bot-section" *ngIf="!content.metaData || !content.metaData.name">
           <div class="image">

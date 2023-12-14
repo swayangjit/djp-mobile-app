@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, NavParams } from '@ionic/angular';
+import { UtilService } from 'src/app/services';
 import { PlayList, PlayListContent } from 'src/app/services/playlist/models/playlist.content';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 
@@ -17,7 +18,8 @@ export class AddToPitaraComponent  implements OnInit {
     private playListService: PlaylistService,
     private navParams: NavParams,
     private modalCtrl: ModalController,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private utilService: UtilService) { }
 
   async ngOnInit() {
     this.content = this.navParams.get('content')
@@ -59,7 +61,7 @@ export class AddToPitaraComponent  implements OnInit {
 
   async newPitaraList() {
     const alert = await this.alertController.create({
-      header: 'New playlist',
+      header: this.utilService.translateMessage('New playlist'),
       inputs: [
         {
           name: 'name',
@@ -67,7 +69,7 @@ export class AddToPitaraComponent  implements OnInit {
         }],
       buttons: [
         {
-          text: 'Cancel',
+          text: this.utilService.translateMessage('Cancel'),
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
@@ -75,7 +77,7 @@ export class AddToPitaraComponent  implements OnInit {
           }
         },
         {
-          text: 'Create',
+          text: this.utilService.translateMessage('Create'),
           role: 'create',
           handler: (alertData) => {
             console.log(alertData.name);

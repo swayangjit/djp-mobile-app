@@ -4,21 +4,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApplicationHeaderComponent } from './application-header/application-header.component';
-import { FilterComponent } from './filter/filter.component';
 import { ContentCardComponent } from './content-card/content-card.component';
 import { StorageService, TelemetryService, UtilService } from '../services';
 import { LangaugeSelectComponent } from './langauge-select/langauge-select.component';
 import { SheetModalComponent } from './sheet-modal/sheet-modal.component';
 import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
+import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
 
 @NgModule({
     declarations: [
         ApplicationHeaderComponent,
-        FilterComponent,
         ContentCardComponent,
         LangaugeSelectComponent,
         SheetModalComponent,
-        AddToPitaraComponent
+        AddToPitaraComponent,
+        SkeletonItemComponent
     ],
     imports: [
         CommonModule,
@@ -30,11 +30,11 @@ import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
     ],
     exports: [
         ApplicationHeaderComponent,
-        FilterComponent,
         ContentCardComponent,
         LangaugeSelectComponent,
         SheetModalComponent,
-        AddToPitaraComponent
+        AddToPitaraComponent,
+        SkeletonItemComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [

@@ -27,34 +27,10 @@
     "Select Language": "Select Language",
     "SEARCH_HINT": "Search",
     "QrScan Result": "QrScan Result", 
-    
-    
-    "Today's Story": "Today's Story",
-    "search": "Search",
-    "all": "All",
-    "board": "Board",
-    "medium": "Medium",
-    "subject": "Subject",
-    "mathematics": "Mathematics",
-    "english": "English",
-    "vegetableSorting": "Vegetable Sorting",
-    "magicofnumbers": "magic of numbers",
-    "recentlyviewed": "Recently Viewed",
-    "seeAll": "See All",
-    "birdsounds": "Bird sounds",
-    "cardtitle": "Card Title",
-    "parents": "Parents",
-    "teacher": "Teacher",
-    "tribal": "Tribal",
-    "handicapped": "Handicapped",
-    "mybox": "My Box",
-    "playlist": "Play List",
-    "chat-bot":{
-        "messages":{
-            "m01":"Activity: My Hygiene Checklist Age Group: 4 to 6 years Materials Required: Chart Paper",
-            "m02":"Once upon a time, there lived a boy named Ravi in a city named Behtal.  Once upon a time, there lived a boy named Ravi in a city named Behtal.  Once upon a time, there lived a boy named Ravi in a city named Behtal.  Once upon a time, there lived a boy named Ravi in a city named Behtal.  Once upon a time, there lived a boy named Ravi in a city named Behtal. ",
-            "m03":"Once upon a time, there lived a boy named Ravi in a city named Behtal.",
-            "m04":"Do you want another story?"
-        }
-    }
+    "Add to Pitara": "Add to Pitara",
+    "New Pitara": "New Pitara",
+    "Done": "Done",
+    "New playlist": "New playlist",
+    "Cancel": "Cancel",
+    "Create": "Create"
 }

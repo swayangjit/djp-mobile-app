@@ -6,15 +6,17 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { ComponentsModule } from "../../components/components.module";
 
 @NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    HomePageRoutingModule,
-    TranslateModule
-  ],
-  declarations: [HomePage]
+    declarations: [HomePage],
+    imports: [
+        IonicModule,
+        CommonModule,
+        FormsModule,
+        HomePageRoutingModule,
+        TranslateModule,
+        ComponentsModule
+    ]
 })
 export class HomePageModule {}

@@ -23,8 +23,8 @@ export class AppHeaderService {
   private sideMenuItemEvent = new Subject<any>();
   sideMenuItemEventEmitted$ = this.sideMenuItemEvent.asObservable();
 
-  filterEvent(filter: any) {
-    this.filterConfig.next(filter);
+  filterEvent(val: any) {
+    this.filterConfig.next(val);
   }
 
   sidebarEvent(event: any) {
