@@ -162,7 +162,7 @@ export class ContentService {
               mimeType: content.mimeType,
               url: content.streamingUrl,
               focus: '',
-              keyword: '',
+              keywords: [],
             }
           })
         })

@@ -11,6 +11,12 @@ export interface ContentMetaData {
     description: string;
     mimeType: string;
     url: string;
-    focus: string;
-    keyword: string;
+    focus?: string;
+    domain?: string,
+    curricularGoal?: string,
+    competencies?: string[],
+    language?: string,
+    category?: string,
+    audience?: string,
+    keywords?: string[]
 }

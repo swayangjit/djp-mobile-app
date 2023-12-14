@@ -48,19 +48,20 @@ export class AppComponent implements OnInit {
     console.log('events', $event);
     if (($event as any).name == 'scan') {
       this.scannerService.requestPermission(
-        (text) => {
-          console.log("Scan Result", text);
+        (scannedData) => {
+          if (scannedData === 'cancel' ||
+              scannedData === 'cancel_hw_back' ||
+              scannedData === 'cancel_nav_back') {
+                return;
+              }
+          console.log("Scan Result", scannedData);
           let scannenValue = ''
-          const execArray = (new RegExp('(\/dial\/(?<djp>[a-zA-Z0-9]+))')).exec(text);
+          const execArray = (new RegExp('(\/dial\/(?<djp>[a-zA-Z0-9]+))')).exec(scannedData);
           if (execArray && execArray.length > 1) {
             scannenValue = execArray[2]
           }
           console.log('Scanned Value', scannenValue);
           this.router.navigate(['/qr-scan-result'], {state: {scannedData: scannenValue}})
-          // this.contentService.getContents(scannenValue).then((result) => {
-          //   console.log('Result: ', result);
-            
-          // })
         },
         (error) => {
           console.warn(error);

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ApiPreprocessor } from '../api-preprocessor';
-import { APIConstants, Content } from '../../appConstants';
+import { APIConstants } from '../../appConstants';
 import { ApiService } from '../api.service';
 import { PreprocessorService } from './preprocessor.service';
 import { Mapping, MappingElement, Source } from '../config/models/config';
-import { ContentMetaData } from '../content/models/content';
+import { Content, ContentMetaData } from '../content/models/content';
 import { youtubeContentArr } from 'src/app/pages/player/playerData';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class SunbirdPreprocessorService implements ApiPreprocessor {
     private preprocessService: PreprocessorService) { }
 
   async process(source: Source, mappingElement: MappingElement | undefined) {
-    this.botConfig = { source: '', sourceType: '', metaData: { name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '', focus: '', keyword: '' } };
+    this.botConfig = { source: '', sourceType: '', metaData: { name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '' } };
     this.processorContentList = [];
     // APi call base url
     let searchData: any = await this.apiService.post(source.baseURL + '/' + APIConstants.SEARCH_API, { 'request': source['searchCriteria'] });
@@ -27,7 +27,7 @@ export class SunbirdPreprocessorService implements ApiPreprocessor {
 
       contentList.forEach((content: any, i: number) => {
         if (mappingElement) {
-          const processedContent: Content = { source: source.sourceName, sourceType: source.sourceType, metaData: { name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '', focus: '', keyword: '' } };
+          const processedContent: Content = { source: source.sourceName, sourceType: source.sourceType, metaData: { name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '', focus: '' } };
           Object.keys(mappingElement.mapping).forEach((key: string) => {
             const value = mappingElement.mapping[key as keyof Mapping]
             processedContent.metaData[key as keyof ContentMetaData] = content[value] ?? undefined
