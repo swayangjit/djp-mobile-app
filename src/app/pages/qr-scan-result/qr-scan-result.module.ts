@@ -8,15 +8,17 @@ import { QrScanResultPageRoutingModule } from './qr-scan-result-routing.module';
 
 import { QrScanResultPage } from './qr-scan-result.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { ComponentsModule } from "../../components/components.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    QrScanResultPageRoutingModule,
-    TranslateModule
-  ],
-  declarations: [QrScanResultPage]
+    declarations: [QrScanResultPage],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        QrScanResultPageRoutingModule,
+        TranslateModule,
+        ComponentsModule
+    ]
 })
 export class QrScanResultPageModule {}

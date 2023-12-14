@@ -1,8 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { Content, ContentSrc, PlayerType } from 'src/app/appConstants';
+import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 import { AppHeaderService } from 'src/app/services';
+import { ContentService } from 'src/app/services/content/content.service';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 
 @Component({
@@ -13,11 +17,21 @@ import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
   configContents!: Array<any>
   optModalOpen: boolean = false;
+  showSheenAnimation: boolean = true;
+  scanText: string = '';
   constructor(
     private headerService: AppHeaderService,
     private location: Location,
     private modalCtrl: ModalController,
-  ) { }
+    private contentService: ContentService,
+    private router: Router
+  ) { 
+    let extras = this.router.getCurrentNavigation()?.extras;
+    if(extras) {
+      this.scanText = extras.state?.['scannedData'];
+      console.log('scan text ', this.scanText);
+    }
+  }
 
   tabViewWillEnter(): void {
     this.headerService.showHeader('QrScan Result', true, []);
@@ -30,19 +44,23 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
         this.location.back();
       } 
     })
-    this.configContents = [{metaData: {name: 'Res 1'}}, {metaData: {name: 'res 2'}}, {metaData: {name: 'res 3'}}]
+    this.configContents = [];
+    // this.configContents = [{metaData: {name: 'Res 1'}}, {metaData: {name: 'res 2'}}, {metaData: {name: 'res 3'}}]
   }
 
-  navigateBack() {
-    this.location.back();
-  }
   ionViewWillEnter() {
     this.headerService.showHeader('QrScan Result', true, []);
     this.headerService.showStatusBar();
+    this.contentService.getContents(this.scanText).then((result) => {
+      this.showSheenAnimation = false;
+      console.log('Result: ', result);
+      this.configContents = result;
+    })
   }
 
-  playContent(event: any, content: any) {
-
+  async playContent(event: Event, content: Content) {
+    this.contentService.markContentAsViewed(content)
+    await this.router.navigate(['/player'], {state: {content}});
   }
 
   async moreOtions(content: any) {
@@ -63,8 +81,29 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
       });
       await modal.present();
     }
-    modal.onDidDismiss().then(() => {
+    modal.onDidDismiss().then((result: any) => {
       this.optModalOpen = false;
+      if(result.data && result.data.type === 'addToPitara') {
+          this.addContentToMyPitara(result.data.content || content)
+      }
+    });
+  }
+
+  async addContentToMyPitara(content: ContentSrc) {
+    const modal = await this.modalCtrl.create({
+      component: AddToPitaraComponent,
+      componentProps: {
+        content
+      },
+      cssClass: 'add-to-pitara',
+      breakpoints: [0, 1],
+      showBackdrop: false,
+      initialBreakpoint: 1,
+      handle: false,
+      handleBehavior: "none"
+    });
+    await modal.present();
+    modal.onWillDismiss().then((result) => {
     });
   }
 }

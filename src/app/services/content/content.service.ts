@@ -140,7 +140,7 @@ export class ContentService {
     return this.apiService.get(url);
   }
 
-  public getContents(query: string): Promise<any> {
+  public getContents(query: string): Promise<Array<Content>> {
     return this.searchContentInDiksha(query)
       .then((response: HttpResponse) => {
         return this.getCollectionHierarchy(
@@ -149,11 +149,28 @@ export class ContentService {
       })
       .then((hierarchyResponse) => {
         this.showAllChild(hierarchyResponse.result.content)
-        console.log(this.results);
-        return this.results;
+        const contentList: Array<Content> = []
+        this.results.map((content: any) => {
+          contentList.push({
+            source: 'sunbird',
+            sourceType: 'Diksha',
+            metaData: {
+              identifier: content.identifier,
+              name: content.name,
+              thumbnail: content.posterImage,
+              description: content.name,
+              mimeType: content.mimeType,
+              url: content.streamingUrl,
+              focus: '',
+              keyword: '',
+            }
+          })
+        })
+        return contentList;
       })
       .catch((error) => {
         console.error(error);
+        throw error;
       });
   }
 
