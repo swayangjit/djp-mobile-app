@@ -49,7 +49,7 @@ export class CreatePlaylistPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.headerService.showHeader('create new contentList', true)
+    this.headerService.showHeader('create New Playlist', true)
   }
 
   isContentSelect(event: any, index: any) {

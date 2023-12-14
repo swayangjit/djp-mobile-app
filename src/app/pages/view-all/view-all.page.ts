@@ -82,7 +82,11 @@ export class ViewAllPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.headerService.showHeader('new play list', true);
+    if (this.type === 'recentlyviewed') {
+      this.headerService.showHeader('Recently Viewed', true);
+    } else if (this.type === 'playlist') {
+      this.headerService.showHeader('Select from Recently Viewed', true);
+    }
     this.getPlaylistContent();
   }
 
@@ -104,6 +108,10 @@ export class ViewAllPage implements OnInit {
         this.selectedContents.push(e);
       }
     });
+   }
+
+   fileUploading() {
+     console.log('upload files from local')
    }
 
 }

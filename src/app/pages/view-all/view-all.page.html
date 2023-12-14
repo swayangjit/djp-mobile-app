@@ -3,7 +3,7 @@
   <!-- recentlyviewed -->
   <div class="djp-grid-slider">
     <div class="djp-grid-slider__header" *ngIf="type==='recentlyviewed'">
-        <div class="djp-grid-slider__header__add">Recently Viewed</div>
+        <div class="djp-grid-slider__header__add">{{'Recently Viewed' | translate}}</div>
     </div>
     <div class="new-playlist-container">
       <div class="new-playlist-heading">
@@ -34,9 +34,12 @@
       <div class="count">{{selectedContents.length}}</div>
       <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
     </div>
+    <div class="djp-view-playlist__icon" (click)="fileUploading()">
+      <ion-icon aria-hidden="true" src="assets/icon/file-upload.svg"></ion-icon>
+    </div>
     <div class="djp-view-playlist__button">
       <ion-button fill="outline" class="view-playlist" [disabled]="!selectedContents.length" (click)="createList()">
-        View Playlist
+        {{'viewPlaylist' | translate}}
       </ion-button>
     </div>
   </div>
