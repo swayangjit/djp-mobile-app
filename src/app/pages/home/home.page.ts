@@ -25,7 +25,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   refresh: boolean = false;
   showSheenAnimation: boolean = true;
   contentList: Array<Content> = []
-
   contents!: Array<ContentSrc>;
   filters!: Array<Filter>
   languages!: Array<Language>
