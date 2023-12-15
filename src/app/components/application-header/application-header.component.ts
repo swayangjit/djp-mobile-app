@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AppHeaderService, StorageService, UtilService } from '../../../app/services';
-import { TelemetryService } from '../../../app/services/telemetry/telemetry.service';
-import { telemetryConfig } from '../../../app/services/telemetry/telemetryConstants';
+import { AppHeaderService, UtilService } from '../../../app/services';
 import { MenuController } from '@ionic/angular';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
@@ -17,8 +15,8 @@ export class ApplicationHeaderComponent  implements OnInit {
   @Output() sideMenuItemEvent = new EventEmitter();
   isMenuOpen: boolean = false;
   filters: Array<any> = []
+  defaultFilter!: any;
   constructor(private utilService: UtilService,
-    private storageService: StorageService,
     private telemetryGeneratorService: TelemetryGeneratorService,
     public menuCtrl: MenuController,
     public headerService: AppHeaderService
@@ -27,8 +25,10 @@ export class ApplicationHeaderComponent  implements OnInit {
   async ngOnInit() {
     this.appInfo = await this.utilService.getAppInfo();
     this.filters = [];
+    this.defaultFilter = {};
     this.headerService.filterConfigEmitted$.subscribe((val: any) => {
       this.filters = val.filter;
+      this.defaultFilter = val.defaultFilter;
     })
   }
 

@@ -3,7 +3,7 @@
     <div class="header-content">
       <ion-buttons slot="start" class="start-icon">
         <ion-button [hidden]="headerConfig?.showbackButton">
-          <ion-icon aria-hidden="true" class="pitara-icon" src="assets/images/pitara-empty-box.svg"></ion-icon>
+          <ion-icon aria-hidden="true" class="pitara-icon" src="assets/icon/DJPLogo.svg"></ion-icon>
         </ion-button>
         <!-- Back button image -->
         <ion-button [hidden]="!headerConfig?.showbackButton" (click)="emitEvent($event, 'back')">
@@ -37,7 +37,7 @@
       <ion-chip class="pills" (click)="toggleMenu()">
         <ion-icon aria-hidden="true" src="assets/icon/list.svg"></ion-icon>
       </ion-chip>
-      <ion-chip class="pills active">{{"All" | translate }}</ion-chip>
+      <ion-chip class="pills active">{{defaultFilter?.label | translate }}</ion-chip>
       <div *ngFor="let filter of filters; let i=index">
         <ion-chip class="pills">{{filter.label | translate }}</ion-chip>
       </div>
@@ -62,6 +62,9 @@
   </ion-header>
   <ion-content class="ion-padding">
     <ion-list class="sb-menu-list">
+      <ion-item lines="none">
+        <ion-label class="sb-menu-item" role="button" menuClose>{{defaultFilter?.label | translate}}</ion-label>
+      </ion-item>
       <ion-item lines="none" *ngFor="let item of filters" (click)="emitSideMenuItemEvent($event, item)">
         <ion-label class="sb-menu-item" role="button" menuClose>{{item.label | translate}}</ion-label>
       </ion-item>

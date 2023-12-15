@@ -13,7 +13,7 @@ const config: CapacitorConfig = {
       androidIsEncryption: false
     },
     SplashScreen: {
-      "launchShowDuration": 100
+      "launchShowDuration": 10
     },
   }
 };

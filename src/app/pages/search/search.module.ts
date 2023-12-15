@@ -8,15 +8,17 @@ import { SearchPageRoutingModule } from './search-routing.module';
 
 import { SearchPage } from './search.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { ComponentsModule } from "../../components/components.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SearchPageRoutingModule,
-    TranslateModule
-  ],
-  declarations: [SearchPage]
+    declarations: [SearchPage],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        SearchPageRoutingModule,
+        TranslateModule,
+        ComponentsModule
+    ]
 })
 export class SearchPageModule {}

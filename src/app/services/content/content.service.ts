@@ -159,10 +159,19 @@ export class ContentService {
               name: content.name,
               thumbnail: content.posterImage,
               description: content.name,
-              mimeType: content.mimeType,
+              mimetype: content.mimetype,
               url: content.streamingUrl,
-              focus: '',
-              keyword: '',
+              focus: content.focus,
+              keyword: content.keyword,
+              domain: content.domain,
+              curriculargoal: content.curriculargoal,
+              competencies: content.competencies,
+              language: content,
+              category: content,
+              audience: content.audience,
+              status: content,
+              createdon: content,
+              lastupdatedon: content
             }
           })
         })

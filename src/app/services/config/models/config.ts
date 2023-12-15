@@ -1,20 +1,31 @@
 export interface Config {
-    sourceConfig: SourceConfig;
-    metadataMapping: MetadataMapping;
-    filters: Array<Filter>;
+    pageConfig: Array<PageConfig>,
     languages: Language[];
 }
 
+export interface PageConfig {
+    pageId: string,
+    defaultFilter: {
+        id: string,
+        label: string,
+        query: any,
+        filters: any
+    },
+    additionalFilters: Array<Filter>
+}
+
 export interface Filter {
-    identifier: string;
-    label: string;
-    index: number;
-    active: boolean;
+    id: string,
+    label: string,
+    query: any,
+    filters: any,
+    index: number,
 }
 
 export interface Language {
-    identifier: string;
-    label: string;
+    id: string,
+    label: string,
+    default: boolean
 }
 
 export interface MetadataMapping {

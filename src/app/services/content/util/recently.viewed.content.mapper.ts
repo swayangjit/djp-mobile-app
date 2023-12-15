@@ -7,7 +7,7 @@ export class RecentlyViewedContentMapper {
             [RecentlyViewedContentEntry.COLUMN_NAME_IDENTIFIER]: identifier,
             [RecentlyViewedContentEntry.COLUMN_NAME_CONTENT_IDENTIFIER]: content.metaData.identifier,
             [RecentlyViewedContentEntry.COLUMN_NAME_UID]: uid,
-            [RecentlyViewedContentEntry.COLUMN_NAME_MIME_TYPE]: content.metaData.mimeType,
+            [RecentlyViewedContentEntry.COLUMN_NAME_MIME_TYPE]: content.metaData.mimetype,
             [RecentlyViewedContentEntry.COLUMN_NAME_TIME_STAMP]: Date.now(),
         };
     }
@@ -16,7 +16,7 @@ export class RecentlyViewedContentMapper {
         return [
             content.metaData.identifier,
             uid,
-            content.metaData.mimeType,
+            content.metaData.mimetype,
             Date.now(),
         ];
     }

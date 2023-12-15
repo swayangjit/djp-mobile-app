@@ -20,4 +20,16 @@ export class ConfigService {
       console.log('err ', err);
     })
   }
+
+  async getAllContent(req: any) : Promise<any>{
+    console.log('req ', req);
+    return await this.apiService.post(APIConstants.BASE_URL+APIConstants.PAGE_SEARCH_API, req).then((res: any) =>{
+      console.log("res in config file ", res?.data.result);
+      if (res.data.result) {
+        return res.data.result;
+      }
+    }).catch((err: any) => {
+      console.log('err ', err);
+    })
+  }
 }
