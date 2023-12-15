@@ -14,6 +14,8 @@ import { NetworkService } from 'src/app/services/network.service';
 import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
+import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
+import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 
 
 @Component({
@@ -33,6 +35,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   optModalOpen: boolean = false;
   @ViewChild('refresher', { static: false }) refresher!: IonRefresher;
   networkConnected: boolean = false;
+  mimeType = PlayerType
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -44,7 +47,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     private networkService: NetworkService,
     private cacheService: CachingService,
     private domSanitiser: DomSanitizer,
-    private storage: StorageService) {
+    private storage: StorageService,
+    private telemetryGeneratorService: TelemetryGeneratorService) {
     this.configContents = [];
     this.networkService.networkConnection$.subscribe(ev => {
       console.log(ev);
@@ -135,6 +139,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       this.optModalOpen = false;
       if(result.data && result.data.type === 'addToPitara') {
          this.addContentToMyPitara(result.data.content || content)
+      } else if(result.data && result.data.type == 'like') {
+        this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'home', 'home', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''));
       }
     });
   }
@@ -165,18 +171,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
           cont = content
         }
       })
-    }
-  }
-
-  contentLiked(event: Event, content: ContentSrc) {
-    if(event) {
-      content.liked = true;
-    }
-  }
-
-  async shareContent(event: Event, content: ContentSrc) {
-    if((await Share.canShare()).value) {
-      Share.share({text: content.name});
     }
   }
 
