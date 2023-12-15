@@ -72,24 +72,28 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
   }
 
   async handleSearch(data?: any, audio: boolean = false) {
-    let res = await this.searchApi.postSearchContext({text: audio ? data : this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
-    console.log('res ', res);
-    // Content search api call
-    let searchRes = await this.searchApi.postContentSearch({query: res.context, filter: ''});
-    console.log('searchRes ', searchRes);
-    this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes?.result.length, 'search', '' )
-    if(searchRes.result.length > 0) {
-      this.showSheenAnimation = false;
-      let list: any = {};
-      this.searchContentResult = [];
-      searchRes.result.forEach((ele: any) => {
-        list = {}
-        list.source = 'djp'
-        list.sourceType = 'djp-content'
-        list.metaData = ele
-        this.searchContentResult.push(list)
-      });
-      this.contentService.saveContents(this.searchContentResult).then()
+    try {
+      let res = await this.searchApi.postSearchContext({text: audio ? data : this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
+      console.log('res ', res);
+      // Content search api call
+      let searchRes = await this.searchApi.postContentSearch({query: res.context, filter: ''});
+      console.log('searchRes ', searchRes);
+      this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes?.result.length, 'search', '' )
+      if(searchRes.result.length > 0) {
+        this.showSheenAnimation = false;
+        let list: any = {};
+        this.searchContentResult = [];
+        searchRes.result.forEach((ele: any) => {
+          list = {}
+          list.source = 'djp'
+          list.sourceType = 'djp-content'
+          list.metaData = ele
+          this.searchContentResult.push(list)
+        });
+        this.contentService.saveContents(this.searchContentResult).then()
+      }
+    } catch(e){
+      console.log('error ', e);
     }
   }
 

@@ -76,8 +76,13 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     this.headerService.sideMenuItemEventEmitted$.subscribe(async(val: any) => {
       console.log(val);
       this.showSheenAnimation = true;
-      let res = await this.searchService.postContentSearch({query: val.query, filter: val.filter});
-      this.mappUIContentList(res?.result);
+      try {
+        let res = await this.searchService.postContentSearch({query: val.query, filter: val.filter});
+        this.mappUIContentList(res?.result);
+      }
+      catch(e) {
+        console.log('error', e);
+      }
     })
     this.networkConnected = await this.networkService.getNetworkStatus()
     let forceRefresh = await this.cacheService.getCacheTimeout();
