@@ -140,7 +140,7 @@ export class ViewAllPage implements OnInit {
           identifier: uuidv4(),
           url: path,
           name: fileName,
-          mimeType: ContentUtil.getMimeType(fileName),
+          mimetype: ContentUtil.getMimeType(fileName),
           thumbnail: ''
         }
       })
