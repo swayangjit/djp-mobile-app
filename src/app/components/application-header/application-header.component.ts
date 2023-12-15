@@ -27,8 +27,11 @@ export class ApplicationHeaderComponent  implements OnInit {
     this.filters = [];
     this.defaultFilter = {};
     this.headerService.filterConfigEmitted$.subscribe((val: any) => {
-      this.filters = val.filter;
       this.defaultFilter = val.defaultFilter;
+      this.filters.push(val.defaultFilter);
+      val.filter.forEach((item: any) => {
+        this.filters.push(item);
+      });
     })
   }
 
@@ -56,9 +59,14 @@ export class ApplicationHeaderComponent  implements OnInit {
 
   emitSideMenuItemEvent(event: any, item: string) {
     this.menuCtrl.close().then(() => {
-      this.sideMenuItemEvent.emit({ item });
+      this.handleFilter(item);
     }).catch((e) => {
-      this.sideMenuItemEvent.emit({ item });
+      this.handleFilter(item);
     })
+  }
+
+  handleFilter(filter: any) {
+    this.defaultFilter = filter;
+    this.sideMenuItemEvent.emit({ filter });
   }
 }

@@ -14,8 +14,11 @@ ion-toolbar {
 ion-title {
   font-weight: 700;
   padding: 0 0.5rem 0 0;
-  color: #FF3B53;
   font-size: 1.1rem;
+}
+
+.active-label {
+  color: #FF3B53;
 }
 
 ion-icon {

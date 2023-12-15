@@ -32,7 +32,7 @@ export class AppHeaderService {
   }
 
   sideMenuItemEvents($event: any) {
-    this.sideMenuItemEvent.next($event);
+    this.sideMenuItemEvent.next($event?.filter);
   }
   
   updatePageConfig(config: any) {
