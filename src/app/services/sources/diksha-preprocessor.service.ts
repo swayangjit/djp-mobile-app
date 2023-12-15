@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiPreprocessor } from '../api-preprocessor';
-import { APIConstants, Content, request, sourceConfig } from '../../appConstants';
+import { APIConstants, request, sourceConfig } from '../../appConstants';
 import { ApiService } from '../api.service';
 import { PreprocessorService } from './preprocessor.service';
+import { Content } from '../content/models/content';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,18 @@ export class DikshaPreprocessorService implements ApiPreprocessor {
 
   async process(input: sourceConfig) {
     console.log('sunbird input ', input);
-    this.sunbirdConfig = {source: '', sourceType: '', metaData: {name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '', focus: '', keyword:''}};
+    this.sunbirdConfig = {source: '', sourceType: '', metaData: {
+      name: '', identifier: '', thumbnail: '', description: '', mimetype: '', url: '', focus: '', keyword: '',
+      domain: '',
+      curriculargoal: null,
+      competencies: null,
+      language: '',
+      category: '',
+      audience: [],
+      status: '',
+      createdon: '',
+      lastupdatedon: ''
+    }};
     this.processorArray = [];
     let requestBody = request
     this.sunbirdConfig.sourceType = input.sourceType;
@@ -30,7 +42,7 @@ export class DikshaPreprocessorService implements ApiPreprocessor {
         this.sunbirdConfig.metaData.identifier = data.identifier;
         this.sunbirdConfig.metaData.thumbnail = data.appIcon;
         this.sunbirdConfig.metaData.description = "";
-        this.sunbirdConfig.metaData.mimeType = data.mimeType;
+        this.sunbirdConfig.metaData.mimetype = data.mimetype;
         this.sunbirdConfig.metaData.url = "";
         this.sunbirdConfig.metaData.focus = "";
         this.sunbirdConfig.metaData.keyword = '';

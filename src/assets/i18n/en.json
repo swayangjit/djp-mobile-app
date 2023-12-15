@@ -3,15 +3,16 @@
     "All": "All",
     "Rhymes": "Rhymes",
     "Stories": "Stories",
+    "For Teachers": "For Teachers",
     "Activity": "Activities",
     "Cards": "Cards",
     "Puzzles": "Puzzles",
     "Posters": "Posters",
     "Search": "Search",
     "Home": "Home",
-    "Story Bot": "Story Bot",
-    "Teacher Bot": "Teacher Bot",
-    "Parent Bot": "Parent Bot",
+    "Story Sakhi": "Story Sakhi",
+    "Teacher Sakhi": "Teacher Sakhi",
+    "Parent Sakhi": "Parent Sakhi",
     "My Pitara": "My Pitara",
     "Like": "Like",
     "Share": "Share",
@@ -64,5 +65,7 @@
     "Cancel": "Cancel",
     "Create": "Create",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "Playlist name": "Playlist name",
+    "Save Playlist": "Save Playlist"
 }

@@ -1,7 +1,7 @@
 import { ITelemetryContext } from "./telemetry-request";
 export class TelemetryConstants {
-    static PRODUCER_ID = 'org.ekstep.djp';
-    static PRODUCER_PID = 'org.ekstep';
+    static PRODUCER_ID = 'org.ejp.app';
+    static PRODUCER_PID = 'org.ejp';
 }
 export const initTelemetryContext: ITelemetryContext = {
     config: {

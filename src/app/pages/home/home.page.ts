@@ -1,23 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
-import { ContentSrc, PlayerType} from '../../../app/appConstants';
-import { AppHeaderService, CachingService, PreprocessorService } from '../../../app/services';
+import { ContentSrc, Searchrequest, PlayerType, PageId, Content, ContentMetaData} from '../../../app/appConstants';
+import { AppHeaderService, CachingService, PreprocessorService, StorageService } from '../../../app/services';
 import { Share } from "@capacitor/share";
 import { ContentService } from 'src/app/services/content/content.service';
-import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { ConfigService } from '../../../app/services/config.service';
 import { SunbirdPreprocessorService } from '../../services/sources/sunbird-preprocessor.service';
 import { ModalController } from '@ionic/angular';
-import { LangaugeSelectComponent } from 'src/app/components/langauge-select/langauge-select.component';
 import { Filter, Language, MappingElement, MetadataMapping, SourceConfig } from 'src/app/services/config/models/config';
-import { Content } from 'src/app/services/content/models/content';
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 import { NetworkService } from 'src/app/services/network.service';
 import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
-import { playerConfig } from '../player/playerData';
+import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
+import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 
 
 @Component({
@@ -28,25 +26,7 @@ import { playerConfig } from '../player/playerData';
 export class HomePage implements OnInit, OnTabViewWillEnter {
   refresh: boolean = false;
   showSheenAnimation: boolean = true;
-  // contents!: Array<Content>
-  contentList: Array<any> = [
-    {
-      source: 'sunbird',
-      sourceType:'Diksha',
-      metaData: {
-        identifier: 'do_123',
-        name: '',
-        thumbnail: '',
-        description: '',
-        mimeType: '',
-        url: '',
-        focus: '',
-        keyword: '',
-      }
-  
-    }
-  ]
-
+  contentList: Array<Content> = []
   contents!: Array<ContentSrc>;
   filters!: Array<Filter>
   languages!: Array<Language>
@@ -55,40 +35,55 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   optModalOpen: boolean = false;
   @ViewChild('refresher', { static: false }) refresher!: IonRefresher;
   networkConnected: boolean = false;
+  mimeType = PlayerType
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
     private contentService: ContentService,
-    private playListService: PlaylistService,
     private configService: ConfigService,
     private sunbirdProcess: SunbirdPreprocessorService,
     private preprocessor: PreprocessorService,
     private modalCtrl: ModalController,
     private networkService: NetworkService,
     private cacheService: CachingService,
-    private domSanitiser: DomSanitizer) {
+    private domSanitiser: DomSanitizer,
+    private storage: StorageService,
+    private telemetryGeneratorService: TelemetryGeneratorService) {
     this.configContents = [];
-    // this.contentService.saveContents(this.contentList)
     this.networkService.networkConnection$.subscribe(ev => {
       console.log(ev);
       this.networkConnected = ev;
     })
   }
 
-  async ngOnInit(): Promise<void> {  
-    // this.preprocessor.sourceProcessEmitted$.subscribe(async (content: any) => {
-    //   console.log('content form preprocessor ', content);
-    //   await this.contentService.deleteAllContents()
-    //   this.contentService.saveContents(content).then()
-    //   if(content.length > 0) {
-    //     this.showSheenAnimation = false;
-    //     content.forEach((ele: any) => {
-    //       this.configContents.push(ele)
-    //     });
-    //     console.log("configContents ", this.configContents);
-    //   }
-    // })
-    this.configContents.push(playerConfig)
+  async ngOnInit(): Promise<void> { 
+    let req: Searchrequest = {
+      request: {
+        pageId: '',
+        query: undefined,
+        filters: undefined
+      }
+    }
+    this.headerService.filterConfigEmitted$.subscribe(async (val: any) => {
+      req.request.pageId = PageId.HOME;
+      req.request.query = val.defaultFilter.query;
+      req.request.filters = val.defaultFilter.filters;
+      let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
+      await this.contentService.deleteAllContents()
+      if (content.length > 0) {
+        console.log('content ', content);
+        this.showSheenAnimation = false;
+        let list: any = {};
+        content.forEach((ele: any) => {
+          list = {}
+          list.source = 'djp'
+          list.sourceType = 'djp-content'
+          list.metaData = ele
+          this.configContents.push(list)
+        });
+        this.contentService.saveContents(this.configContents).then()
+      }
+    })
     this.networkConnected = await this.networkService.getNetworkStatus()
     let forceRefresh = await this.cacheService.getCacheTimeout();
     if(forceRefresh) {
@@ -104,13 +99,15 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   }
 
   async getServerMetaConfig() {
-    // let config = await this.configService.getConfigMeta();
-    // this.initialiseSources(config.sourceConfig, config.metadataMapping);
-    // this.filters = config.filters.sort((a: Filter, b: Filter) => a.index - b.index);
-    // this.languages = config.languages.sort((a: Language, b: Language) => a.identifier.localeCompare(b.identifier));
-    this.headerService.filterEvent({filter: this.filters, languages: this.languages});
+    let meta = await this.storage.getData('configMeta');
+    let config = meta ? JSON.parse(meta) : await this.configService.getConfigMeta();
+    console.log('config ', config);
+    config.pageConfig.forEach((config: any) => {
+      this.filters = (config.additionalFilters).sort((a: Filter, b: Filter) => a.index - b.index);
+    })
+    this.languages = config.languages.sort((a: Language, b: Language) => a.id.localeCompare(b.id));
+    this.headerService.filterEvent({defaultFilter: config.pageConfig[0].defaultFilter, filter: this.filters, languages: this.languages});
   }
-
   async tabViewWillEnter() {
     await this.headerService.showHeader('', false);
   }
@@ -142,6 +139,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       this.optModalOpen = false;
       if(result.data && result.data.type === 'addToPitara') {
          this.addContentToMyPitara(result.data.content || content)
+      } else if(result.data && result.data.type == 'like') {
+        this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'home', 'home', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''));
       }
     });
   }
@@ -160,20 +159,18 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
 
   async playContent(event: Event, content: Content) {
     this.contentService.markContentAsViewed(content)
-    if(content.metaData.mimeType !== PlayerType.YOUTUBE) {
+    this.configContents.forEach(cont => {
+      cont.play = false;
+    })
+    if(content.metaData.mimetype !== PlayerType.YOUTUBE) {
       await this.router.navigate(['/player'], {state: {content}});
-    }
-  }
-
-  contentLiked(event: Event, content: ContentSrc) {
-    if(event) {
-      content.liked = true;
-    }
-  }
-
-  async shareContent(event: Event, content: ContentSrc) {
-    if((await Share.canShare()).value) {
-      Share.share({text: content.name});
+    } else {
+      content.play = true;
+      this.configContents.forEach(cont => {
+        if (cont.metaData.identifier === content.metaData.identifier) {
+          cont = content
+        }
+      })
     }
   }
 
@@ -211,6 +208,11 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   }
 
   sanitiseUrl(url: string): SafeResourceUrl {
-    return this.domSanitiser.bypassSecurityTrustResourceUrl(url.replace('watch?v=', 'embed/')+'?controls=1');
+    let sanitizeUrl = url.split('&')[0]
+    return this.domSanitiser.bypassSecurityTrustResourceUrl(sanitizeUrl.replace('watch?v=', 'embed/')+'?autoplay=1&controls=1');
+  }
+
+  loadYoutubeImg(id: string): string {
+    return `https://img.youtube.com/vi/${id}/0.jpg`;
   }
 }

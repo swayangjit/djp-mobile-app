@@ -17,7 +17,18 @@ export class SunbirdPreprocessorService implements ApiPreprocessor {
     private preprocessService: PreprocessorService) { }
 
   async process(source: Source, mappingElement: MappingElement | undefined) {
-    this.botConfig = { source: '', sourceType: '', metaData: { name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '' } };
+    this.botConfig = { source: '', sourceType: '', metaData: {
+      name: '', identifier: '', thumbnail: '', description: '', mimetype: '', url: '', focus: '', keyword: '',
+      domain: '',
+      curriculargoal: null,
+      competencies: null,
+      language: '',
+      category: '',
+      audience: [],
+      status: '',
+      createdon: '',
+      lastupdatedon: ''
+    } };
     this.processorContentList = [];
     // APi call base url
     let searchData: any = await this.apiService.post(source.baseURL + '/' + APIConstants.SEARCH_API, { 'request': source['searchCriteria'] });
@@ -27,10 +38,21 @@ export class SunbirdPreprocessorService implements ApiPreprocessor {
 
       contentList.forEach((content: any, i: number) => {
         if (mappingElement) {
-          const processedContent: Content = { source: source.sourceName, sourceType: source.sourceType, metaData: { name: '', identifier: '', thumbnail: '', description: '', mimeType: '', url: '', focus: '' } };
+          const processedContent: Content = { source: source.sourceName, sourceType: source.sourceType, metaData: {
+            name: '', identifier: '', thumbnail: '', description: '', mimetype: '', url: '', focus: '', keyword: '',
+            domain: '',
+            curriculargoal: null,
+            competencies: null,
+            language: '',
+            category: '',
+            audience: [],
+            status: '',
+            createdon: '',
+            lastupdatedon: ''
+          } };
           Object.keys(mappingElement.mapping).forEach((key: string) => {
             const value = mappingElement.mapping[key as keyof Mapping]
-            processedContent.metaData[key as keyof ContentMetaData] = content[value] ?? undefined
+            // processedContent.metaData[key as keyof ContentMetaData] = content[value] ?? undefined
           })
           // Required ***
           // if(i%5 == 0) {
