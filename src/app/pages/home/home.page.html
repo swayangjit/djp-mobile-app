@@ -40,7 +40,7 @@
         <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
           <div class="djp-card__img" (click)="playContent($event, content)">
             <ion-img *ngIf="content.metaData.thumbnail && !content.play" [src]="content.metaData.thumbnail" alt=""/>
-            <ion-img *ngIf="!content.metaData.thumbnail && !content.play" [src]="loadYoutubeImg(content.metaData.url)" alt=""/>
+            <ion-img *ngIf="!content.metaData.thumbnail && !content.play" [src]="loadYoutubeImg(content.metaData.identifier)" alt=""/>
             <div *ngIf="content.metaData.mimetype === 'video/x-youtube' && content.play">
               <iframe title="" width="380" height="200" allowfullscreen [src]="sanitiseUrl(content.metaData.url)"></iframe>
             </div>

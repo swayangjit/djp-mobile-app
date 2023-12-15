@@ -218,8 +218,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     return this.domSanitiser.bypassSecurityTrustResourceUrl(sanitizeUrl.replace('watch?v=', 'embed/')+'?autoplay=1&controls=1');
   }
 
-  loadYoutubeImg(url: string): string {
-    let id = url.split('&')[0].split('=')[1];
+  loadYoutubeImg(id: string): string {
     return `https://img.youtube.com/vi/${id}/0.jpg`;
   }
 }

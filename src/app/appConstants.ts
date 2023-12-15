@@ -22,6 +22,9 @@ export class APIConstants {
     static BASE_URL = 'http://152.67.162.156:9000/';
     static CONFIG = 'v1/config/read';
     static PAGE_SEARCH_API = 'v1/page/search';
+    static SEARCH_BASE_URL = 'http://129.154.42.158:8000/';
+    static CONTEXT_SEARCH = 'v1/context';
+    static CONTENT_SEARCH_API = 'v1/content/search';
     static SEARCH_API = 'api/content/v1/search';
     static TELEMETRY_SYNC = 'v1/telemetry';
     static PRODUCER_ID = 'org.ekstep.djp';
