@@ -46,4 +46,14 @@ export class ContentUtil {
     }
     return mimeType;
   }
+
+  public static getImagePath(type: any): string{
+    let mimeType = type.split('/').pop();
+    let mimeTypes: any = {
+      mp3: '/assets/images/Audio.png',
+      mp4: '/assets/images/Video.png',
+      pdf: '/assets/images/PDF.png'
+    }
+    return mimeTypes[mimeType];
+  }
 }

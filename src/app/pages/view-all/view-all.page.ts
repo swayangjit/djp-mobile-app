@@ -6,7 +6,7 @@ import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { Location } from '@angular/common';
 import { PlayListContent } from 'src/app/services/playlist/models/playlist.content';
-import { MimeType } from 'src/app/appConstants';
+import { MimeType, PlayerType } from 'src/app/appConstants';
 import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { Content } from 'src/app/services/content/models/content';
 import { v4 as uuidv4 } from "uuid";
@@ -69,7 +69,8 @@ export class ViewAllPage implements OnInit {
   async getRecentlyviewedContent() {
     await this.contentService.getRecentlyViewedContent('guest').then((result) => {
       this.contentList = result;
-      this.contentList.map((e: { metaData: string; }) => e.metaData = (typeof e.metaData === 'string') ? JSON.parse(e.metaData) : e.metaData)
+      this.contentList.map((e) => e.metaData = (typeof e.metaData === 'string') ? JSON.parse(e.metaData) : e.metaData)
+      this.contentList = this.getContentImgPath(this.contentList);
     }).catch((err) => {
       console.log('error', err)
     })
@@ -127,10 +128,10 @@ export class ViewAllPage implements OnInit {
   async openFilePicker() {
     let mimeType: string[] = [MimeType.PDF];
     mimeType = mimeType.concat(MimeType.VIDEOS).concat(MimeType.AUDIO);
-    const { files } = await FilePicker.pickFiles({ types: mimeType, multiple: true, readData: true });
-    const localContents: Array<Content> = []
-    files.map(async (file: any) => {
-      const path: string = await this.resolveNativePath(file.path!) as string
+    const { files } = await FilePicker.pickFiles({ types: mimeType, multiple: true, readData: false });
+    let localContents: Array<Content> = []
+    for (let i=0; i<files.length; i++) {
+      const path: string = await this.resolveNativePath(files[i].path!)as string;
       console.log('path', path);
       const fileName = path.substring(path.lastIndexOf('/') + 1);
       localContents.push({
@@ -144,8 +145,30 @@ export class ViewAllPage implements OnInit {
           thumbnail: ''
         }
       })
+    }
+    if (localContents.length) {
+      localContents = this.getContentImgPath(localContents, true);
+      this.contentList = localContents.concat(this.contentList);
+    }
+  }
+
+  getContentImgPath(contents: Array<any>, isSelected?: boolean) : Array<any>{
+    contents.forEach((ele) => {
+      if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
+        ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData.identifier);
+      } else {
+        ele.metaData['thumbnail'] = ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
+      }
+      if (isSelected) {
+        ele['isSelected'] = true;
+        this.selectedContents.push(ele);
+      }
     })
-    console.log('localContents:::', localContents);
+    return contents;
+  }
+
+  loadYoutubeImg(id: string): string {
+    return `https://img.youtube.com/vi/${id}/0.jpg`;
   }
 
 }

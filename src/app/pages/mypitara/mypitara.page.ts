@@ -4,8 +4,10 @@ import { IonModal, ModalController } from '@ionic/angular';
 import { EditRemovedModalComponent } from 'src/app/components/edit-removed-modal/edit-removed-modal.component';
 import { AppHeaderService } from 'src/app/services/app-header.service';
 import { ContentService } from 'src/app/services/content/content.service';
+import { ContentUtil } from 'src/app/services/content/util/content.util';
 import { PlayList } from 'src/app/services/playlist/models/playlist.content';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
+import {PlayerType} from 'src/app/appConstants';
 
 @Component({
   selector: 'app-mypitara',
@@ -56,6 +58,13 @@ export class MyPitaraPage {
   async getRecentlyviewedContent() {
     await this.contentService.getRecentlyViewedContent('guest').then((result) => {
       this.contentList = result;
+      this.contentList.forEach((ele: any) => {
+        if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
+          ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData.identifier)
+        } else {
+          ele.metaData['thumbnail'] = ContentUtil.getImagePath(ele.metaData.mimeType || ele.metaData.mimetype)
+        }
+      })
       console.log('contentList', this.contentList);
     }).catch((err) => {
       console.log('error', err)
@@ -90,5 +99,9 @@ export class MyPitaraPage {
         this.deletePlaylist(content);
       }
     });
+  }
+
+  loadYoutubeImg(id: string): string {
+    return `https://img.youtube.com/vi/${id}/0.jpg`;
   }
 }
