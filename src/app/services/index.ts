@@ -11,3 +11,4 @@ export { SunbirdPreprocessorService } from './sources/sunbird-preprocessor.servi
 export { DikshaPreprocessorService } from './sources/diksha-preprocessor.service';
 export { CachingService } from './caching.service';
 export { RecordingService } from './recording.service';
+export { SearchService } from './search.service';

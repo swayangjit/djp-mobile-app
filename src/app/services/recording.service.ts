@@ -1,13 +1,16 @@
-import { ElementRef, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecordingService implements OnInit {
+  private searchEvent = new Subject<any>();
+  searchEventRecorded$ = this.searchEvent.asObservable();
   recording = false;
   storedFileNames:Array<any> = [];
   durationDisplay = '';
@@ -55,13 +58,8 @@ export class RecordingService implements OnInit {
       if(result.value && result.value.recordDataBase64) {
         const recordData = result.value.recordDataBase64;
         console.log('..................', recordData);
-        if (type == "base64") {
-          const fileName = new Date().getTime() + '.txt';
-          await Filesystem.writeFile({
-            path: fileName,
-            directory: Directory.Data,
-            data: recordData
-          })
+        if (type == "search") {
+          this.searchEvent.next(recordData);
         } else  {
           const fileName = new Date().getTime() + '.wav';
           await Filesystem.writeFile({
