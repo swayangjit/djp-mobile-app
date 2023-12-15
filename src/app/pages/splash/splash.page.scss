@@ -1,33 +1,49 @@
-.splash-screen-1{
-  background-image: url("../../../assets/images/splash-screen.png");
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-}
+
 ion-content{
   --padding-top: 0;
+  --background: url('../../../assets/images/splash-bg.png') center center / cover no-repeat; /* Set your image path */
 }
 
-.splash-screen {
-  height: 100%;
-  --background: none;
-  .pitara-container {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    .logo{
-      display: flex;
-      flex-direction: column;
-      :first-child{
-        height: 4.5rem;
+.splash-screen{
+  .splash-screen-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    img{
+      &:first-child{
+        width: 100px;
       }
-      :last-child{
-        margin-top: 1rem;
+      &:last-child{
+        width: 36px;
+      }
+    }
+  }
+  .splash-screen-container{
+    position: absolute;
+    top: 16%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    img{
+      width: 75%;
+    }
+    .splash-screen-logo{
+      padding-top: 30px;
+      .logo{
+        margin-bottom: 1.5rem;
+        padding-left: 1rem;
+        img{
+          width: 150px;
+        }
+      }
+      .Jaadui-Pitara-txt{
+        color: #fff;
+        background: #C8252C;
+        padding: 0.3rem 0;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 2px;
       }
     }
   }
