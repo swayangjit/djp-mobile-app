@@ -11,7 +11,7 @@
       </div>
       <div class="new-playlist-card" *ngFor="let content of selectedContents; let i=index">
         <div class="new-playlist-card__image">
-          <img [src] ="content?.metaData?.thumbnail" alt="Playlist Image" class="playlist-card__image-img">
+          <img [src] ="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'"  alt="Playlist Image" class="playlist-card__image-img">
         </div>
         <div class="new-playlist-card__details">
           <div class="new-playlist-card__title">{{content?.metaData?.name}}</div>
@@ -32,7 +32,7 @@
     </div>
     <div class="djp-view-playlist__button">
       <ion-button fill="outline" class="view-playlist" [disabled]="!(playlistName && reSelectedContent.length>0)" (click)="createList()">
-        {{'savePlaylist' | translate}}
+        {{'Save Playlist' | translate}}
       </ion-button>
     </div>
   </div>
