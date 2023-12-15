@@ -16,7 +16,6 @@ ion-toolbar {
   }
 }
 ion-input {
-  // padding: 0.2rem 0 0 1rem !important;
   margin-top: 0.5rem;
   min-height: 3rem !important;
   --border-color: gray !important;
@@ -119,4 +118,5 @@ ion-content {
     text-transform: capitalize;
     width: 80%;
   }
+
 }
