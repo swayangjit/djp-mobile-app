@@ -219,4 +219,30 @@ export namespace DJPTelemetry {
             this.object.rollup = rollup ? rollup : {};
         }
     }
+    
+    export class Search extends Telemetry {
+        private static readonly EID = 'SEARCH';
+
+        public constructor(
+            type: string | undefined,
+            query: string | undefined,
+            filters: any | undefined,
+            sort: any | undefined,
+            env?: string,
+            correlationid?: string,
+            size: number = 0,
+            correlationData: Array<CorrelationData> = []) {
+            super(Search.EID);
+            this.edata = {
+                ...(type ? {type} : {type: ''}),
+                ...(query ? {query} : {}),
+                ...(filters ? {filters} : {}),
+                ...(sort ? {sort} : {}),
+                ...(correlationid ? {correlationid} : {}),
+                ...(size ? {size} : {}),
+            };
+            this.context.cdata = correlationData;
+            this.context.env = env;
+        }
+    }
 }

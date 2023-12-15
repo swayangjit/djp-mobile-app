@@ -25,7 +25,7 @@ export class TelemetryDecorator {
         if (!event.mid) {
             event.mid = mid;
         }
-        this.patchActor(event, '');
+        this.patchActor(event, did);
         this.patchContext(event, sid, did, version, channelId, globalCData);
         if (event.context.cdata) {
             event.context.cdata = [

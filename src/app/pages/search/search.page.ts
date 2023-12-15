@@ -12,6 +12,9 @@ import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.
 import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { ContentService } from 'src/app/services/content/content.service';
 import { Router } from '@angular/router';
+import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
+import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.page.html',
@@ -33,7 +36,8 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
     private searchApi: SearchService,
     private modalCtrl: ModalController,
     private contentService: ContentService,
-    private router: Router
+    private router: Router,
+    private telemetryGeneratorService: TelemetryGeneratorService
   ) { }
   
   ngAfterViewInit(): void {
@@ -73,6 +77,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
     // Content search api call
     let searchRes = await this.searchApi.postContentSearch({query: res.context, filter: ''});
     console.log('searchRes ', searchRes);
+    this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes?.result.length, 'search', '' )
     if(searchRes.result.length > 0) {
       this.showSheenAnimation = false;
       let list: any = {};
@@ -111,6 +116,8 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
       this.optModalOpen = false;
       if(result.data && result.data.type === 'addToPitara') {
          this.addContentToMyPitara(result.data.content || content)
+      } else if(result.data && result.data.type == 'like') {
+        this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'search', 'search', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''))
       }
     });
   }

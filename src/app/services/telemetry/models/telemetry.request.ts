@@ -56,3 +56,14 @@ export class TelemetryEndRequest {
     summaryList?: Array<{ [index: string]: any }>;
     correlationData?: Array<CorrelationData>;
 }
+
+export class TelemetySearchRequest {
+    type?: string;
+    query?: string;
+    filters?:{ [index: string]: string };
+    sort?:{ [index: string]: string };
+    correlationid?: string;
+    size?: number;
+    env?: string;
+    correlationData?: Array<CorrelationData>;
+}

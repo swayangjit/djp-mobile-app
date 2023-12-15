@@ -8,7 +8,7 @@ import { Content } from 'src/app/services/content/models/content';
 import { DomSanitizer } from '@angular/platform-browser';
 import Plyr from 'plyr';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
-import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
+import { CorrelationData, TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import { PlayerType } from 'src/app/appConstants';
 
 @Component({
@@ -23,6 +23,7 @@ export class PlayerPage implements OnInit {
   videoConfig: any;
   playerType: string = '';
   srcUrl: any;
+  cdata: Array<CorrelationData>;
   @ViewChild('pdf') pdf!: ElementRef;
   @ViewChild('video') video!: ElementRef;
   constructor(private router: Router,
@@ -36,11 +37,25 @@ export class PlayerPage implements OnInit {
       this.playerType = this.getPlayerType(this.content.metaData.mimetype);
       this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url);
     }
-    this.telemetryGeneratorService.generateStartTelemetry(
-      'player',
-      new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
-      { l1: this.content?.metaData.identifier! },
-      []);
+    this.cdata = [{
+      'id': this.content?.metaData.language,
+      'type': 'Language'
+      },
+      {
+      'id': this.content?.metaData.category,
+      'type': 'Category'
+      },
+      {
+      'id': this.content?.metaData.mimetype,
+      'type': 'MimeType'
+    }]
+    if(this.playerType == PlayerType.YOUTUBE) {
+      this.telemetryGeneratorService.generateStartTelemetry('content',
+        'player',
+        new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
+        { l1: this.content?.metaData.identifier! },
+        this.cdata);
+    }
   }
 
   private getPlayerType(mimetype: string): string {
@@ -69,6 +84,7 @@ export class PlayerPage implements OnInit {
       ScreenOrientation.lock({ orientation: 'landscape-primary' });
       if (this.playerType == 'pdf') {
         const playerConfig = this.playerConfig;
+        playerConfig.context.cdata = this.cdata;
         const pdfElement = document.createElement('sunbird-pdf-player');
         pdfElement.setAttribute('player-config', JSON.stringify(playerConfig));
         pdfElement.addEventListener('playerEvent', (event) => {
@@ -82,6 +98,7 @@ export class PlayerPage implements OnInit {
         this.pdf.nativeElement.append(pdfElement);
       } else if (this.playerType == "video") {
         const videoplayerConfig = this.videoConfig;
+        videoplayerConfig.context.cdata = this.cdata;
         const epubElement = document.createElement('sunbird-video-player');
         epubElement.setAttribute('player-config', JSON.stringify(videoplayerConfig));
         epubElement.addEventListener('playerEvent', (event) => {
@@ -113,6 +130,11 @@ export class PlayerPage implements OnInit {
   }
 
   closePlayer() {
+    if(this.playerType == PlayerType.YOUTUBE) {
+      this.telemetryGeneratorService.generateEndTelemetry('content', 'play', 'player', 'player', 
+      new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
+      { l1: this.content?.metaData.identifier! },[])
+    }
     this.location.back();
   }
 

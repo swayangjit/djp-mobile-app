@@ -7,6 +7,8 @@ import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pi
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 import { AppHeaderService } from 'src/app/services';
 import { ContentService } from 'src/app/services/content/content.service';
+import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
+import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 
 @Component({
@@ -19,12 +21,14 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
   optModalOpen: boolean = false;
   showSheenAnimation: boolean = true;
   scanText: string = '';
+  mimeType = PlayerType
   constructor(
     private headerService: AppHeaderService,
     private location: Location,
     private modalCtrl: ModalController,
     private contentService: ContentService,
-    private router: Router
+    private router: Router,
+    private telemetryGeneratorService: TelemetryGeneratorService
   ) { 
     let extras = this.router.getCurrentNavigation()?.extras;
     if(extras) {
@@ -85,6 +89,8 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
       this.optModalOpen = false;
       if(result.data && result.data.type === 'addToPitara') {
           this.addContentToMyPitara(result.data.content || content)
+      } else if(result.data && result.data.type == 'like') {
+        this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'qr-scan-result', 'qr-scan-result', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''));
       }
     });
   }
@@ -105,5 +111,9 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
     await modal.present();
     modal.onWillDismiss().then((result) => {
     });
+  }
+
+  loadYoutubeImg(id: string): string {
+    return `https://img.youtube.com/vi/${id}/0.jpg`;
   }
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ITelemetryContext, IProducerdata, IActor, ITelemetry, } from './telemetry-request';
 import { DbService } from '../db/db.service';
 import { StorageService } from '../storage.service';
 import { UtilService } from '../util.service';
@@ -8,7 +7,7 @@ import { ApiService } from '../api.service';
 import { defer, from, mergeMap, Observable, of, zip } from 'rxjs';
 import { Device } from '@capacitor/device';
 import { TelemetrySyncHandler } from './utils/telemetry.sync.handler';
-import { TelemetryEndRequest, TelemetryImpressionRequest, TelemetryInteractRequest, TelemetryStartRequest } from './models/telemetry.request';
+import { TelemetryEndRequest, TelemetryImpressionRequest, TelemetryInteractRequest, TelemetryStartRequest, TelemetySearchRequest } from './models/telemetry.request';
 import { DJPTelemetry } from './models/telemetry';
 import { TelemetryDecorator } from './models/telemetry.decorator';
 import { v4 as uuidv4 } from "uuid";
@@ -68,6 +67,14 @@ export class TelemetryService {
         return this.decorateAndPersist(impression);
     }
 
+    search({
+        type, query, filters, sort, correlationid, size, env, correlationData
+    }: TelemetySearchRequest): Observable<boolean> {
+        const interact = new DJPTelemetry.Search(type!, query!,
+             filters, sort, env, correlationid, size, correlationData);
+        return this.decorateAndPersist(interact);
+    }
+    
     private decorateAndPersist(telemetry: DJPTelemetry.Telemetry): Observable<any> {
         return zip(
             from(this.utilService.getAppInfo()),

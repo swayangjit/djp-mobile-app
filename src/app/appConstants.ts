@@ -27,7 +27,7 @@ export class APIConstants {
     static CONTENT_SEARCH_API = 'v1/content/search';
     static SEARCH_API = 'api/content/v1/search';
     static TELEMETRY_SYNC = 'v1/telemetry';
-    static PRODUCER_ID = 'org.ekstep.djp';
+    static PRODUCER_ID = 'org.ejp.app';
     static PRODUCER_PID = 'v1/telemetry';
 }
 
@@ -91,6 +91,7 @@ export interface Content {
     sourceType: string;
     metaData: ContentMetaData;
     play: boolean;
+    liked: boolean;
 }
 
 export interface ContentMetaData {

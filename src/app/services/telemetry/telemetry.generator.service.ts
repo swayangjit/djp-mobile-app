@@ -1,18 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ITelemetryContext, IProducerdata, IActor, ITelemetry, } from './telemetry-request';
-import { DbService } from '../db/db.service';
-import { initTelemetryContext, syncTelemetryReq } from './telemetryConstants';
-import { StorageService } from '../storage.service';
-import { UtilService } from '../util.service';
-import { TelemetryConfigEntry } from '../db/telemetrySchema';
-import { ApiService } from '../api.service';
-import { APIConstants } from 'src/app/appConstants';
-import { defer, from, mergeMap, Observable, of, zip } from 'rxjs';
-import { Device } from '@capacitor/device';
-import { TelemetrySyncHandler } from './utils/telemetry.sync.handler';
-import { TelemetryEndRequest, TelemetryImpressionRequest, TelemetryInteractRequest, TelemetryStartRequest } from './models/telemetry.request';
-import { CorrelationData, DeviceSpecification, DJPTelemetry, Rollup, TelemetryObject } from './models/telemetry';
-import { TelemetryDecorator } from './models/telemetry.decorator';
+import { TelemetryEndRequest, TelemetryImpressionRequest, TelemetryInteractRequest, TelemetryStartRequest, TelemetySearchRequest } from './models/telemetry.request';
+import { CorrelationData, DeviceSpecification, Rollup, TelemetryObject } from './models/telemetry';
 import { TelemetryService } from '..';
 
 declare const window: any;
@@ -106,9 +94,9 @@ export class TelemetryGeneratorService {
         this.telemetryService.end(telemetryEndRequest).subscribe();
     }
 
-    generateStartTelemetry(pageId: string, object?: TelemetryObject, rollup?: Rollup, corRelationList?: Array<CorrelationData>) {
+    generateStartTelemetry(type: string, pageId: string, object?: TelemetryObject, rollup?: Rollup, corRelationList?: Array<CorrelationData>) {
         const telemetryStartRequest = new TelemetryStartRequest();
-        telemetryStartRequest.type = object?.type;
+        telemetryStartRequest.type = type;
         telemetryStartRequest.pageId = pageId;
         telemetryStartRequest.mode = 'play';
         if (object && object.id) {
@@ -131,6 +119,28 @@ export class TelemetryGeneratorService {
 
         this.telemetryService.start(telemetryStartRequest).subscribe();
     }
+
+    generateSearchTelemetry(type: string, query: string, size?: number, env?: string, filters?: any, sort?: any, correlationid?: string, corRelationList?: Array<CorrelationData>) {
+        const telemetySearchRequest = new TelemetySearchRequest();
+        telemetySearchRequest.type = type;
+        telemetySearchRequest.query = query;
+        telemetySearchRequest.env = env;
+        telemetySearchRequest.size = size;
+        if(filters) {
+            telemetySearchRequest.filters = filters;
+        }
+        if(sort) {
+            telemetySearchRequest.sort = sort;
+        }
+        if (corRelationList !== undefined) {
+            telemetySearchRequest.correlationData = corRelationList;
+        }
+        if (correlationid) {
+            telemetySearchRequest.correlationid = correlationid;
+        }
+        this.telemetryService.search(telemetySearchRequest).subscribe();
+    }
+
     genererateAppStartTelemetry(deviceSpec: DeviceSpecification) {
         const telemetryStartRequest = new TelemetryStartRequest();
         telemetryStartRequest.type = 'app';
