@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
 import { ContentSrc, Searchrequest, PlayerType, PageId, Content, ContentMetaData} from '../../../app/appConstants';
-import { AppHeaderService, CachingService, PreprocessorService, StorageService } from '../../../app/services';
-import { Share } from "@capacitor/share";
+import { AppHeaderService, CachingService, PreprocessorService, SearchService, StorageService } from '../../../app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { ConfigService } from '../../../app/services/config.service';
 import { SunbirdPreprocessorService } from '../../services/sources/sunbird-preprocessor.service';
@@ -48,7 +47,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     private cacheService: CachingService,
     private domSanitiser: DomSanitizer,
     private storage: StorageService,
-    private telemetryGeneratorService: TelemetryGeneratorService) {
+    private telemetryGeneratorService: TelemetryGeneratorService,
+    private searchService: SearchService) {
     this.configContents = [];
     this.networkService.networkConnection$.subscribe(ev => {
       console.log(ev);
@@ -64,25 +64,20 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
         filters: undefined
       }
     }
+    // main content config and filter
     this.headerService.filterConfigEmitted$.subscribe(async (val: any) => {
       req.request.pageId = PageId.HOME;
       req.request.query = val.defaultFilter.query;
       req.request.filters = val.defaultFilter.filters;
       let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
-      await this.contentService.deleteAllContents()
-      if (content.length > 0) {
-        console.log('content ', content);
-        this.showSheenAnimation = false;
-        let list: any = {};
-        content.forEach((ele: any) => {
-          list = {}
-          list.source = 'djp'
-          list.sourceType = 'djp-content'
-          list.metaData = ele
-          this.configContents.push(list)
-        });
-        this.contentService.saveContents(this.configContents).then()
-      }
+      this.mappUIContentList(content);
+    })
+    // side bar menu and filter chip events
+    this.headerService.sideMenuItemEventEmitted$.subscribe(async(val: any) => {
+      console.log(val);
+      this.showSheenAnimation = true;
+      let res = await this.searchService.postContentSearch({query: val.query, filter: val.filter});
+      this.mappUIContentList(res?.result);
     })
     this.networkConnected = await this.networkService.getNetworkStatus()
     let forceRefresh = await this.cacheService.getCacheTimeout();
@@ -98,6 +93,23 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     }
   }
 
+  async mappUIContentList(content: Array<ContentMetaData>) {
+    await this.contentService.deleteAllContents();
+    if (content.length > 0) {
+      console.log('content ', content);
+      this.showSheenAnimation = false;
+      let list: any = {};
+      content.forEach((ele: any) => {
+        list = {}
+        list.source = 'djp'
+        list.sourceType = 'djp-content'
+        list.metaData = ele
+        this.configContents.push(list)
+      });
+      this.contentService.saveContents(this.configContents).then()
+    }
+  }
+
   async getServerMetaConfig() {
     let meta = await this.storage.getData('configMeta');
     let config = meta ? JSON.parse(meta) : await this.configService.getConfigMeta();
@@ -108,6 +120,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     this.languages = config.languages.sort((a: Language, b: Language) => a.id.localeCompare(b.id));
     this.headerService.filterEvent({defaultFilter: config.pageConfig[0].defaultFilter, filter: this.filters, languages: this.languages});
   }
+
   async tabViewWillEnter() {
     await this.headerService.showHeader('', false);
   }

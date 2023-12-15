@@ -94,38 +94,8 @@ export class AppComponent implements OnInit {
     }));
   }
 
-  async menuItemAction(menuName: string) {
-    switch (menuName) {
-      case "All":
-
-        break;
-      case "Make a Story":
-
-        break;
-      case "Ask a doubt":
-
-        break;
-      case "Parents":
-
-        break;
-      case "Teachers":
-
-        break;
-      case "Divyang":
-
-        break;
-      case "Tribal":
-
-        break;
-      case "Lullabies":
-
-        break;
-      case "Games":
-
-        break;
-      default:
-        break;
-    }
+  async menuItemAction(item: any) {
+    this.headerService.sideMenuItemEvents(item);
   }
 
   private autoSyncTelemetry() {
