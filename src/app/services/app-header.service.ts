@@ -75,6 +75,6 @@ export class AppHeaderService {
     StatusBar.show({animation: Animation.None});
     StatusBar.setStyle({style: Style.Light});
     StatusBar.setBackgroundColor({color: '#ffffff'})
-    StatusBar.setOverlaysWebView({overlay: true})
+    StatusBar.setOverlaysWebView({overlay: false})
   }
 }
