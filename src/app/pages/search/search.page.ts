@@ -51,14 +51,6 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
   }
 
   ngOnInit() {
-    this.headerService.headerEventEmitted$.subscribe((name: any) => {
-      if(name == "back") {
-        this.location.back();
-      } else if(name == "record") {
-        this.record.startRecognition()
-      }
-    })
-
     this.record.searchEventRecorded$.subscribe((res: any) => {
       this.handleSearch(res, true);
     })
