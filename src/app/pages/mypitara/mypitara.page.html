@@ -5,6 +5,14 @@
       <div class="">{{'Recently Viewed'|translate}}</div>
       <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{"View All" | translate}}</div>
     </div>
+    <div class="viewed-content" *ngIf="!contentList.length">
+      <div class="viewed-content__info" >
+        <div class="viewed-content__info__image">
+          <img src="/assets/images/playlist_bot.png">
+        </div>
+        <div class="viewed-content__info__text">You have to watch content</div>
+      </div>
+    </div>
     <div class="djp-grid-slider__container">
       <div class="djp-grid-slider__container__card" *ngFor="let content of contentList">
         <ion-card *ngIf="content?.metaData?.thumbnail">
