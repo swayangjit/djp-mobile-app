@@ -21,13 +21,14 @@ import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
-  showSheenAnimation: boolean = true;
+  showSheenAnimation: boolean = false;
   @ViewChild('searchInput', { static: false }) searchBar: any;
   @ViewChild('recordbtn', {read: ElementRef}) recordbtn: ElementRef | any;
   searchKeywords: string = "";
   searchContentResult: Array<any> = [];
   optModalOpen: boolean = false;
   mimeType = PlayerType;
+  noSearchData: boolean = false;
   constructor(
     private headerService: AppHeaderService,
     private location: Location,
@@ -66,12 +67,14 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
   navigateBack() {
     this.location.back();
   }
+
   ionViewWillEnter() {
     this.headerService.hideHeader();
     this.headerService.showStatusBar();
   }
 
   async handleSearch(data?: any, audio: boolean = false) {
+    this.showSheenAnimation = true;
     try {
       let res = await this.searchApi.postSearchContext({text: audio ? data : this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
       console.log('res ', res);
@@ -81,6 +84,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
       this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes?.result.length, 'search', '' )
       if(searchRes.result.length > 0) {
         this.showSheenAnimation = false;
+        this.noSearchData = false;
         let list: any = {};
         this.searchContentResult = [];
         searchRes.result.forEach((ele: any) => {
@@ -91,6 +95,9 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
           this.searchContentResult.push(list)
         });
         this.contentService.saveContents(this.searchContentResult).then()
+      } else {
+        this.showSheenAnimation = false;
+        this.noSearchData = true;
       }
     } catch(e){
       console.log('error ', e);
