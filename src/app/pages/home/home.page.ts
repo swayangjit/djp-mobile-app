@@ -34,7 +34,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   optModalOpen: boolean = false;
   @ViewChild('refresher', { static: false }) refresher!: IonRefresher;
   networkConnected: boolean = false;
-  mimeType = PlayerType
+  mimeType = PlayerType;
+  noSearchData: boolean = false;
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -100,9 +101,11 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
 
   async mappUIContentList(content: Array<ContentMetaData>) {
     await this.contentService.deleteAllContents();
+    this.showSheenAnimation = false;
+    this.configContents = [];
     if (content.length > 0) {
+      this.noSearchData = false;
       console.log('content ', content);
-      this.showSheenAnimation = false;
       let list: any = {};
       content.forEach((ele: any) => {
         list = {}
@@ -112,6 +115,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
         this.configContents.push(list)
       });
       this.contentService.saveContents(this.configContents).then()
+    } else {
+      this.noSearchData = true;
     }
   }
 

@@ -21,7 +21,8 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
   optModalOpen: boolean = false;
   showSheenAnimation: boolean = true;
   scanText: string = '';
-  mimeType = PlayerType
+  mimeType = PlayerType;
+  navigated = false;
   constructor(
     private headerService: AppHeaderService,
     private location: Location,
@@ -44,7 +45,8 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
 
   ngOnInit() {
     this.headerService.headerEventEmitted$.subscribe((name: any) => {
-      if(name == "back") {
+      if(name == "back" && !this.navigated) {
+        this.navigated = true;
         this.location.back();
       } 
     })
@@ -53,6 +55,7 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
   }
 
   ionViewWillEnter() {
+    this.navigated = false;
     this.headerService.showHeader('QrScan Result', true, []);
     this.headerService.showStatusBar();
     this.contentService.getContents(this.scanText).then((result) => {

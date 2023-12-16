@@ -10,6 +10,7 @@ import Plyr from 'plyr';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { CorrelationData, TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import { PlayerType } from 'src/app/appConstants';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-player',
@@ -30,7 +31,8 @@ export class PlayerPage implements OnInit {
     private headerService: AppHeaderService,
     private location: Location,
     private domSanitiser: DomSanitizer,
-    private telemetryGeneratorService: TelemetryGeneratorService) {
+    private telemetryGeneratorService: TelemetryGeneratorService,
+    private platform: Platform) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.content = extras.state?.['content'] as Content;
@@ -70,6 +72,9 @@ export class PlayerPage implements OnInit {
   }
 
   ngOnInit() {
+    this.platform.backButton.subscribeWithPriority(11, async () => {
+      this.closePlayer()
+    });
     this.headerService.hideHeader();
     this.headerService.hideStatusBar();
     this.playerConfig = playerConfig;

@@ -34,6 +34,11 @@
       </ion-label>
     </ion-item>
   </ion-list>
+  <ion-list *ngIf="!showSheenAnimation && noSearchData">
+    <ion-item lines="none">
+      <ion-label class="no-data">{{'No Result' | translate }}</ion-label>
+    </ion-item>
+  </ion-list>
   <ion-list *ngIf="!showSheenAnimation && searchContentResult.length > 0"> 
     <ion-item lines="none" *ngFor="let content of searchContentResult; let i = index" class="djp-card">
       <div class="djp-card__img" (click)="playContent($event, content)">
