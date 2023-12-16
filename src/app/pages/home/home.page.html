@@ -8,7 +8,7 @@
     </ion-refresher>
 
     <ion-list class="m-n" *ngIf="showSheenAnimation">
-      <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background">
+      <ion-item lines="none" *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background">
         <div class="djp-card">
           <div item-start class="djp-card__img">
             <app-skeleton-item height="15rem" width="22rem"></app-skeleton-item>
@@ -22,6 +22,11 @@
             </div>
           </div>
         </div>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngIf="!showSheenAnimation && noSearchData && configContents.length == 0">
+      <ion-item lines="none">
+        <ion-label class="no-data">{{'No Result' | translate }}</ion-label>
       </ion-item>
     </ion-list>
     <!-- Cards -->
