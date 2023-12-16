@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 
 export class CreatePlaylistPage implements OnInit {
   contentList: Array<any> = [];
+  playlists: any;
   playlistName = '';
   public files: PickedFile[] = [];
   resolveNativePath = (path : string) =>
@@ -27,7 +28,8 @@ export class CreatePlaylistPage implements OnInit {
     })
   });
   selectedContents: Array<any> = [];
-  reSelectedContent: Array<any> = []
+  reSelectedContent: Array<any> = [];
+  localContents: number = 0;
   constructor(
     private contentService: ContentService,
     private playListService: PlaylistService,
@@ -36,7 +38,13 @@ export class CreatePlaylistPage implements OnInit {
   ) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
-      this.selectedContents = extras.state?.['selectedContents'];
+      if (extras.state?.['islocal']){
+        this.playlists = extras.state?.['playlists'];
+        this.selectedContents = this.playlists['playListcontentList'];
+        this.playlistName = this.playlists.name;
+      } else {
+        this.selectedContents = extras.state?.['selectedContents'];
+      }
       this.reSelectedContent = this.selectedContents;
     }
   }
@@ -57,20 +65,29 @@ export class CreatePlaylistPage implements OnInit {
     this.reSelectedContent = [];
     this.selectedContents.forEach((e: { [x: string]: any; }) => {
       if (e['isSelected']) {
-        this.reSelectedContent.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
+        this.reSelectedContent.push({ identifier: e['metaData']['contentIdentifier']});
       }
     });
    }
 
   async createList() {
     let request: Array<PlayListContent> = [];
-    this.selectedContents.forEach((e: { [x: string]: any; }) => {
+    this.selectedContents.forEach((e: any) => {
       if (e['isSelected']) {
-        request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
+        if (e['sourceType'] === 'local' || e['source'] === 'local') {
+          request.push({identifier: e['metaData']['identifier'], type: 'local', localContent: e, isDeleted: false})
+        } else {
+          request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
+        }
+      } else {
+        if (e['sourceType'] === 'local' || e['source'] === 'local') {
+          request.push({identifier: e['metaData']['identifier'], type: 'local', localContent: e, isDeleted: true})
+        }
       }
     });
     if (this.playlistName) {
-      this.playListService.createPlayList(this.playlistName, 'guest', request).then((data) => {
+      let identifier = this.playlists ? this.playlists.identifier : undefined;
+      this.playListService.createPlayList(this.playlistName, 'guest', request, identifier).then((data) => {
         // API
         this.headerService.deviceBackBtnEvent({name: 'backBtn'})
         window.history.go(-2)

@@ -43,7 +43,7 @@
       </div>
     <div class="djp-playlist__container">
       <div *ngFor="let playlist of playlists" >
-        <div class="djp-playlist__container__items" *ngIf=playlist?.playListcontentList.length>
+        <div class="djp-playlist__container__items" *ngIf=playlist?.playListcontentList.length (click)="navigateToDetails(playlist)">
           <div class="djp-playlist__container__items__cards">
             <ion-card>
               <img src="/assets/images/Playlist.png" alt="" />
