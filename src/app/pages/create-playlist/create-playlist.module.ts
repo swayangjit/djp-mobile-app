@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CreatePlaylistPageRoutingModule } from './create-playlist-routing.module';
 
 import { CreatePlaylistPage } from './create-playlist.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreatePlaylistPageRoutingModule
+    CreatePlaylistPageRoutingModule,
+    TranslateModule
   ],
   declarations: [CreatePlaylistPage]
 })

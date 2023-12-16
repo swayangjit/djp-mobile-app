@@ -1,115 +1,46 @@
 
 <ion-content [fullscreen]="true">
   <!-- recentlyviewed -->
-  <div class="djp-grid-slider" *ngIf="type==='recentlyviewed'">
-    <div class="djp-grid-slider__header">
-        <div class="djp-grid-slider__header__add">History</div>
+  <div class="djp-grid-slider">
+    <div class="djp-grid-slider__header" *ngIf="type==='recentlyviewed'">
+        <div class="djp-grid-slider__header__add">{{'Recently Viewed' | translate}}</div>
     </div>
-    <div *ngFor="let content of contentList; let i=index">
-      <div class="content-card" *ngIf="content.metaData">
-        <div class="img-container">
-          <ion-img [src]="content?.metaData?.thumbnail" alt="" />
+    <div class="new-playlist-container">
+      <div class="new-playlist-heading">
+      </div>
+      <div class="new-playlist-card" *ngFor="let content of contentList; let i=index">
+        <div class="new-playlist-card__image">
+          <img [src] ="content?.metaData?.thumbnail" alt="Playlist Image" class="playlist-card__image-img">
         </div>
-        <div class="card-details">
-          <div class="card-content">
-            <div class="title" *ngIf="content?.metaData?.name">{{content?.metaData?.name}}</div>
-            <div class="info grade_ellipsis">
-              <span class="class" *ngIf="content?.metaData?.description">{{content?.metaData?.description}}</span>
-              <span class="separator-dot"></span>
-            </div>
+        <div class="new-playlist-card__details">
+          <div class="new-playlist-card__title" *ngIf="content?.metaData?.name">{{content?.metaData?.name}}</div>
+          <div class="kabab-menu-icon" (click)="openModal()" *ngIf="type==='recentlyviewed'">
+            <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
           </div>
-        </div>
-        <div class="check-container" (click)="openModal()">
-          <img role="button" src="../../../assets/images/menu.svg" alt="menu">
+          <div class="new-playlist-card__actions" *ngIf="type==='playlist'">
+            <ion-checkbox class="playlist-card__checkbox" [checked]="content.isSelected" (ionChange)="isContentSelect($event, i)"></ion-checkbox>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- playlist -->
-  <div class="djp-grid-slider" *ngIf="type==='playlist'">
-    <div class="djp-grid-slider__header">
-        <div class="djp-grid-slider__header__add">Playlists</div>
-    </div>
-
-    <div *ngFor="let content of playlists; let i=index">
-      <div class="content-card" *ngIf="content?.playListcontentList?.length>0">
-        <div class="img-container">
-          <img aria-hidden="true" style="   border-radius: 16px;
-          padding: 5px;"
-            [src]="content?.playListcontentList[0]?.metaData?.thumbnail"/>
-            <div style="font-size: 20px; font-weight: 800;">{{content?.playListcontentList.length}}</div>
-        </div>
-        <div class="card-details">
-          <div class="card-content">
-            <div class="title" >{{content?.name}}</div>
-            <div class="info grade_ellipsis">
-              <span class="class">{{content?.playListcontentList[0]?.metaData?.description}}</span>
-              <span class="separator-dot"></span>
-              <!-- <p class="subject">{{content.subject}}</p> -->
-            </div>
-          </div>
-        </div>
-        <div class="check-container" (click)="openModal(content)">
-          <img role="button" src="../../../assets/images/menu.svg" alt="menu">
-        </div>
-      </div>
-    </div>
-  </div>
-  <ion-modal #modal [initialBreakpoint]="1" [breakpoints]="[0, 1]" [isOpen]="isOpen" (didDismiss)="isOpen=false">
-    <ng-template>
-        <ion-list *ngIf="type==='recentlyviewed'">
-          <ion-item>
-            <!-- <ion-avatar slot="start">
-              <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
-            </ion-avatar> -->
-            <ion-label (click)="confirm('remove')">
-              <h2>Remove from watch history</h2>
-           
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label (click)="confirm('play')">
-              <h2>Play next in queue</h2>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label (click)="confirm('watchLater')">
-              <h2>Save to Watch Later</h2>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label (click)="confirm('save')">
-              <h2>Save to playlist</h2>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label (click)="confirm('share')">
-              <h2>Share</h2>
-            </ion-label>
-          </ion-item>
-        
-        </ion-list>
-
-        <ion-list *ngIf="type==='playlist'">
-          <ion-item>
-            <!-- <ion-avatar slot="start">
-              <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
-            </ion-avatar> -->
-            <ion-label (click)="confirm('delete')">
-              <h2>Delete</h2>
-           
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label (click)="confirm('edit')">
-              <h2>Edit</h2>
-            </ion-label>
-          </ion-item>        
-        </ion-list>
-    </ng-template>
-  </ion-modal>
 </ion-content>
 
-<div *ngIf="type==='playlist'">
-  <ion-button expand="block" class="btn-info" (click)="createList()">Create a new playlist</ion-button>
+<div *ngIf="type==='playlist'" class="view-all-btn">
+  <!-- <ion-button expand="block" class="btn-info" (click)="createList()">Create a new playlist</ion-button> -->
+
+  <div class="djp-view-playlist">
+    <div class="djp-view-playlist__icon">
+      <div class="count">{{selectedContents.length}}</div>
+      <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
+    </div>
+    <div class="djp-view-playlist__icon" (click)="openFilePicker()">
+      <ion-icon aria-hidden="true" src="assets/icon/file-upload.svg"></ion-icon>
+    </div>
+    <div class="djp-view-playlist__button">
+      <ion-button fill="outline" class="view-playlist" [disabled]="!selectedContents.length" (click)="createList()">
+        {{'createPlaylist' | translate}}
+      </ion-button>
+    </div>
+  </div>
 </div>

@@ -214,6 +214,8 @@ export class MimeType {
     public static readonly VIDEO = 'video/mp4';
     public static readonly VIDEOS = ['video/mp4', 'video/webm', 'video/x-m4v', 'video/quicktime'];
     public static readonly PDF = 'application/pdf';
+    public static readonly AUDIOS = 'audio/mp3';
+    public static readonly RECOEDED_AUDIO = 'audio/wav';
     public static readonly AUDIO = ['audio/mp3', 'audio/mp4', 'audio/mpeg', 'audio/ogg', 'audio/webm', 'audio/x-wav', 'audio/wav'];
     public static readonly INTERACTION = ['application/vnd.ekstep.ecml-archive', 'application/vnd.ekstep.html-archive',
         'application/vnd.android.package-archive', 'application/vnd.ekstep.content-archive',

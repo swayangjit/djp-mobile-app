@@ -27,6 +27,7 @@ export class UtilService {
   async getAppInfo(): Promise<AppInfo> {
     return await App.getInfo();
   }
+  
 
   translateMessage(messageConst: string, fields?: string | any): string {
     let translatedMsg = '';

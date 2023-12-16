@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ViewAllPageRoutingModule } from './view-all-routing.module';
 
 import { ViewAllPage } from './view-all.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ViewAllPageRoutingModule
+    ViewAllPageRoutingModule,
+    TranslateModule
   ],
   declarations: [ViewAllPage]
 })

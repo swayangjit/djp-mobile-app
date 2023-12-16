@@ -1,128 +1,24 @@
 <ion-content [fullscreen]="true">
-  <!--slider-->
-  <div class="djp-grid-slider hide">
-    <div class="djp-grid-slider__header">
-      <div class="">{{'Recently Viewed'|translate}}</div>
-      <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{'View All'|translate}}</div>
-    </div>
-    <div class="djp-grid-slider__container">
-      <div  *ngFor="let content of contentList">
-        <ion-card class="djp-grid-slider__container__card">
-          <div class="djp-grid-slider__container__card__img">
-            <!-- <img src="../../../assets/images/slider-img.svg" alt="" /> -->
-            <ion-img [src]="content.metaData.thumbnail" alt="" />
-          </div>
-          <ion-card-header>
-            <ion-card-title>{{content.metaData.name |translate}}</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </div>
-      <!-- <ion-card class="djp-grid-slider__container__card">
-              <div class="djp-grid-slider__container__card__img">
-                  <img src="../../../assets/images/slider-img-1.png" alt="" />
-              </div>
-              <ion-card-header>
-                <ion-card-title>{{'cardtitle'|translate}}</ion-card-title>
-              </ion-card-header>
-          </ion-card> -->
-    </div>
-  </div>
-  <!--slider ends here-->
-  <div class="djp-play-list hide">
-    <div class="djp-play-list__slider">
-      <div class="djp-play-list__slider__header">
-        <div class="">{{'Playlists'|translate}}</div>
-        <div class="djp-play-list__slider__header__link" (click)="viewAllCards('playlist')">{{'View All'|translate}}</div>
-      </div>
-      <div class="djp-play-list__slider__container">
-        <div class="djp-play-list__slider__container__item" *ngFor="let playlist of playlists">
-          <ion-card class="djp-play-list__slider__container__item__card" *ngIf=playlist?.playListcontentList.length>
-            <div class="djp-play-list__slider__container__item__card__img">
-              <img [src]="playlist?.playListcontentList.length > 0 ? playlist?.playListcontentList[0]?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'" alt="" />
-            </div>
-            <ion-card-header>
-              <ion-card-title>{{playlist.name |translate}}</ion-card-title>
-            </ion-card-header>
-          </ion-card>
-          <div class="djp-play-list-metadata" *ngIf=playlist?.playListcontentList.length>
-            <div class="left-side">
-              <span class="title">Title</span>
-              <span class="meta">sub title</span>
-            </div>
-            <div class="right-side">
-              <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
-            </div>
-          </div>
-        </div>
-        <!-- <div class="djp-play-list__slider__container__item">
-          <ion-card class="djp-play-list__slider__container__item__card">
-            <div class="djp-play-list__slider__container__item__card__img">
-                <img src="../../../assets/images/slider-img.svg" alt="" />
-            </div>
-            <ion-card-header>
-              <ion-card-title>{{'birdsounds'|translate}}</ion-card-title>
-            </ion-card-header>
-          </ion-card>
-          <div class="djp-play-list-metadata">
-            <div class="left-side">
-              <span class="title">Title</span>
-              <span class="meta">sub title</span>
-            </div>
-            <div class="right-side">
-              <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
-            </div>
-          </div>
-        </div>
-        <div class="djp-play-list__slider__container__item">
-          <ion-card class="djp-play-list__slider__container__item__card">
-            <div class="djp-play-list__slider__container__item__card__img">
-                <img src="../../../assets/images/slider-img.svg" alt="" />
-            </div>
-            <ion-card-header>
-              <ion-card-title>{{'birdsounds'|translate}}</ion-card-title>
-            </ion-card-header>
-          </ion-card>
-          <div class="djp-play-list-metadata">
-            <div class="left-side">
-              <span class="title">Title</span>
-              <span class="meta">sub title</span>
-            </div>
-            <div class="right-side">
-              <ion-icon aria-hidden="true" src="assets/icon/ajkigatibidhi.svg"></ion-icon>
-            </div>
-          </div>
-        </div> -->
-      </div>
-    </div>
-  </div>
-
   <!--djp new slider-->
   <div class="djp-grid-slider">
     <div class="djp-grid-slider__header">
       <div class="">{{'Recently Viewed'|translate}}</div>
-      <div class="djp-grid-slider__header__link">{{"View All" | translate}}</div>
+      <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{"View All" | translate}}</div>
+    </div>
+    <div class="viewed-content" *ngIf="!contentList.length">
+      <div class="viewed-content__info" >
+        <div class="viewed-content__info__image">
+          <img src="/assets/images/playlist_bot.png">
+        </div>
+        <div class="viewed-content__info__text">You have to watch content</div>
+      </div>
     </div>
     <div class="djp-grid-slider__container">
-      <div class="djp-grid-slider__container__card">
-        <ion-card>
-          <img src="../../../assets/images/card-img-2.png" alt="" />
+      <div class="djp-grid-slider__container__card" *ngFor="let content of contentList">
+        <ion-card *ngIf="content?.metaData?.thumbnail">
+          <img [src]="content.metaData.thumbnail" alt="" />
         </ion-card>
-        <div class="card-title">Name of the content , supports two lines</div>
-      </div>
-      <div class="djp-grid-slider__container__card">
-        <ion-card>
-          <img src="../../../assets/images/card-img-2.png" alt="" />
-        </ion-card>
-      </div>
-      <div class="djp-grid-slider__container__card">
-        <ion-card>
-          <img src="../../../assets/images/card-img-2.png" alt="" />
-        </ion-card>
-      </div>
-      <div class="djp-grid-slider__container__card">
-        <ion-card>
-          <img src="../../../assets/images/card-img-2.png" alt="" />
-        </ion-card>
+        <div class="card-title" *ngIf="content?.metaData?.name">{{content.metaData.name |translate}}</div>
       </div>
     </div>
   </div>
@@ -131,128 +27,44 @@
   <!--djp my playlist cards-->
   <div class="djp-playlist">
     <div class="djp-playlist__header">
-      <div class="">{{"My Playlist" | translate}}</div>
-      <div class="djp-grid-slider__header__button">
+      <div class="">{{"myPlaylist" | translate}}</div>
+      <div class="djp-grid-slider__header__button" (click)="viewAllCards('playlist')">
         <ion-button>{{"New Playlist" | translate}} <ion-icon slot="end" aria-hidden="true"
             src="../../../assets/icon/Add-circle-outline.svg"></ion-icon></ion-button>
       </div>
     </div>
+      <div >
+        <div class="playlist-bot" *ngIf="!playlists.length">
+          <div class="playlist-bot__image">
+            <img src="/assets/images/playlist_bot.png">
+          </div>
+          <div class="playlist-bot__text">Click on New Playlist button to create your first playlist</div>
+        </div>
+      </div>
     <div class="djp-playlist__container">
-      <div class="djp-playlist__container__items">
-        <div class="djp-playlist__container__items__cards">
-          <ion-card>
-            <img src="../../../assets/images/card-img-2.png" alt="" />
-          </ion-card>
-          <div class="layer1"></div>
-          <div class="layer2"></div>
-        </div>
-        <div class="djp-playlist__container__items__metadata">
-          Name of the Playlist , supports 2 lines
-        </div>
-        <div class="kabab-menu-icon">
-          <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
-        </div>
-      </div>
-      <div class="djp-playlist__container__items">
-        <div class="djp-playlist__container__items__cards">
-          <ion-card>
-            <img src="../../../assets/images/card-img-2.png" alt="" />
-          </ion-card>
-          <div class="layer1"></div>
-          <div class="layer2"></div>
-        </div>
-        <div class="djp-playlist__container__items__metadata">
-          Name of the Playlist , supports 2 lines
-        </div>
-        <div class="kabab-menu-icon">
-          <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
-        </div>
-      </div>
-      <div class="djp-playlist__container__items">
-        <div class="djp-playlist__container__items__cards">
-          <ion-card>
-            <img src="../../../assets/images/card-img-2.png" alt="" />
-          </ion-card>
-          <div class="layer1"></div>
-          <div class="layer2"></div>
-        </div>
-        <div class="djp-playlist__container__items__metadata">
-          Name of the Playlist , supports 2 lines
-        </div>
-        <div class="kabab-menu-icon">
-          <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
+      <div *ngFor="let playlist of playlists" >
+        <div class="djp-playlist__container__items" *ngIf=playlist?.playListcontentList.length>
+          <div class="djp-playlist__container__items__cards">
+            <ion-card>
+              <img src="/assets/images/Playlist.png" alt="" />
+            </ion-card>
+            <div class="layer1"></div>
+            <div class="layer2"></div>
+          </div>
+          <div class="djp-playlist__container__items__metadata" *ngIf="playlist?.name">
+            {{playlist.name |translate}}
+          </div>
+          <div class="kabab-menu-icon" (click)="openModal(playlist)">
+            <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <!--djp my playlist cards-->
-
-
-
-  <!--New playlist page-->
-  <div class="new-playlist-container">
-    <div class="new-playlist-heading">
-    </div>
-    <div class="new-playlist-card">
-      <div class="new-playlist-card__image">
-        <img src="assets/images/card-img-2.png" alt="Playlist Image" class="playlist-card__image-img">
-      </div>
-      <div class="new-playlist-card__details">
-        <div class="new-playlist-card__title">Name of the content , supports 2 lines</div>
-        <div class="new-playlist-card__actions">
-          <ion-checkbox class="playlist-card__checkbox"></ion-checkbox>
-        </div>
-      </div>
-    </div>
-    <div class="new-playlist-card">
-      <div class="new-playlist-card__image">
-        <img src="assets/images/card-img-2.png" alt="Playlist Image" class="playlist-card__image-img">
-      </div>
-      <div class="new-playlist-card__details">
-        <div class="new-playlist-card__title">Name of the content , supports 2 lines</div>
-        <div class="new-playlist-card__actions">
-          <ion-checkbox class="playlist-card__checkbox"></ion-checkbox>
-        </div>
-      </div>
-    </div>
-    <div class="new-playlist-card">
-      <div class="new-playlist-card__image">
-        <img src="assets/images/card-img-2.png" alt="Playlist Image" class="playlist-card__image-img">
-      </div>
-      <div class="new-playlist-card__details">
-        <div class="new-playlist-card__title">Name of the content , supports 2 lines</div>
-        <div class="new-playlist-card__actions">
-          <ion-checkbox class="playlist-card__checkbox"></ion-checkbox>
-        </div>
-      </div>
-    </div>
-    <div class="new-playlist-card">
-      <div class="new-playlist-card__image">
-        <img src="assets/images/card-img-2.png" alt="Playlist Image" class="playlist-card__image-img">
-      </div>
-      <div class="new-playlist-card__details">
-        <div class="new-playlist-card__title">Name of the content , supports 2 lines</div>
-        <div class="new-playlist-card__actions">
-          <ion-checkbox class="playlist-card__checkbox"></ion-checkbox>
-        </div>
-      </div>
-    </div>
+  <div style="text-align:center" (click)="viewAllCards('playlist')" *ngIf="playlists.length">
+    <ion-button class="btn-len">{{"New Playlist" | translate}}<ion-icon slot="end" aria-hidden="true"
+        src="../../../assets/icon/Add-circle-outline.svg"></ion-icon></ion-button>
   </div>
   <!--New playlist page ends here-->
-
-  <div class="create-playlist">
-    <div class="create-playlist__content">
-      <div class="create-playlist__content__action-items">
-        <img src="assets/images/create-list-box.svg" alt="pitara box">
-        <ion-badge slot="end">11</ion-badge>
-      </div>
-      <div class="create-playlist__content__action-items">
-        <img src="assets/images/upload-icon.svg" alt="upload Image">
-      </div>
-    </div>
-    <div class="create-playlist__content__btn">
-      <ion-button>Create Playlist</ion-button>
-    </div>
-  </div>
 
 </ion-content>
