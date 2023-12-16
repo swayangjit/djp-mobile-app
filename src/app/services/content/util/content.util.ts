@@ -34,12 +34,18 @@ export class ContentUtil {
   public static getMimeType(fileName: string): string {
     const extension = fileName.split('.').pop();
     let mimeType = ''
-    switch (extension) {
+    switch (extension?.toLowerCase()) {
       case 'mp4':
         mimeType = MimeType.VIDEO
         break;
       case 'pdf':
         mimeType = MimeType.PDF
+        break;
+        case 'mp3':
+        mimeType = MimeType.AUDIOS
+        break;
+        case 'wav':
+        mimeType = MimeType.RECOEDED_AUDIO
         break;
       default:
         break;

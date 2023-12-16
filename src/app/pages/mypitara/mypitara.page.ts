@@ -15,7 +15,7 @@ import {PlayerType} from 'src/app/appConstants';
   styleUrls: ['mypitara.page.scss']
 })
 export class MyPitaraPage {
-  contentList: any;
+  contentList: Array<any> = [];
   playlists: Array<any> = [];
 
   constructor(private headerService: AppHeaderService,
