@@ -6,10 +6,16 @@ ion-list {
 }
 
 .btn-info{
-    height: 3rem;
+    height: 2.7rem;
     width: 34%;
     --border-radius: 20px;
-    font-size: 17px;
+    color: white;
+    font-size: 14px;
+    font-family: Noto Sans;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 19.60px;
+    word-wrap: break-word;
 }
 
 ion-item{
@@ -18,10 +24,70 @@ ion-item{
   }
 
 .new-pitara{
-    font-size: 17px;
-    color: cadetblue;
+    // font-size: 17px;
+    // color: cadetblue;
+    color: #01C9BA;
+font-size: 14px;
+font-family: Noto Sans Devanagari;
+font-weight: 400;
+line-height: 19.60px;
+word-wrap: break-word
 }
 
-.liked-icon {
-    color: #FFBC00;
+.add-to{
+    color: #333333;
+font-size: 14px;
+font-family: Noto Sans Devanagari;
+font-weight: 400;
+line-height: 19.60px;
+word-wrap: break-word
 }
+
+ion-radio{
+    margin-top: 1px;
+}
+
+
+ion-radio::part(container) {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ddd;
+  }
+  
+  ion-radio::part(mark) {
+    background: none;
+    transition: none;
+    transform: none;
+    border-radius: 0;
+  }
+  
+  ion-radio.radio-checked::part(container) {
+    background: #FFBC00;
+    border-color: transparent;
+  }
+  
+  ion-radio.radio-checked::part(mark) {
+    width: 6px;
+  
+    border-width: 0px 2px 2px 0px;
+    border-style: solid;
+    border-color: #fff;
+    transform: rotate(45deg);
+  }
+
+
+  .btn-info::part(native) {
+    --ion-color-contrast: #fff;
+}
+
+
+ion-modal {
+    --height: 50%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  
+  ion-modal::part(backdrop) {
+    background: rgba(209, 213, 219);
+    opacity: 1;
+  }

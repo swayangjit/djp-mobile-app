@@ -1,0 +1,19 @@
+ion-list {
+    overflow-y: auto;
+    overflow: scroll;
+    height: fit-content;
+    max-height: 200px;
+}
+
+ion-item{
+    --border-width: 0;
+    --inner-border-width: 0;
+  }
+
+  ion-label{
+    padding: 0 0 0 1rem;
+}
+
+ion-icon{
+  font-size: 22.5px;
+}

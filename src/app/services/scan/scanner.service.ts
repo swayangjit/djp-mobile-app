@@ -59,8 +59,8 @@ export class ScannerService {
    */
     public scan(successCallback: (text: string) => void, errorCallback: ((text: string) => void) | null = null): void {
       this.isActive = true;
-        (window as any).qrScanner.startScanner("Scan", "Scan",
-            "#FFFFFF", "sss", false, this.platform.isRTL, async (scannedData: string) => {
+        (window as any).qrScanner.startScanner("Scan", "Point your phone to the QR code to scan it",
+            "#0b0b0b", "Point your phone to the QR code to scan it", false, this.platform.isRTL, async (scannedData: string) => {
               successCallback(scannedData);
               this.stopScanner()
             }, (e: any) => {

@@ -9,6 +9,8 @@ import { StorageService, TelemetryService, UtilService } from '../services';
 import { LangaugeSelectComponent } from './langauge-select/langauge-select.component';
 import { SheetModalComponent } from './sheet-modal/sheet-modal.component';
 import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
+import { EditRemovedModalComponent } from './edit-removed-modal/edit-removed-modal.component';
+import { NewPlaylistModalComponent } from './new-playlist-modal/new-playlist-modal.component';
 import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
 
 @NgModule({
@@ -18,6 +20,8 @@ import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
         LangaugeSelectComponent,
         SheetModalComponent,
         AddToPitaraComponent,
+        EditRemovedModalComponent,
+        NewPlaylistModalComponent,
         SkeletonItemComponent
     ],
     imports: [
@@ -34,6 +38,8 @@ import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
         LangaugeSelectComponent,
         SheetModalComponent,
         AddToPitaraComponent,
+        EditRemovedModalComponent,
+        NewPlaylistModalComponent,
         SkeletonItemComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],

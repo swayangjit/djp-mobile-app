@@ -44,6 +44,8 @@
     "@project-sunbird/sunbird-video-player-web-component": "1.1.1",
     "@project-sunbird/telemetry-sdk": "0.0.29",
     "capacitor-voice-recorder": "^5.0.0",
+    "cordova-plugin-filepath": "github:swayangjit/cordova-plugin-filepath",
+    "cordova-plugin-qr-scanner": "github:project-sunbird/cordova-plugin-qr-scanner#release-7.0.0_cap",
     "cordova.plugins.diagnostic": "^7.1.4",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",

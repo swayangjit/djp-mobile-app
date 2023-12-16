@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppHeaderService } from '../../../app/services';
+import { AppHeaderService, TelemetryService } from '../../../app/services';
 import { ScreenOrientation } from "@capacitor/screen-orientation";
 import { Location } from '@angular/common';
 import { playerConfig, videoConfig } from './playerData';
@@ -32,7 +32,9 @@ export class PlayerPage implements OnInit {
     private location: Location,
     private domSanitiser: DomSanitizer,
     private telemetryGeneratorService: TelemetryGeneratorService,
+    private telemetryService: TelemetryService,
     private platform: Platform) {
+      
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.content = extras.state?.['content'] as Content;
@@ -132,6 +134,12 @@ export class PlayerPage implements OnInit {
   }
 
   playerTelemetryEvents(event: any) {
+    if (event?.detail?.eid === 'START' || event?.detail?.eid === 'END') {
+      console.log('....................', event)
+      this.telemetryService.saveTelemetry(JSON.stringify(event.detail)).subscribe(
+        (res: any) => console.log('response after telemetry', res),
+        );
+    }
   }
 
   closePlayer() {
