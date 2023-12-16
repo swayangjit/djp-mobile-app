@@ -25,7 +25,7 @@ export class ContentService {
   ) { }
 
   deleteAllContents(): Promise<any> {
-    return this.dbService.executeQuery(ContentEntry.deleteQuery())
+    return this.dbService.remove(ContentEntry.deleteQuery(), {'source': 'djp'});
   }
   saveContents(contentList: Array<Content>): Promise<any> {
     const capSQLiteSet: capSQLiteSet[] = [];
@@ -57,7 +57,12 @@ export class ContentService {
   }
 
   markContentAsViewed(content: Content): Promise<void> {
-    return this.dbService.save(RecentlyViewedContentEntry.insertQuery(), RecentlyViewedContentMapper.mapContentToRecentlyViewedContentEntry(content, 'guest', uuidv4()))
+    return this.dbService.readDbData(RecentlyViewedContentEntry.readQuery(), { 'identifier': content.metaData.identifier }).then((result) => {
+      const query = (result) ? RecentlyViewedContentEntry.updateQuery() : RecentlyViewedContentEntry.insertQuery();
+      const whereCondition = (result) ? { 'identifier': content.metaData.identifier } : undefined
+      return this.dbService.save(query, RecentlyViewedContentMapper.mapContentToRecentlyViewedContentEntry(content, 'guest', uuidv4()), whereCondition)
+    })
+
   }
 
   public searchContentInDiksha(query: string) {

@@ -47,6 +47,10 @@ export namespace PlaylistEntry {
         return `INSERT INTO ${TABLE_NAME}`
     };
 
+    export const updateQuery: (() => string) = () => {
+        return `UPDATE ${TABLE_NAME} SET`
+    };
+
     export const deleteQuery: (() => string) = () => {
         return 'DELETE FROM ' + PlaylistEntry.TABLE_NAME;
     };

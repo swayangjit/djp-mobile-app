@@ -11,6 +11,7 @@ import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { Content } from 'src/app/services/content/models/content';
 import { v4 as uuidv4 } from "uuid";
 import { ContentUtil } from 'src/app/services/content/util/content.util';
+import { SHA1 } from 'crypto-js';
 
 @Component({
   selector: 'app-view-all',
@@ -138,7 +139,7 @@ export class ViewAllPage implements OnInit {
         source: 'local',
         sourceType: 'local',
         metaData: {
-          identifier: uuidv4(),
+          identifier: SHA1(path).toString(),
           url: path,
           name: fileName,
           mimetype: ContentUtil.getMimeType(fileName),

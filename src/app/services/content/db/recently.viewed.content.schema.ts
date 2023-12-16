@@ -29,6 +29,11 @@ export namespace RecentlyViewedContentEntry {
             RecentlyViewedContentEntry.COLUMN_NAME_TIME_STAMP + DbConstants.SPACE + DbConstants.TEXT_TYPE +
             ' )';
     };
+
+    export const readQuery:(() => string) = () => {
+        return 'SELECT * FROM ' + TABLE_NAME;
+    }
+    
     export const deleteTable: (() => string) = () => {
         return 'DROP TABLE IF EXISTS' + RecentlyViewedContentEntry.TABLE_NAME;
     };
@@ -44,6 +49,10 @@ export namespace RecentlyViewedContentEntry {
 
     export const insertQuery: (() => string) = () => {
         return `INSERT INTO ${TABLE_NAME}`
+    };
+
+    export const updateQuery: (() => string) = () => {
+        return `UPDATE ${TABLE_NAME} SET`
     };
 
     
