@@ -7,6 +7,7 @@ import { PlayList, PlayListContent, PlayListContentMix } from './models/playlist
 import { PlaylistEntry } from './db/playlist.schema';
 import { PlaylistContentEntry } from './db/playlist.content.schema';
 import { ContentEntry } from '../content/db/content.schema';
+import { ContentMapper } from '../content/util/content.entry.mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +18,28 @@ export class PlaylistService {
     private readonly dbService: DbService
   ) { }
 
-  public createPlayList(name: string, uid: string, playListContentList: Array<PlayListContent>): Promise<any> {
-    const playListId = uuidv4()
+  public createPlayList(name: string, uid: string, playListContentList: Array<PlayListContent>, playListId?: string): Promise<any> {
+    if (!playListId) {
+      playListId = uuidv4()
+    }
     return this.dbService.save(PlaylistEntry.insertQuery(), PlayListEntryMapper.mapContentToPlayListEntry(name, uid, playListId, playListContentList.length)).then(() => {
-      return this.addContentToPlayList(playListId, playListContentList)
+      return this.addContentToPlayList(playListId!, playListContentList)
     })
   }
 
   public addContentToPlayList(playListId: string, playListContentList: Array<PlayListContent>): Promise<any> {
     const capSQLiteSet: capSQLiteSet[] = [];
-    playListContentList.map((playListContent) => {
-      capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContent.identifier, playListContent.type) })
-    });
+    for (let i = 0; i < playListContentList.length; i++) {
+      const playListContent = playListContentList[i];
+      if (playListContent.isDeleted) {
+        capSQLiteSet.push({ statement: PlaylistContentEntry.deleteQuery(), values: [playListContentList[i].identifier, playListId] });
+      } else {
+        if (playListContentList[i].type == 'local') {
+          capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(playListContent.localContent!) })
+        }
+        capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContentList[i].identifier, playListContentList[i].type) })
+      }
+    }
     return this.dbService.executeSet(capSQLiteSet)
   }
 

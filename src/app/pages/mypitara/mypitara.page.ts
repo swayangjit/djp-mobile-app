@@ -104,4 +104,8 @@ export class MyPitaraPage {
   loadYoutubeImg(id: string): string {
     return `https://img.youtube.com/vi/${id}/0.jpg`;
   }
+
+  navigateToDetails(playlist: Array<any>) {
+    this.router.navigate(['/playlist-details'], {state: {playlist}})
+  }
 }
