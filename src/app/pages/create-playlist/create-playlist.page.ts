@@ -41,6 +41,7 @@ export class CreatePlaylistPage implements OnInit {
       if (extras.state?.['islocal']){
         this.playlists = extras.state?.['playlists'];
         this.selectedContents = this.playlists['playListcontentList'];
+        this.selectedContents.map((e) => e['isSelected'] = true);
         this.playlistName = this.playlists.name;
       } else {
         this.selectedContents = extras.state?.['selectedContents'];

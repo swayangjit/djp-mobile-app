@@ -33,6 +33,7 @@
       </div>
       <div class="djp-card__metadata">
         <div class="djp-card__title">{{content.metaData?.name}}</div>
+        <ion-icon aria-hidden="true" src="assets/icon/sd-card.svg" *ngIf="content.source==='local'"></ion-icon>
         <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
       </div>
     </div>
