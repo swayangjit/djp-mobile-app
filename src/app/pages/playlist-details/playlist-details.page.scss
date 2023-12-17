@@ -1,12 +1,4 @@
-// For now pasting code for testing purpose Needs to be removed
-.animation-background {
-    background-color: #F2F2F2;
-  }
-  
-  ion-label {
-    width: 95%;
-  }
-  .djp-cards-container{
+.djp-cards-container{
     padding: 0.2rem 1rem;
   }
   .djp-card {
@@ -106,4 +98,8 @@
   
   .no-data {
     text-align: center;
+  }
+
+  ion-content{
+    --padding-top: 1.5rem
   }
