@@ -153,6 +153,7 @@ export class ContentService {
         );
       })
       .then((hierarchyResponse) => {
+        this.results = [];
         this.showAllChild(hierarchyResponse.result.content)
         const contentList: Array<Content> = []
         this.results.map((content: any) => {
@@ -164,7 +165,7 @@ export class ContentService {
               name: content?.name,
               thumbnail: content?.posterImage,
               description: content?.name,
-              mimetype: content?.mimetype,
+              mimetype: content?.mimetype || content?.mimeType,
               url: content?.streamingUrl,
               focus: content?.focus,
               keyword: content?.keyword,
@@ -175,8 +176,8 @@ export class ContentService {
               category: content?.category,
               audience: content?.audience,
               status: content?.status,
-              createdon: content?.createdon,
-              lastupdatedon: content?.lastupdatedon
+              createdon: content?.createdOn,
+              lastupdatedon: content?.lastupdatedon || content?.lastUpdatedOn
             }
           })
         })
