@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { FilePicker, PickedFile } from '@capawesome/capacitor-file-picker';
-import { MimeType } from 'src/app/appConstants';
 import { PlayListContent} from '../../services/playlist/models/playlist.content'
 import { AppHeaderService } from 'src/app/services';
 import { Router } from '@angular/router';
+import { MimeType, PlayerType } from 'src/app/appConstants';
+import { ContentUtil } from 'src/app/services/content/util/content.util';
 
 @Component({
   selector: 'app-create-playlist',
@@ -51,6 +52,7 @@ export class CreatePlaylistPage implements OnInit {
   }
 
   ngOnInit() {
+    this.getContentImgPath();
     this.contentService.getRecentlyViewedContent('guest').then((result) => {
       this.contentList = result;
       console.log('result', result)
@@ -111,5 +113,20 @@ export class CreatePlaylistPage implements OnInit {
     console.log('Files:::', files);
   }
   
+  getContentImgPath(){
+    this.selectedContents.forEach((ele) => {
+      if (!ele.metaData['thumbnail']) {
+        if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
+          ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData.identifier);
+        } else {
+          ele.metaData['thumbnail'] = ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
+        }
+      }
+    })
+  }
+
+  loadYoutubeImg(id: string): string {
+    return `https://img.youtube.com/vi/${id}/0.jpg`;
+  }
 
 }
