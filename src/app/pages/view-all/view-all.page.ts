@@ -180,4 +180,8 @@ export class ViewAllPage implements OnInit {
     return `https://img.youtube.com/vi/${id}/0.jpg`;
   }
 
+  async playcontent(content: any) {
+    await this.router.navigate(['/player'], {state: {content}});
+  }
+
 }
