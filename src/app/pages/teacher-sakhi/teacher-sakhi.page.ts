@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BotMessage } from 'src/app/appConstants';
 import { AppHeaderService } from 'src/app/services';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
@@ -24,7 +23,7 @@ export class TeacherSakhiPage implements OnInit {
   ionViewWillEnter()  {
     this.config = {type: 'teacher'}
     this.headerService.showHeader("Teacher Sakhi", true, ['bot']);
-    this.headerService.showStatusBar('#FFBC00');
+    this.headerService.showStatusBar(false, '#FFBC00');
     this.telemetry.generateStartTelemetry('bot', 'teacher-sakhi');
   }
 

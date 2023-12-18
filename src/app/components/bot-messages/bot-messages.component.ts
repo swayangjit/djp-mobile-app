@@ -19,6 +19,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   @Output() botMessageEvent = new EventEmitter();
   @ViewChild('recordbtn', {read: ElementRef}) recordbtn: ElementRef | any;
   @ViewChild(IonContent, {static: true}) private content: any;
+  navigated: boolean = false
   constructor(
     private record: RecordingService,
     private ngZone: NgZone,
@@ -31,7 +32,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.headerService.headerEventEmitted$.subscribe((name: any) => {
-      if(name == "back") {
+      if(name == "back" && !this.navigated) {
+        this.navigated = true;
         console.log('bot message back event ');
         if(this.botMessages.length > 0) {
           let result = {audio: 0, text: 0};
@@ -44,6 +46,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           });
           console.log('result count ', result);
           this.botMessageEvent.emit({audio: result.audio, text: result.text, totalCount: this.botMessages.length})
+        } else {
+          this.botMessageEvent.emit({audio: 0, text: 0, totalCount: 0})
         }
       }
     })
@@ -69,6 +73,10 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     this.content.scrollToBottom(100).then(() => {
       this.content.scrollToBottom(100)
     })
+  }
+  
+  ionViewWillEnter() {
+    this.navigated = false;
   }
   
   ngAfterViewInit(): void {

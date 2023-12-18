@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonTabs, Platform } from '@ionic/angular';
-import { AppHeaderService } from '../services/app-header.service';
 import { OnTabViewWillEnter } from './on-tabs-view-will-enter';
 import { Router } from '@angular/router';
 import { TabsService } from '../services/tabs.service';
@@ -14,10 +13,8 @@ export class TabsPage implements OnTabViewWillEnter{
   subscription: any;
   @ViewChild('tabRef', { static: false }) tabRef!: IonTabs;
   constructor(private platform: Platform,
-    private headerService: AppHeaderService,
     private router: Router,
     private tabService: TabsService) {
-    this.headerService.showStatusBar();
   }
 
   tabViewWillEnter(): void {

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ApiPreprocessor } from '../api-preprocessor';
-import { APIConstants, request, sourceConfig } from '../../appConstants';
+import { request, sourceConfig } from '../../appConstants';
 import { ApiService } from '../api.service';
 import { PreprocessorService } from './preprocessor.service';
 import { Content } from '../content/models/content';
+import { apiConfig } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class DikshaPreprocessorService implements ApiPreprocessor {
     this.sunbirdConfig.metaData.name = input.sourceName;
     this.sunbirdConfig.source = input.sourceName;
     // APi call base url
-    let searchData: any = await this.apiService.post(input.baseURL+'/'+APIConstants.SEARCH_API, requestBody);
+    let searchData: any = await this.apiService.post(input.baseURL+'/'+apiConfig.SEARCH_API, requestBody);
     console.log('data ', searchData);
     if (searchData.status == 200) {
       let conData = searchData.data.result.content;

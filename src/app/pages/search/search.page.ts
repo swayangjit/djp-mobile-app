@@ -47,7 +47,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
 
   tabViewWillEnter(): void {
     this.headerService.hideHeader();
-    this.headerService.showStatusBar();
+    this.headerService.showStatusBar(false);
   }
 
   ngOnInit() {
@@ -62,7 +62,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
 
   ionViewWillEnter() {
     this.headerService.hideHeader();
-    this.headerService.showStatusBar();
+    this.headerService.showStatusBar(false);
   }
 
   async handleSearch(data?: any, audio: boolean = false) {
