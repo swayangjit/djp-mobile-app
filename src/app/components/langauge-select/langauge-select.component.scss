@@ -1,5 +1,5 @@
 .lang-content {
-    --background: white;
+    --background: var(--ion-color-primary-contrast);
 }
 
 ion-list {
@@ -7,5 +7,5 @@ ion-list {
 }
 
 ion-title {
-    color: #FF3B53;
+    color: var(--ion-color-primary);
 }
