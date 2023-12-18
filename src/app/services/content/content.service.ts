@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { capSQLiteSet } from '@capacitor-community/sqlite';
 import { ApiService, DbService } from '..';
 import { Content } from './models/content';
@@ -21,7 +21,8 @@ export class ContentService {
 
   constructor(
     private readonly dbService: DbService,
-    private readonly apiService: ApiService
+    private readonly apiService: ApiService,
+    private readonly zone: NgZone
   ) { }
 
   deleteAllContents(): Promise<any> {
@@ -70,7 +71,7 @@ export class ContentService {
     let body = {
       "request": {
         "filters": {
-          "channel": "01246375399411712074",
+          "channel": "",
           "primaryCategory": [
             "Collection",
             "Resource",
@@ -177,7 +178,8 @@ export class ContentService {
               audience: content?.audience,
               status: content?.status,
               createdon: content?.createdOn,
-              lastupdatedon: content?.lastupdatedon || content?.lastUpdatedOn
+              lastupdatedon: content?.lastupdatedon || content?.lastUpdatedOn,
+              artifactUrl: content?.artifactUrl
             }
           })
         })
@@ -190,14 +192,12 @@ export class ContentService {
   }
 
   private showAllChild(content: any) {
-    if (
-      content.children === undefined ||
-      !content.children.length ||
-      ContentUtil.isTrackable(content) === 1) {
-      if (
-        (content.mimeType !== MimeType.COLLECTION ||
-          ContentUtil.isTrackable(content) === 1) && [MimeType.VIDEO, MimeType.PDF].indexOf(content.mimeType) > -1
-      ) {
+    let supportedMimeType = MimeType.VIDEOS;
+    if (!(supportedMimeType.indexOf(MimeType.PDF) > -1)) {
+      supportedMimeType.push(MimeType.PDF)
+    }
+    if (content.children === undefined || !content.children.length) {
+      if (supportedMimeType.indexOf(content.mimeType) > -1) {
         this.results.push(content);
       }
       return;
@@ -206,7 +206,6 @@ export class ContentService {
       this.showAllChild(child);
     });
     console.log('Results', this.results);
-
   }
 
 }
