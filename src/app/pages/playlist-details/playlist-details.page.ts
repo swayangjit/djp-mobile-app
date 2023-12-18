@@ -76,4 +76,8 @@ export class PlaylistDetailsPage implements OnInit {
     });
   }
 
+  loadYoutubeImg(id: string): string {
+    return `https://img.youtube.com/vi/${id}/0.jpg`;
+  }
+
 }
