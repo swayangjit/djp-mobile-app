@@ -27,6 +27,7 @@ import { TelemetryDecorator } from './services/telemetry/models/telemetry.decora
 import { TelemetryGeneratorService } from './services/telemetry/telemetry.generator.service';
 import { ScannerService } from './services/scan/scanner.service';
 import { PermissionsService } from './services/scan/permissions.service';
+import { TabsService } from './services/tabs.service';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -69,7 +70,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     ScannerService,
     PermissionsService,
     Diagnostic,
-    SearchService
+    SearchService,
+    TabsService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

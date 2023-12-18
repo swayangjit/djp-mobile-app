@@ -51,16 +51,18 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
       } 
     })
     this.configContents = [];
+    // this.configContents = [{metaData: {name: 'Res 1'}}, {metaData: {name: 'res 2'}}, {metaData: {name: 'res 3'}}]
+  }
+
+  ionViewWillEnter() {
+    this.navigated = false;
+    this.headerService.showHeader('QrScan Result', true, []);
+    this.headerService.showStatusBar();
     this.contentService.getContents(this.scanText).then((result) => {
       this.showSheenAnimation = false;
       console.log('Result: ', result);
       this.configContents = result;
     })
-  }
-
-  ionViewWillEnter() {
-    this.headerService.showHeader('QrScan Result', true, []);
-    this.headerService.showStatusBar();
   }
 
   async playContent(event: Event, content: Content) {

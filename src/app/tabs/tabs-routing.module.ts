@@ -20,13 +20,13 @@ const routes: Routes = [
         loadChildren: () => import('../pages/story/story.module').then(m => m.StoryPageModule)
       },
       {
-        path: 'bot',
-        loadChildren: () => import('../pages/bot/bot.module').then( m => m.BotPageModule)
+        path: 'teacher-sakhi',
+        loadChildren: () => import('../pages/teacher-sakhi/teacher-sakhi.module').then( m => m.TeacherSakhiPageModule)
       },
-      // {
-      //   path: 'activity',
-      //   loadChildren: () => import('../pages/activity/activity.module').then(m => m.ActivityPageModule)
-      // },
+      {
+        path: 'parent-sakhi',
+        loadChildren: () => import('../pages/parent-sakhi/parent-sakhi.module').then(m => m.ParentSakhiPageModule)
+      },
       {
         path: '',
         redirectTo: '/tabs/home',

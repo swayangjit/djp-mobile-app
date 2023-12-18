@@ -1,10 +1,11 @@
 ion-content{
-    --padding-top: 72px;
+    --padding-top: 0px;
     --background: url('../../../assets/images/content-bg.svg') center center / cover no-repeat;
+    height: 90%;
 }
 .djp-bot{
     padding: 1rem;
-    height: calc(100vh - 4.875rem);
+    // height: calc(95vh - 4.875rem);
     overflow: auto;
     &__message{
         line-height: normal;
@@ -51,8 +52,35 @@ ion-content{
     .sc-ion-input-md-h{
         height: 2.25rem;
         min-height: auto;
-        border: 0.063rem solid rgb(142, 142, 147, 0.5);
-        border-radius: 1rem;
         padding: 0 0.5rem !important;
+        --border-color: gray;
+        caret-color: gray !important;
+        --highlight-color: gray !important;
+        --highlight-color-focused: gray !important;
+    }
+}
+
+.audio_msg {
+    display: flex;
+    background: #c6dfc6;
+    padding: 5px;
+    border-radius: 10px;
+    .play_audio{
+        display: flex;
+        flex-direction: column;
+        span {
+            font-size: 8px;
+            text-align: center;
+        }
+    }
+    .audio-wave {
+        padding-left: 5px;
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+    img{
+        width: 25px;
     }
 }

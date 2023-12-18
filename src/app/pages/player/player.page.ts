@@ -34,7 +34,6 @@ export class PlayerPage implements OnInit {
     private telemetryGeneratorService: TelemetryGeneratorService,
     private telemetryService: TelemetryService,
     private platform: Platform) {
-      
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.content = extras.state?.['content'] as Content;

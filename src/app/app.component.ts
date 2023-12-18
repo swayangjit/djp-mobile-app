@@ -74,8 +74,6 @@ export class AppComponent implements OnInit {
       }
     } else if($event.name == "search") {
       this.router.navigate(['/search']);
-    } else if($event.name === 'back') {
-      this.location.back();
     }
     this.headerService.sidebarEvent($event);
   }

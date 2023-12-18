@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BotPage } from './bot.page';
+import { ParentSakhiPage } from './parent-sakhi.page';
 
-describe('BotPage', () => {
-  let component: BotPage;
-  let fixture: ComponentFixture<BotPage>;
+describe('ParentSakhiPage', () => {
+  let component: ParentSakhiPage;
+  let fixture: ComponentFixture<ParentSakhiPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(BotPage);
+    fixture = TestBed.createComponent(ParentSakhiPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

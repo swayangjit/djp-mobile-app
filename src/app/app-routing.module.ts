@@ -32,8 +32,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/player/player.module').then( m => m.PlayerPageModule)
   },
   {
-    path: 'bot',
-    loadChildren: () => import('./pages/bot/bot.module').then( m => m.BotPageModule)
+    path: 'teacher-sakhi',
+    loadChildren: () => import('./pages/teacher-sakhi/teacher-sakhi.module').then( m => m.TeacherSakhiPageModule)
   },
   {
     path: 'view-all',
@@ -50,7 +50,13 @@ const routes: Routes = [
   {
     path: 'qr-scan-result',
     loadChildren: () => import('./pages/qr-scan-result/qr-scan-result.module').then( m => m.QrScanResultPageModule)
-  },  {
+  },
+  {
+    path: 'parent-sakhi',
+    loadChildren: () => import('./pages/parent-sakhi/parent-sakhi.module').then( m => m.ParentSakhiPageModule)
+  }
+  },
+  {
     path: 'playlist-details',
     loadChildren: () => import('./pages/playlist-details/playlist-details.module').then( m => m.PlaylistDetailsPageModule)
   }

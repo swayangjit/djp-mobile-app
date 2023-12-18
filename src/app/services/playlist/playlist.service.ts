@@ -60,7 +60,7 @@ export class PlaylistService {
   public async getAllPlayLists(uid: string): Promise<Array<PlayList>> {
     return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'uid': uid }, `ORDER BY ${PlaylistEntry.COLUMN_NAME_TIME_STAMP} DESC`).then(async (playListDbLists: any[]) => {
       const playLists: Array<PlayList> = []
-      if (playLists && playListDbLists.length) {
+      if (playLists && playListDbLists?.length) {
         for (let i = 0; i < playListDbLists.length; i++) {
           const playlistDetails = await this.getPlayListDetails(playListDbLists[i].identifier)
           playLists.push(playlistDetails);
