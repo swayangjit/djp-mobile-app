@@ -90,7 +90,6 @@ export class PlayerPage implements OnInit {
       ScreenOrientation.unlock();
       ScreenOrientation.lock({ orientation: 'landscape-primary' });
       if (this.playerType == 'pdf') {
-        this.getPlayerConfig()
         this.playerConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.playerConfig['metadata']['name'] = this.content?.metaData.name;
         this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl;
