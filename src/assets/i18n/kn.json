@@ -37,7 +37,12 @@
     "Playlist name": "ಪ್ಲೇಲಿಸ್ಟ್‌ ಹೆಸರು",
     "Save Playlist": "ಪ್ಲೇಲಿಸ್ಟ್‌ ಸೇವ್‌ ಮಾಡಿ",
     "No Result": "ಯಾವುದೇ ಫಲಿತಾಂಶವಿಲ್ಲ",
-    "myPlaylist": "ನನ್ನ ಪ್ಲೇಪಟ್ಟಿ",
+    "My Playlist": "ನನ್ನ ಪ್ಲೇಪಟ್ಟಿ",
     "edit": "ತಿದ್ದು",
-    "delete": "ಅಳಿಸಿ"
+    "delete": "ಅಳಿಸಿ",
+    "You have to watch content": "ನೀವು ವಿಷಯವನ್ನು ವೀಕ್ಷಿಸಬೇಕು",
+    "Click on New Playlist button to create your first playlist": "ನಿಮ್ಮ ಮೊದಲ ಪ್ಲೇಪಟ್ಟಿಯನ್ನು ರಚಿಸಲು ಹೊಸ ಪ್ಲೇಪಟ್ಟಿ ಬಟನ್ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ",
+    "createPlaylist": "ಪ್ಲೇಪಟ್ಟಿ ರಚಿಸಿ",
+    "create New Playlist": "ಹೊಸ ಪ್ಲೇಪಟ್ಟಿಯನ್ನು ರಚಿಸಿ",
+    "Select from Recently Viewed": "ಇತ್ತೀಚೆಗೆ ವೀಕ್ಷಿಸಿದವರಿಂದ ಆಯ್ಕೆಮಾಡಿ"
 }

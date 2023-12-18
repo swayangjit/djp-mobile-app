@@ -37,7 +37,12 @@
     "Playlist name": "జాబితా పేరు",
     "Save Playlist": "సేవ్ చెయ్యండి",
     "No Result": "ఫలితం లేదు",
-    "myPlaylist": "నా ప్లేజాబితా",
+    "My Playlist": "నా ప్లేజాబితా",
     "edit": "సవరించు",
-    "delete": "తొలగించు"
+    "delete": "తొలగించు",
+    "You have to watch content": "మీరు కంటెంట్‌ని చూడాలి",
+    "Click on New Playlist button to create your first playlist": "మీ మొదటి ప్లేజాబితాని సృష్టించడానికి కొత్త ప్లేజాబితా బటన్‌పై క్లిక్ చేయండి",
+    "createPlaylist": "ప్లేజాబితాని సృష్టించండి",
+    "create New Playlist": "కొత్త ప్లేజాబితాని సృష్టించండి",
+    "Select from Recently Viewed": "ఇటీవల వీక్షించిన వాటి నుండి ఎంచుకోండి"
 }

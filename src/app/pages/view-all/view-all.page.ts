@@ -34,6 +34,7 @@ export class ViewAllPage implements OnInit {
       })
     });
   @ViewChild(IonModal) modal: IonModal | undefined;
+  navigated = false;
   constructor(
     private contentService: ContentService,
     private router: Router,
@@ -54,6 +55,12 @@ export class ViewAllPage implements OnInit {
       this.location.back();
       this.headerService.deviceBackBtnEvent({ name: 'backBtn' })
     });
+    this.headerService.headerEventEmitted$.subscribe((event) => {
+      if(event === 'back' && !this.navigated) {
+        this.navigated = true;
+        this.location.back();
+      }
+    })
     this.getRecentlyviewedContent()
   }
 
@@ -98,6 +105,7 @@ export class ViewAllPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.navigated = false;
     if (this.type === 'recentlyviewed') {
       this.headerService.showHeader('Recently Viewed', true);
     } else if (this.type === 'playlist') {
