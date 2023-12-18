@@ -12,6 +12,7 @@ import { AddToPitaraComponent } from './add-to-pitara/add-to-pitara.component';
 import { EditRemovedModalComponent } from './edit-removed-modal/edit-removed-modal.component';
 import { NewPlaylistModalComponent } from './new-playlist-modal/new-playlist-modal.component';
 import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
+import { BotMessagesComponent } from './bot-messages/bot-messages.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
         AddToPitaraComponent,
         EditRemovedModalComponent,
         NewPlaylistModalComponent,
-        SkeletonItemComponent
+        SkeletonItemComponent,
+        BotMessagesComponent
     ],
     imports: [
         CommonModule,
@@ -40,7 +42,8 @@ import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
         AddToPitaraComponent,
         EditRemovedModalComponent,
         NewPlaylistModalComponent,
-        SkeletonItemComponent
+        SkeletonItemComponent,
+        BotMessagesComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [

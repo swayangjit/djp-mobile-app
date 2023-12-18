@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { StoryPage } from './story.page';
 
 import { StoryPageRoutingModule } from './story-routing.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    StoryPageRoutingModule
+    StoryPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [StoryPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

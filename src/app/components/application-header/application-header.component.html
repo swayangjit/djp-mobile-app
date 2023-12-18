@@ -1,6 +1,6 @@
 <ion-header [hidden]="!headerConfig?.showHeader || false">
   <ion-toolbar class="custom-header">
-    <div class="header-content">
+    <div class="header-content" *ngIf="headerConfig?.actionButtons[0] !== 'bot'">
       <ion-buttons slot="start" class="start-icon">
         <ion-button [hidden]="headerConfig?.showbackButton">
           <ion-icon aria-hidden="true" class="pitara-icon" src="assets/icon/DJPLogo.svg"></ion-icon>
@@ -10,9 +10,9 @@
           <ion-icon aria-hidden="true" src="assets/icon/back.svg"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title role="heading" aria-level="1" *ngIf="!(headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0)">{{ headerConfig?.pageTitle | translate}}</ion-title>
-      <ion-input type="search" *ngIf="headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0" #searchInput [placeholder]="'SEARCH_HINT' | translate">
-    </ion-input>
+      <ion-title role="heading" [ngClass]="headerConfig?.showbackButton ? 'title_bb': ''" aria-level="1" 
+      *ngIf="!(headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0)">{{ headerConfig?.pageTitle | translate}}</ion-title>
+      <ion-input type="search" *ngIf="headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0" #searchInput [placeholder]="'SEARCH_HINT' | translate"></ion-input>
       <ion-buttons slot="end" [hidden]="headerConfig?.showbackButton">
         <ion-button (click)="emitEvent($event, 'search')" appLongPress>
           <ion-icon aria-hidden="true" src="assets/icon/search.svg"></ion-icon>
@@ -33,22 +33,22 @@
         </ion-button>
       </ion-buttons>
     </div>
-    <div class="pills-container" *ngIf="!headerConfig?.showbackButton">
+    <!--bot panel header-->
+    <div class="bot-back-panel" *ngIf="headerConfig?.actionButtons[0] === 'bot'">
+      <div class="bot-back-panel-container" [ngClass]="headerConfig.pageTitle === 'Parent Sakhi' || headerConfig.pageTitle === 'Teacher Sakhi' ?  'parent-bot' : '' "  (click)="emitEvent($event, 'back')">  <!--use the class "parent-bot" for parent bot panel-->
+        <ion-icon aria-hidden="true" src="assets/icon/bot-back-icon.svg"></ion-icon>
+        <div class="bot-back-panel__title">{{headerConfig.pageTitle | translate}}</div>
+      </div>
+    </div>
+    <!--bot panel header ends here-->
+    <div class="pills-container" *ngIf="!headerConfig?.showbackButton && headerConfig?.pageTitle !== 'My Jaadui Pitara'">
       <ion-chip class="pills" (click)="toggleMenu()">
         <ion-icon aria-hidden="true" src="assets/icon/list.svg"></ion-icon>
       </ion-chip>
       <div *ngFor="let filter of filters; let i=index" (click)="handleFilter(filter)">
         <ion-chip class="pills" [ngClass]="filter?.label == defaultFilter?.label ? 'active': ''">{{filter.label | translate }}</ion-chip>
       </div>
-     </div>
-     <!--bot panel header-->
-     <div class="bot-back-panel hide">  <!--remove hide class for bot panels-->
-      <div class="bot-back-panel-container">  <!--use the class "question-bot" for question bot panel-->
-        <ion-icon aria-hidden="true" src="assets/icon/bot-back-icon.svg"></ion-icon>
-        <div class="bot-back-panel__title">Story Bot</div>
-      </div>
     </div>
-    <!--bot panel header ends here-->
   </ion-toolbar>
 </ion-header>
 

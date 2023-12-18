@@ -8,13 +8,14 @@ import { ContentUtil } from 'src/app/services/content/util/content.util';
 import { PlayList } from 'src/app/services/playlist/models/playlist.content';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import {PlayerType} from 'src/app/appConstants';
+import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 
 @Component({
   selector: 'app-mypitara',
   templateUrl: 'mypitara.page.html',
   styleUrls: ['mypitara.page.scss']
 })
-export class MyPitaraPage {
+export class MyPitaraPage implements OnTabViewWillEnter{
   contentList: Array<any> = [];
   playlists: Array<any> = [];
   isNavigate = true;
@@ -29,17 +30,20 @@ export class MyPitaraPage {
   async ngOnInit(): Promise<void> {
     this.headerService.deviceBackbtnEmitted$.subscribe((event: any) => {
       if(event.name = "backBtn") {
-        this.headerService.showHeader("My Jaadui Pitara");
-        this.getPlaylistContent();
+        this.tabViewWillEnter();
       }
     })
   
   }
 
-  ionViewWillEnter() {
-    this.headerService.showHeader("My Jaadui Pitara");
+  async tabViewWillEnter() {
+    await this.headerService.showHeader("My Jaadui Pitara");
     this.getRecentlyviewedContent();
     this.getPlaylistContent();
+  }
+
+  ionViewWillEnter() {
+    this.tabViewWillEnter();
   }
 
   viewAllCards(event: string) {

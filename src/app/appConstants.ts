@@ -256,3 +256,18 @@ export const sidebarMenuItems = [
     "Lullabies",
     "Games"
 ]
+
+export interface BotMessage {
+    message: string;
+    messageType: string;
+    audio?: any;
+    type: string;
+    time: string;
+    timeStamp: any;
+}
+
+export class Sakhi {
+    static TEACHER = 'teacher'
+    static STORY = 'story'
+    static PARENT = 'parent'
+}

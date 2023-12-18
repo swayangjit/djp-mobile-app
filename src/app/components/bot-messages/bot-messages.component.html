@@ -1,0 +1,31 @@
+<ion-content id="content" [fullscreen]="true">
+  <div class="djp-bot" *ngIf="botMessages.length > 0">
+    <!-- switch the class names 'received' and 'sent' based on condition -->
+    <div *ngFor="let msg of botMessages; let i = index"> 
+      <div *ngIf="msg?.type !== ''" class="djp-bot__message {{msg?.type}}">
+        <ion-text>{{msg?.message}}</ion-text>
+        <div class="audio_msg" *ngIf="msg?.messageType == 'audio'" (click)="playFile(msg.audio)">
+          <div class="play_audio">
+            <img *ngIf="!msg?.audio?.play" src="../../../assets/icon/play.svg" alt="" />
+            <img *ngIf="msg?.audio?.play" src="../../../assets/icon/pause.svg" alt="" />
+            <span>{{msg?.audio?.duration}}</span>
+          </div>
+          <div class="audio-wave">
+            <img src="../../../assets/icon/waveform.svg" alt=""/>
+            <img src="../../../assets/icon/waveform.svg" alt=""/>
+          </div>
+        </div>
+        <ion-text class="time">{{msg?.time}}</ion-text>
+      </div>
+    </div>
+    <!-- <div class="djp-bot__message sent" *ngIf="msg.type == 'sent' && msg.messageType == 'audio'" (click)="playFile(msg.audio)">
+      <img src="../../../assets/icon/play.svg" alt="" />
+      <ion-text class="time">{{msg.time}}</ion-text>
+    </div> -->
+  </div>
+  <div class="djp-bot-input">
+    <ion-input aria-label="" value="" placeholder="Type here" (keyup.enter)="handleMessage()" fill="outline" shape="round" [(ngModel)]="textMessage"></ion-input>
+    <ion-icon #recordbtn aria-hidden="true" class="audio-record-mic" src="assets/icon/bot-audio.svg"></ion-icon>
+  </div>
+</ion-content>
+
