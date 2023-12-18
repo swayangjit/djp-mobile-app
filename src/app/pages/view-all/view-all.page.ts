@@ -173,7 +173,9 @@ export class ViewAllPage implements OnInit {
   }
 
   async playcontent(content: any) {
-    await this.router.navigate(['/player'], {state: {content}});
+    if (this.type === 'recentlyviewed') {
+      await this.router.navigate(['/player'], {state: {content}});
+    }
   }
 
 }
