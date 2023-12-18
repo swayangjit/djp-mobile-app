@@ -1,21 +1,21 @@
-<ion-tabs #tabRef>
+<ion-tabs #tabRef (ionTabsDidChange)="ionTabsDidChange($event)">
   <ion-tab-button tab="home" href="/tabs/home" class="home-screen">
     <ion-icon aria-hidden="true" src="assets/icon/home.svg"></ion-icon>
   </ion-tab-button>
 
-  <ion-tab-bar slot="bottom">
-    
-    <ion-tab-button tab="story" href="/tabs/story">
+  <ion-tab-bar slot="bottom" class="tabbar">
+
+    <ion-tab-button tab="story" href="">
       <ion-icon aria-hidden="true" src="assets/icon/book.svg"></ion-icon>
       <ion-label>{{'Story Sakhi' | translate }}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="bot" href="/tabs/bot">
+    <ion-tab-button tab="teacher-sakhi" href="">
       <ion-icon aria-hidden="true" src="assets/icon/teacher.svg"></ion-icon>
       <ion-label>{{'Teacher Sakhi' | translate }}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="bot" href="/tabs/bot">
+    <ion-tab-button tab="parent-sakhi" href="">
       <ion-icon aria-hidden="true" src="assets/icon/parents.svg"></ion-icon>
       <ion-label>{{'Parent Sakhi' | translate }}</ion-label>
     </ion-tab-button>
