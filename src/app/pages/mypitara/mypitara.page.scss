@@ -12,7 +12,7 @@ ion-content {
         color: var(--ion-color-dark);
         font-weight: 700;
         &__link{
-            color: #FF3B53;
+            color: var(--ion-color-primary);
         }
     }
     &__container{
@@ -142,10 +142,10 @@ ion-content {
     }
 }
 :host ion-button {
-    --background: #fff;
-    --color: #01C9BA;
+    --background: var(--ion-color-primary-contrast);
+    --color: var(--ion-color-secondary);
     --border-radius: 30px;
-    --border-color: #01C9BA;
+    --border-color: var(--ion-color-secondary);
     --border-style: solid;
     --border-width: 1px;
     --box-shadow: none;
@@ -164,8 +164,8 @@ ion-modal {
     --border-radius: 50% !important;
     --border-color: #908c89 !important;
     --size: 1.5rem !important;
-    --checkbox-background-checked: #01c9ba !important;
-    --border-color-checked: #01c9ba !important;
+    --checkbox-background-checked: var(--ion-color-secondary) !important;
+    --border-color-checked: var(--ion-color-secondary) !important;
   }
   .new-playlist-card {
     display: flex;
@@ -217,8 +217,8 @@ ion-modal {
     .create-playlist{
         height: 4rem;
         border-radius: 6.25rem;
-        border: 0.125rem solid #fff;
-        background: #01C9BA;
+        border: 0.125rem solid var(--ion-color-primary-contrast);
+        background: var(--ion-color-secondary);
         margin: 0 0.5rem;
         padding: 0.5rem 1rem;
         display: flex;
@@ -231,7 +231,7 @@ ion-modal {
                 height: 3rem;
                 width: 3rem;
                 border-radius: 50%;
-                background: #fff;
+                background: var(--ion-color-primary-contrast);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -240,7 +240,7 @@ ion-modal {
                     position: absolute;
                     right: -0.25rem;
                     top: 0;
-                    background: #FF3B53;
+                    background: var(--ion-color-primary);
                     height: 1.125rem;
                     width: 1.125rem;
                     border-radius: 50%;
@@ -256,9 +256,9 @@ ion-modal {
             &__btn{
                 ion-button {
                     --background: none;
-                    --color: #fff;
+                    --color: var(--ion-color-primary-contrast);
                     --border-radius: 1.875rem;
-                    --border-color: #fff;
+                    --border-color: var(--ion-color-primary-contrast);
                     --border-style: solid;
                     --border-width: 0.125rem;
                     --box-shadow: none;
@@ -297,8 +297,8 @@ ion-modal {
     }
     &__text{
         text-align: center;
-        color: #9E9E9E;
-        font-size: 12px;
+        color: var(--ion-color-medium);
+        font-size: 0.75rem;
     }
 }
 
@@ -328,8 +328,8 @@ ion-modal {
         };
         &__text{
             text-align: center;
-            color: #9E9E9E;
-            font-size: 12px;
+            color: var(--ion-color-medium);
+            font-size: 0.75rem;
         }
     }
 }

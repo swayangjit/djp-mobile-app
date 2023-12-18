@@ -2,15 +2,15 @@ ion-list {
     overflow-y: auto;
     overflow: scroll;
     height: fit-content;
-    max-height: 200px;
+    max-height: 12.5rem;
 }
 
 .btn-info{
     height: 2.7rem;
     width: 34%;
-    --border-radius: 20px;
-    color: white;
-    font-size: 14px;
+    --border-radius: 1.25rem;
+    color: var(--ion-color-primary-contrast);
+    font-size: 0.875rem;
     font-family: Noto Sans;
     font-weight: 700;
     text-transform: uppercase;
@@ -26,8 +26,8 @@ ion-item{
 .new-pitara{
     // font-size: 17px;
     // color: cadetblue;
-    color: #01C9BA;
-font-size: 14px;
+    color: var(--ion-color-secondary);
+font-size: 0.875rem;
 font-family: Noto Sans Devanagari;
 font-weight: 400;
 line-height: 19.60px;
@@ -36,7 +36,7 @@ word-wrap: break-word
 
 .add-to{
     color: #333333;
-font-size: 14px;
+font-size: 0.875rem;
 font-family: Noto Sans Devanagari;
 font-weight: 400;
 line-height: 19.60px;
@@ -49,8 +49,8 @@ ion-radio{
 
 
 ion-radio::part(container) {
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     border: 2px solid #ddd;
   }
   
@@ -62,29 +62,29 @@ ion-radio::part(container) {
   }
   
   ion-radio.radio-checked::part(container) {
-    background: #FFBC00;
+    background: var(--ion-color-tertiary);
     border-color: transparent;
   }
   
   ion-radio.radio-checked::part(mark) {
-    width: 6px;
+    width: 0.375rem;
   
-    border-width: 0px 2px 2px 0px;
+    border-width: 0px 0.125rem 0.125rem 0px;
     border-style: solid;
-    border-color: #fff;
+    border-color: var(--ion-color-primary-contrast);
     transform: rotate(45deg);
   }
 
 
   .btn-info::part(native) {
-    --ion-color-contrast: #fff;
+    --ion-color-contrast: var(--ion-color-primary-contrast);
 }
 
 
 ion-modal {
     --height: 50%;
-    --border-radius: 16px;
-    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --border-radius: 1rem;
+    --box-shadow: 0 0.625rem 0.938rem -0.188rem rgb(0 0 0 / 0.1), 0 0.25rem 0.375rem -0.25rem rgb(0 0 0 / 0.1);
   }
   
   ion-modal::part(backdrop) {
