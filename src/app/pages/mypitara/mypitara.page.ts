@@ -18,6 +18,7 @@ import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 export class MyPitaraPage implements OnTabViewWillEnter{
   contentList: Array<any> = [];
   playlists: Array<any> = [];
+  isNavigate = true;
 
   constructor(private headerService: AppHeaderService,
     private contentService: ContentService,
@@ -88,6 +89,7 @@ export class MyPitaraPage implements OnTabViewWillEnter{
   }
 
   async openModal(content?: any) {
+    this.isNavigate = false;
     const modal = await this.modalCtrl.create({
       component: EditRemovedModalComponent,
       cssClass: 'add-to-pitara',
@@ -99,6 +101,7 @@ export class MyPitaraPage implements OnTabViewWillEnter{
     });
     await modal.present();
     modal.onWillDismiss().then((result) => {
+      this.isNavigate = true;
       if(result && result.data.type === 'delete') {
         this.deletePlaylist(content);
       }
@@ -107,5 +110,11 @@ export class MyPitaraPage implements OnTabViewWillEnter{
 
   loadYoutubeImg(id: string): string {
     return `https://img.youtube.com/vi/${id}/0.jpg`;
+  }
+
+  navigateToDetails(playlist: Array<any>) {
+    if (this.isNavigate) {
+      this.router.navigate(['/playlist-details'], { state: { playlist } })
+    }
   }
 }

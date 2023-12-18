@@ -89,7 +89,7 @@ export class DbService {
     try {
       if (where) {
         const key: string = Object.keys(where)[0];
-        const q: string = `${stmt} WHERE ${key}='${where[key]}' ${orderBy}`;
+        const q: string = `${stmt} WHERE ${key}='${where[key]}' ${orderBy ? orderBy : ''}`;
         const retValues = (await this.sqliteDBConnection.query(q)).values;
         const ret = retValues!.length > 0 ? retValues! : null;
         return ret;
@@ -127,7 +127,7 @@ export class DbService {
       if (setString.length === 0) {
         return Promise.reject(`save: update no SET`);
       }
-      stmt = `${query} ${setString} WHERE ${wKey}=${where[wKey]}`;
+      stmt = `${query} ${setString} WHERE ${wKey}='${where[wKey]}'`;
     }
     const ret = await this.sqliteDBConnection.run(stmt, values);
     if (ret.changes!.changes != 1) {
