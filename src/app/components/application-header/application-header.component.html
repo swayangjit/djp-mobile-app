@@ -3,18 +3,18 @@
     <div class="header-content" *ngIf="headerConfig?.actionButtons[0] !== 'bot'">
       <ion-buttons slot="start" class="start-icon">
         <ion-button [hidden]="headerConfig?.showbackButton">
-          <ion-icon aria-hidden="true" class="pitara-icon" src="assets/icon/DJPLogo.svg"></ion-icon>
+          <ion-icon aria-hidden="true" class="pitara-icon" src="assets/images/DJP-logo.svg"></ion-icon>
         </ion-button>
         <!-- Back button image -->
         <ion-button [hidden]="!headerConfig?.showbackButton" (click)="emitEvent($event, 'back')">
-          <ion-icon aria-hidden="true" src="assets/icon/back.svg"></ion-icon>
+          <ion-icon class="back-btn" aria-hidden="true" src="assets/icon/back.svg"></ion-icon>
         </ion-button>
       </ion-buttons>
       <ion-title role="heading" [ngClass]="headerConfig?.showbackButton ? 'title_bb': ''" aria-level="1" 
       *ngIf="!(headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0)">{{ headerConfig?.pageTitle | translate}}</ion-title>
       <ion-input type="search" *ngIf="headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0" #searchInput [placeholder]="'SEARCH_HINT' | translate"></ion-input>
       <ion-buttons slot="end" [hidden]="headerConfig?.showbackButton">
-        <ion-button (click)="emitEvent($event, 'search')" appLongPress>
+        <ion-button (click)="emitEvent($event, 'search')">
           <ion-icon aria-hidden="true"color="primary" src="assets/icon/search.svg"></ion-icon>
         </ion-button>
         <ion-button (click)="emitEvent($event, 'scan')">
@@ -35,7 +35,7 @@
     </div>
     <!--bot panel header-->
     <div class="bot-back-panel" *ngIf="headerConfig?.actionButtons[0] === 'bot'">
-      <div class="bot-back-panel-container" [ngClass]="headerConfig.pageTitle === 'Parent Sakhi' || headerConfig.pageTitle === 'Teacher Sakhi' ?  'parent-bot' : '' "  (click)="emitEvent($event, 'back')">  <!--use the class "parent-bot" for parent bot panel-->
+      <div class="bot-back-panel-container" [ngClass]="headerConfig.pageTitle === 'Parent Sakhi' || headerConfig.pageTitle === 'Teacher Sakhi' ?  'question-bot' : '' "  (click)="emitEvent($event, 'back')">  <!--use the class "parent-bot" for parent bot panel-->
         <ion-icon aria-hidden="true" src="assets/icon/bot-back-icon.svg"></ion-icon>
         <div class="bot-back-panel__title">{{headerConfig.pageTitle | translate}}</div>
       </div>

@@ -37,7 +37,12 @@
     "Playlist name": "सामग्री सूची का नाम",
     "Save Playlist": "सेव करें",
     "No Result": "कोई परिणाम नहीं",
-    "myPlaylist": "मेरी संगीतसूची",
+    "My Playlist": "मेरी संगीतसूची",
     "edit": "संपादन करना",
-    "delete": "मिटाना"
+    "delete": "मिटाना",
+    "You have to watch content": "आपको कंटेंट देखना होगा",
+    "Click on New Playlist button to create your first playlist": "अपनी पहली प्लेलिस्ट बनाने के लिए नई प्लेलिस्ट बटन पर क्लिक करें",
+    "createPlaylist": "प्लेलिस्ट बनायें",
+    "create New Playlist": "नई प्लेलिस्ट बनाएं",
+    "Select from Recently Viewed": "हाल ही में देखे गए में से चुनें"
 }

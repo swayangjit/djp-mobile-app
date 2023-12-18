@@ -7,10 +7,10 @@
     </div>
     <div class="viewed-content" *ngIf="!contentList.length">
       <div class="viewed-content__info" >
-        <div class="viewed-content__info__image">
+        <!-- <div class="viewed-content__info__image">
           <img src="/assets/images/playlist_bot.png">
-        </div>
-        <div class="viewed-content__info__text">You have to watch content</div>
+        </div> -->
+        <div class="viewed-content__info__text">{{'You have to watch content' | translate}}</div>
       </div>
     </div>
     <div class="djp-grid-slider__container">
@@ -27,7 +27,7 @@
   <!--djp my playlist cards-->
   <div class="djp-playlist">
     <div class="djp-playlist__header">
-      <div class="">{{"myPlaylist" | translate}}</div>
+      <div class="">{{"My Playlist" | translate}}</div>
       <div class="djp-grid-slider__header__button" (click)="viewAllCards('playlist')">
         <ion-button>{{"New Playlist" | translate}} <ion-icon slot="end" aria-hidden="true"
             src="../../../assets/icon/Add-circle-outline.svg"></ion-icon></ion-button>
@@ -35,10 +35,10 @@
     </div>
       <div >
         <div class="playlist-bot" *ngIf="!playlists.length">
-          <div class="playlist-bot__image">
+          <!-- <div class="playlist-bot__image">
             <img src="/assets/images/playlist_bot.png">
-          </div>
-          <div class="playlist-bot__text">Click on New Playlist button to create your first playlist</div>
+          </div> -->
+          <div class="playlist-bot__text">{{'Click on New Playlist button to create your first playlist' | translate}}</div>
         </div>
       </div>
     <div class="djp-playlist__container">

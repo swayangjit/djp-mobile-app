@@ -4,6 +4,9 @@
 
 ion-header {
     box-shadow: none;
+    ion-icon {
+      color: var(--ion-color-primary);
+    }
 }
   
 // ion-toolbar {
@@ -88,7 +91,7 @@ ion-content {
   &__metadata {
     padding-left: 1rem;
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     justify-content: space-between;
     width: 50%;
     height: 90%;

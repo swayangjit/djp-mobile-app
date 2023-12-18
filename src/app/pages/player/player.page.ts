@@ -53,7 +53,7 @@ export class PlayerPage implements OnInit {
       'id': this.content?.metaData.mimetype,
       'type': 'MimeType'
     }]
-    if(this.playerType == PlayerType.YOUTUBE) {
+    if(this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
       this.telemetryGeneratorService.generateStartTelemetry('content',
         'player',
         new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
@@ -137,7 +137,7 @@ export class PlayerPage implements OnInit {
       ScreenOrientation.lock({ orientation: 'portrait-primary' });
     }
     this.headerService.showHeader();
-    this.headerService.showStatusBar();
+    this.headerService.showStatusBar(false);
   }
 
   playerTelemetryEvents(event: any) {
@@ -150,7 +150,7 @@ export class PlayerPage implements OnInit {
   }
 
   closePlayer() {
-    if(this.playerType == PlayerType.YOUTUBE) {
+    if(this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
       this.telemetryGeneratorService.generateEndTelemetry('content', 'play', 'player', 'player', 
       new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
       { l1: this.content?.metaData.identifier! },[])
