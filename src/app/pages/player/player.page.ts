@@ -20,7 +20,7 @@ import { Platform } from '@ionic/angular';
 export class PlayerPage implements OnInit {
   content?: Content;
   orientationType: string = "";
-  playerConfig: any;
+  playerConfig: any ={};
   videoConfig: any;
   playerType: string = '';
   srcUrl: any;
@@ -65,7 +65,7 @@ export class PlayerPage implements OnInit {
   private getPlayerType(mimetype: string): string {
     if (mimetype == PlayerType.PDF) {
       return 'pdf'
-    } else if (mimetype == PlayerType.MP4) {
+    } else if (mimetype == PlayerType.MP4 || mimetype == PlayerType.WEBM) {
       return 'video'
     } else if(mimetype == PlayerType.YOUTUBE) {
       return 'youtube'
@@ -90,10 +90,14 @@ export class PlayerPage implements OnInit {
       ScreenOrientation.unlock();
       ScreenOrientation.lock({ orientation: 'landscape-primary' });
       if (this.playerType == 'pdf') {
-        const playerConfig = this.playerConfig;
-        playerConfig.context.cdata = this.cdata;
+        this.getPlayerConfig()
+        this.playerConfig['metadata']['identifier'] = this.content?.metaData.identifier;
+        this.playerConfig['metadata']['name'] = this.content?.metaData.name;
+        this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl;
+        this.playerConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
+        this.playerConfig['context']['cdata'] = this.cdata;
         const pdfElement = document.createElement('sunbird-pdf-player');
-        pdfElement.setAttribute('player-config', JSON.stringify(playerConfig));
+        pdfElement.setAttribute('player-config', JSON.stringify(this.playerConfig));
         pdfElement.addEventListener('playerEvent', (event) => {
           console.log("On playerEvent", event);
           this.playerEvents(event);
@@ -104,10 +108,13 @@ export class PlayerPage implements OnInit {
         });
         this.pdf.nativeElement.append(pdfElement);
       } else if (this.playerType == "video") {
-        const videoplayerConfig = this.videoConfig;
-        videoplayerConfig.context.cdata = this.cdata;
+        this.videoConfig['metadata']['identifier'] = this.content?.metaData.identifier;
+        this.videoConfig['metadata']['name'] = this.content?.metaData.name;
+        this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl;
+        this.videoConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
+        this.videoConfig['context']['cdata'] = this.cdata;
         const epubElement = document.createElement('sunbird-video-player');
-        epubElement.setAttribute('player-config', JSON.stringify(videoplayerConfig));
+        epubElement.setAttribute('player-config', JSON.stringify(this.videoConfig));
         epubElement.addEventListener('playerEvent', (event) => {
           console.log("On playerEvent", event);
           this.playerEvents(event);

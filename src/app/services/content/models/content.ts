@@ -21,5 +21,6 @@ export interface ContentMetaData {
     keyword?: any;
     status?: string,
     createdon?: string,
-    lastupdatedon?: string
+    lastupdatedon?: string,
+    artifactUrl?: string
 }
