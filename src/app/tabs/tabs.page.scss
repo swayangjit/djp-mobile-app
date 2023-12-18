@@ -1,5 +1,5 @@
 ion-tab-bar {
-  --background: #FF3B53;
+  --background: var(--ion-color-primary);
   border-radius: 50px;
   border: 3px solid var(--ion-color-primary-contrast);
 
@@ -33,7 +33,7 @@ ion-tab-button {
   height: 3.5rem;
   border: 0.188rem solid var(--ion-color-primary-contrast);
   border-radius: 50%;
-  --background: #FF3B53;
+  --background: var(--ion-color-primary);
   border-bottom-color: transparent;
   border-left-color: transparent;
   transform: rotate(-45deg);

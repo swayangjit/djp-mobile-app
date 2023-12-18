@@ -4,7 +4,7 @@ ion-content{
 
   .djp-grid-slider{
     padding: 1rem;
-    margin-top: 10px;
+    margin-top: 0.625rem;
     &__header{
         display: flex;
         justify-content: space-between;
@@ -13,9 +13,9 @@ ion-content{
         color: var(--ion-color-dark);
         position: sticky;
         top: 15px;
-        background-color: #fff;
+        background-color: var(--ion-color-primary-contrast);
         &__add{
-            font-size: 21px;
+            font-size: 1.313rem;
             font-weight: bold;
         }
     }
@@ -24,10 +24,10 @@ ion-content{
 
 :host ion-checkbox {
   --border-radius: 50% !important;
-  --border-color: #908c89 !important;
+  --border-color: var(--ion-color-medium) !important;
   --size: 1.5rem !important;
-  --checkbox-background-checked: #01c9ba !important;
-  --border-color-checked: #01c9ba !important;
+  --checkbox-background-checked: var(--ion-color-secondary) !important;
+  --border-color-checked: var(--ion-color-secondary) !important;
 }
 .new-playlist-card {
   display: flex;
@@ -85,10 +85,10 @@ ion-checkbox {
 
 :host ion-checkbox {
   --border-radius: 50% !important;
-  --border-color: #908c89 !important;
+  --border-color: var(--ion-color-medium) !important;
   --size: 1.5rem !important;
-  --checkbox-background-checked: #01c9ba !important;
-  --border-color-checked: #01c9ba !important;
+  --checkbox-background-checked: var(--ion-color-secondary) !important;
+  --border-color-checked: var(--ion-color-secondary) !important;
 }
 .new-playlist-card {
   display: flex;
@@ -138,10 +138,10 @@ ion-checkbox {
 
 
 :host ion-button.view-playlist {
-  --background: #01c9ba;
-  --color: #fff;
-  --border-radius: 30px;
-  --border-color: #fff;
+  --background: var(--ion-color-secondary);
+  --color: var(--ion-color-primary-contrast);
+  --border-radius: 1.875rem;
+  --border-color: var(--ion-color-primary-contrast);
   --border-style: solid;
   --border-width: 1px;
   --box-shadow: none;
@@ -152,8 +152,8 @@ ion-checkbox {
   bottom: 0;
   width: 99%;
   height: 4rem;
-  background-color: #01C9BA;
-  border-radius: 50px;
+  background-color: var(--ion-color-secondary);
+  border-radius: 3.125rem;
   display: flex;
   align-items: center;
   padding: .5rem;
@@ -161,7 +161,7 @@ ion-checkbox {
   &__icon {
       width: 3rem;
       height: 3rem;
-      background-color: #ffffff;
+      background-color: var(--ion-color-primary-contrast);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -171,17 +171,17 @@ ion-checkbox {
 
       .count {
           position: absolute;
-          top: -3px;
-          right: -3px;
-          background: #FF3B53;
+          top: -0.188rem;
+          right: -0.188rem;
+          background: var(--ion-color-primary);
           border-radius: 50%;
-          font-size: 10px;
-          width: 18px;
-          height: 18px;
+          font-size: 0.625rem;
+          width: 1.125rem;
+          height: 1.125rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #ffffff;
+          color: var(--ion-color-primary-contrast);
       }
 
       ion-icon {
@@ -193,7 +193,7 @@ ion-checkbox {
   &__button {
       margin-left: auto;
       ion-button {
-          font-size: 14px;
+          font-size: 0.875rem;
           font-weight: bold;
       }
   }
