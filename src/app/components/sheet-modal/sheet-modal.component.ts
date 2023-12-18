@@ -30,7 +30,7 @@ export class SheetModalComponent implements OnInit {
 
   async shareContent(event: Event) {
     if((await Share.canShare()).value) {
-      Share.share({text: this.content.metaData.name});
+      Share.share({url: this.content.metaData.url});
     }
   }
 

@@ -44,7 +44,7 @@ export class ContentService {
 
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);
     const recentlyViewedContent: Array<RecentlyViewedContent> = []
-    result.map((contentRVC: ContentRVCEntry.ContentRVCMixedSchemaMap) => {
+    result?.map((contentRVC: ContentRVCEntry.ContentRVCMixedSchemaMap) => {
       recentlyViewedContent.push(ContentRVCMixMapper.mapContentRVCtoRecentlyViedContent(contentRVC, uuidv4()))
     })
     return Promise.resolve(recentlyViewedContent)

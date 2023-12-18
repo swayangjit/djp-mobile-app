@@ -132,11 +132,12 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   }
 
   async tabViewWillEnter() {
-    await this.headerService.showHeader('', false);
+    await this.headerService.showHeader('Title', false);
+    this.headerService.showStatusBar();
   }
 
   async ionViewWillEnter() {
-    this.headerService.showHeader('Title', false);
+    this.tabViewWillEnter();
   }
 
   async moreOtions(content: any) {
