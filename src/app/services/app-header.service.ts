@@ -71,10 +71,10 @@ export class AppHeaderService {
     StatusBar.hide();
   }
 
-  showStatusBar(color?: string) {
+  showStatusBar(overlay: boolean, color?: string) {
     StatusBar.show({animation: Animation.None});
     StatusBar.setStyle({style: color ? Style.Dark : Style.Light});
     StatusBar.setBackgroundColor({color: color ?? '#ffffff'})
-    StatusBar.setOverlaysWebView({overlay: false})
+    StatusBar.setOverlaysWebView({overlay: overlay})
   }
 }

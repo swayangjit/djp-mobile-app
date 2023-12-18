@@ -129,7 +129,7 @@ export class PlayerPage implements OnInit {
       ScreenOrientation.lock({ orientation: 'portrait-primary' });
     }
     this.headerService.showHeader();
-    this.headerService.showStatusBar();
+    this.headerService.showStatusBar(false);
   }
 
   playerTelemetryEvents(event: any) {

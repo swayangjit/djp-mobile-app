@@ -26,7 +26,7 @@ export class SplashPage implements OnInit {
     }
     
   async ngOnInit() {
-    this.headerService.showStatusBar();
+    this.headerService.showStatusBar(true);
     this.headerService.hideHeader();
     let sid = uuidv4();
     this.storage.setData("sid", sid);
