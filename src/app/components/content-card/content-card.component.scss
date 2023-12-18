@@ -10,17 +10,17 @@
   }
 
   &__metadata {
-    background-color: #fff;
-    padding: 16px 24px;
+    background-color: var(--ion-color-primary-contrast);
+    padding: 1rem 1.5rem;
   }
 
   &__action-btns {
     display: flex;
     align-items: center;
     ion-icon {
-      width: 24px;
-      height: 24px;
-      margin-right: 16px;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 1rem;
       &:last-child {
         margin-left: auto;
         margin-right: 0;
@@ -29,8 +29,8 @@
   }
 
   &__title {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
-    margin-top: 8px;
+    margin-top: 0.5rem;
   }
 }

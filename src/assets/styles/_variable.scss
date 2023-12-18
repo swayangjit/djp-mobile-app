@@ -3,12 +3,12 @@
 :root {
   --ion-background-color: #fff;
 
-  --ion-color-primary: #675fce;
+  --ion-color-primary: #FF3B53;
   --ion-color-primary-rgb: 103, 95, 206;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #5b54b5;
-  --ion-color-primary-tint: #766fd3;
+  --ion-color-primary-shade: #e03449;
+  --ion-color-primary-tint: #ff4f64;
 
   --ion-color-secondary: #01c9ba;
   --ion-color-secondary-rgb: 1, 201, 186;
@@ -17,7 +17,7 @@
   --ion-color-secondary-shade: #01b1a4;
   --ion-color-secondary-tint: #1acec1;
 
-  --ion-color-tertiary: #fdc700;
+  --ion-color-tertiary: #FFBC00;
   --ion-color-tertiary-rgb: 253, 199, 0;
   --ion-color-tertiary-contrast: #000000;
   --ion-color-tertiary-contrast-rgb: 0, 0, 0;
@@ -52,7 +52,7 @@
   --ion-color-light-shade: #c3c3c3;
   --ion-color-light-tint: #e1e1e1;
 
-  --ion-color-medium: #908c89;
+  --ion-color-medium: #9E9E9E;
   --ion-color-medium-rgb: 144, 140, 137;
   --ion-color-medium-contrast: #000000;
   --ion-color-medium-contrast-rgb: 0, 0, 0;
@@ -79,4 +79,21 @@
   --ion-font-weight-light: 300; // Light font weight
   --ion-font-weight-normal: 400; // Normal font weight (default)
   --ion-font-weight-bold: 700; // Bold font weight
+}
+.darkmode{
+  --ion-background-color: #333;
+
+  --ion-color-primary: #ffd954;
+  --ion-color-primary-rgb: 103, 95, 206;
+  --ion-color-primary-contrast: #333;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #e0bf4a;
+  --ion-color-primary-tint: #ffdd65;
+
+  --ion-color-secondary: #01c9ba;
+  --ion-color-secondary-rgb: 1, 201, 186;
+  --ion-color-secondary-contrast: #fff;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #01b1a4;
+  --ion-color-secondary-tint: #1acec1;
 }
