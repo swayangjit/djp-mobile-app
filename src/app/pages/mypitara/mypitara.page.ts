@@ -117,4 +117,8 @@ export class MyPitaraPage implements OnTabViewWillEnter{
       this.router.navigate(['/playlist-details'], { state: { playlist } })
     }
   }
+
+  async playContent(content: any) {
+    await this.router.navigate(['/player'], {state: {content}});
+  }
 }
