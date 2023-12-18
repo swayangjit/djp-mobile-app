@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { PlayerType } from 'src/app/appConstants';
 import { AppHeaderService } from 'src/app/services';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
-import { IonModal, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { EditRemovedModalComponent } from 'src/app/components/edit-removed-modal/edit-removed-modal.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-playlist-details',
@@ -15,11 +16,12 @@ export class PlaylistDetailsPage implements OnInit {
   playContentObject: any;
   playlists: Array<any> = [];
   mimeType = PlayerType;
-
+  navigated = false;
   constructor(private router: Router,
     private headerService: AppHeaderService,
     private modalCtrl: ModalController,
-    private playlistService: PlaylistService) {
+    private playlistService: PlaylistService,
+    private location: Location) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.playContentObject = extras.state?.['playlist'];
@@ -33,11 +35,15 @@ export class PlaylistDetailsPage implements OnInit {
     this.headerService.headerEventEmitted$.subscribe((event) => {
       if (event === 'edit') {
         this.router.navigate(['/create-playlist'], {state: {playlists: this.playContentObject, islocal: true}})
+      } else if(event === 'back' && !this.navigated) {
+        this.navigated = true;
+        this.location.back();
       }
     })
   }
 
   ionViewWillEnter() {
+    this.navigated = false;
   }
 
   async playContent(content: any) {

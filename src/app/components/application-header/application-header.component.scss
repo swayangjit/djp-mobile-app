@@ -107,6 +107,9 @@ ion-icon {
     &.question-bot{
       background:  var(--ion-color-tertiary);
     }
+    ion-icon {
+      color: var(--ion-color-primary-contrast);
+    }
   }
   &__title{
     font-size: 1.125rem;
@@ -115,4 +118,8 @@ ion-icon {
     color: var(--ion-color-primary-contrast);
     padding: 0 0.5rem;
   }
+}
+
+.back-btn {
+  color: var(--ion-color-primary);
 }

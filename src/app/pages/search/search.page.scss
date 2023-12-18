@@ -4,6 +4,9 @@
 
 ion-header {
     box-shadow: none;
+    ion-icon {
+      color: var(--ion-color-primary);
+    }
 }
   
 // ion-toolbar {

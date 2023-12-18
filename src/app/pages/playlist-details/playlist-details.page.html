@@ -1,9 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>playlistDetails</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <div class="djp-cards-container" *ngFor="let content of playlists; let i = index">
     <div class="bot-section" *ngIf="!content.metaData || !content.metaData.name">
