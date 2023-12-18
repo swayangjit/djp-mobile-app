@@ -7,6 +7,8 @@ import { PlayList, PlayListContent, PlayListContentMix } from './models/playlist
 import { PlaylistEntry } from './db/playlist.schema';
 import { PlaylistContentEntry } from './db/playlist.content.schema';
 import { ContentEntry } from '../content/db/content.schema';
+import { ContentMapper } from '../content/util/content.entry.mapper';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +19,42 @@ export class PlaylistService {
     private readonly dbService: DbService
   ) { }
 
-  public createPlayList(name: string, uid: string, playListContentList: Array<PlayListContent>): Promise<any> {
-    const playListId = uuidv4()
-    return this.dbService.save(PlaylistEntry.insertQuery(), PlayListEntryMapper.mapContentToPlayListEntry(name, uid, playListId, playListContentList.length)).then(() => {
-      return this.addContentToPlayList(playListId, playListContentList)
+  public createPlayList(name: string, uid: string, playListContentList: Array<PlayListContent>, playListId?: string): Promise<any> {
+    const query: string = !!playListId ? PlaylistEntry.updateQuery() : PlaylistEntry.insertQuery();
+    const whereCondition = !!playListId ? { 'identifier': playListId } : undefined;
+    const isEditMode: boolean = !!playListId;
+    if (!playListId) {
+      playListId = uuidv4()
+    }
+    return this.dbService.save(query , PlayListEntryMapper.mapContentToPlayListEntry(name, uid, playListId, playListContentList.length), whereCondition).then(() => {
+      return this.addContentToPlayList(playListId!, playListContentList, isEditMode)
     })
   }
 
-  public addContentToPlayList(playListId: string, playListContentList: Array<PlayListContent>): Promise<any> {
+  public async addContentToPlayList(playListId: string, playListContentList: Array<PlayListContent>, isEditMode?: boolean): Promise<any> {
     const capSQLiteSet: capSQLiteSet[] = [];
-    playListContentList.map((playListContent) => {
-      capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContent.identifier, playListContent.type) })
-    });
-    return this.dbService.executeSet(capSQLiteSet)
+    for (let i = 0; i < playListContentList.length; i++) {
+      const playListContent = playListContentList[i];
+      if (playListContent.isDeleted) {
+        capSQLiteSet.push({ statement: PlaylistContentEntry.deleteQuery(), values: [playListContentList[i].identifier, playListId] });
+      } else {
+        if(!isEditMode){
+          if (playListContent.type == 'local') {
+            const localData = await this.dbService.readDbData(ContentEntry.readQuery(), { 'identifier': playListContent.identifier })
+            if(!localData){
+              capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(playListContent.localContent!) })
+            }
+            
+          }
+          capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContentList[i].identifier, playListContentList[i].type) })
+        }
+      }
+    }
+    if(capSQLiteSet.length){
+      return this.dbService.executeSet(capSQLiteSet);
+    } else {
+      return Promise.resolve({});
+    }
   }
 
   public async getAllPlayLists(uid: string): Promise<Array<PlayList>> {
@@ -87,7 +112,7 @@ export class PlaylistService {
 
   public deletePlayList(playListId: string): Promise<any> {
     return this.dbService.remove(PlaylistEntry.deleteQuery(), { 'identifier': playListId }).then(() => {
-      return this.dbService.remove(PlaylistContentEntry.deleteQueryOne(), {'playlist_identifier': playListId})
+      return this.dbService.remove(PlaylistContentEntry.deleteQueryOne(), { 'playlist_identifier': playListId })
     })
   }
 

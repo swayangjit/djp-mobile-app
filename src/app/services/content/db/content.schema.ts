@@ -32,6 +32,9 @@ export namespace ContentEntry {
     export const deleteQuery: (() => string) = () => {
         return 'DELETE FROM ' + ContentEntry.TABLE_NAME;
     };
+    export const readQuery:(() => string) = () => {
+        return 'SELECT * FROM ' + TABLE_NAME;
+    }
 
     export const insertQuery: (() => string) = () => {
         return `INSERT INTO ${TABLE_NAME}(

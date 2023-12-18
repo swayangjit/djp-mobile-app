@@ -3,6 +3,8 @@ import { Content } from "../../content/models/content";
 export interface PlayListContent {
     identifier: string;
     type:  'recentlyViewed' | 'local' | 'content';
+    localContent ?: Content;
+    isDeleted?: boolean;
 }
  
 

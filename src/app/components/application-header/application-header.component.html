@@ -28,8 +28,8 @@
         <!-- <ion-button *ngIf="headerConfig?.actionButtons?.indexOf('search') >=0">
           <ion-icon aria-hidden="true" class="audio-record-mic" src="assets/icon/mic.svg"></ion-icon>
         </ion-button> -->
-        <ion-button (click)="emitEvent($event, 'upload')" *ngIf="headerConfig?.actionButtons?.indexOf('upload') >=0">
-          <ion-icon aria-hidden="true" class="audio-record-mic" src="assets/icon/upload.svg"></ion-icon>
+        <ion-button (click)="emitEvent($event, 'edit')" *ngIf="headerConfig?.actionButtons?.indexOf('edit') >=0">
+          <ion-icon aria-hidden="true" class="audio-record-mic" src="assets/icon/edit.svg"></ion-icon>
         </ion-button>
       </ion-buttons>
     </div>
