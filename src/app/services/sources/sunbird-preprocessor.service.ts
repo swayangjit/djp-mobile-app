@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ApiPreprocessor } from '../api-preprocessor';
-import { APIConstants } from '../../appConstants';
 import { ApiService } from '../api.service';
 import { PreprocessorService } from './preprocessor.service';
 import { Mapping, MappingElement, Source } from '../config/models/config';
 import { Content, ContentMetaData } from '../content/models/content';
 import { youtubeContentArr } from 'src/app/pages/player/playerData';
+import { apiConfig } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class SunbirdPreprocessorService implements ApiPreprocessor {
     } };
     this.processorContentList = [];
     // APi call base url
-    let searchData: any = await this.apiService.post(source.baseURL + '/' + APIConstants.SEARCH_API, { 'request': source['searchCriteria'] });
+    let searchData: any = await this.apiService.post(source.baseURL + '/' + apiConfig.SEARCH_API, { 'request': source['searchCriteria'] });
     console.log('data ', searchData);
     if (searchData.status == 200) {
       let contentList = searchData.data.result.content;

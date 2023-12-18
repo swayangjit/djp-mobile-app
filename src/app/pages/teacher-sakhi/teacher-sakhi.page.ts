@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BotMessage } from 'src/app/appConstants';
 import { AppHeaderService } from 'src/app/services';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 

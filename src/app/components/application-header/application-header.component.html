@@ -3,7 +3,7 @@
     <div class="header-content" *ngIf="headerConfig?.actionButtons[0] !== 'bot'">
       <ion-buttons slot="start" class="start-icon">
         <ion-button [hidden]="headerConfig?.showbackButton">
-          <ion-icon aria-hidden="true" class="pitara-icon" src="assets/icon/DJPLogo.svg"></ion-icon>
+          <ion-icon aria-hidden="true" class="pitara-icon" src="assets/images/DJP-logo.svg"></ion-icon>
         </ion-button>
         <!-- Back button image -->
         <ion-button [hidden]="!headerConfig?.showbackButton" (click)="emitEvent($event, 'back')">

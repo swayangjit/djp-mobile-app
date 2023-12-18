@@ -54,7 +54,6 @@ const routes: Routes = [
   {
     path: 'parent-sakhi',
     loadChildren: () => import('./pages/parent-sakhi/parent-sakhi.module').then( m => m.ParentSakhiPageModule)
-  }
   },
   {
     path: 'playlist-details',

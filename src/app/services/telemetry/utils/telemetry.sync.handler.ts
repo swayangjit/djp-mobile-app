@@ -1,16 +1,15 @@
 
-import { EMPTY, from, iif, Observable, of, zip } from 'rxjs';
-import { catchError, expand, map, mapTo, mergeMap, reduce, tap } from 'rxjs/operators';
+import { EMPTY, from, Observable, of } from 'rxjs';
+import { catchError, expand, map, mapTo, mergeMap, reduce } from 'rxjs/operators';
 import { ApiService, DbService } from '../..';
 import * as dayjs from 'dayjs';
-import { Device } from '@capacitor/device';
 import { TelemetryConfigEntry } from '../../db/telemetrySchema';
 import { TelemetryProcessedEntry } from '../db/telemetry.processed.schema';
 import { TelemetrySyncStat } from '../models/telemetry.sync.stat';
 import { v4 as uuidv4 } from "uuid";
 import { TelemetrySyncPreprocessor } from '../models/telemetry-sync-preprocessor';
 import { TelemetryEntriesToStringPreprocessor } from './telemetry.string.preprocessor';
-import { APIConstants } from 'src/app/appConstants';
+import { apiConfig } from 'src/environments/environment.prod';
 
 interface ProcessedEventsMeta {
     processedEvents?: string;
@@ -194,7 +193,7 @@ export class TelemetrySyncHandler {
             return of(undefined);
         }
 
-        return from(this.apiService.post(APIConstants.BASE_URL + APIConstants.TELEMETRY_SYNC, JSON.parse(processedEventsBatchEntry[TelemetryProcessedEntry.COLUMN_NAME_DATA]))).pipe(
+        return from(this.apiService.post(apiConfig.BASE_URL + apiConfig.TELEMETRY_SYNC, JSON.parse(processedEventsBatchEntry[TelemetryProcessedEntry.COLUMN_NAME_DATA]))).pipe(
             map(() => ({
                 syncedEventCount: processedEventsBatchEntry[TelemetryProcessedEntry.COLUMN_NAME_NUMBER_OF_EVENTS],
                 syncTime: Date.now(),

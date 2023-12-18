@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApplicationHeaderComponent } from './application-header/application-header.component';
-import { ContentCardComponent } from './content-card/content-card.component';
 import { StorageService, TelemetryService, UtilService } from '../services';
 import { LangaugeSelectComponent } from './langauge-select/langauge-select.component';
 import { SheetModalComponent } from './sheet-modal/sheet-modal.component';
@@ -17,7 +16,6 @@ import { BotMessagesComponent } from './bot-messages/bot-messages.component';
 @NgModule({
     declarations: [
         ApplicationHeaderComponent,
-        ContentCardComponent,
         LangaugeSelectComponent,
         SheetModalComponent,
         AddToPitaraComponent,
@@ -36,7 +34,6 @@ import { BotMessagesComponent } from './bot-messages/bot-messages.component';
     ],
     exports: [
         ApplicationHeaderComponent,
-        ContentCardComponent,
         LangaugeSelectComponent,
         SheetModalComponent,
         AddToPitaraComponent,
