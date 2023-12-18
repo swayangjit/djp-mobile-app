@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { capSQLiteSet } from '@capacitor-community/sqlite';
 import { ApiService, DbService } from '..';
 import { Content } from './models/content';
@@ -21,8 +21,7 @@ export class ContentService {
 
   constructor(
     private readonly dbService: DbService,
-    private readonly apiService: ApiService,
-    private readonly zone: NgZone
+    private readonly apiService: ApiService
   ) { }
 
   deleteAllContents(): Promise<any> {

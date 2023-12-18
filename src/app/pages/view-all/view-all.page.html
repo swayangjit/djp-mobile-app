@@ -2,13 +2,10 @@
 <ion-content [fullscreen]="true">
   <!-- recentlyviewed -->
   <div class="djp-grid-slider">
-    <div class="djp-grid-slider__header" *ngIf="type==='recentlyviewed'">
-        <div class="djp-grid-slider__header__add">{{'Recently Viewed' | translate}}</div>
-    </div>
     <div class="new-playlist-container">
       <div class="new-playlist-heading">
       </div>
-      <div class="new-playlist-card" *ngFor="let content of contentList; let i=index">
+      <div class="new-playlist-card" *ngFor="let content of contentList; let i=index" (click)="playcontent(content)">
         <div class="new-playlist-card__image">
           <img [src] ="content?.metaData?.thumbnail" alt="Playlist Image" class="playlist-card__image-img">
         </div>
