@@ -17,32 +17,42 @@
     "Like": "पसंद करें",
     "Share": "शेयर करें",
     "Add to playlist": "सामग्री सूची में जोड़ें",
+    "Select Language": "भाषा चुने",
+
+    "Add to Pitara": "पिटारा में जोड़ें",
+    "New Pitara": "नया पिटारा",
+    "Done": "सेव करें",
+
+    "New playlist": "नई सामग्री सूची",
+    "Name of the playlist": "सामग्री सूची का नाम",
+    "Cancel": "रद्द करना",
+    "Create": "सामग्री सूची बनायें",
+
     "My Jaadui Pitara": "मेरा जादुई  पिटारा",
     "Recently Viewed": "हाल में देखा गया",
     "Playlists": "सामग्री सूची",
     "New Playlist": "नई सामग्री सूची",
     "View All": "सभी को देखें",
-    "Make a Story": "एक कहानी बनाओ",
-    "Ask a Doubt": "एक संदेह पूछें",
-    "All Categories": "सब वर्ग",
-    "Select Language": "भाषा चुने",
-    "SEARCH_HINT": "खोज",
-    "QrScan Result": "Qrस्कैन परिणाम",
-    "Add to Pitara": "पिटारा में जोड़ें",
-    "New Pitara": "नया पिटारा",
-    "Done": "हो गया",
-    "New playlist": "नई प्लेलिस्ट",
-    "Cancel": "रद्द करना",
-    "Create": "बनाएं",
-    "Playlist name": "सामग्री सूची का नाम",
-    "Save Playlist": "सेव करें",
-    "No Result": "कोई परिणाम नहीं",
     "My Playlist": "मेरी संगीतसूची",
-    "edit": "संपादन करना",
-    "delete": "मिटाना",
     "You have to watch content": "आपको कंटेंट देखना होगा",
     "Click on New Playlist button to create your first playlist": "अपनी पहली प्लेलिस्ट बनाने के लिए नई प्लेलिस्ट बटन पर क्लिक करें",
+    "Select from Recently Viewed": "हाल ही में देखे गए में से चुनें",
+
+    "All Categories": "सब वर्ग",
+    
+    "SEARCH_HINT": "खोज",
+    "No Result": "कोई परिणाम नहीं",
+
+    "QrScan Result": "Qrस्कैन परिणाम",
+
+    "edit": "संपादन करना",
+    "delete": "मिटाना",
+    
+    "Make a Story": "एक कहानी बनाओ",
+    "Ask a Doubt": "एक संदेह पूछें",
+    "Playlist name": "सामग्री सूची का नाम",
+    "Save Playlist": "सेव करें",
+
     "createPlaylist": "प्लेलिस्ट बनायें",
-    "create New Playlist": "नई प्लेलिस्ट बनाएं",
-    "Select from Recently Viewed": "हाल ही में देखे गए में से चुनें"
+    "create New Playlist": "नई प्लेलिस्ट बनाएं"
 }

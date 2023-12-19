@@ -177,7 +177,13 @@ export class ViewAllPage implements OnInit {
   }
 
   loadYoutubeImg(id: string): string {
-    return `https://img.youtube.com/vi/${id}/0.jpg`;
+    return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+  }
+
+  async playcontent(content: any) {
+    if (this.type === 'recentlyviewed') {
+      await this.router.navigate(['/player'], {state: {content}});
+    }
   }
 
   async playcontent(content: any) {

@@ -20,6 +20,9 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   @ViewChild('recordbtn', {read: ElementRef}) recordbtn: ElementRef | any;
   @ViewChild(IonContent, {static: true}) private content: any;
   navigated: boolean = false
+  startRecording: boolean = false;
+  duration = 0;
+  durationDisplay = '';
   constructor(
     private record: RecordingService,
     private ngZone: NgZone,
@@ -35,40 +38,33 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       if(name == "back" && !this.navigated) {
         this.navigated = true;
         console.log('bot message back event ');
-        if(this.botMessages.length > 0) {
-          let result = {audio: 0, text: 0};
-          this.botMessages.forEach(msg => {
-            if(msg.messageType == 'text'){
-              result.text++;
-            } else if(msg.messageType == 'audio'){
-              result.audio++;
-            }
-          });
-          console.log('result count ', result);
-          this.botMessageEvent.emit({audio: result.audio, text: result.text, totalCount: this.botMessages.length})
-        } else {
-          this.botMessageEvent.emit({audio: 0, text: 0, totalCount: 0})
-        }
+        this.handleBackNavigation();
       }
     })
     Keyboard.addListener('keyboardWillShow', () => {
       console.log('keyboard will show');
       this.content.scrollToBottom();
     })  
+    this.record.startEndEvent$.subscribe((res: any) => {
+      this.startRecording = res;
+      this.calculation();
+    });
     this.record.botEventRecorded$.subscribe((res: any) => {
-      this.chat = {message: '', messageType: '', audio: {file: '', duration: '', play: false}, type: 'sent', time: new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'}), timeStamp: ''}
-      console.log('message ', res);
-      this.ngZone.run(() => {
-        console.log("this.botMessages length ", this.botMessages);
-        this.chat.messageType = 'audio';
-        this.chat.audio = {file: res.file, duration: res.duration, play: false};
-        this.chat.timeStamp = Date.now();
-        console.log('chat ', this.chat);
-        console.log("this.botMessages length ", this.botMessages);
-      })
-      this.botMessages.push(this.chat);
-      // Api call and response from bot, replace laoding text 
-      this.botMessages.push(this.defaultLoaderMsg);
+      console.log('record event ', res);
+      if(res.file) {
+        this.chat = {message: '', messageType: '', audio: {file: '', duration: '', play: false}, type: 'sent', time: new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'}), timeStamp: ''}
+        this.ngZone.run(() => {
+          this.chat.messageType = 'audio';
+          this.chat.audio = {file: res.file, duration: this.durationDisplay, play: false};
+          this.chat.timeStamp = Date.now();
+        })
+        this.botMessages.push(this.chat);
+        this.content.scrollToBottom(100).then(() => {
+          this.content.scrollToBottom(100)
+        })
+        // Api call and response from bot, replace laoding text 
+        this.botMessages.push(this.defaultLoaderMsg);
+      }
     })
     this.content.scrollToBottom(100).then(() => {
       this.content.scrollToBottom(100)
@@ -80,7 +76,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   }
   
   ngAfterViewInit(): void {
-    this.record.gestureControl(this.recordbtn, 'audio');
+    this.record.gestureControl(this.recordbtn);
   }
 
   initialiseBot() {
@@ -96,13 +92,11 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   }
 
   handleMessage() {
-    console.log('message ', this.textMessage);
     this.chat = {message: '', messageType: 'text', type: 'sent', time: new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'}), timeStamp: ''}
     if(this.textMessage.length > 0) {
       Keyboard.hide();
       this.chat.message = this.textMessage;
       this.chat.timeStamp = Date.now()
-      console.log('chat ', this.chat);
       this.textMessage = "";
       this.botMessages.push(this.chat);
       this.content.scrollToBottom(100).then(() => {
@@ -110,7 +104,9 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       })
       // Api call and response from bot, replace laoding text 
       this.botMessages.push(this.defaultLoaderMsg);
-      console.log("botMessages ", this.botMessages.length);
+      this.content.scrollToBottom(100).then(() => {
+        this.content.scrollToBottom(100)
+      })
     }
   }
 
@@ -128,5 +124,55 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     audioRef.oncanplaythrough = () => audioRef.play();
     audioRef.onended = () => audio.play = false;
     audioRef.load();
+  }
+
+  handleBackNavigation() {
+    if(this.botMessages.length > 0) {
+      let result = {audio: 0, text: 0};
+      this.botMessages.forEach(msg => {
+        if(msg.messageType == 'text'){
+          result.text++;
+        } else if(msg.messageType == 'audio'){
+          result.audio++;
+        }
+      });
+      console.log('result count ', result);
+      this.botMessageEvent.emit({audio: result.audio, text: result.text, totalCount: this.botMessages.length})
+    } else {
+      this.botMessageEvent.emit({audio: 0, text: 0, totalCount: 0})
+    }
+  }
+
+  cancelRecording() {
+    console.log('cancel recording');
+    this.record.stopRecognition('audio');
+    this.startRecording = false;
+  }
+
+  calculation() {
+    if(!this.startRecording) {
+      this.duration = 0;
+      this.durationDisplay = '';
+      return;
+    }
+
+    this.duration += 1;
+    const min = Math.floor(this.duration / 60);
+    const sec = (this.duration %60).toString().padStart(2, '0');
+    this.durationDisplay = `${min}:${sec}`;
+
+    setTimeout(() => {
+      this.calculation();
+    }, 1000);
+  }
+
+  onLongPressStart() {
+    console.log('long press start');
+    this.record.startRecognition();
+  }
+
+  onLongPressEnd() {
+    console.log('long press end');
+    this.record.stopRecognition('audio');
   }
 }
