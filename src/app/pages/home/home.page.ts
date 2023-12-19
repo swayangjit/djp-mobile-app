@@ -107,11 +107,11 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       this.noSearchData = false;
       console.log('content ', content);
       let list: any = {};
-      content.forEach((ele: any) => {
+      content.forEach((ele: any, i: number) => {
         list = {}
-        list.source = 'djp'
-        list.sourceType = 'djp-content'
-        list.metaData = ele
+        list.source = i == 5 ? '' : 'djp'
+        list.sourceType = i == 5 ? '': 'djp-content'
+        list.metaData = i == 5 ? {} : ele
         this.configContents.push(list)
       });
       this.contentService.saveContents(this.configContents).then()
@@ -189,16 +189,16 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     this.configContents.forEach(cont => {
       cont.play = false;
     })
-    if(content.metaData.mimetype !== PlayerType.YOUTUBE) {
+    // if(content.metaData.mimetype !== PlayerType.YOUTUBE) {
       await this.router.navigate(['/player'], {state: {content}});
-    } else {
-      content.play = true;
-      this.configContents.forEach(cont => {
-        if (cont.metaData.identifier === content.metaData.identifier) {
-          cont = content
-        }
-      })
-    }
+    // } else {
+    //   content.play = true;
+    //   this.configContents.forEach(cont => {
+    //     if (cont.metaData.identifier === content.metaData.identifier) {
+    //       cont = content
+    //     }
+    //   })
+    // }
   }
 
   async addContentToMyPitara(content: ContentSrc) {
@@ -240,6 +240,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   }
 
   loadYoutubeImg(id: string): string {
-    return `https://img.youtube.com/vi/${id}/0.jpg`;
+    return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 }

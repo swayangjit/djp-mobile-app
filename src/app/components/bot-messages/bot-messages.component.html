@@ -1,4 +1,4 @@
-<ion-content id="content" [fullscreen]="true">
+<ion-content id="content" [scrollY]="true" [fullscreen]="true">
   <div class="djp-bot" *ngIf="botMessages.length > 0">
     <!-- switch the class names 'received' and 'sent' based on condition -->
     <div *ngFor="let msg of botMessages; let i = index"> 
@@ -24,8 +24,15 @@
     </div> -->
   </div>
   <div class="djp-bot-input">
-    <ion-input aria-label="" value="" placeholder="Type here" (keyup.enter)="handleMessage()" fill="outline" shape="round" [(ngModel)]="textMessage"></ion-input>
-    <ion-icon #recordbtn aria-hidden="true" class="audio-record-mic" src="assets/icon/bot-audio.svg"></ion-icon>
+    <ion-input *ngIf="!this.startRecording" aria-label="" value="" placeholder="Type here" (keyup.enter)="handleMessage()" fill="outline" shape="round" [(ngModel)]="textMessage"></ion-input>
+    <div class="input_record" *ngIf="this.startRecording">
+      <ion-icon aria-hidden="true" class="audio-record-mic on-record" src="assets/icon/bot-audio.svg"></ion-icon>
+      <ion-label >{{durationDisplay}}</ion-label>
+    </div>
+    <div #recordbtn [ngClass]="this.startRecording ? 'cancel-div' : ''" (touchstart)="onLongPressStart()" (touchend)="onLongPressEnd()">
+      <ion-label class="cancel-record" *ngIf="this.startRecording"><span> << Swipe left to cancel</span></ion-label>
+      <ion-icon [scrollY]="true" aria-hidden="true" class="audio-record-mic right icon" src="assets/icon/bot-audio.svg"></ion-icon>
+    </div>
   </div>
 </ion-content>
 

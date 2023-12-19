@@ -10,6 +10,6 @@ export const apiConfig = {
   CONTEXT_SEARCH: 'v1/context',
   CONTENT_SEARCH_API: 'v1/content/search',
   TELEMETRY_SYNC: 'v1/telemetry',
-  
+  BOT_QUERY_API: '/v1/query',
   SEARCH_API: 'api/content/v1/search'
 }

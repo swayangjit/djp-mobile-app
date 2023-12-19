@@ -1,15 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppHeaderService } from './services/app-header.service';
 import { HeaderConfig } from './appConstants';
-import { TranslateService } from '@ngx-translate/core';
-import { IonRouterOutlet, ModalController } from '@ionic/angular';
+import { IonRouterOutlet, PopoverController } from '@ionic/angular';
 import { TelemetryAutoSyncService } from './services/telemetry/telemetry.auto.sync.service';
 import { App } from '@capacitor/app';
 import { ScannerService } from './services/scan/scanner.service';
-import { ContentService } from './services/content/content.service';
 import { LangaugeSelectComponent } from './components/langauge-select/langauge-select.component';
 import { Router } from '@angular/router';
-import {Location} from '@angular/common'
 
 @Component({
   selector: 'app-root',
@@ -22,13 +19,10 @@ export class AppComponent implements OnInit {
   languages: Array<any> = [];
   @ViewChild('mainContent', { read: IonRouterOutlet, static: false }) routerOutlet!: IonRouterOutlet;
   constructor(private headerService: AppHeaderService,
-    private translate: TranslateService,
     private telemetryAutoSyncService: TelemetryAutoSyncService,
     private scannerService: ScannerService,
-    private contentService: ContentService,
-    private modalCtrl: ModalController,
-    private router: Router,
-    private location: Location) {
+    private popoverCtrl: PopoverController,
+    private router: Router) {
   }
 
   async ngOnInit() {
@@ -69,7 +63,7 @@ export class AppComponent implements OnInit {
       );
     } else if($event.name == "profile") {
       if(!this.langModalOpen) {
-        this.presentModal();
+        this.presentModal($event);
         this.langModalOpen = true
       }
     } else if($event.name == "search") {
@@ -78,17 +72,16 @@ export class AppComponent implements OnInit {
     this.headerService.sidebarEvent($event);
   }
 
-  async presentModal() {
-    const modal = await this.modalCtrl.create({
+  async presentModal(event: any) {
+    const modal = await this.popoverCtrl.create({
       component: LangaugeSelectComponent,
       componentProps: {
         languages: this.languages
       },
       cssClass: 'lang-modal',
-      breakpoints: [0.3],
-      initialBreakpoint: 0.3,
-      handle: false,
-      handleBehavior: "none"
+      event: event,
+      translucent: true,
+      dismissOnSelect: true
     });
     await modal.present();
     modal.onDidDismiss().then((_ => {
