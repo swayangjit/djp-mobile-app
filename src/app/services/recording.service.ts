@@ -14,74 +14,66 @@ export class RecordingService implements OnInit {
 
   private botEvent = new Subject<any>();
   botEventRecorded$ = this.botEvent.asObservable();
+
+  private recordEvent = new Subject<any>();
+  startEndEvent$ = this.recordEvent.asObservable();
   
   recording = false;
-  storedFileNames:Array<any> = [];
-  durationDisplay = '';
-  duration = 0;
-  constructor(private gestureCtrl: GestureController) {
-    VoiceRecorder.requestAudioRecordingPermission();
-  }
+  cancelRecording = false;
+  constructor(private gestureCtrl: GestureController) {}
 
-  ngOnInit() {
-    VoiceRecorder.requestAudioRecordingPermission()
-  }
+  ngOnInit() {}
 
-  gestureControl(ele: any, type: string) {
-    const longpress = this.gestureCtrl.create({
+  gestureControl(ele: any) {
+    const swipeLeft = this.gestureCtrl.create({
       el: ele.nativeElement,
       threshold: 0,
-      gestureName: 'long-press',
-      onStart: ev => {
+      gestureName: 'swipe-left',
+      direction: 'x',
+      onStart: (ev) => { 
+        console.log('swipe left start ', ev); 
         Haptics.impact({style: ImpactStyle.Light});
-        console.log("start record ");
-        this.startRecognition();
-        if(type == 'audio') {
-          this.calculation();
-        }
+      },
+      onMove: (detail) => { 
+        console.log('swipe left ', detail);
+        Haptics.impact({style: ImpactStyle.Light});
+        this.recordEvent.next(false);
+        this.cancelRecording = true;
       },
       onEnd: ev => {
+        console.log('swipe left end ', ev);
         Haptics.impact({style: ImpactStyle.Light});
-        console.log("end record ");
-        this.stopRecognition(type);
+        this.recordEvent.next(false);
       }
     }, true);
-
-    longpress.enable();
+    swipeLeft.enable();
   }
 
   async startRecognition() {
+    await VoiceRecorder.requestAudioRecordingPermission();
+    Haptics.impact({style: ImpactStyle.Light});
+    this.recordEvent.next(true);
     if(this.recording) {
       return
     }
     this.recording = true;
-    VoiceRecorder.startRecording()
-  }
-
-  calculation() {
-    if(!this.recording) {
-      this.duration = 0;
-      this.durationDisplay = '';
-      return;
+    if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
+      VoiceRecorder.startRecording()
+    } else {
+      await VoiceRecorder.requestAudioRecordingPermission();
+      VoiceRecorder.startRecording();
     }
-
-    this.duration += 1;
-    const min = Math.floor(this.duration / 60);
-    const sec = (this.duration %60).toString().padStart(2, '0');
-    this.durationDisplay = `${min}:${sec}`;
-
-    setTimeout(() => {
-      this.calculation();
-    }, 1000);
   }
 
   async stopRecognition(type: string) {
+    Haptics.impact({style: ImpactStyle.Light});
+    this.recordEvent.next(false);
     if(!this.recording) {return;}
     VoiceRecorder.stopRecording().then(async (result: RecordingData) => {
       this.recording = false;
       if(result.value && result.value.recordDataBase64) {
         const recordData = result.value.recordDataBase64;
-        console.log('..................', recordData);
+        console.log('..................', result);
         if (type == "search") {
           this.searchEvent.next(recordData);
         } else if (type == "audio"){
@@ -91,9 +83,12 @@ export class RecordingService implements OnInit {
             directory: Directory.Data,
             data: recordData
           })
-          this.botEvent.next({file: fileName, duration: this.durationDisplay})
+          if(this.cancelRecording) {
+            this.botEvent.next({file: ''})
+          } else {
+            this.botEvent.next({file: fileName})
+          }
         }
-
       }
     })
   }

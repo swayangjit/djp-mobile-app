@@ -12,10 +12,15 @@ ion-content {
      overflow: auto;
 }
 
-ion-modal.lang-modal {
-    --width: 90%;
-    --height: 85%;
-    --border-radius: 16px;
+ion-popover.lang-modal {
+    &::part(content) {
+        border-radius: 16px;
+        width: 50%;
+        max-width: 100%;
+        top: 20% !important;
+        left: 70% !important;
+        transform: translate(-50%, -50%) !important;
+    }
 }
 
 ion-modal.sheet-modal {

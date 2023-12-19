@@ -38,12 +38,17 @@ export class SplashPage implements OnInit {
     this.appinitialise.initialize();
     let config = await this.configService.getConfigMeta();
     this.storage.setData('configMeta', JSON.stringify(config));
-    config.languages.forEach(lang => {
-      if (lang.default) {
-        this.translate.setDefaultLang(lang.id)
-        this.translate.use(lang.id);
-      }
-    })
+    let lang = await this.storage.getData('lang')
+    if(lang) {
+      this.translate.use(lang);
+    } else {
+      config.languages.forEach(lang => {
+        if (lang.default) {
+          this.translate.setDefaultLang(lang.id)
+          this.translate.use(lang.id);
+        }
+      })
+    }
   }
 
   async startTelemetry(): Promise<void> {

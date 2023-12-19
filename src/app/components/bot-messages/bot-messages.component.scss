@@ -44,11 +44,31 @@ ion-content{
     box-shadow: 0px -0.33px 0px 0px #A6A6AA;
     display: flex;
     align-items: center;
+    ion-input{
+        width: 90%;
+    }
+    .input_record{
+        width: 30%;
+        display: flex;
+        ion-label {
+            margin-left: 1rem;
+        }
+    }
+    .cancel-div{
+        display: flex;
+        width: 100%;
+    }
+    .cancel-record {
+        width: 90%;
+    }
     .audio-record-mic{
         width: 1.875rem;
         height: 1.875rem;
         margin-left: 0.5rem;
         fill: var(--ion-color-medium);
+    }
+    .on-record{
+        fill: var(--ion-color-primary) !important;
     }
     .sc-ion-input-md-h{
         height: 2.25rem;

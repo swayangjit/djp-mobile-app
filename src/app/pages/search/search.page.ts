@@ -20,10 +20,9 @@ import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
 })
-export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
+export class SearchPage implements OnInit, OnTabViewWillEnter {
   showSheenAnimation: boolean = false;
   @ViewChild('searchInput', { static: false }) searchBar: any;
-  @ViewChild('recordbtn', {read: ElementRef}) recordbtn: ElementRef | any;
   searchKeywords: string = "";
   searchContentResult: Array<any> = [];
   optModalOpen: boolean = false;
@@ -41,10 +40,6 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
     private telemetryGeneratorService: TelemetryGeneratorService
   ) { }
   
-  ngAfterViewInit(): void {
-    this.record.gestureControl(this.recordbtn, 'search');
-  }
-
   tabViewWillEnter(): void {
     this.headerService.hideHeader();
     this.headerService.showStatusBar(false);
@@ -148,6 +143,16 @@ export class SearchPage implements OnInit, OnTabViewWillEnter, AfterViewInit {
   }
   
   loadYoutubeImg(id: string): string {
-    return `https://img.youtube.com/vi/${id}/0.jpg`;
+    return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+  }
+
+  onLongPressStart() {
+    console.log('long press on search start');
+    this.record.startRecognition();
+  }
+  
+  onLongPressEnd() {
+    console.log('long press on search end');
+    this.record.stopRecognition('search');
   }
 }
