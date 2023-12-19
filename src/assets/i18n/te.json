@@ -17,32 +17,42 @@
     "Like": "లైక్ కొట్టండి",
     "Share": "షేర్ చెయ్యండి",
     "Add to playlist": "జాబితాకు జత చెయ్యండి",
+    "Select Language": "భాషను ఎంచుకోండి",
+
+    "Add to Pitara": "పితారాకు జోడించండి",
+    "New Pitara": "కొత్త పితర",
+    "Done": "సేవ్ చెయ్యండి",
+
+    "New playlist": "కొత్త ప్లేజాబితా",
+    "Name of the playlist": "జాబితా పేరు",
+    "Cancel": "రద్దు చేయండి",
+    "Create": "జాబితా కూర్చండి",
+
     "My Jaadui Pitara": "నా అద్భుతపేటిక",
     "Recently Viewed": "ఇటీవల చూసినవి",
     "Playlists": "మీ జాబితాలు",
     "New Playlist": "క్రొత్త జాబితా",
     "View All": "అన్నీ వీక్షించండి",
-    "Make a Story": "ఒక కథను రూపొందించండి",
-    "Ask a Doubt": "సందేహం అడగండి",
-    "All Categories": "అన్ని వర్గాలు",
-    "Select Language": "భాషను ఎంచుకోండి",
-    "SEARCH_HINT": "వెతకండి",
-    "QrScan Result": "QrScan ఫలితం",
-    "Add to Pitara": "పితారాకు జోడించండి",
-    "New Pitara": "కొత్త పితర",
-    "Done": "పూర్తి",
-    "New playlist": "కొత్త ప్లేజాబితా",
-    "Cancel": "రద్దు చేయండి",
-    "Create": "సృష్టించు",
-    "Playlist name": "జాబితా పేరు",
-    "Save Playlist": "సేవ్ చెయ్యండి",
-    "No Result": "ఫలితం లేదు",
     "My Playlist": "నా ప్లేజాబితా",
-    "edit": "సవరించు",
-    "delete": "తొలగించు",
     "You have to watch content": "మీరు కంటెంట్‌ని చూడాలి",
     "Click on New Playlist button to create your first playlist": "మీ మొదటి ప్లేజాబితాని సృష్టించడానికి కొత్త ప్లేజాబితా బటన్‌పై క్లిక్ చేయండి",
+    "Select from Recently Viewed": "ఇటీవల వీక్షించిన వాటి నుండి ఎంచుకోండి",
+    
+    "All Categories": "అన్ని వర్గాలు",
+    
+    "SEARCH_HINT": "వెతకండి",
+    "No Result": "ఫలితం లేదు",
+
+    "QrScan Result": "QrScan ఫలితం",
+
+    "edit": "సవరించు",
+    "delete": "తొలగించు",
+    
+    "Make a Story": "ఒక కథను రూపొందించండి",
+    "Ask a Doubt": "సందేహం అడగండి",
+    "Playlist name": "జాబితా పేరు",
+    "Save Playlist": "సేవ్ చెయ్యండి",
+
     "createPlaylist": "ప్లేజాబితాని సృష్టించండి",
-    "create New Playlist": "కొత్త ప్లేజాబితాని సృష్టించండి",
-    "Select from Recently Viewed": "ఇటీవల వీక్షించిన వాటి నుండి ఎంచుకోండి"
+    "create New Playlist": "కొత్త ప్లేజాబితాని సృష్టించండి"
 }

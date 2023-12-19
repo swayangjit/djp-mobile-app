@@ -38,6 +38,11 @@
       <div class="bot-back-panel-container" [ngClass]="headerConfig.pageTitle === 'Parent Sakhi' || headerConfig.pageTitle === 'Teacher Sakhi' ?  'question-bot' : '' "  (click)="emitEvent($event, 'back')">  <!--use the class "parent-bot" for parent bot panel-->
         <ion-icon aria-hidden="true" src="assets/icon/bot-back-icon.svg"></ion-icon>
         <div class="bot-back-panel__title">{{headerConfig.pageTitle | translate}}</div>
+        <div class="logo">
+          <img *ngIf="headerConfig.pageTitle === 'Story Sakhi'" src="../../../assets/images/story_sakhi.png" alt=""/>
+          <img *ngIf="headerConfig.pageTitle === 'Parent Sakhi'" src="../../../assets/images/parent_sakhi.png" alt=""/>
+          <img *ngIf="headerConfig.pageTitle === 'Teacher Sakhi'" src="../../../assets/images/teacher_sakhi.png" alt=""/>
+        </div>
       </div>
     </div>
     <!--bot panel header ends here-->
