@@ -13,7 +13,7 @@
     <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
       <div class="djp-card__img" (click)="playContent(content)">
         <img src="assets/images/Audio.png" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
-        <!-- <img [src]="loadYoutubeImg(content.metaData.identifier)" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE && !content.play"> -->
+        <img [src]="loadYoutubeImg(content.metaData.identifier)" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE && !content.play">
         <img src="assets/images/Video.png" alt="" *ngIf="content.metaData.mimetype === mimeType.MP4">
         <img src="assets/images/PDF.png" alt="" *ngIf="content.metaData.mimetype === mimeType.PDF">
         <!-- <ion-img *ngIf="content.metaData.thumbnail && !content.play" [src]="content.metaData.thumbnail" alt=""/>
@@ -27,8 +27,10 @@
       </div>
       <div class="djp-card__metadata">
         <div class="djp-card__title">{{content.metaData?.name}}</div>
-        <ion-icon aria-hidden="true" src="assets/icon/sd-card.svg" *ngIf="content.source==='local'"></ion-icon>
-        <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
+        <div>  
+          <ion-icon aria-hidden="true" class="icon-right" src="assets/icon/sd-card.svg" *ngIf="content.source==='local'"></ion-icon>
+          <ion-icon aria-hidden="true" class="icon-left" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
+        </div>
       </div>
     </div>
   </div>

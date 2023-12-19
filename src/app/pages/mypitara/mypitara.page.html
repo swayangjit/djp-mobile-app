@@ -15,10 +15,12 @@
     </div>
     <div class="djp-grid-slider__container">
       <div class="djp-grid-slider__container__card" *ngFor="let content of contentList">
-        <ion-card *ngIf="content?.metaData?.thumbnail">
-          <img [src]="content.metaData.thumbnail" alt="" />
-        </ion-card>
-        <div class="card-title" *ngIf="content?.metaData?.name">{{content.metaData.name |translate}}</div>
+        <div (click)="playContent(content)">
+          <ion-card *ngIf="content?.metaData?.thumbnail">
+            <img [src]="content.metaData.thumbnail" alt="" />
+          </ion-card>
+          <div class="card-title" *ngIf="content?.metaData?.name">{{content.metaData.name |translate}}</div>
+        </div>
       </div>
     </div>
   </div>

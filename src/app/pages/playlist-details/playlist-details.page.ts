@@ -31,7 +31,7 @@ export class PlaylistDetailsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.headerService.showHeader('My Playlist', true, ['edit'])
+    this.headerService.showHeader(this.playContentObject.name, true, ['edit'])
     this.headerService.headerEventEmitted$.subscribe((event) => {
       if (event === 'edit') {
         this.router.navigate(['/create-playlist'], {state: {playlists: this.playContentObject, islocal: true}})
@@ -80,6 +80,10 @@ export class PlaylistDetailsPage implements OnInit {
         this.deletePlaylist(content);
       }
     });
+  }
+
+  loadYoutubeImg(id: string): string {
+    return `https://img.youtube.com/vi/${id}/0.jpg`;
   }
 
 }
