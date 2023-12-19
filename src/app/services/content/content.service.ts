@@ -70,7 +70,7 @@ export class ContentService {
     let body = {
       "request": {
         "filters": {
-          "channel": "01246375399411712074",
+          "channel": "",
           "primaryCategory": [
             "Collection",
             "Resource",
@@ -153,6 +153,7 @@ export class ContentService {
         );
       })
       .then((hierarchyResponse) => {
+        this.results = [];
         this.showAllChild(hierarchyResponse.result.content)
         const contentList: Array<Content> = []
         this.results.map((content: any) => {
@@ -164,7 +165,7 @@ export class ContentService {
               name: content?.name,
               thumbnail: content?.posterImage,
               description: content?.name,
-              mimetype: content?.mimetype,
+              mimetype: content?.mimetype || content?.mimeType,
               url: content?.streamingUrl,
               focus: content?.focus,
               keyword: content?.keyword,
@@ -175,8 +176,9 @@ export class ContentService {
               category: content?.category,
               audience: content?.audience,
               status: content?.status,
-              createdon: content?.createdon,
-              lastupdatedon: content?.lastupdatedon
+              createdon: content?.createdOn,
+              lastupdatedon: content?.lastupdatedon || content?.lastUpdatedOn,
+              artifactUrl: content?.artifactUrl
             }
           })
         })
@@ -189,14 +191,12 @@ export class ContentService {
   }
 
   private showAllChild(content: any) {
-    if (
-      content.children === undefined ||
-      !content.children.length ||
-      ContentUtil.isTrackable(content) === 1) {
-      if (
-        (content.mimeType !== MimeType.COLLECTION ||
-          ContentUtil.isTrackable(content) === 1) && [MimeType.VIDEO, MimeType.PDF].indexOf(content.mimeType) > -1
-      ) {
+    let supportedMimeType = MimeType.VIDEOS;
+    if (!(supportedMimeType.indexOf(MimeType.PDF) > -1)) {
+      supportedMimeType.push(MimeType.PDF)
+    }
+    if (content.children === undefined || !content.children.length) {
+      if (supportedMimeType.indexOf(content.mimeType) > -1) {
         this.results.push(content);
       }
       return;
@@ -205,7 +205,6 @@ export class ContentService {
       this.showAllChild(child);
     });
     console.log('Results', this.results);
-
   }
 
 }

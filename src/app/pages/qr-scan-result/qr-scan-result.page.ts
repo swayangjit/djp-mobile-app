@@ -65,6 +65,11 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
     })
   }
 
+  // ionViewWillEnter() {
+  //   this.headerService.showHeader('QrScan Result', true, []);
+  //   this.headerService.showStatusBar();
+  // }
+
   async playContent(event: Event, content: Content) {
     this.contentService.markContentAsViewed(content)
     await this.router.navigate(['/player'], {state: {content}});
