@@ -248,10 +248,12 @@ export const sidebarMenuItems = [
 export interface BotMessage {
     message: string;
     messageType: string;
+    displayMsg: string;
     audio?: any;
     type: string;
     time: string;
     timeStamp: any;
+    readMore: boolean;
 }
 
 export class Sakhi {
