@@ -21,11 +21,12 @@ import { Capacitor } from '@capacitor/core';
 export class PlayerPage implements OnInit {
   content?: Content;
   orientationType: string = "";
-  playerConfig: any ={};
+  playerConfig: any = {};
   videoConfig: any;
   playerType: string = '';
   srcUrl: any;
-  cdata: Array<CorrelationData>;
+  pageId: string = '';
+  cdata: Array<CorrelationData> = [];
   @ViewChild('pdf') pdf!: ElementRef;
   @ViewChild('video') video!: ElementRef;
   constructor(private router: Router,
@@ -35,26 +36,16 @@ export class PlayerPage implements OnInit {
     private telemetryGeneratorService: TelemetryGeneratorService,
     private telemetryService: TelemetryService,
     private platform: Platform) {
-      
+
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.content = extras.state?.['content'] as Content;
       this.playerType = this.getPlayerType(this.content.metaData.mimetype);
       this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url);
+      this.pageId = extras.state?.['pageid'];
     }
-    this.cdata = [{
-      'id': this.content?.metaData.language,
-      'type': 'Language'
-      },
-      {
-      'id': this.content?.metaData.category,
-      'type': 'Category'
-      },
-      {
-      'id': this.content?.metaData.mimetype,
-      'type': 'MimeType'
-    }]
-    if(this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
+    this.populateCData();
+    if (this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
       this.telemetryGeneratorService.generateStartTelemetry('content',
         'player',
         new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
@@ -68,7 +59,7 @@ export class PlayerPage implements OnInit {
       return 'pdf'
     } else if (mimetype == PlayerType.MP4 || mimetype == PlayerType.WEBM) {
       return 'video'
-    } else if(mimetype == PlayerType.YOUTUBE) {
+    } else if (mimetype == PlayerType.YOUTUBE) {
       return 'youtube'
     }
     return ''
@@ -157,15 +148,15 @@ export class PlayerPage implements OnInit {
       console.log('....................', event)
       this.telemetryService.saveTelemetry(JSON.stringify(event.detail)).subscribe(
         (res: any) => console.log('response after telemetry', res),
-        );
+      );
     }
   }
 
   closePlayer() {
-    if(this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
-      this.telemetryGeneratorService.generateEndTelemetry('content', 'play', 'player', 'player', 
-      new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
-      { l1: this.content?.metaData.identifier! },[])
+    if (this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
+      this.telemetryGeneratorService.generateEndTelemetry('content', 'play', 'player', 'player',
+        new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
+        { l1: this.content?.metaData.identifier! }, [])
     }
     this.location.back();
   }
@@ -180,6 +171,34 @@ export class PlayerPage implements OnInit {
         default:
           break;
       }
+    }
+  }
+
+  private populateCData() {
+    this.cdata = [
+      {
+        'id': this.content?.metaData.mimetype,
+        'type': 'MimeType'
+      }];
+
+    if (this.content?.metaData.category) {
+      this.cdata.push({
+        'id': this.content?.metaData.category,
+        'type': 'Category'
+      })
+    }
+
+    if (this.content?.metaData.language) {
+      this.cdata.push({
+        'id': this.content?.metaData.language,
+        'type': 'Language'
+      })
+    }
+    if (this.pageId) {
+      this.cdata.push({
+        'id': this.pageId,
+        'type': 'SourcePage'
+      })
     }
   }
 }
