@@ -15,13 +15,13 @@
       <ion-input type="search" *ngIf="headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0" #searchInput [placeholder]="'SEARCH_HINT' | translate"></ion-input>
       <ion-buttons slot="end" [hidden]="headerConfig?.showbackButton">
         <ion-button (click)="emitEvent($event, 'search')">
-          <ion-icon aria-hidden="true"color="primary" src="assets/icon/search.svg"></ion-icon>
+          <ion-icon aria-hidden="true" src="assets/icon/search.svg"></ion-icon>
         </ion-button>
         <ion-button (click)="emitEvent($event, 'scan')">
-          <ion-icon aria-hidden="true" color="primary" src="assets/icon/qr-scan.svg"></ion-icon>
+          <ion-icon aria-hidden="true" src="assets/icon/qr-scan.svg"></ion-icon>
         </ion-button>
         <ion-button (click)="emitEvent($event, 'profile')">
-          <ion-icon aria-hidden="true" color="primary" src="assets/icon/profile-icon.svg"></ion-icon>
+          <ion-icon aria-hidden="true" src="assets/icon/profile-icon.svg"></ion-icon>
         </ion-button>
       </ion-buttons>
       <ion-buttons slot="end" [hidden]="!headerConfig?.showbackButton">
