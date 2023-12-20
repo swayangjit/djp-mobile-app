@@ -1,111 +1,31 @@
-.djp-cards-container{
-    padding: 0.2rem 1rem;
-  }
-  .djp-card {
-    position: relative;
-    padding-bottom: 1rem;
-    &__img {
-      border-radius: 16px;
-      height: 194px;
-      width: 100%;
-      overflow: hidden;
-      img {
-        max-width: 100%;
-        width: 100%;
-        height: 100%;
-        border-radius: 1rem;
-      }
-    }
-  
-    &__metadata {
-      padding-top: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      ion-icon{
-        height: 1.875rem;
-        width: 1.875rem;
-      }
-    }
-  
-    &__action-btns {
-      display: flex;
-      align-items: center;
-      ion-icon {
-        width: 1.5rem;
-        height: 1.5rem;
-        margin-right: 1rem;
-        &:last-child {
-          margin-left: auto;
-          margin-right: 0;
-        }
-      }
-    }
-  
-    &__title {
-      font-size: 0.875rem;
-      font-weight: 400;
-      text-transform: capitalize;
-    }
-  }
-  
-  .refreshspinner {
-    stroke: #024f9d !important;
-    width: 1.875rem;
-    left: 0;
-    top: 0;
-    height: 2.5rem;
-    position: relative !important;
-  }
-  
-  .spinner-div {
-    padding: 2.5rem;
-    background-color: #ECEFF0;
-    text-align: center;
-    border: none !important;
-  }
-  .bot-section{
-    display: flex;
-    justify-content: space-between;
-    padding: 0 1rem 1rem;
-    .image{
-      position: relative;
-      .image-title{
-        position: absolute;
-        bottom: 0.625rem;
-        color:var(--ion-color-primary-contrast);
-        left: 0;
-        right: 0;
-        text-align: center;
-      }
-    }
-  }
-  
-  .landscape-icon{ 
-    position: absolute;
-      width: 100%;
-      background: transparent;
-      bottom: 3.5rem;
-      z-index: 9999;
-      background: black;
-      opacity: 0.5;
-    ion-icon {
-      float: right;
-      font-size: 1.5rem;
-      margin-right: 0.5rem;
-    }
-  }
-  
-  .no-data {
-    text-align: center;
-  }
-  .icon-right{
-    margin-right: 10px;
-  }
-  .icon-left{
-    margin-left: 10px;
-  }
+@import "./../../../assets/styles/djp-card-styles";
 
-  ion-content{
-    --padding-top: 1.5rem
+ion-content {
+  --padding-top: 1.5rem
+}
+
+.landscape-icon {
+  position: absolute;
+  width: 100%;
+  background: transparent;
+  bottom: 3.5rem;
+  z-index: 9999;
+  background: var(--ion-color-secondary-contrast);
+  opacity: 0.5;
+
+  ion-icon {
+    float: right;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
   }
+}
+
+.icon-right {
+  margin-right: 10px;
+}
+
+.icon-left {
+  margin-left: 10px;
+}
+
+  
