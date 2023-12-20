@@ -12,3 +12,4 @@ export { DikshaPreprocessorService } from './sources/diksha-preprocessor.service
 export { CachingService } from './caching.service';
 export { RecordingService } from './recording.service';
 export { SearchService } from './search.service';
+export { BotApiService } from './bot-api.service';

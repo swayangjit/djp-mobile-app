@@ -20,6 +20,8 @@ export class RecordingService implements OnInit {
   
   recording = false;
   cancelRecording = false;
+  duration = 0;
+  durationDisplay = '';
   constructor(private gestureCtrl: GestureController) {}
 
   ngOnInit() {}
@@ -27,8 +29,8 @@ export class RecordingService implements OnInit {
   gestureControl(ele: any) {
     const swipeLeft = this.gestureCtrl.create({
       el: ele.nativeElement,
-      threshold: 0,
-      gestureName: 'swipe-left',
+      threshold: 300,
+      gestureName: 'swipe',
       direction: 'x',
       onStart: (ev) => { 
         console.log('swipe left start ', ev); 
@@ -43,6 +45,7 @@ export class RecordingService implements OnInit {
       onEnd: ev => {
         console.log('swipe left end ', ev);
         Haptics.impact({style: ImpactStyle.Light});
+        this.recording = false;
         this.recordEvent.next(false);
       }
     }, true);
@@ -50,6 +53,7 @@ export class RecordingService implements OnInit {
   }
 
   async startRecognition() {
+    this.cancelRecording = false;
     await VoiceRecorder.requestAudioRecordingPermission();
     Haptics.impact({style: ImpactStyle.Light});
     this.recordEvent.next(true);
@@ -57,12 +61,30 @@ export class RecordingService implements OnInit {
       return
     }
     this.recording = true;
+    this.calculation();
     if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
       VoiceRecorder.startRecording()
     } else {
       await VoiceRecorder.requestAudioRecordingPermission();
       VoiceRecorder.startRecording();
     }
+  }
+
+  calculation() {
+    if(!this.recording) {
+      this.duration = 0;
+      this.durationDisplay = '';
+      return;
+    }
+
+    this.duration += 1;
+    const min = Math.floor(this.duration / 60);
+    const sec = (this.duration %60).toString().padStart(2, '0');
+    this.durationDisplay = `${min}:${sec}`;
+
+    setTimeout(() => {
+      this.calculation();
+    }, 1000);
   }
 
   async stopRecognition(type: string) {
@@ -86,7 +108,7 @@ export class RecordingService implements OnInit {
           if(this.cancelRecording) {
             this.botEvent.next({file: ''})
           } else {
-            this.botEvent.next({file: fileName})
+            this.botEvent.next({file: fileName, data:recordData, duration: this.durationDisplay})
           }
         }
       }

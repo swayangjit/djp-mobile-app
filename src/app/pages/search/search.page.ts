@@ -28,6 +28,8 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   optModalOpen: boolean = false;
   mimeType = PlayerType;
   noSearchData: boolean = false;
+  onError = false;
+  errMsg = "";
   constructor(
     private headerService: AppHeaderService,
     private location: Location,
@@ -61,33 +63,45 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   }
 
   async handleSearch(data?: any, audio: boolean = false) {
-    this.showSheenAnimation = true;
     try {
-      let res = await this.searchApi.postSearchContext({text: audio ? data : this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
-      console.log('res ', res);
-      // Content search api call
-      let searchRes = await this.searchApi.postContentSearch({query: res.context, filter: ''});
-      console.log('searchRes ', searchRes);
-      this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes?.result.length, 'search', '' )
-      if(searchRes.result.length > 0) {
-        this.showSheenAnimation = false;
-        this.noSearchData = false;
-        let list: any = {};
-        this.searchContentResult = [];
-        searchRes.result.forEach((ele: any) => {
-          list = {}
-          list.source = 'djp'
-          list.sourceType = 'djp-content'
-          list.metaData = ele
-          this.searchContentResult.push(list)
-        });
-        this.contentService.saveContents(this.searchContentResult).then()
-      } else {
-        this.showSheenAnimation = false;
-        this.noSearchData = true;
+      if(this.searchKeywords.replace(/\s/g, '').length > 0) {
+        this.showSheenAnimation = true;
+        let res = await this.searchApi.postSearchContext({text: audio ? data : this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
+        console.log('res ', res);
+        if (res.input && res.context) {
+          this.searchKeywords = res.input.englishText;
+          // Content search api call
+          let searchRes = await this.searchApi.postContentSearch({query: res.context, filter: ''});
+          console.log('searchRes ', searchRes);
+          this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes?.result.length, 'search', '' )
+          if(searchRes.result.length > 0) {
+            this.showSheenAnimation = false;
+            this.noSearchData = false;
+            let list: any = {};
+            this.searchContentResult = [];
+            searchRes.result.forEach((ele: any) => {
+              list = {}
+              list.source = 'djp'
+              list.sourceType = 'djp-content'
+              list.metaData = ele
+              this.searchContentResult.push(list)
+            });
+            this.contentService.saveContents(this.searchContentResult).then()
+          } else {
+            this.showSheenAnimation = false;
+            this.noSearchData = true;
+            this.errMsg = "No Result";
+          }
+        } else {
+          this.showSheenAnimation = false;
+          this.noSearchData = true;
+          this.errMsg = "Sry, please try again!";
+        }
       }
     } catch(e){
-      console.log('error ', e);
+      this.showSheenAnimation = false;
+      this.noSearchData = true;
+      this.errMsg = "Sry, please try again!"
     }
   }
 
@@ -148,6 +162,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
 
   onLongPressStart() {
     console.log('long press on search start');
+    this.searchKeywords = "";
     this.record.startRecognition();
   }
   
