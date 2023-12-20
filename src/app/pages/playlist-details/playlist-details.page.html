@@ -1,15 +1,8 @@
 <ion-content [fullscreen]="true">
+  <div class="bot-section" *ngIf="!playlists.length">
+    <div class="bot-section__text">{{'noContentMetadata' | translate}}</div>
+  </div>
   <div class="djp-cards-container" *ngFor="let content of playlists; let i = index">
-    <div class="bot-section" *ngIf="!content.metaData || !content.metaData.name">
-      <div class="image">
-        <img src="assets/images/Story_bot.svg" alt="">
-        <div class="image-title">{{"Make a Story" | translate }}</div>
-      </div>
-      <div class="image">
-        <img src="assets/images/Question_bot.svg" alt="">
-        <div class="image-title">{{"Ask a Doubt" | translate }}</div>
-      </div>
-    </div>
     <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
       <div class="djp-card__img" (click)="playContent(content)">
         <img src="assets/images/Audio.png" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">

@@ -8,7 +8,7 @@
       </div>
       <div class="djp-card__metadata">
         <div class="djp-card__title" *ngIf="content?.metaData?.name">{{content?.metaData?.name}}</div>
-        <div (click)="openModal()" *ngIf="type==='recentlyviewed'">
+        <div (click)="openModal(content)" *ngIf="type==='recentlyviewed'">
           <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
         </div>
         <div *ngIf="type==='playlist'">
