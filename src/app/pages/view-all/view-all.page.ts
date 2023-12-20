@@ -228,7 +228,7 @@ export class ViewAllPage implements OnInit {
   }
 
   async playcontent(content: any) {
-    if (this.type === 'recentlyviewed') {
+    if (this.type === 'recentlyviewed' && !this.optModalOpen) {
       await this.router.navigate(['/player'], {state: {content}});
     }
   }
