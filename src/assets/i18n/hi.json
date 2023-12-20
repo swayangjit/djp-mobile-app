@@ -54,5 +54,12 @@
     "Save Playlist": "सेव करें",
 
     "createPlaylist": "प्लेलिस्ट बनायें",
-    "create New Playlist": "नई प्लेलिस्ट बनाएं"
+    "create New Playlist": "नई प्लेलिस्ट बनाएं",
+
+    "Sry, please try again!": "क्षमा करें, कृपया पुनः प्रयास करें!",
+
+    "Loading...": "लोड हो रहा है...",
+    "Swipe left to cancel": "रद्द करने के लिए बाएं स्वाइप करें",
+    "Read more...": "और पढ़ें...",
+    "Type here": "यहाँ टाइप करें"
 }

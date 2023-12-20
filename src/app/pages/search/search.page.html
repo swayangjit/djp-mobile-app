@@ -36,7 +36,7 @@
   </ion-list>
   <ion-list *ngIf="!showSheenAnimation && noSearchData">
     <ion-item lines="none">
-      <ion-label class="no-data">{{'No Result' | translate }}</ion-label>
+      <ion-label class="no-data">{{ errMsg | translate }}</ion-label>
     </ion-item>
   </ion-list>
   <ion-list *ngIf="!showSheenAnimation && searchContentResult.length > 0"> 
@@ -53,4 +53,5 @@
         </div>
     </ion-item>
   </ion-list>
+  <ion-toast *ngIf="onError" message="This toast will disappear after 5 seconds" [duration]="5000"></ion-toast>
 </ion-content>
