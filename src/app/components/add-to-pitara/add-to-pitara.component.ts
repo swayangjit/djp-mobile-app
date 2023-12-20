@@ -22,7 +22,7 @@ export class AddToPitaraComponent  implements OnInit {
     private alertController: AlertController,
     private utilService: UtilService) { }
 
-  async ngOnInit() {
+   ngOnInit() {
     this.content = this.navParams.get('content')
     console.log('this.content', this.content)
     this.getAllPlaylists()
@@ -52,7 +52,12 @@ export class AddToPitaraComponent  implements OnInit {
   async saveContent() {
     console.log('/./.', this.selectedContentId);
     if (this.selectedContentId && this.content.metaData) {
-      await this.playListService.addContentToPlayList(this.selectedContentId, [this.content.metaData.identifier]).then((data) => {
+      let req : any = [{
+        identifier: this.content.metaData.identifier,
+        type:  'content',
+        localContent : this.content
+      }]
+      await this.playListService.addContentToPlayList(this.selectedContentId, req).then((data) => {
         console.log('content added successfull', data)
       })
       this.modalCtrl.dismiss();
