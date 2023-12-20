@@ -22,7 +22,7 @@ export class AddToPitaraComponent  implements OnInit {
     private alertController: AlertController,
     private utilService: UtilService) { }
 
-  async ngOnInit() {
+   ngOnInit() {
     this.content = this.navParams.get('content')
     console.log('this.content', this.content)
     this.getAllPlaylists()
