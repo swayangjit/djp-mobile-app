@@ -91,8 +91,6 @@ export class PlayerPage implements OnInit {
       ScreenOrientation.unlock();
       ScreenOrientation.lock({ orientation: 'landscape-primary' });
       if (this.playerType == 'pdf') {
-        console.log('..................', this.srcUrl)
-        let artUrl : any = this.domSanitiser.bypassSecurityTrustResourceUrl(Capacitor.convertFileSrc("/storage/emulated/0/Download/wo1nEabchs06dzmwnPzm123oHg==.pdf"));
         this.playerConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.playerConfig['metadata']['name'] = this.content?.metaData.name;
         this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
