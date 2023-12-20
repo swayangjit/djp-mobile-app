@@ -45,7 +45,7 @@
       </div>
     <div class="djp-playlist__container">
       <div *ngFor="let playlist of playlists" >
-        <div class="djp-playlist__container__items" *ngIf=playlist?.playListcontentList.length (click)="navigateToDetails(playlist)">
+        <div class="djp-playlist__container__items" (click)="navigateToDetails(playlist)">
           <div class="djp-playlist__container__items__cards">
             <ion-card>
               <img src="/assets/images/Playlist.png" alt="" />
@@ -63,10 +63,10 @@
       </div>
     </div>
   </div>
-  <div style="text-align:center" (click)="viewAllCards('playlist')" *ngIf="playlists.length">
+  <!-- <div style="text-align:center" (click)="viewAllCards('playlist')" *ngIf="playlists.length">
     <ion-button class="btn-len">{{"New Playlist" | translate}}<ion-icon slot="end" aria-hidden="true"
         src="../../../assets/icon/Add-circle-outline.svg"></ion-icon></ion-button>
-  </div>
+  </div> -->
   <!--New playlist page ends here-->
 
 </ion-content>

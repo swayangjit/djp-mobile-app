@@ -26,7 +26,7 @@ export class PlaylistService {
     if (!playListId) {
       playListId = uuidv4()
     }
-    return this.dbService.save(query , PlayListEntryMapper.mapContentToPlayListEntry(name, uid, playListId, playListContentList.length), whereCondition).then(() => {
+    return this.dbService.save(query, PlayListEntryMapper.mapContentToPlayListEntry(name, uid, playListId, playListContentList.length), whereCondition).then(() => {
       return this.addContentToPlayList(playListId!, playListContentList, isEditMode)
     })
   }
@@ -38,19 +38,21 @@ export class PlaylistService {
       if (playListContent.isDeleted) {
         capSQLiteSet.push({ statement: PlaylistContentEntry.deleteQuery(), values: [playListContentList[i].identifier, playListId] });
       } else {
-        if(!isEditMode){
+        if (!isEditMode) {
           if (playListContent.type == 'local') {
             const localData = await this.dbService.readDbData(ContentEntry.readQuery(), { 'identifier': playListContent.identifier })
-            if(!localData){
+            if (!localData) {
               capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(playListContent.localContent!) })
             }
-            
+
           }
+          capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContentList[i].identifier, playListContentList[i].type) })
+        } else {
           capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContentList[i].identifier, playListContentList[i].type) })
         }
       }
     }
-    if(capSQLiteSet.length){
+    if (capSQLiteSet.length) {
       return this.dbService.executeSet(capSQLiteSet);
     } else {
       return Promise.resolve({});

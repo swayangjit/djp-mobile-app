@@ -58,6 +58,7 @@ export class ContentUtil {
     let mimeTypes: any = {
       mp3: '/assets/images/Audio.png',
       mp4: '/assets/images/Video.png',
+      webm: '/assets/images/Video.png',
       pdf: '/assets/images/PDF.png'
     }
     return mimeTypes[mimeType];

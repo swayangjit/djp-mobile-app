@@ -25,7 +25,7 @@ export class ContentService {
   ) { }
 
   deleteAllContents(): Promise<any> {
-    return this.dbService.remove(ContentEntry.deleteQuery(), {'source': 'djp'});
+    return this.dbService.remove(ContentEntry.deleteQuery(), { 'source': 'djp' });
   }
   saveContents(contentList: Array<Content>): Promise<any> {
     const capSQLiteSet: capSQLiteSet[] = [];
@@ -56,8 +56,12 @@ export class ContentService {
     return Promise.resolve(res);
   }
 
-  markContentAsViewed(content: Content): Promise<void> {
-    return this.dbService.readDbData(RecentlyViewedContentEntry.readQuery(), { 'identifier': content.metaData.identifier }).then((result) => {
+  async markContentAsViewed(content: Content): Promise<void> {
+    const contentResult = await this.dbService.readDbData(ContentEntry.readQuery(), { 'identifier': content.metaData.identifier });
+    if (!contentResult) {
+      await this.dbService.executeSet([{ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(content) }]);
+    }
+    return this.dbService.readDbData(RecentlyViewedContentEntry.readQuery(), { 'content_identifier': content.metaData.identifier }).then((result) => {
       const query = (result) ? RecentlyViewedContentEntry.updateQuery() : RecentlyViewedContentEntry.insertQuery();
       const whereCondition = (result) ? { 'identifier': content.metaData.identifier } : undefined
       return this.dbService.save(query, RecentlyViewedContentMapper.mapContentToRecentlyViewedContentEntry(content, 'guest', uuidv4()), whereCondition)
@@ -158,7 +162,7 @@ export class ContentService {
         const contentList: Array<Content> = []
         this.results.map((content: any) => {
           contentList.push({
-            source: 'sunbird',
+            source: 'dialcode',
             sourceType: 'Diksha',
             metaData: {
               identifier: content?.identifier,

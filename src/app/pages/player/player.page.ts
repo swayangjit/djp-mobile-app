@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AppHeaderService, TelemetryService } from '../../../app/services';
 import { ScreenOrientation } from "@capacitor/screen-orientation";
 import { Location } from '@angular/common';
-import { playerConfig, videoConfig } from './playerData';
+import { playerConfig, videoConfig} from './playerData';
 import { Content } from 'src/app/services/content/models/content';
 import { DomSanitizer } from '@angular/platform-browser';
 import Plyr from 'plyr';
@@ -11,6 +11,7 @@ import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.
 import { CorrelationData, TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import { PlayerType } from 'src/app/appConstants';
 import { Platform } from '@ionic/angular';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-player',
@@ -20,11 +21,12 @@ import { Platform } from '@ionic/angular';
 export class PlayerPage implements OnInit {
   content?: Content;
   orientationType: string = "";
-  playerConfig: any ={};
+  playerConfig: any = {};
   videoConfig: any;
   playerType: string = '';
   srcUrl: any;
-  cdata: Array<CorrelationData>;
+  pageId: string = '';
+  cdata: Array<CorrelationData> = [];
   @ViewChild('pdf') pdf!: ElementRef;
   @ViewChild('video') video!: ElementRef;
   constructor(private router: Router,
@@ -34,26 +36,16 @@ export class PlayerPage implements OnInit {
     private telemetryGeneratorService: TelemetryGeneratorService,
     private telemetryService: TelemetryService,
     private platform: Platform) {
-      
+
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.content = extras.state?.['content'] as Content;
       this.playerType = this.getPlayerType(this.content.metaData.mimetype);
       this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url);
+      this.pageId = extras.state?.['pageid'];
     }
-    this.cdata = [{
-      'id': this.content?.metaData.language,
-      'type': 'Language'
-      },
-      {
-      'id': this.content?.metaData.category,
-      'type': 'Category'
-      },
-      {
-      'id': this.content?.metaData.mimetype,
-      'type': 'MimeType'
-    }]
-    if(this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
+    this.populateCData();
+    if (this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
       this.telemetryGeneratorService.generateStartTelemetry('content',
         'player',
         new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
@@ -67,7 +59,7 @@ export class PlayerPage implements OnInit {
       return 'pdf'
     } else if (mimetype == PlayerType.MP4 || mimetype == PlayerType.WEBM) {
       return 'video'
-    } else if(mimetype == PlayerType.YOUTUBE) {
+    } else if (mimetype == PlayerType.YOUTUBE) {
       return 'youtube'
     }
     return ''
@@ -92,9 +84,16 @@ export class PlayerPage implements OnInit {
       if (this.playerType == 'pdf') {
         this.playerConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.playerConfig['metadata']['name'] = this.content?.metaData.name;
-        this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl;
-        this.playerConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
+        this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
+        if (this.content?.source === 'local' && this.content?.metaData.url.includes('file://')) {
+          this.playerConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
+        } else {
+          this.playerConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
+        }
+        this.playerConfig['metadata']['isAvailableLocally'] = this.content?.source === 'local'? true : false;
+        this.playerConfig['metadata']['baseDir']='';
         this.playerConfig['context']['cdata'] = this.cdata;
+        console.log('this.playerConfig', this.playerConfig)
         const pdfElement = document.createElement('sunbird-pdf-player');
         pdfElement.setAttribute('player-config', JSON.stringify(this.playerConfig));
         pdfElement.addEventListener('playerEvent', (event) => {
@@ -109,9 +108,14 @@ export class PlayerPage implements OnInit {
       } else if (this.playerType == "video") {
         this.videoConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.videoConfig['metadata']['name'] = this.content?.metaData.name;
-        this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl;
-        this.videoConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
+        this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
+        if (this.content?.source === 'local' && this.content?.metaData.url.includes('file://')) {
+          this.videoConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
+        } else {
+          this.videoConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
+        }
         this.videoConfig['context']['cdata'] = this.cdata;
+        this.videoConfig['metadata']['isAvailableLocally'] = this.content?.source === 'local'? true : false;
         const epubElement = document.createElement('sunbird-video-player');
         epubElement.setAttribute('player-config', JSON.stringify(this.videoConfig));
         epubElement.addEventListener('playerEvent', (event) => {
@@ -144,15 +148,15 @@ export class PlayerPage implements OnInit {
       console.log('....................', event)
       this.telemetryService.saveTelemetry(JSON.stringify(event.detail)).subscribe(
         (res: any) => console.log('response after telemetry', res),
-        );
+      );
     }
   }
 
   closePlayer() {
-    if(this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
-      this.telemetryGeneratorService.generateEndTelemetry('content', 'play', 'player', 'player', 
-      new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
-      { l1: this.content?.metaData.identifier! },[])
+    if (this.content?.metaData.mimetype == PlayerType.YOUTUBE) {
+      this.telemetryGeneratorService.generateEndTelemetry('content', 'play', 'player', 'player',
+        new TelemetryObject(this.content?.metaData.identifier!, this.content?.metaData.mimetype!, ''),
+        { l1: this.content?.metaData.identifier! }, [])
     }
     this.location.back();
   }
@@ -167,6 +171,34 @@ export class PlayerPage implements OnInit {
         default:
           break;
       }
+    }
+  }
+
+  private populateCData() {
+    this.cdata = [
+      {
+        'id': this.content?.metaData.mimetype,
+        'type': 'MimeType'
+      }];
+
+    if (this.content?.metaData.category) {
+      this.cdata.push({
+        'id': this.content?.metaData.category,
+        'type': 'Category'
+      })
+    }
+
+    if (this.content?.metaData.language) {
+      this.cdata.push({
+        'id': this.content?.metaData.language,
+        'type': 'Language'
+      })
+    }
+    if (this.pageId) {
+      this.cdata.push({
+        'id': this.pageId,
+        'type': 'SourcePage'
+      })
     }
   }
 }

@@ -55,5 +55,6 @@
     "Playlist name": "Playlist name",
     "Save Playlist": "Save Playlist",
     "createPlaylist": "Create Playlist",
-    "create New Playlist": "Create New Playlist"
+    "create New Playlist": "Create New Playlist",
+    "noContentMetadata": "There is no content metadata available for this playlist"
 }
