@@ -1,23 +1,17 @@
 <ion-content [fullscreen]="true">
-  <div class="djp-grid-slider">
-    <div class="djp-grid-slider__header">
-      <ion-item>
-        <ion-input type="text" [(ngModel)]="playlistName" placeholder="Name Your Playlist" opacity="0.5"></ion-input>
-        <ion-icon slot="end" aria-hidden="true" src="assets/icon/edit.svg"></ion-icon>
-      </ion-item>
-    </div>
-    <div class="new-playlist-container">
-      <div class="new-playlist-heading">
-      </div>
-      <div class="new-playlist-card" *ngFor="let content of selectedContents; let i=index">
-        <div class="new-playlist-card__image">
-          <img [src] ="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'"  alt="Playlist Image" class="playlist-card__image-img">
+  <div class="create-playlist">
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="playlistName" placeholder="Name Your Playlist" opacity="0.5"></ion-input>
+      <ion-icon slot="end" aria-hidden="true" src="assets/icon/edit.svg"></ion-icon>
+    </ion-item>
+    <div class="create-playlist-container">
+      <div class="djp-card" *ngFor="let content of selectedContents; let i=index">
+        <div class="djp-card__img">
+          <img [src] ="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'"  alt="Playlist Image">
         </div>
-        <div class="new-playlist-card__details">
-          <div class="new-playlist-card__title">{{content?.metaData?.name}}</div>
-          <div class="new-playlist-card__actions">
-            <ion-checkbox class="playlist-card__checkbox" [checked]="content.isSelected" (ionChange)="isContentSelect($event, i)"></ion-checkbox>
-          </div>
+        <div class="djp-card__metadata">
+          <div class="djp-card__title">{{content?.metaData?.name}}</div>
+          <ion-checkbox [checked]="content.isSelected" (ionChange)="isContentSelect($event, i)"></ion-checkbox>
         </div>
       </div>
     </div>

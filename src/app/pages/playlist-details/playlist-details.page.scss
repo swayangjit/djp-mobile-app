@@ -1,3 +1,5 @@
+@import "./../../../assets/styles/djp-card-styles";
+
 .djp-cards-container{
     padding: 0.2rem 1rem;
   }
@@ -123,3 +125,30 @@
   ion-content{
     --padding-top: 4rem
   }
+
+
+.landscape-icon {
+  position: absolute;
+  width: 100%;
+  background: transparent;
+  bottom: 3.5rem;
+  z-index: 9999;
+  background: var(--ion-color-secondary-contrast);
+  opacity: 0.5;
+
+  ion-icon {
+    float: right;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.icon-right {
+  margin-right: 10px;
+}
+
+.icon-left {
+  margin-left: 10px;
+}
+
+  
