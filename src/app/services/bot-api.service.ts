@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { apiConfig } from 'src/environments/environment.prod';
+import { config } from 'src/environments/environment.prod';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '.';
 import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
@@ -37,8 +37,8 @@ export class BotApiService {
       }
     }
     const apiRequest = new ApiRequest.Builder()
-      .withHost(apiConfig.BOT_BASE_URL)
-      .withPath(apiConfig.BOT_QUERY_API)
+      .withHost(config.api.BOT_BASE_URL)
+      .withPath(config.api.BOT_QUERY_API)
       .withType(ApiHttpRequestType.POST)
       .withBearerToken(true)
       .withBody(req)

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { version } from "uuid";
+import * as MD5 from 'crypto-js/md5';
+import { config } from "src/environments/environment.prod";
 import { UtilService } from "../..";
-import { TelemetryConstants } from "../telemetryConstants";
 import { Actor, Context, CorrelationData, DJPTelemetry, ProducerData } from "./telemetry";
 import Telemetry = DJPTelemetry.Telemetry;
 
@@ -23,7 +23,7 @@ export class TelemetryDecorator {
         globalCData?: CorrelationData[]
     ): any {
         if (!event.mid) {
-            event.mid = mid;
+            event.mid = `${event.eid}:${MD5(JSON.stringify(event)).toString()}`;
         }
         this.patchActor(event, did);
         this.patchContext(event, sid, did, version, channelId, globalCData);
@@ -65,9 +65,9 @@ export class TelemetryDecorator {
         }
         const pData: ProducerData = event.pdata;
         if (!pData.id) {
-            pData.id = TelemetryConstants.PRODUCER_ID;
+            pData.id = config.telmetry.PRODUCER_ID;
         }
-        pData.pid = TelemetryConstants.PRODUCER_PID;
+        pData.pid = config.telmetry.PRODUCER_PID;
 
         if (!pData.ver) {
             pData.ver = version;
@@ -91,7 +91,6 @@ export class TelemetryDecorator {
         }
         context.sid = sid;
         context.did = did;
-        context.rollup = { l1: channelId };
         context.cdata = context.cdata ? context.cdata.concat(globalCData || []) : (globalCData || []);
         return context;
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from './config/models/config';
-import { apiConfig } from 'src/environments/environment.prod';
+import { config } from 'src/environments/environment.prod';
 import { ApiService } from './api/api.service';
 import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
 import { catchError, lastValueFrom, map, mapTo, tap, throwError } from 'rxjs';
@@ -15,8 +15,8 @@ export class ConfigService {
 
   async getConfigMeta(): Promise<Config> {
     const apiRequest = new ApiRequest.Builder()
-      .withHost(apiConfig.BASE_URL)
-      .withPath(apiConfig.CONFIG)
+      .withHost(config.api.BASE_URL)
+      .withPath(config.api.CONFIG)
       .withType(ApiHttpRequestType.GET)
       .withBearerToken(true)
       .build();
@@ -33,8 +33,8 @@ export class ConfigService {
   async getAllContent(req: any): Promise<any> {
     console.log('req ', req);
     const apiRequest = new ApiRequest.Builder()
-      .withHost(apiConfig.BASE_URL)
-      .withPath(apiConfig.PAGE_SEARCH_API)
+      .withHost(config.api.BASE_URL)
+      .withPath(config.api.PAGE_SEARCH_API)
       .withType(ApiHttpRequestType.POST)
       .withBearerToken(true)
       .withBody(req)

@@ -15,7 +15,7 @@ export class Context {
     channel: string | undefined;
     pdata: ProducerData | undefined;
     sid: string | undefined;
-    did: string| undefined;
+    did: string | undefined;
     rollup: Rollup | undefined;
 }
 
@@ -34,8 +34,8 @@ export class Rollup {
 
 export class ProducerData {
     id: string | undefined;
-    pid: string| undefined;
-    ver: string| undefined;
+    pid: string | undefined;
+    ver: string | undefined;
 
     ProducerData() {
         this.id = '';
@@ -80,7 +80,7 @@ export namespace DJPTelemetry {
         private static readonly TELEMETRY_VERSION: string = '3.0';
 
         public eid: string;
-        public mid: string| undefined;
+        public mid: string | undefined;
         public ets: number;
         public ver: string = Telemetry.TELEMETRY_VERSION;
         public actor: Actor;
@@ -102,35 +102,39 @@ export namespace DJPTelemetry {
         private static readonly EID = 'INTERACT';
 
         constructor(type: string,
-                    subtype: string,
-                    id: string | undefined,
-                    pageid: string | undefined,
-                    pos: { [key: string]: string }[] | undefined,
-                    valuesMap: { [key: string]: any } | undefined,
-                    env: string,
-                    objId: string = '',
-                    objType: string = '',
-                    objVer: string = '',
-                    rollup: Rollup = {},
-                    correlationData: Array<CorrelationData> = []) {
+            subtype: string,
+            id: string | undefined,
+            pageid: string | undefined,
+            pos: { [key: string]: string }[] | undefined,
+            valuesMap: { [key: string]: any } | undefined,
+            env: string,
+            objId: string = '',
+            objType: string = '',
+            objVer: string = '',
+            rollup: Rollup = {},
+            correlationData: Array<CorrelationData> = []) {
             super(Interact.EID);
             this.edata = {
-                ...{type},
-                ...{subtype},
-                ...(id ? {id} : {}),
-                ...(pageid ? {pageid} : {}),
+                ...{ type },
+                ...{ subtype },
+                ...(id ? { id } : {}),
+                ...(pageid ? { pageid } : {}),
                 extra: {
-                    ...(pos ? {pos} : {}),
-                    ...(valuesMap ? {values: [valuesMap]} : {}),
+                    ...(pos ? { pos } : {}),
+                    ...(valuesMap ? { values: [valuesMap] } : {}),
                 }
             };
             this.context.cdata = correlationData;
             this.context.env = env;
-            this.object = new TelemetryObject(objId, objType, objVer);
-            this.object.rollup = rollup ? rollup : {};
+            if (objId && objType) {
+                this.object = new TelemetryObject(objId, objType, objVer);
+                if (rollup) {
+                    this.object.rollup = rollup ? rollup : {};
+                }
+            }
         }
     }
-    
+
     export class End extends Telemetry {
         private static readonly EID = 'END';
 
@@ -187,8 +191,12 @@ export namespace DJPTelemetry {
             };
             this.context.cdata = correlationData;
             this.context.env = env;
-            this.object = new TelemetryObject(objId, objType, objVer);
-            this.object.rollup = rollup ? rollup : {};
+            if (objId && objType) {
+                this.object = new TelemetryObject(objId, objType, objVer);
+                if (rollup) {
+                    this.object.rollup = rollup ? rollup : {};
+                }
+            }
         }
     }
 
@@ -215,11 +223,15 @@ export namespace DJPTelemetry {
             };
             this.context.cdata = correlationData;
             this.context.env = env;
-            this.object = new TelemetryObject(objId ? objId : '', objType ? objType : '', objVer ? objVer : '');
-            this.object.rollup = rollup ? rollup : {};
+            if (objId && objType) {
+                this.object = new TelemetryObject(objId, objType, objVer);
+                if (rollup) {
+                    this.object.rollup = rollup ? rollup : {};
+                }
+            }
         }
     }
-    
+
     export class Search extends Telemetry {
         private static readonly EID = 'SEARCH';
 
@@ -234,12 +246,12 @@ export namespace DJPTelemetry {
             correlationData: Array<CorrelationData> = []) {
             super(Search.EID);
             this.edata = {
-                ...(type ? {type} : {type: ''}),
-                ...(query ? {query} : {}),
-                ...(filters ? {filters} : {}),
-                ...(sort ? {sort} : {}),
-                ...(correlationid ? {correlationid} : {}),
-                ...(size ? {size} : {}),
+                ...(type ? { type } : { type: '' }),
+                ...(query ? { query } : {}),
+                ...(filters ? { filters } : {}),
+                ...(sort ? { sort } : {}),
+                ...(correlationid ? { correlationid } : {}),
+                ...(size ? { size } : {}),
             };
             this.context.cdata = correlationData;
             this.context.env = env;
