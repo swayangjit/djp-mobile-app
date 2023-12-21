@@ -68,12 +68,15 @@ export class TelemetryGeneratorService {
         this.telemetryService.impression(telemetryImpressionRequest).subscribe();
     }
 
-    generateEndTelemetry(type: string, mode: string, pageId: string, env: string, object?: TelemetryObject, rollup?: Rollup, corRelationList?: Array<CorrelationData>) {
+    generateEndTelemetry(type: string, mode: string, pageId: string, env: string, object?: TelemetryObject, rollup?: Rollup, corRelationList?: Array<CorrelationData>, duration?: number, extras?: any) {
         const telemetryEndRequest = new TelemetryEndRequest();
         telemetryEndRequest.type = type;
         telemetryEndRequest.pageId = pageId;
         telemetryEndRequest.env = env;
         telemetryEndRequest.mode = mode;
+        if(duration) {
+            telemetryEndRequest.duration = duration;
+        }
         if (object && object.id) {
             telemetryEndRequest.objId = object.id;
         }
@@ -90,6 +93,9 @@ export class TelemetryGeneratorService {
         }
         if (corRelationList) {
             telemetryEndRequest.correlationData = corRelationList;
+        }
+        if(extras) {
+            telemetryEndRequest.summaryList = extras
         }
         this.telemetryService.end(telemetryEndRequest).subscribe();
     }

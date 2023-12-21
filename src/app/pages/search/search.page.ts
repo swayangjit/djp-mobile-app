@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Content, ContentSrc } from 'src/app/appConstants';
 import { SearchService } from 'src/app/services/search.service';
@@ -14,6 +14,7 @@ import { ContentService } from 'src/app/services/content/content.service';
 import { Router } from '@angular/router';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
+import { Keyboard } from "@capacitor/keyboard";
 
 @Component({
   selector: 'app-search',
@@ -66,9 +67,9 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     try {
       if(this.searchKeywords.replace(/\s/g, '').length > 0) {
         this.showSheenAnimation = true;
+        Keyboard.hide();
         let res = await this.searchApi.postSearchContext({text: audio ? data : this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
-        console.log('res ', res);
-        if (res.input && res.context) {
+        if (res.input) {
           this.searchKeywords = res.input.englishText;
           // Content search api call
           let searchRes = await this.searchApi.postContentSearch({query: res.context, filter: ''});
@@ -93,6 +94,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
             this.errMsg = "No Result";
           }
         } else {
+          this.searchContentResult = [];
           this.showSheenAnimation = false;
           this.noSearchData = true;
           this.errMsg = "Sry, please try again!";
@@ -101,6 +103,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     } catch(e){
       this.showSheenAnimation = false;
       this.noSearchData = true;
+      this.searchContentResult = [];
       this.errMsg = "Sry, please try again!"
     }
   }
