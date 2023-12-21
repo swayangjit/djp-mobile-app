@@ -12,6 +12,7 @@ import { EditRemovedModalComponent } from './edit-removed-modal/edit-removed-mod
 import { NewPlaylistModalComponent } from './new-playlist-modal/new-playlist-modal.component';
 import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
 import { BotMessagesComponent } from './bot-messages/bot-messages.component';
+import { AppExitComponent } from './app-exit/app-exit.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { BotMessagesComponent } from './bot-messages/bot-messages.component';
         EditRemovedModalComponent,
         NewPlaylistModalComponent,
         SkeletonItemComponent,
-        BotMessagesComponent
+        BotMessagesComponent,
+        AppExitComponent
     ],
     imports: [
         CommonModule,
@@ -40,7 +42,8 @@ import { BotMessagesComponent } from './bot-messages/bot-messages.component';
         EditRemovedModalComponent,
         NewPlaylistModalComponent,
         SkeletonItemComponent,
-        BotMessagesComponent
+        BotMessagesComponent,
+        AppExitComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [
