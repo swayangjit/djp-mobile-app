@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    environment: KEYSTORE
+    environment: ejp
     runs-on: ubuntu-latest
 
     steps:
