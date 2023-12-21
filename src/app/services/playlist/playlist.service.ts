@@ -38,18 +38,23 @@ export class PlaylistService {
       if (playListContent.isDeleted) {
         capSQLiteSet.push({ statement: PlaylistContentEntry.deleteQuery(), values: [playListContentList[i].identifier, playListId] });
       } else {
-        if (!isEditMode) {
-          if (playListContent.type == 'local') {
-            const localData = await this.dbService.readDbData(ContentEntry.readQuery(), { 'identifier': playListContent.identifier })
-            if (!localData) {
-              capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(playListContent.localContent!) })
-            }
+        const playlistContentData = await this.dbService.executeQuery(`SELECT * FROM ${PlaylistContentEntry.TABLE_NAME}
+               WHERE ${PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER}='${playListId}' AND ${PlaylistContentEntry.COLUMN_NAME_CONTENT_ID} = '${playListContent.identifier}'`);
+        if (playlistContentData) {
 
-          }
-          capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContentList[i].identifier, playListContentList[i].type) })
         } else {
-          capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContentList[i].identifier, playListContentList[i].type) })
+          if (!isEditMode) {
+            if (playListContent.type == 'local') {
+              const localData = await this.dbService.readDbData(ContentEntry.readQuery(), { 'identifier': playListContent.identifier })
+              if (!localData) {
+                capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(playListContent.localContent!) })
+              }
+
+            }
+            capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContentList[i].identifier, playListContentList[i].type) })
+          }
         }
+
       }
     }
     if (capSQLiteSet.length) {

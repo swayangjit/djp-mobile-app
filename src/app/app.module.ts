@@ -16,9 +16,8 @@ import { AppHeaderService } from './services/app-header.service';
 import { UtilService } from './services/util.service';
 import { ContentService } from './services/content/content.service';
 import { PlaylistService } from './services/playlist/playlist.service';
-import { ApiService } from './services/api.service';
 import { ConfigService } from './services/config.service';
-import { BotApiService, RecordingService, SearchService } from './services';
+import { ApiService, BotApiService, RecordingService, SearchService } from './services';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx'
 import { TelemetryAutoSyncService } from './services/telemetry/telemetry.auto.sync.service';
 import { DikshaPreprocessorService, PreprocessorService, SunbirdPreprocessorService } from './services';

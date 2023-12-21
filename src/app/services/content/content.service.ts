@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { capSQLiteSet } from '@capacitor-community/sqlite';
-import { ApiService, DbService } from '..';
 import { Content } from './models/content';
 import { ContentEntry } from './db/content.schema';
 import { RecentlyViewedContentEntry } from './db/recently.viewed.content.schema';
@@ -13,6 +12,11 @@ import { v4 as uuidv4 } from "uuid";
 import { MimeType } from 'src/app/appConstants';
 import { HttpResponse } from '@capacitor/core';
 import { ContentUtil } from './util/content.util';
+import { ApiHttpRequestType, ApiRequest } from '../api/model/api.request';
+import { ApiService } from '../api/api.service';
+import { DbService } from '..';
+import { lastValueFrom } from 'rxjs';
+import { ApiResponse } from '../api/model/api.response';
 @Injectable({
   providedIn: 'root'
 })
@@ -70,7 +74,6 @@ export class ContentService {
   }
 
   public searchContentInDiksha(query: string) {
-    let url = "https://diksha.gov.in/api/content/v1/search"
     let body = {
       "request": {
         "filters": {
@@ -141,24 +144,34 @@ export class ContentService {
         "offset": 0
       }
     }
-    return this.apiService.post(url, body);
+    const apiRequest = new ApiRequest.Builder()
+    .withHost('https://diksha.gov.in/')
+    .withPath('api/content/v1/search')
+    .withType(ApiHttpRequestType.POST)
+    .withBody(body)
+    .build()
+    return lastValueFrom(this.apiService.fetch(apiRequest));
   }
 
   public getCollectionHierarchy(identifier: string) {
-    let url = `https://diksha.gov.in/action/content/v3/hierarchy/${identifier}`
-    return this.apiService.get(url);
+    const apiRequest = new ApiRequest.Builder()
+      .withHost('https://diksha.gov.in/action/content/v3/hierarchy/')
+      .withPath(`${identifier}`)
+      .withType(ApiHttpRequestType.GET)
+      .build()
+    return lastValueFrom(this.apiService.fetch(apiRequest));
   }
 
   public getContents(query: string): Promise<Array<Content>> {
     return this.searchContentInDiksha(query)
-      .then((response: HttpResponse) => {
+      .then((response: ApiResponse) => {
         return this.getCollectionHierarchy(
-          response.data.result.content[0].identifier
+          response.body.result.content[0].identifier
         );
       })
-      .then((hierarchyResponse) => {
+      .then((hierarchyResponse: ApiResponse) => {
         this.results = [];
-        this.showAllChild(hierarchyResponse.result.content)
+        this.showAllChild(hierarchyResponse.body.result.content)
         const contentList: Array<Content> = []
         this.results.map((content: any) => {
           contentList.push({

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 import { apiConfig } from 'src/environments/environment.prod';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiService } from '.';
+import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
+import { catchError, lastValueFrom, map, tap } from 'rxjs';
+import { ApiResponse } from './api/model/api.response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,35 +16,40 @@ export class BotApiService {
     private translate: TranslateService
   ) { }
 
-  async getBotMessage(text:string, audio: string): Promise<any> {
-    console.log('text ',text, text!=="");
-    console.log('audio ',audio, audio!=="");
+  async getBotMessage(text: string, audio: string): Promise<any> {
+    console.log('text ', text, text !== "");
+    console.log('audio ', audio, audio !== "");
     let req = {
       input: {},
       output: {
         format: text ? "text" : "audio"
       }
-    }    
-    if(text !== "") {
+    }
+    if (text !== "") {
       req.input = {
         language: this.translate.currentLang,
         text: text
       }
-    } else if(audio !== "") {
+    } else if (audio !== "") {
       req.input = {
         language: this.translate.currentLang,
         audio: audio
       }
     }
-    return await this.apiService.post(apiConfig.BOT_BASE_URL+apiConfig.BOT_QUERY_API, req).then((res: any) => {
-      console.log('res ', res);
-      if(res.status == 200 && res.data) {
-        console.log('res data', res.data);
-        return res.data;
-      } else {
-        return res.data;
-      }
-    }).catch(err => 
-      {return err});
+    const apiRequest = new ApiRequest.Builder()
+      .withHost(apiConfig.BOT_BASE_URL)
+      .withPath(apiConfig.BOT_QUERY_API)
+      .withType(ApiHttpRequestType.POST)
+      .withBearerToken(true)
+      .withBody(req)
+      .build()
+    return lastValueFrom(this.apiService.fetch(apiRequest).pipe(
+      map((response: ApiResponse) => {
+        return response.body;
+      }),
+      catchError((err) => {
+        throw err;
+      })
+    ));
   }
 }

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 import { Config } from './config/models/config';
 import { apiConfig } from 'src/environments/environment.prod';
+import { ApiService } from './api/api.service';
+import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
+import { catchError, lastValueFrom, map, mapTo, tap, throwError } from 'rxjs';
+import { ApiResponse } from './api/model/api.response';
 
 @Injectable({
   providedIn: 'root'
@@ -10,26 +13,37 @@ export class ConfigService {
 
   constructor(private apiService: ApiService) { }
 
-  async getConfigMeta() : Promise<Config>{
-    return await this.apiService.get(apiConfig.BASE_URL+apiConfig.CONFIG).then((res: any) =>{
-      console.log("res in config file ", res?.result);
-      if (res.result) {
-        return res.result;
+  async getConfigMeta(): Promise<Config> {
+    const apiRequest = new ApiRequest.Builder()
+      .withHost(apiConfig.BASE_URL)
+      .withPath(apiConfig.CONFIG)
+      .withType(ApiHttpRequestType.GET)
+      .withBearerToken(true)
+      .build();
+    return lastValueFrom(this.apiService.fetch(apiRequest)).then((res: any) => {
+      console.log("res in config file ", res?.body.result);
+      if (res?.body.result) {
+        return res?.body.result;
       }
     }).catch((err: any) => {
       console.log('err ', err);
     })
   }
 
-  async getAllContent(req: any) : Promise<any>{
+  async getAllContent(req: any): Promise<any> {
     console.log('req ', req);
-    return await this.apiService.post(apiConfig.BASE_URL+apiConfig.PAGE_SEARCH_API, req).then((res: any) =>{
-      console.log("res in config file ", res?.data.result);
-      if (res.data.result) {
-        return res.data.result;
-      }
-    }).catch((err: any) => {
-      console.log('err ', err);
-    })
+    const apiRequest = new ApiRequest.Builder()
+      .withHost(apiConfig.BASE_URL)
+      .withPath(apiConfig.PAGE_SEARCH_API)
+      .withType(ApiHttpRequestType.POST)
+      .withBearerToken(true)
+      .withBody(req)
+      .build()
+    return lastValueFrom(this.apiService.fetch(apiRequest).pipe(
+      map((apiResponse) => apiResponse.body.result),
+      catchError((err) => {
+        throw err;
+      })
+    ));
   }
 }
