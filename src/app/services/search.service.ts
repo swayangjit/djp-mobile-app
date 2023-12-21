@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { catchError, lastValueFrom, map, tap, throwError } from 'rxjs';
-import { apiConfig } from 'src/environments/environment.prod';
+import { config } from 'src/environments/environment.prod';
 import { ApiService } from './api/api.service';
 import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
 import { ApiResponse } from './api/model/api.response';
@@ -30,8 +30,8 @@ export class SearchService {
     let body = JSON.stringify(request)
     console.log("body ", body);
     const apiRequest = new ApiRequest.Builder()
-      .withHost(apiConfig.SEARCH_BASE_URL)
-      .withPath(apiConfig.CONTEXT_SEARCH)
+      .withHost(config.api.SEARCH_BASE_URL)
+      .withPath(config.api.CONTEXT_SEARCH)
       .withType(ApiHttpRequestType.POST)
       .withBody(body)
       .withBearerToken(true)
@@ -54,8 +54,8 @@ export class SearchService {
       }
     }
     const apiRequest = new ApiRequest.Builder()
-      .withHost(apiConfig.BASE_URL)
-      .withPath(apiConfig.CONTENT_SEARCH_API)
+      .withHost(config.api.BASE_URL)
+      .withPath(config.api.CONTENT_SEARCH_API)
       .withType(ApiHttpRequestType.POST)
       .withBody(request)
       .withBearerToken(true)

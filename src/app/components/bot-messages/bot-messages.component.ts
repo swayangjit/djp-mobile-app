@@ -127,23 +127,23 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       let index = this.botMessages.length;
       this.messageArray = [];
       this.messageArray = this.botMessages;
-      console.log('length ', index, index-1);
+      console.log('length ', index, index - 1);
       this.disabled = false;
       this.messageArray.forEach((msg, i) => {
-        if(i == index-1 && msg.type === 'received') {
-          msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'})
+        if (i == index - 1 && msg.type === 'received') {
+          msg.time = new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' })
           msg.timeStamp = Date.now();
-          if(!!data.output) {
+          if (!!data.output) {
             msg.message = data.output?.text;
-            if(data.output?.text.length > 200 && (data.output.text.length-200 > 100)) {
+            if (data.output?.text.length > 200 && (data.output.text.length - 200 > 100)) {
               msg.displayMsg = data.output.text.substring(0, 200);
               msg.readMore = true;
             } else {
               msg.displayMsg = data.output?.text;
             }
-            if(data.output?.audio) {
-              let audioMsg = {message: '', messageType: '', displayMsg: "", audio: {file: '', duration: '', play: false}, type: 'received', time: new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'}), timeStamp: Date.now(), readMore: false}
-              audioMsg.audio = {file: data.output?.audio, duration: "", play: false}
+            if (data.output?.audio) {
+              let audioMsg = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false }
+              audioMsg.audio = { file: data.output?.audio, duration: "", play: false }
               audioMsg.messageType = 'audio';
               this.botMessages.push(audioMsg);
               this.content.scrollToBottom(300).then(() => {
@@ -151,7 +151,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
               });
             }
             console.log('botmessage ', this.botMessages);
-          } else if(!!data.detail) {
+          } else if (!!data.detail) {
             msg.message = data.detail;
             msg.displayMsg = data.detail;
           }
@@ -163,8 +163,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   readmore(msg: any) {
     let textDisplayed = msg.displayMsg;
     let prevLeng = msg.displayMsg.length
-    if(msg.message !== textDisplayed) {
-      if(msg.message.length < prevLeng+200) {
+    if (msg.message !== textDisplayed) {
+      if (msg.message.length < prevLeng + 200) {
         msg.displayMsg = textDisplayed + msg.message.substring(prevLeng, msg.message.length);
       } else {
         msg.displayMsg = textDisplayed + msg.message.substring(prevLeng, prevLeng + 200);
@@ -196,7 +196,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       const base64Sound = audioFile.data;
       url = `data:audio/aac;base64,${base64Sound}`
       audio.play = !audio.play;
-    } else if(msg.type === "received") {
+    } else if (msg.type === "received") {
       url = audio.file;
       audio.play = !audio.play;
     }

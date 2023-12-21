@@ -9,7 +9,7 @@ import { TelemetrySyncStat } from '../models/telemetry.sync.stat';
 import { v4 as uuidv4 } from "uuid";
 import { TelemetrySyncPreprocessor } from '../models/telemetry-sync-preprocessor';
 import { TelemetryEntriesToStringPreprocessor } from './telemetry.string.preprocessor';
-import { apiConfig } from 'src/environments/environment.prod';
+import { config } from 'src/environments/environment.prod';
 import { ApiService } from '../../api/api.service';
 import { ApiHttpRequestType, ApiRequest } from '../../api/model/api.request';
 
@@ -195,8 +195,8 @@ export class TelemetrySyncHandler {
             return of(undefined);
         }
         const apiRequest = new ApiRequest.Builder()
-            .withHost(apiConfig.BASE_URL)
-            .withPath(apiConfig.TELEMETRY_SYNC)
+            .withHost(config.api.BASE_URL)
+            .withPath(config.api.TELEMETRY_SYNC)
             .withType(ApiHttpRequestType.POST)
             .withBody(JSON.parse(processedEventsBatchEntry[TelemetryProcessedEntry.COLUMN_NAME_DATA]))
             .build()
