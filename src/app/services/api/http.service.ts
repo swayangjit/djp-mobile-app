@@ -104,7 +104,7 @@ export class HttpService {
             'X-Source': 'mobileapp',
             'X-Request-ID': uuidv4(),
             // 'x-preferred-language': this.language,
-            'X-CONSUMER-ID': ''
+            'X-CONSUMER-ID': ApiModule.getInstance().getConfig().deviceInfo?.did!
         };
     }
 
