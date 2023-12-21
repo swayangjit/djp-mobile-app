@@ -19,6 +19,22 @@ ion-label {
   text-align: center;
   border: none !important;
 }
+.bot-section{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem 1rem;
+  .image{
+    position: relative;
+    .image-title{
+      position: absolute;
+      bottom: 0.625rem;
+      color:var(--ion-color-primary-contrast);
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+  }
+}
 
 .landscape-icon {
   position: absolute;

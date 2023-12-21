@@ -29,15 +29,14 @@ export class RecordingService implements OnInit {
   gestureControl(ele: any) {
     const swipeLeft = this.gestureCtrl.create({
       el: ele.nativeElement,
-      threshold: 300,
+      threshold: 250,
       gestureName: 'swipe',
       direction: 'x',
       onStart: (ev) => { 
         console.log('swipe left start ', ev); 
         Haptics.impact({style: ImpactStyle.Light});
       },
-      onMove: (detail) => { 
-        console.log('swipe left ', detail);
+      onMove: (ev) => { 
         Haptics.impact({style: ImpactStyle.Light});
         this.recordEvent.next(false);
         this.cancelRecording = true;
