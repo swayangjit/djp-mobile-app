@@ -19,6 +19,9 @@ ion-icon {
 
 ion-tab-button {
   &.tab-selected{
+    .home-screen ion-icon{
+      border: 0.063rem solid var(--ion-color-tertiary);
+    }
     ion-icon {
       opacity: initial; 
       fill: var(--ion-color-tertiary);
