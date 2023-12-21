@@ -22,8 +22,8 @@
     </ion-radio-group>
     <hr style="border: 1px solid lightgray;">
   </div>
-  <p *ngIf="!playlists.length" class="empty-list-text">No playlist add yet</p>
+  <p *ngIf="!playlists.length" class="empty-list-text">{{"No playlist add yet" | translate}}</p>
   <ion-toolbar>
-    <ion-button class="btn-info" slot="end" [strong]="true" color="warning" (click)="saveContent()">{{'Done' | translate}}</ion-button>
+    <ion-button class="btn-info" slot="end" [strong]="true" (click)="saveContent()">{{'Done' | translate}}</ion-button>
   </ion-toolbar>
 </div>

@@ -125,7 +125,6 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     await this.messageApi.getBotMessage(text, audio).then(data => {
       let index = this.botMessages.length;
       this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-      console.log('length ', index, index-1);
       this.disabled = false;
       this.botMessages.forEach((msg, i) => {
         if(i == index-1 && msg.type === 'received') {

@@ -1,0 +1,11 @@
+<div class="inner-content">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button>{{'Exit the app?' | translate}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="buttons">
+    <ion-button class="btn-info exit" slot="end" shape="round" fill="outline" (click)="confirm('exit')">{{"Exit" | translate }}</ion-button>
+    <ion-button class="btn-info" slot="end" shape="round" (click)="confirm('cancel')">{{"Cancel" | translate }}</ion-button>
+  </ion-toolbar>
+</div>
