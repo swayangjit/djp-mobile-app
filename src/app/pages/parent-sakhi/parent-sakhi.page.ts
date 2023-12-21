@@ -28,7 +28,7 @@ export class ParentSakhiPage implements OnInit {
   ionViewWillEnter()  {
     this.config = {type: 'parent'}
     this.headerService.showHeader("Parent Sakhi", true, ['bot']);
-    this.headerService.showStatusBar(false, '#FFBC00');
+    this.headerService.showStatusBar(false, '#FCB915');
     this.telemetry.generateStartTelemetry('bot', 'parent-sakhi');
   }
 
