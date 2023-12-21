@@ -50,9 +50,9 @@ export class AppComponent implements OnInit {
               }
           console.log("Scan Result", scannedData);
           let scannenValue = ''
-          const execArray = (new RegExp('(\/dial\/(?<djp>[a-zA-Z0-9]+))')).exec(scannedData);
+          const execArray = (new RegExp('(/dial/(?<djp>[a-zA-Z0-9]+)|(/QR/\\?id=(?<epathshala>[a-zA-Z0-9]+)))')).exec(scannedData);
           if (execArray && execArray.length > 1) {
-            scannenValue = execArray[2]
+            scannenValue = execArray?.groups![Object.keys(execArray?.groups!).find((key) => !!execArray?.groups![key])!]
           }
           console.log('Scanned Value', scannenValue);
           this.router.navigate(['/qr-scan-result'], {state: {scannedData: scannenValue}})

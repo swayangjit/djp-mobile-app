@@ -108,7 +108,7 @@ export class ContentService {
           ]
         },
         "limit": 100,
-        "query": query ? query : "H2H2D7",
+        "query": query,
         "sort_by": {
           "lastPublishedOn": "desc"
         },
