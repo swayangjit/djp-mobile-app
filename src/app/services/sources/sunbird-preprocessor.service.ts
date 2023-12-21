@@ -3,8 +3,6 @@ import { ApiPreprocessor } from '../api-preprocessor';
 import { PreprocessorService } from './preprocessor.service';
 import { Mapping, MappingElement, Source } from '../config/models/config';
 import { Content, ContentMetaData } from '../content/models/content';
-import { youtubeContentArr } from 'src/app/pages/player/playerData';
-import { apiConfig } from 'src/environments/environment.prod';
 import { ApiService } from '../api/api.service';
 
 @Injectable({

@@ -3,7 +3,6 @@ import { ApiPreprocessor } from '../api-preprocessor';
 import { request, sourceConfig } from '../../appConstants';
 import { PreprocessorService } from './preprocessor.service';
 import { Content } from '../content/models/content';
-import { apiConfig } from 'src/environments/environment.prod';
 import { ApiService } from '../api/api.service';
 
 @Injectable({

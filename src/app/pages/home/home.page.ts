@@ -15,8 +15,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
-import { ApiHttpRequestType, ApiRequest } from 'src/app/services/api/model/api.request';
-import { apiConfig } from 'src/environments/environment.prod';
 
 
 @Component({

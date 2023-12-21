@@ -71,10 +71,10 @@ export class TelemetryService {
         type, query, filters, sort, correlationid, size, env, correlationData
     }: TelemetySearchRequest): Observable<boolean> {
         const interact = new DJPTelemetry.Search(type!, query!,
-             filters, sort, env, correlationid, size, correlationData);
+            filters, sort, env, correlationid, size, correlationData);
         return this.decorateAndPersist(interact);
     }
-    
+
     private decorateAndPersist(telemetry: DJPTelemetry.Telemetry): Observable<any> {
         return zip(
             from(this.utilService.getAppInfo()),
@@ -87,10 +87,10 @@ export class TelemetryService {
                     mergeMap((sid: string | undefined) => {
                         const telemetrySchema = this.decorator.prepare(this.decorator.decorate(
                             telemetry, sid ?? '', did, uuidv4(),
-                            version, '', []
+                            version, 'ejp', []
                         ), 1);
                         console.log('Telemetry Generated', telemetry);
-                        
+
                         return this.dbService.save(TelemetryConfigEntry.insertData(), telemetrySchema)
                     })
                 )
