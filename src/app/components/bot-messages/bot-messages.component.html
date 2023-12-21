@@ -26,7 +26,7 @@
   <div class="djp-bot-input">
     <ion-input *ngIf="!this.startRecording" [disabled]="disabled" aria-label="" value="" [placeholder]="'Type here' | translate" (keyup.enter)="handleMessage()" fill="outline" shape="round" [(ngModel)]="textMessage"></ion-input>
     <div class="input_record" *ngIf="this.startRecording">
-      <ion-icon aria-hidden="true" class="audio-record-mic on-record" src="assets/icon/bot-audio.svg"></ion-icon>
+      <ion-icon aria-hidden="true" class="audio-record-mic on-record" name="mic"></ion-icon>
       <ion-label >{{durationDisplay}}</ion-label>
     </div>
     <div #recordbtn [ngClass]="this.startRecording ? 'cancel-div' : ''" (touchstart)="onLongPressStart()" (touchend)="onLongPressEnd()">

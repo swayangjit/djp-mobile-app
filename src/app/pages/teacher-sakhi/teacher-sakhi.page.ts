@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppHeaderService } from 'src/app/services';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
@@ -8,8 +8,10 @@ import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.
   templateUrl: './teacher-sakhi.page.html',
   styleUrls: ['./teacher-sakhi.page.scss'],
 })
-export class TeacherSakhiPage implements OnInit {
+export class TeacherSakhiPage implements OnInit, OnDestroy {
   config: any;
+  cdata: any;
+  duration: any;
   constructor(private headerService: AppHeaderService,
     private router: Router,
     private telemetry: TelemetryGeneratorService) {}
@@ -24,23 +26,18 @@ export class TeacherSakhiPage implements OnInit {
     this.config = {type: 'teacher'}
     this.headerService.showHeader("Teacher Sakhi", true, ['bot']);
     this.headerService.showStatusBar(false, '#FCB915');
-    this.telemetry.generateStartTelemetry('bot', 'teacher-sakhi');
   }
 
   handleBotEvent(event: any) {
-    let cdata = [{
-      'id': event.totalCount,
-      'type': 'Message total count'
-      },
-      {
-      'id': event.audio,
-      'type': 'audio count'
-      },
-      {
-      'id': event.text,
-      'type': 'text message count'
-    }]
-    this.telemetry.generateEndTelemetry('bot', 'end', 'teacher-sakhi', 'teacher-sakhi', undefined, undefined, cdata);
+    this.cdata = {
+      "audioMessagesCount": event.audio,
+      "textMessagesCount": event.text
+    }
+    this.duration = event.duration;
     this.router.navigate(['/tabs/home']);
+  }
+  
+  ngOnDestroy() {
+    this.telemetry.generateEndTelemetry('bot', 'end', 'teacher-sakhi', 'teacher-sakhi', undefined, undefined, undefined, this.duration, this.cdata);
   }
 }
