@@ -3,7 +3,6 @@ import { DbService } from '../db/db.service';
 import { StorageService } from '../storage.service';
 import { UtilService } from '../util.service';
 import { TelemetryConfigEntry } from '../db/telemetrySchema';
-import { ApiService } from '../api.service';
 import { defer, from, mergeMap, Observable, of, zip } from 'rxjs';
 import { Device } from '@capacitor/device';
 import { TelemetrySyncHandler } from './utils/telemetry.sync.handler';
@@ -11,6 +10,7 @@ import { TelemetryEndRequest, TelemetryImpressionRequest, TelemetryInteractReque
 import { DJPTelemetry } from './models/telemetry';
 import { TelemetryDecorator } from './models/telemetry.decorator';
 import { v4 as uuidv4 } from "uuid";
+import { ApiService } from '../api/api.service';
 
 declare const window: any;
 

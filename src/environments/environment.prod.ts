@@ -4,6 +4,7 @@ export const environment = {
 
 export const apiConfig = {
   BASE_URL: 'http://152.67.162.156:9000/',
+  BASE_URL_NEW: 'https://dev.ejp.sunbird.org/',
   SEARCH_BASE_URL: 'http://129.154.42.158:8000/',
   BOT_BASE_URL: 'http://144.24.130.223:7081/',
   CONFIG: 'v1/config/read',

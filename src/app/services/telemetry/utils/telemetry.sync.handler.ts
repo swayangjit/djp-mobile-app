@@ -1,7 +1,7 @@
 
 import { EMPTY, from, Observable, of } from 'rxjs';
 import { catchError, expand, map, mapTo, mergeMap, reduce } from 'rxjs/operators';
-import { ApiService, DbService } from '../..';
+import { DbService } from '../..';
 import * as dayjs from 'dayjs';
 import { TelemetryConfigEntry } from '../../db/telemetrySchema';
 import { TelemetryProcessedEntry } from '../db/telemetry.processed.schema';
@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from "uuid";
 import { TelemetrySyncPreprocessor } from '../models/telemetry-sync-preprocessor';
 import { TelemetryEntriesToStringPreprocessor } from './telemetry.string.preprocessor';
 import { apiConfig } from 'src/environments/environment.prod';
+import { ApiService } from '../../api/api.service';
+import { ApiHttpRequestType, ApiRequest } from '../../api/model/api.request';
 
 interface ProcessedEventsMeta {
     processedEvents?: string;
@@ -68,7 +70,7 @@ export class TelemetrySyncHandler {
     public processEventsBatch(deviceId: string): Observable<number> {
         return this.fetchEvents().pipe(
             mergeMap((events) => {
-                if(events){
+                if (events) {
                     return this.processEvents(events, deviceId).pipe(
                         mergeMap((processedEventsMeta) =>
                             this.persistProcessedEvents(processedEventsMeta, processedEventsMeta.processedEventsSize).pipe(
@@ -80,7 +82,7 @@ export class TelemetrySyncHandler {
                 } else {
                     return of(0)
                 }
-                
+
             })
         );
     }
@@ -192,8 +194,13 @@ export class TelemetrySyncHandler {
         if (!processedEventsBatchEntry) {
             return of(undefined);
         }
-
-        return from(this.apiService.post(apiConfig.BASE_URL + apiConfig.TELEMETRY_SYNC, JSON.parse(processedEventsBatchEntry[TelemetryProcessedEntry.COLUMN_NAME_DATA]))).pipe(
+        const apiRequest = new ApiRequest.Builder()
+            .withHost(apiConfig.BASE_URL)
+            .withPath(apiConfig.TELEMETRY_SYNC)
+            .withType(ApiHttpRequestType.POST)
+            .withBody(JSON.parse(processedEventsBatchEntry[TelemetryProcessedEntry.COLUMN_NAME_DATA]))
+            .build()
+        return this.apiService.fetch(apiRequest).pipe(
             map(() => ({
                 syncedEventCount: processedEventsBatchEntry[TelemetryProcessedEntry.COLUMN_NAME_NUMBER_OF_EVENTS],
                 syncTime: Date.now(),
