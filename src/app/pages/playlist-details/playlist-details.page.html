@@ -20,10 +20,10 @@
       </div>
       <div class="djp-card__metadata">
         <div class="djp-card__title">{{content.metaData?.name}}</div>
-        <div>  
+        <ion-buttons>  
           <ion-icon aria-hidden="true" class="icon-right" src="assets/icon/sd-card.svg" *ngIf="content.source==='local'"></ion-icon>
           <ion-icon aria-hidden="true" class="icon-left" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
-        </div>
+        </ion-buttons>
       </div>
     </div>
   </div>
