@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonTabs, Platform } from '@ionic/angular';
+import { IonTabs, ModalController, Platform } from '@ionic/angular';
 import { OnTabViewWillEnter } from './on-tabs-view-will-enter';
 import { Router } from '@angular/router';
 import { TabsService } from '../services/tabs.service';
 import { TelemetryGeneratorService } from '../services/telemetry/telemetry.generator.service';
+import { AppExitComponent } from '../components/app-exit/app-exit.component';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-tabs',
@@ -12,11 +14,13 @@ import { TelemetryGeneratorService } from '../services/telemetry/telemetry.gener
 })
 export class TabsPage implements OnTabViewWillEnter{
   subscription: any;
+  optModalOpen = false;
   @ViewChild('tabRef', { static: false }) tabRef!: IonTabs;
   constructor(private platform: Platform,
     private router: Router,
     private tabService: TabsService,
-    private telemetry: TelemetryGeneratorService) {
+    private telemetry: TelemetryGeneratorService,
+    private modalCtrl: ModalController) {
   }
 
   tabViewWillEnter(): void {
@@ -26,8 +30,30 @@ export class TabsPage implements OnTabViewWillEnter{
   // Prevent back naviagtion
   ionViewDidEnter() {
     this.tabService.show()
-    this.subscription = this.platform.backButton.subscribeWithPriority(9999, () => {
+    this.subscription = this.platform.backButton.subscribeWithPriority(9999, async () => {
       // do nothing
+      let modal: any;
+      if (!this.optModalOpen) {
+        this.optModalOpen = true;
+        modal = await this.modalCtrl.create({
+          component: AppExitComponent,
+          cssClass: 'sheet-modal',
+          breakpoints: [0.3],
+          showBackdrop: false,
+          backdropDismiss: false,
+          initialBreakpoint: 0.3,
+          handle: false,
+          handleBehavior: "none"
+        });
+        await modal.present();
+      }
+
+      modal.onDidDismiss().then((result: any) => {
+        this.optModalOpen = false;
+        if (result.data && result.data) {
+          App.exitApp();
+        }
+      });
     }
   )}
 

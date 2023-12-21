@@ -44,6 +44,7 @@ export class PlaylistDetailsPage implements OnInit {
 
   ionViewWillEnter() {
     this.navigated = false;
+    this.headerService.showHeader(this.playContentObject.name, true, ['edit'])
   }
 
   async playContent(content: any) {
