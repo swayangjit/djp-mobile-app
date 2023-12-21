@@ -73,13 +73,13 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
           // Content search api call
           let searchRes = await this.searchApi.postContentSearch({query: res.context, filter: ''});
           console.log('searchRes ', searchRes);
-          this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes?.result.length, 'search', '' )
-          if(searchRes.result.length > 0) {
+          this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes.length, 'search', '' )
+          if(searchRes.length > 0) {
             this.showSheenAnimation = false;
             this.noSearchData = false;
             let list: any = {};
             this.searchContentResult = [];
-            searchRes.result.forEach((ele: any) => {
+            searchRes.forEach((ele: any) => {
               list = {}
               list.source = 'djp'
               list.sourceType = 'djp-content'

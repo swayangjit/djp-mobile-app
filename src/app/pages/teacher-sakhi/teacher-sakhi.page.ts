@@ -23,7 +23,7 @@ export class TeacherSakhiPage implements OnInit {
   ionViewWillEnter()  {
     this.config = {type: 'teacher'}
     this.headerService.showHeader("Teacher Sakhi", true, ['bot']);
-    this.headerService.showStatusBar(false, '#FFBC00');
+    this.headerService.showStatusBar(false, '#FCB915');
     this.telemetry.generateStartTelemetry('bot', 'teacher-sakhi');
   }
 

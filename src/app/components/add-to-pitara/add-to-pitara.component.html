@@ -10,16 +10,19 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <hr style="border: 1px solid lightgray;">
-  <ion-radio-group [(ngModel)]="selectedContentId" (ionChange)="playlistSelected($event)">
-    <ion-list lines=“none”>
-      <ion-item *ngFor="let playlist of playlists" class="no-border">
-        <ion-label lines=“none”>{{playlist.name}}</ion-label>
-        <ion-radio value="custom-checked" slot="start" value="{{playlist.identifier}}"></ion-radio>
-      </ion-item>
-    </ion-list>
-  </ion-radio-group>
-  <hr style="border: 1px solid lightgray;">
+  <div *ngIf="playlists.length">
+    <hr style="border: 1px solid lightgray;">
+    <ion-radio-group [(ngModel)]="selectedContentId" (ionChange)="playlistSelected($event)">
+      <ion-list lines=“none”>
+        <ion-item *ngFor="let playlist of playlists" class="no-border">
+          <ion-label lines=“none”>{{playlist.name}}</ion-label>
+          <ion-radio value="custom-checked" slot="start" value="{{playlist.identifier}}"></ion-radio>
+        </ion-item>
+      </ion-list>
+    </ion-radio-group>
+    <hr style="border: 1px solid lightgray;">
+  </div>
+  <p *ngIf="!playlists.length" class="empty-list-text">No playlist add yet</p>
   <ion-toolbar>
     <ion-button class="btn-info" slot="end" [strong]="true" color="warning" (click)="saveContent()">{{'Done' | translate}}</ion-button>
   </ion-toolbar>

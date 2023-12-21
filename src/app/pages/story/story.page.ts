@@ -25,7 +25,7 @@ export class StoryPage implements OnInit, OnTabViewWillEnter{
     ionViewWillEnter()  {
       this.config = {type: 'story'}
       this.headerService.showHeader("Story Sakhi", true, ['bot']);
-      this.headerService.showStatusBar(false, '#FF3B53');
+      this.headerService.showStatusBar(false, '#CF4147');
       this.telemetry.generateStartTelemetry('bot', 'story-sakhi');
     }
 

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppHeaderService, CachingService, ConfigService, UtilService } from '../../../app/services';
+import { ApiService, AppHeaderService, CachingService, ConfigService, UtilService } from '../../../app/services';
 import { AppInitializeService } from '../../../app/services/appInitialize.service';
 import { StorageService } from '../../../app/services/storage.service';
 import { v4 as uuidv4 } from "uuid";
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiModule } from 'src/app/services/api/api.module';
 
 @Component({
   selector: 'app-splash',
@@ -21,13 +22,16 @@ export class SplashPage implements OnInit {
     private utilService: UtilService,
     private cachingService: CachingService,
     private configService: ConfigService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private apiService: ApiService) {
       this.cachingService.initStorage();
     }
     
   async ngOnInit() {
     this.headerService.showStatusBar(true);
     this.headerService.hideHeader();
+    ApiModule.getInstance().init(await this.utilService.getDeviceId())
+    this.apiService.onInit().subscribe();
     let sid = uuidv4();
     this.storage.setData("sid", sid);
     setTimeout(async () => {

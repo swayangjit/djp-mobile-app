@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
-import { ContentSrc, Searchrequest, PlayerType, PageId, Content, ContentMetaData} from '../../../app/appConstants';
+import { ContentSrc, Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
 import { AppHeaderService, CachingService, PreprocessorService, SearchService, StorageService } from '../../../app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { ConfigService } from '../../../app/services/config.service';
@@ -15,6 +15,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
+import { ApiHttpRequestType, ApiRequest } from 'src/app/services/api/model/api.request';
+import { apiConfig } from 'src/environments/environment.prod';
 
 
 @Component({
@@ -57,7 +59,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     })
   }
 
-  async ngOnInit(): Promise<void> { 
+  async ngOnInit(): Promise<void> {
     let req: Searchrequest = {
       request: {
         pageId: '',
@@ -71,25 +73,29 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       req.request.query = val.defaultFilter.query;
       req.request.filters = val.defaultFilter.filters;
       let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
+      console.log('content', content);
+      
       this.mappUIContentList(content);
     })
     // side bar menu and filter chip events
-    this.headerService.sideMenuItemEventEmitted$.subscribe(async(val: any) => {
+    this.headerService.sideMenuItemEventEmitted$.subscribe(async (val: any) => {
       console.log(val);
       this.showSheenAnimation = true;
       try {
-        let res = await this.searchService.postContentSearch({query: val.query, filter: val.filter});
-        this.mappUIContentList(res?.result);
+        let res : any = await this.searchService.postContentSearch({ query: val.query, filter: val.filter });
+        console.log('Response', res);
+        this.mappUIContentList(res);
+        
       }
-      catch(e) {
+      catch (e) {
         console.log('error', e);
       }
     })
     this.networkConnected = await this.networkService.getNetworkStatus()
     let forceRefresh = await this.cacheService.getCacheTimeout();
-    if(forceRefresh) {
+    if (forceRefresh) {
       this.getServerMetaConfig();
-    } else if(!this.networkConnected) {
+    } else if (!this.networkConnected) {
       this.showSheenAnimation = false;
       this.configContents = [];
       this.configContents = await this.contentService.getAllContent();
@@ -110,7 +116,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       content.forEach((ele: any, i: number) => {
         list = {}
         list.source = i == 5 ? '' : 'djp'
-        list.sourceType = i == 5 ? '': 'djp-content'
+        list.sourceType = i == 5 ? '' : 'djp-content'
         list.metaData = i == 5 ? {} : ele
         this.configContents.push(list)
       });
@@ -128,7 +134,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       this.filters = (config.additionalFilters).sort((a: Filter, b: Filter) => a.index - b.index);
     })
     this.languages = config.languages.sort((a: Language, b: Language) => a.id.localeCompare(b.id));
-    this.headerService.filterEvent({defaultFilter: config.pageConfig[0].defaultFilter, filter: this.filters, languages: this.languages});
+    this.headerService.filterEvent({ defaultFilter: config.pageConfig[0].defaultFilter, filter: this.filters, languages: this.languages });
   }
 
   async tabViewWillEnter() {
@@ -145,7 +151,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
 
   async moreOtions(content: any) {
     let modal: any;
-    if(!this.optModalOpen) {
+    if (!this.optModalOpen) {
       this.optModalOpen = true;
       modal = await this.modalCtrl.create({
         component: SheetModalComponent,
@@ -164,9 +170,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
 
     modal.onDidDismiss().then((result: any) => {
       this.optModalOpen = false;
-      if(result.data && result.data.type === 'addToPitara') {
-         this.addContentToMyPitara(result.data.content || content)
-      } else if(result.data && result.data.type == 'like') {
+      if (result.data && result.data.type === 'addToPitara') {
+        this.addContentToMyPitara(result.data.content || content)
+      } else if (result.data && result.data.type == 'like') {
         this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'home', 'home', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''));
       }
     });
@@ -174,10 +180,10 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
 
   initialiseSources(sourceConfig: SourceConfig, mapping: MetadataMapping) {
     const mappingList = mapping.mappings;
-    if(sourceConfig.sources && sourceConfig.sources.length > 0) {
+    if (sourceConfig.sources && sourceConfig.sources.length > 0) {
       sourceConfig.sources.forEach((config: any) => {
-        if(config.sourceType == 'sunbird') {
-        const mappingElement: MappingElement | undefined  = mappingList.find((element) => element.sourceType == 'sunbird') ;
+        if (config.sourceType == 'sunbird') {
+          const mappingElement: MappingElement | undefined = mappingList.find((element) => element.sourceType == 'sunbird');
           this.sunbirdProcess.process(config, mappingElement);
         }
       });
@@ -190,7 +196,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       cont.play = false;
     })
     // if(content.metaData.mimetype !== PlayerType.YOUTUBE) {
-      await this.router.navigate(['/player'], {state: {content}});
+    await this.router.navigate(['/player'], { state: { content } });
     // } else {
     //   content.play = true;
     //   this.configContents.forEach(cont => {
@@ -231,12 +237,12 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   }
 
   handleFilter(filter: any) {
-    alert('handle filter '+  filter);
+    alert('handle filter ' + filter);
   }
 
   sanitiseUrl(url: string): SafeResourceUrl {
     let sanitizeUrl = url.split('&')[0]
-    return this.domSanitiser.bypassSecurityTrustResourceUrl(sanitizeUrl.replace('watch?v=', 'embed/')+'?autoplay=1&controls=1');
+    return this.domSanitiser.bypassSecurityTrustResourceUrl(sanitizeUrl.replace('watch?v=', 'embed/') + '?autoplay=1&controls=1');
   }
 
   loadYoutubeImg(id: string): string {
