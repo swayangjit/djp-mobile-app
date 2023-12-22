@@ -60,6 +60,24 @@ ion-modal.add-to-pitara {
     }
 }
 
+.video-js .vjs-control-bar {
+    position: fixed !important;
+ }
+
+ .custom-loader-class{
+    --height:3.13rem;
+    --width:3.13rem;
+  }
+  .loading-wrapper.sc-ion-loading-md {
+    border-radius: 50%;
+  }
+  
+  .custom-loader-message-class {
+    .loading-wrapper.sc-ion-loading-md {
+      border-radius: 50%;
+    }
+  }
+
 ion-modal::part(backdrop) {
     background: rgba(209, 213, 219);
     opacity: 1;

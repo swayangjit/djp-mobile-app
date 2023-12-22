@@ -44,6 +44,9 @@ export class ContentUtil {
         case 'mp3':
         mimeType = MimeType.AUDIOS
         break;
+        case 'm4a':
+          mimeType = MimeType.AUDIOS
+          break;
         case 'wav':
         mimeType = MimeType.RECOEDED_AUDIO
         break;
