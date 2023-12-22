@@ -45,9 +45,7 @@ export class BotApiService {
       .build()
     return lastValueFrom(this.apiService.fetch(apiRequest).pipe(
       map((response: ApiResponse) => {
-        if(response.responseCode === 200) {
-          return response.body;
-        }
+        return response;
       }),
       catchError((err) => {
         throw err;
