@@ -51,6 +51,10 @@ ion-modal.add-to-pitara {
     }
 }
 
+.video-js .vjs-control-bar {
+    position: fixed !important;
+ }
+
 ion-modal::part(backdrop) {
     background: rgba(209, 213, 219);
     opacity: 1;
