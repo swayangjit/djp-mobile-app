@@ -119,6 +119,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
       } else {
         this.showSheenAnimation = false;
         this.noSearchData = true;
+        this.searchContentResult = [];
         this.errMsg = "No Result";
       }
     }
