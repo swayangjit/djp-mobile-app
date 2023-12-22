@@ -50,7 +50,7 @@ jobs:
       uses: timheuer/base64-to-file@v1.2
       with:
         fileName: 'android_keystore.jks'
-        fileDir: '/home/runner/work/djp-mobile-app/djp-mobile-app/app/android/keystore/'
+        fileDir: '/home/runner/work/djp-mobile-app/djp-mobile-app/android/app/keystore/'
         encodedString: ${{ secrets.KEYSTORE }}
 
     - name: Build bundle
