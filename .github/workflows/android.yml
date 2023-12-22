@@ -61,7 +61,7 @@ jobs:
         SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
     - name: Build APK
-      run: npm run ionic-build
+      run: npm run ionic-build:ci
 
     - name: Upload APK
       uses: actions/upload-artifact@v3.1.2
