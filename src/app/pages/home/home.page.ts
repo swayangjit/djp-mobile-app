@@ -246,4 +246,13 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   loadYoutubeImg(id: string): string {
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
+
+  navigateToSakhi(type: string) {
+    this.telemetryGeneratorService.generateStartTelemetry('bot', `${type}-sakhi`);
+    if(type == "story") {
+      this.router.navigate([`/${type}`]);
+    } else if(type == "teacher") {
+      this.router.navigate(['/teacher-sakhi'])
+    }
+  }
 }

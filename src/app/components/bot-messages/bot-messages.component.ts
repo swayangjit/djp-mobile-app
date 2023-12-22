@@ -159,7 +159,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
             }
           }
         } else {
-          msg.message = result.errorMesg ? result.errorMesg : result.data.detail ? result.data.detail : "No Response";
+          msg.message = result.errorMesg ? result.errorMesg : result.data?.detail ? result.data?.detail : "No Response";
           msg.displayMsg = msg.message;
           msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
           msg.timeStamp = Date.now();
@@ -223,7 +223,20 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   }
 
   handleBackNavigation() {
-    ApiModule.getInstance().setSakhiResponse({type: this.config.type, messages: this.botMessages});
+    let res = ApiModule.getInstance().getSakhiResponse();
+    let sakiResp = {
+      story: res.storySakhi,
+      teacher: res.teacherSakhi,
+      parent: res.paretSakhi
+    }
+    if(this.config.type == 'story') {
+      sakiResp.story = this.botMessages
+    } else if(this.config.type == 'teacher') {
+      sakiResp.teacher = this.botMessages;
+    } else if(this.config.type == 'parent') {
+      sakiResp.parent = this.botMessages;
+    }
+    ApiModule.getInstance().setSakhiResponse(sakiResp);
     let botDuration = Date.now() - this.botStartTimeStamp;
     if (this.botMessages.length > 0) {
       let result = { audio: 0, text: 0 };

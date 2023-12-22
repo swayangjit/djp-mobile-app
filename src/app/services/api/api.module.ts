@@ -58,22 +58,10 @@ export class ApiModule {
     }
 
     public async setSakhiResponse(res: any) {
-        switch(res.type) {
-            case "story": 
-                this.botMsg = {
-                    storySakhi: res.messages
-                }
-                break;
-            case "teacher": 
-                this.botMsg = {
-                    teacherSakhi: res.messages
-                }
-                break;
-            case "parent": 
-                this.botMsg = {
-                    paretSakhi: res.messages
-                }
-                break;
+        this.botMsg = {
+            storySakhi: res.story,
+            teacherSakhi: res.teacher,
+            paretSakhi: res.parent
         }
     }
 }
