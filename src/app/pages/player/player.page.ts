@@ -57,7 +57,7 @@ export class PlayerPage implements OnInit {
   private getPlayerType(mimetype: string): string {
     if (mimetype == PlayerType.PDF) {
       return 'pdf'
-    } else if (mimetype == PlayerType.MP4 || mimetype == PlayerType.WEBM) {
+    } else if (mimetype == PlayerType.MP4 || mimetype == PlayerType.WEBM || mimetype == PlayerType.AUDIO) {
       return 'video'
     } else if (mimetype == PlayerType.YOUTUBE) {
       return 'youtube'
@@ -84,9 +84,9 @@ export class PlayerPage implements OnInit {
       if (this.playerType == 'pdf') {
         this.playerConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.playerConfig['metadata']['name'] = this.content?.metaData.name;
-        this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
+        this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || 'NF4O2AJOU4OUCOE86706.ETicket.pdf';
         if (this.content?.source === 'local' && this.content?.metaData.url.includes('file://')) {
-          this.playerConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
+          this.playerConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc('/storage/emulated/0/Download')
         } else {
           this.playerConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
         }
