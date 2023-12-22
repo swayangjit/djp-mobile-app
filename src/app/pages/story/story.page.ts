@@ -17,7 +17,9 @@ export class StoryPage implements OnInit, OnTabViewWillEnter, OnDestroy{
     private router: Router,
     private telemetry: TelemetryGeneratorService) {}
     
-    ngOnInit() {}
+    ngOnInit() {
+      this.config = {type: 'story'}
+    }
     
     tabViewWillEnter(): void {
       this.ionViewWillEnter();

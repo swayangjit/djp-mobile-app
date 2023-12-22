@@ -17,6 +17,7 @@ export class ParentSakhiPage implements OnInit, OnDestroy {
     private telemetry: TelemetryGeneratorService) {}
 
   ngOnInit() {
+    this.config = {type: 'parent'}
   }
   
   tabViewWillEnter(): void {
