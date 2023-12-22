@@ -84,9 +84,9 @@ export class PlayerPage implements OnInit {
       if (this.playerType == 'pdf') {
         this.playerConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.playerConfig['metadata']['name'] = this.content?.metaData.name;
-        this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || 'NF4O2AJOU4OUCOE86706.ETicket.pdf';
+        this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
         if (this.content?.source === 'local' && this.content?.metaData.url.includes('file://')) {
-          this.playerConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc('/storage/emulated/0/Download')
+          this.playerConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
         } else {
           this.playerConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
         }
