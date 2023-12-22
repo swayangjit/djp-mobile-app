@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonModal, ModalController, Platform } from '@ionic/angular';
-import { AppHeaderService } from 'src/app/services';
+import { AppHeaderService, UtilService } from 'src/app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { Location } from '@angular/common';
@@ -46,7 +46,8 @@ export class ViewAllPage implements OnInit {
     private playListService: PlaylistService,
     private platform: Platform,
     private location: Location,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private utilService: UtilService
   ) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
@@ -186,6 +187,8 @@ export class ViewAllPage implements OnInit {
     mimeType = mimeType.concat(MimeType.VIDEOS).concat(MimeType.AUDIO);
     const { files } = await FilePicker.pickFiles({ types: mimeType, multiple: true, readData: false });
     let localContents: Array<Content> = []
+    const loader = await this.utilService.getLoader()
+    await loader.present();
     for (let i=0; i<files.length; i++) {
       const path: string = await this.resolveNativePath(files[i].path!)as string;
       console.log('path', path);
@@ -202,6 +205,7 @@ export class ViewAllPage implements OnInit {
         }
       })
     }
+    await loader.dismiss()
     if (localContents.length) {
       localContents = this.getContentImgPath(localContents, true);
       this.contentList = localContents.concat(this.contentList);
