@@ -4,14 +4,14 @@ import { ContentEntry } from "../db/content.schema";
 import { RecentlyViewedContent } from "../models/recently.viewed.content";
 
 export class ContentRVCMixMapper {
-    public static mapContentRVCtoRecentlyViedContent(schema: ContentRVCEntry.ContentRVCMixedSchemaMap, id: string): RecentlyViewedContent{
+    public static mapContentRVCtoRecentlyViedContent(schema: ContentRVCEntry.ContentRVCMixedSchemaMap, id: string): RecentlyViewedContent {
         return {
             uid: schema.uid,
             rvIdentifier: id,
             contentIdentifier: schema.identifier,
             source: schema.source,
             sourceType: schema.source_type,
-            metaData: JSON.parse(schema.metadata)
+            metaData: JSON.parse(schema.content_metadata)
         };
     }
 }

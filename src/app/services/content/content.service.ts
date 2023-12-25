@@ -44,7 +44,6 @@ export class ContentService {
     FROM ${RecentlyViewedContentEntry.TABLE_NAME} rvc
     LEFT JOIN ${ContentEntry.TABLE_NAME} c
     ON rvc.content_identifier=c.identifier where rvc.uid='${uid}' ORDER BY rvc.ts DESC`;
-    console.log('get RecentlyViewed', query);
 
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);
     const recentlyViewedContent: Array<RecentlyViewedContent> = []
@@ -145,11 +144,11 @@ export class ContentService {
       }
     }
     const apiRequest = new ApiRequest.Builder()
-    .withHost('https://diksha.gov.in/')
-    .withPath('api/content/v1/search')
-    .withType(ApiHttpRequestType.POST)
-    .withBody(body)
-    .build()
+      .withHost('https://diksha.gov.in/')
+      .withPath('api/content/v1/search')
+      .withType(ApiHttpRequestType.POST)
+      .withBody(body)
+      .build()
     return lastValueFrom(this.apiService.fetch(apiRequest));
   }
 
