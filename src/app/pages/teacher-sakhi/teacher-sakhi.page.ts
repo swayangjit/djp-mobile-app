@@ -16,7 +16,9 @@ export class TeacherSakhiPage implements OnInit, OnDestroy {
     private router: Router,
     private telemetry: TelemetryGeneratorService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.config = {type: 'teacher'}
+  }
   
   tabViewWillEnter(): void {
     this.ionViewWillEnter();

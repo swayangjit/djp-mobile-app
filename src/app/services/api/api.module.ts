@@ -1,3 +1,5 @@
+import { BotMessage } from "src/app/appConstants";
+
 export interface ApiConfig {
     authentication?: {
         userToken?: string;
@@ -6,6 +8,12 @@ export interface ApiConfig {
     deviceInfo?: {
         did: string;
     }
+}
+
+export interface BotConfig {
+    storySakhi?: Array<BotMessage>;
+    teacherSakhi?: Array<BotMessage>;
+    paretSakhi?: Array<BotMessage>;
 }
 
 export class ApiModule {
@@ -27,6 +35,7 @@ export class ApiModule {
     }
 
     private config: ApiConfig = {};
+    private botMsg: BotConfig = {};
 
     getConfig(): ApiConfig {
         return this.config;
@@ -42,5 +51,17 @@ export class ApiModule {
                 did : deviceId
             }
         };
+    }
+
+    getSakhiResponse(): BotConfig {
+        return this.botMsg;
+    }
+
+    public async setSakhiResponse(res: any) {
+        this.botMsg = {
+            storySakhi: res.story,
+            teacherSakhi: res.teacher,
+            paretSakhi: res.parent
+        }
     }
 }
