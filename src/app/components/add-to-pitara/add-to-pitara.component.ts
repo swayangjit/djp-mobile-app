@@ -72,7 +72,7 @@ export class AddToPitaraComponent  implements OnInit {
     await modal.present();
     modal.onWillDismiss().then((result) => {
       if (result && result.data.type === 'create' && result.data.playlistName) {
-        this.playListService.createPlayList(result.data.playlistName, 'guest', [{ identifier: '', type: 'content' }]).then((data) => {
+        this.playListService.createPlayList(result.data.playlistName, 'guest', [{ identifier: '', type: 'content', localContent: undefined }]).then((data) => {
           // API
           this.getAllPlaylists(result.data.playlistName);
         }).catch((err) => {

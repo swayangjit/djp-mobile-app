@@ -74,7 +74,7 @@ export class AppHeaderService {
   showStatusBar(overlay: boolean, color?: string) {
     StatusBar.show({animation: Animation.None});
     StatusBar.setStyle({style: color ? Style.Dark : Style.Light});
-    StatusBar.setBackgroundColor({color: color ?? '#ffffff'})
+    StatusBar.setBackgroundColor({color: color ?? '#FFFAEE'})
     StatusBar.setOverlaysWebView({overlay: overlay})
   }
 }

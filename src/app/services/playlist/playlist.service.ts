@@ -51,7 +51,7 @@ export class PlaylistService {
               }
 
             }
-            capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContentList[i].identifier, playListContentList[i].type) })
+            capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContent.identifier, playListContent.type, JSON.stringify(playListContent.localContent?.metaData)) })
           }
         }
 
@@ -80,7 +80,7 @@ export class PlaylistService {
 
   public getPlayListDetails(playListId: string): Promise<PlayList> {
     return this.dbService.readDbData(PlaylistEntry.readQuery(), { 'identifier': playListId }, `ORDER BY ${PlaylistEntry.COLUMN_NAME_TIME_STAMP} DESC`).then((playListDetails) => {
-      return this.getPlayListContents(playListId).then((plContentList: Array<PlayListContentMix>) => {
+      return this.getPlayListContents(playListId).then((plContentList: Array<PlaylistContentEntry.SchemaMap>) => {
         return Promise.resolve({
           identifier: playListDetails[0]['identifier'],
           name: playListDetails[0]['name'],
@@ -91,25 +91,25 @@ export class PlaylistService {
     })
   }
 
-  public getPlayListContents(playListId: string): Promise<Array<PlayListContentMix>> {
-    const query = `SELECT
-    pc.identifier  as plc_identifier, pc.type, c.*
-    FROM ${PlaylistContentEntry.TABLE_NAME}  pc
-    LEFT JOIN ${ContentEntry.TABLE_NAME} c
-    ON pc.content_id = c.identifier 
+  public getPlayListContents(playListId: string): Promise<Array<PlaylistContentEntry.SchemaMap>> {
+    const query = `SELECT *
+    FROM ${PlaylistContentEntry.TABLE_NAME}
     WHERE ${PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER} = '${playListId}'
-    ORDER BY pc.ts DESC`;
+    ORDER BY ts DESC`;
 
     return this.dbService.executeQuery(query).then((playlistContentList: any[]) => {
-      const plContentList: Array<PlayListContentMix> = []
+
+      const plContentList: Array<PlaylistContentEntry.SchemaMap> = []
       if (playlistContentList && playlistContentList.length) {
         playlistContentList.map((playListContent) => {
           plContentList.push({
-            identifier: playListContent['plc_identifier'],
-            type: playListContent['type'],
-            source: playListContent['source'],
-            sourceType: playListContent['source_type'],
-            metaData: JSON.parse(playListContent['metadata'])
+            [PlaylistContentEntry._ID]: playListContent[PlaylistContentEntry._ID],
+            [PlaylistContentEntry.COLUMN_NAME_IDENTIFIER]: playListContent[PlaylistContentEntry.COLUMN_NAME_IDENTIFIER],
+            [PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER]: playListContent[PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER],
+            [PlaylistContentEntry.COLUMN_NAME_CONTENT_ID]: playListContent[PlaylistContentEntry.COLUMN_NAME_CONTENT_ID],
+            [PlaylistContentEntry.COLUMN_NAME_CONTENT_METADATA]: playListContent[PlaylistContentEntry.COLUMN_NAME_CONTENT_METADATA],
+            [PlaylistContentEntry.COLUMN_NAME_SOURCE_TYPE]: playListContent[PlaylistContentEntry.COLUMN_NAME_SOURCE_TYPE],
+            [PlaylistContentEntry.COLUMN_NAME_TIME_STAMP]: playListContent[PlaylistContentEntry.COLUMN_NAME_TIME_STAMP],
           })
         })
       }
