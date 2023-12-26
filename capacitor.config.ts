@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'org.ekstep.djp',
-  appName: 'Jadui Pitara',
+  appName: 'eJP',
   loggingBehavior: "none",
   webDir: 'www',
   server: {

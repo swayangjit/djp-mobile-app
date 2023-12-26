@@ -103,6 +103,8 @@ export class MyPitaraPage implements OnTabViewWillEnter{
       this.isNavigate = true;
       if(result && result.data.type === 'delete') {
         this.deletePlaylist(content);
+      } else if (result && result.data.type === 'edit') {
+        this.router.navigate(['/create-playlist'], { state: { playlists: content, islocal: true , status: 'edit'} })
       }
     });
   }
