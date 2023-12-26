@@ -39,7 +39,7 @@ export class BotApiService {
       }
     }
     const apiRequest = new ApiRequest.Builder()
-      .withHost(config.api.BASE_URL)
+      .withHost(config.api.BOT_BASE_URL)
       .withPath(botApiPath)
       .withType(ApiHttpRequestType.POST)
       .withBearerToken(true)
