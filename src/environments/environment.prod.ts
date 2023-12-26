@@ -15,8 +15,8 @@ export const config = {
     TELEMETRY_SYNC: 'v1/telemetry',
     BOT_QUERY_API: 'v1/query',
     SEARCH_API: 'api/content/v1/search',
-    BOT_SAKHI_URL: 'http://152.67.183.46:7081/',
-    BOT_ACTIVITY_URL: 'http://144.24.130.223:7081/'
+    BOT_SAKHI_API_PATH: 'v1/query',
+    BOT_ACTIVITY_API_PATH: 'v1/query'
   },
   telmetry: {
     PRODUCER_ID: 'dev.ejp.mobileapp',

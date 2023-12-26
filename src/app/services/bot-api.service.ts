@@ -39,8 +39,8 @@ export class BotApiService {
       }
     }
     const apiRequest = new ApiRequest.Builder()
-      .withHost(botApiPath)
-      .withPath(config.api.BOT_QUERY_API)
+      .withHost(config.api.BOT_BASE_URL)
+      .withPath(botApiPath)
       .withType(ApiHttpRequestType.POST)
       .withBearerToken(true)
       .withBody(req)
@@ -58,11 +58,11 @@ export class BotApiService {
   getBotApiPath(type: string): string {
     switch (type) {
       case Sakhi.STORY:
-        return config.api.BOT_SAKHI_URL;
+        return config.api.BOT_SAKHI_API_PATH;
       case Sakhi.PARENT:
-        return config.api.BOT_ACTIVITY_URL;
+        return config.api.BOT_ACTIVITY_API_PATH;
       case Sakhi.TEACHER:
-        return config.api.BOT_ACTIVITY_URL;
+        return config.api.BOT_ACTIVITY_API_PATH;
       default:
         return '';
     }
