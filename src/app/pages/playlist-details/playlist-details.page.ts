@@ -85,6 +85,8 @@ export class PlaylistDetailsPage implements OnInit {
     modal.onWillDismiss().then((result) => {
       if (result && result.data.type === 'delete') {
         this.deletePlaylist(content);
+      } else if (result && result.data.type === 'edit') {
+        this.router.navigate(['/create-playlist'], { state: { playlists: this.playContentObject, islocal: true } })
       }
     });
   }

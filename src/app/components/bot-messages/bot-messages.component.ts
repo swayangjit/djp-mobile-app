@@ -126,7 +126,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     // Api call and response from bot, replace laoding text
     let index = this.botMessages.length;
     this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-    await this.messageApi.getBotMessage(text, audio).then(result => {
+    await this.messageApi.getBotMessage(text, audio, this.config.type).then(result => {
       this.disabled = false;
       this.botMessages.forEach((msg, i) => {
         if (result.responseCode === 200) {
