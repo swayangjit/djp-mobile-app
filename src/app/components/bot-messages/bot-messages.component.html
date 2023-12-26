@@ -15,7 +15,7 @@
             <img src="../../../assets/icon/waveform.svg" alt=""/>
           </div>
         </div>
-        <ion-text class="time">{{msg?.time}}</ion-text>
+        <ion-text class="time" *ngIf="msg?.time" >{{msg?.time}}</ion-text>
       </div>
     </div>
     <!-- <div class="djp-bot__message sent" *ngIf="msg.type == 'sent' && msg.messageType == 'audio'" (click)="playFile(msg.audio)">
