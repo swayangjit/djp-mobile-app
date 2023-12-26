@@ -58,7 +58,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     });
     this.record.botEventRecorded$.subscribe((res: any) => {
       console.log('record event ', res);
-      if (res.file) {
+      if (res?.file) {
         this.chat = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false }
         this.ngZone.run(() => {
           this.chat.messageType = 'audio';
@@ -120,13 +120,13 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     }
   }
 
-  async makeBotAPICall(text: string, audio: string) {
+  makeBotAPICall(text: string, audio: string) {
     this.textMessage = "";
     this.disabled = true;
     // Api call and response from bot, replace laoding text
     let index = this.botMessages.length;
     this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-    await this.messageApi.getBotMessage(text, audio).then(result => {
+    this.messageApi.getBotMessage(text, audio).then(result => {
       this.disabled = false;
       this.botMessages.forEach((msg, i) => {
         if (result.responseCode === 200) {
