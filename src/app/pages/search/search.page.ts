@@ -69,7 +69,9 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
         this.showSheenAnimation = true;
         let res = await this.searchApi.postSearchContext({text: data, currentLang: this.tarnslate.currentLang}, audio);
         if (res.input) {
-          this.searchKeywords = res.input.englishText;
+          if(res?.input?.sourceText || res?.input?.englishText) {
+            this.searchKeywords = res?.input?.sourceText || res?.input?.englishText;
+          }
           this.handleContentSearch(res, audio);
         } else {
           this.showSheenAnimation = false;
