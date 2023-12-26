@@ -25,6 +25,9 @@ export class PlaylistDetailsPage implements OnInit {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       this.playContentObject = extras.state?.['playlist'];
+      this.playContentObject['playListcontentList'].map((playListcontent: any) => {
+        playListcontent['metaData'] = JSON.parse(playListcontent['content_metadata'])
+      });
       this.playlists = this.playContentObject['playListcontentList'];
       console.log('playlists', this.playlists)
     }
@@ -34,8 +37,8 @@ export class PlaylistDetailsPage implements OnInit {
     this.headerService.showHeader(this.playContentObject.name, true, ['edit'])
     this.headerService.headerEventEmitted$.subscribe((event) => {
       if (event === 'edit') {
-        this.router.navigate(['/create-playlist'], {state: {playlists: this.playContentObject, islocal: true}})
-      } else if(event === 'back' && !this.navigated) {
+        this.router.navigate(['/create-playlist'], { state: { playlists: this.playContentObject, islocal: true } })
+      } else if (event === 'back' && !this.navigated) {
         this.navigated = true;
         this.location.back();
       }
@@ -48,7 +51,7 @@ export class PlaylistDetailsPage implements OnInit {
   }
 
   async playContent(content: any) {
-    await this.router.navigate(['/player'], {state: {content}});
+    await this.router.navigate(['/player'], { state: { content } });
   }
 
   async deletePlaylist(content: any) {
@@ -62,6 +65,9 @@ export class PlaylistDetailsPage implements OnInit {
   async getPlaylistContent() {
     await this.playlistService.getPlayListContents(this.playContentObject.identifier).then((data) => {
       this.playlists = data;
+      this.playlists.map((playlist) => {
+        playlist['metadata'] = JSON.parse(playlist['content_metadata'])
+      });
     })
   }
 

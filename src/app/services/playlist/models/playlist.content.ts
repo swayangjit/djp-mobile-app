@@ -1,4 +1,5 @@
 import { Content } from "../../content/models/content";
+import { PlaylistContentEntry } from "../db/playlist.content.schema";
 
 export interface PlayListContent {
     identifier: string;
@@ -12,7 +13,7 @@ export interface PlayList {
     identifier: string;
     name: string
     uid: string;
-    playListcontentList: Array<PlayListContentMix>;
+    playListcontentList: Array<PlaylistContentEntry.SchemaMap>;
 } 
 
 export type PlayListContentMix = PlayListContent & Content;

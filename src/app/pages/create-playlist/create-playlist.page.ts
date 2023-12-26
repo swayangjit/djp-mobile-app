@@ -43,6 +43,8 @@ export class CreatePlaylistPage implements OnInit {
         this.playlists = extras.state?.['playlists'];
         this.selectedContents = this.playlists['playListcontentList'];
         this.selectedContents.map((e) => e['isSelected'] = true);
+        console.log('selectedContents', this.selectedContents);
+        
         this.playlistName = this.playlists.name;
       } else {
         this.selectedContents = extras.state?.['selectedContents'];
@@ -80,11 +82,11 @@ export class CreatePlaylistPage implements OnInit {
         if (e['sourceType'] === 'local' || e['source'] === 'local') {
           request.push({identifier: e['metaData']['identifier'], type: 'local', localContent: e, isDeleted: false})
         } else {
-          request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
+          request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' , localContent: e});
         }
       } else {
         if (e['sourceType'] === 'local' || e['source'] === 'local') {
-          request.push({identifier: e['metaData']['identifier'], type: 'local', localContent: e, isDeleted: true})
+          request.push({identifier: e['metaData']['identifier'], localContent: e,type: 'local', isDeleted: true})
         }
       }
     });

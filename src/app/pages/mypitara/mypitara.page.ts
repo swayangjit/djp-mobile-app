@@ -54,7 +54,6 @@ export class MyPitaraPage implements OnTabViewWillEnter{
     this.playlists = [];
     await this.playListService.getAllPlayLists('guest').then((result: Array<PlayList>) => {
       this.playlists = result;
-      console.log('playlists', this.playlists);
     }).catch((error) => {
       console.log('error', error)
     })

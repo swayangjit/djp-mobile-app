@@ -7,13 +7,16 @@ export namespace PlaylistContentEntry {
     export const COLUMN_NAME_IDENTIFIER = 'identifier';
     export const COLUMN_NAME_PLAYLIST_IDENTIFIER = 'playlist_identifier';
     export const COLUMN_NAME_CONTENT_ID = 'content_id';
+    export const COLUMN_NAME_CONTENT_METADATA = 'content_metadata';
     export const COLUMN_NAME_SOURCE_TYPE = 'type';
     export const COLUMN_NAME_TIME_STAMP = 'ts';
 
     export interface SchemaMap {
         [_ID]?: string;
         [COLUMN_NAME_IDENTIFIER]: string;
+        [COLUMN_NAME_PLAYLIST_IDENTIFIER]: string;
         [COLUMN_NAME_CONTENT_ID]: string;
+        [COLUMN_NAME_CONTENT_METADATA]: string;
         [COLUMN_NAME_SOURCE_TYPE]: string;
         [COLUMN_NAME_TIME_STAMP]: number;
     }
@@ -24,6 +27,7 @@ export namespace PlaylistContentEntry {
             PlaylistContentEntry.COLUMN_NAME_IDENTIFIER + DbConstants.SPACE + DbConstants.TEXT_TYPE + DbConstants.COMMA_SEP +
             PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER + DbConstants.SPACE + DbConstants.TEXT_TYPE + DbConstants.COMMA_SEP +
             PlaylistContentEntry.COLUMN_NAME_CONTENT_ID + DbConstants.SPACE + DbConstants.INT_TYPE + DbConstants.COMMA_SEP +
+            PlaylistContentEntry.COLUMN_NAME_CONTENT_METADATA + DbConstants.SPACE + DbConstants.INT_TYPE + DbConstants.COMMA_SEP +
             PlaylistContentEntry.COLUMN_NAME_SOURCE_TYPE + DbConstants.SPACE + DbConstants.TEXT_TYPE + DbConstants.COMMA_SEP +
             PlaylistContentEntry.COLUMN_NAME_TIME_STAMP + DbConstants.SPACE + DbConstants.TEXT_TYPE +
             ' )';
@@ -34,9 +38,10 @@ export namespace PlaylistContentEntry {
                     ${PlaylistContentEntry.COLUMN_NAME_IDENTIFIER},
                     ${PlaylistContentEntry.COLUMN_NAME_PLAYLIST_IDENTIFIER},
                     ${PlaylistContentEntry.COLUMN_NAME_CONTENT_ID},
+                    ${PlaylistContentEntry.COLUMN_NAME_CONTENT_METADATA},
                     ${PlaylistContentEntry.COLUMN_NAME_SOURCE_TYPE},
                     ${PlaylistContentEntry.COLUMN_NAME_TIME_STAMP}) 
-                VALUES (?,?,?,?,?)`
+                VALUES (?,?,?,?,?,?)`
     };
 
     export const readQuery:(() => string) = () => {
