@@ -13,6 +13,7 @@ import { NewPlaylistModalComponent } from './new-playlist-modal/new-playlist-mod
 import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
 import { BotMessagesComponent } from './bot-messages/bot-messages.component';
 import { AppExitComponent } from './app-exit/app-exit.component';
+import { RecordingAlertComponent } from './recording-alert/recording-alert.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { AppExitComponent } from './app-exit/app-exit.component';
         NewPlaylistModalComponent,
         SkeletonItemComponent,
         BotMessagesComponent,
-        AppExitComponent
+        AppExitComponent,
+        RecordingAlertComponent
     ],
     imports: [
         CommonModule,
@@ -43,7 +45,8 @@ import { AppExitComponent } from './app-exit/app-exit.component';
         NewPlaylistModalComponent,
         SkeletonItemComponent,
         BotMessagesComponent,
-        AppExitComponent
+        AppExitComponent,
+        RecordingAlertComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [
