@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { catchError, lastValueFrom, map, tap, throwError } from 'rxjs';
 import { config } from 'src/environments/environment.prod';
 import { ApiService } from './api/api.service';
@@ -11,7 +12,8 @@ import { ApiResponse } from './api/model/api.response';
 export class SearchService {
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private translate: TranslateService
   ) { }
 
   async postSearchContext(data: any, audio: boolean): Promise<any> {
@@ -35,6 +37,7 @@ export class SearchService {
       .withType(ApiHttpRequestType.POST)
       .withBody(body)
       .withBearerToken(true)
+      .withLanguge(this.translate.currentLang)
       .build()
     return lastValueFrom(this.apiService.fetch(apiRequest).pipe(
       map((response: ApiResponse<any>) => {

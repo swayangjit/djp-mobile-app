@@ -32,7 +32,7 @@ export class HttpService {
     }
 
     public fetch<T = any>(request: ApiRequest): Observable<ApiResponse<T>> {
-        request.headers = { ...request.getHeaders(), ...this.addGlobalHeader() };
+        request.headers = { ...request.getHeaders(), ...this.addGlobalHeader(request.language) };
         this.buildInterceptorsFromRequest(request);
         const response: Promise<ApiResponse<T>> = (async () => {
             let localResponse: ApiResponse<T>;
@@ -95,7 +95,7 @@ export class HttpService {
         return from(response as Promise<ApiResponse<T>>);
     }
 
-    private addGlobalHeader() {
+    private addGlobalHeader(language?: string) {
         return {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -103,8 +103,8 @@ export class HttpService {
             'X-device-id': ApiModule.getInstance().getConfig().deviceInfo?.did!,
             'X-Source': 'mobileapp',
             'X-Request-ID': uuidv4(),
-            // 'x-preferred-language': this.language,
-            'X-CONSUMER-ID': ApiModule.getInstance().getConfig().deviceInfo?.did!
+            'X-CONSUMER-ID': ApiModule.getInstance().getConfig().deviceInfo?.did!,
+            ...(language ? { 'x-preferred-language': language } : {}),
         };
     }
 

@@ -5,6 +5,7 @@ import { ApiService } from '.';
 import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
 import { catchError, lastValueFrom, map, tap } from 'rxjs';
 import { ApiResponse } from './api/model/api.response';
+import { Sakhi } from '../appConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,10 @@ export class BotApiService {
     private translate: TranslateService
   ) { }
 
-  async getBotMessage(text: string, audio: string): Promise<any> {
+  async getBotMessage(text: string, audio: string, botType: string): Promise<any> {
     console.log('text ', text, text !== "");
     console.log('audio ', audio, audio !== "");
+    let botApiPath = this.getBotApiPath(botType);
     let req = {
       input: {},
       output: {
@@ -38,7 +40,7 @@ export class BotApiService {
     }
     const apiRequest = new ApiRequest.Builder()
       .withHost(config.api.BOT_BASE_URL)
-      .withPath(config.api.BOT_QUERY_API)
+      .withPath(botApiPath)
       .withType(ApiHttpRequestType.POST)
       .withBearerToken(true)
       .withBody(req)
@@ -51,5 +53,18 @@ export class BotApiService {
         throw err;
       })
     ));
+  }
+
+  getBotApiPath(type: string): string {
+    switch (type) {
+      case Sakhi.STORY:
+        return config.api.BOT_SAKHI_API_PATH;
+      case Sakhi.PARENT:
+        return config.api.BOT_ACTIVITY_API_PATH;
+      case Sakhi.TEACHER:
+        return config.api.BOT_ACTIVITY_API_PATH;
+      default:
+        return '';
+    }
   }
 }
