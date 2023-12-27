@@ -35,3 +35,12 @@ ion-label {
     margin-right: 0.5rem;
   }
 }
+
+
+ion-list { 
+  background-color: transparent;
+}
+
+ion-item {
+  --background: transparent;
+}

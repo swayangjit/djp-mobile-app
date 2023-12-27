@@ -39,7 +39,7 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
   }
 
   tabViewWillEnter(): void {
-    this.headerService.showHeader('QrScan Result', true, []);
+    this.headerService.showHeader('QR Scan Result', true, []);
     this.headerService.showStatusBar(false);
   }
 
@@ -56,7 +56,7 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
 
   ionViewWillEnter() {
     this.navigated = false;
-    this.headerService.showHeader('QrScan Result', true, []);
+    this.headerService.showHeader('QR Scan Result', true, []);
     this.headerService.showStatusBar(false);
     this.contentService.getContents(this.scanText).then((result) => {
       this.showSheenAnimation = false;

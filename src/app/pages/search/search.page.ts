@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import { Keyboard } from "@capacitor/keyboard";
+import { RecordingAlertComponent } from 'src/app/components/recording-alert/recording-alert.component';
 
 @Component({
   selector: 'app-search',
@@ -29,7 +30,6 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   optModalOpen: boolean = false;
   mimeType = PlayerType;
   noSearchData: boolean = false;
-  onError = false;
   errMsg = "";
   constructor(
     private headerService: AppHeaderService,
@@ -192,10 +192,25 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     console.log('long press on search start');
     this.searchKeywords = "";
     this.record.startRecognition();
+    this.presentPopover(event);
+  }
+  modal: any
+  async presentPopover(event: any) {
+    this.modal = await this.modalCtrl.create({
+      component: RecordingAlertComponent,
+      cssClass: 'sheet-modal',
+      breakpoints: [0.3],
+      showBackdrop: false,
+      initialBreakpoint: 0.3,
+      handle: false,
+      handleBehavior: "none"
+    });
+    await this.modal.present();
   }
   
-  onLongPressEnd() {
+  async onLongPressEnd() {
     console.log('long press on search end');
+    await this.modal.dismiss();
     this.record.stopRecognition('search');
   }
 }
