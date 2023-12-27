@@ -133,14 +133,14 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     let index = this.botMessages.length;
     this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
      this.messageApi.getBotMessage(text, audio, this.config.type).then(result => {
-      this.disabled = false;
       this.botMessages.forEach((msg, i) => {
         if (result.responseCode === 200) {
           let data = result.body;
           if(i == index-1 && msg.type === 'received') {
             msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'})
             msg.timeStamp = Date.now();
-            if (!!data.output) {
+            if (data.output) {
+              this.disabled = false;
               msg.message = data.output?.text;
               if (data.output?.text.length > 200 && (data.output.text.length - 200 > 100)) {
                 msg.displayMsg = data.output.text.substring(0, 200);
@@ -169,6 +169,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           msg.displayMsg = msg.message;
           msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
           msg.timeStamp = Date.now();
+          this.disabled = false;
         }
       })
     }).catch(e => {
@@ -202,9 +203,9 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   async playFile(msg: any) {
     let audio = msg.audio;
     let url = '';
-    this.botMessages.forEach((msg) => {
-      if (msg.audio?.play) {
-        msg.audio.play = false;
+    this.botMessages.forEach((audioMsg) => {
+      if (audioMsg.audio?.play && msg.timeStamp !== audioMsg.timeStamp) {
+        audioMsg.audio.play = false;
       }
     })
     let audioRef: HTMLAudioElement;
@@ -213,8 +214,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         path: audio.file,
         directory: Directory.Data
       });
-      console.log('audio file', audioFile);
-      const base64Sound = audioFile.data;
+      const base64Sound: any = audioFile.data;
       url = `data:audio/aac;base64,${base64Sound}`
       audio.play = !audio.play;
     } else if (msg.type === "received") {
@@ -222,10 +222,15 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       audio.play = !audio.play;
     }
     audioRef = new Audio(url);
-    audioRef.controls = true;
-    audioRef.oncanplaythrough = () => audioRef.play();
-    audioRef.onended = () => audio.play = false;
     audioRef.load();
+    audioRef.controls = true;
+    audioRef.oncanplaythrough = () => { audio.play = true; audioRef.play()};
+    audioRef.onended = () => {audio.play = false; audioRef.pause();}
+    if(!audio.play) {
+      audioRef.pause();
+    } else {
+      audioRef.play();
+    }
   }
 
   handleBackNavigation() {
