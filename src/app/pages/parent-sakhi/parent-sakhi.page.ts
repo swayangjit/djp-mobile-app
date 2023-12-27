@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { AppHeaderService } from 'src/app/services';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
@@ -14,10 +15,14 @@ export class ParentSakhiPage implements OnInit, OnDestroy {
   duration: any;
   constructor(private headerService: AppHeaderService,
     private router: Router,
+    private platform: Platform,
     private telemetry: TelemetryGeneratorService) {}
 
   ngOnInit() {
     this.config = {type: 'parent'}
+    this.platform.backButton.subscribeWithPriority(11, async () => {
+      this.handleBotEvent();
+    });
   }
   
   tabViewWillEnter(): void {
@@ -30,12 +35,14 @@ export class ParentSakhiPage implements OnInit, OnDestroy {
     this.headerService.showStatusBar(false, '#FCB915');
   }
 
-  handleBotEvent(event: any) {
-    this.cdata = {
-      "audioMessagesCount": event.audio,
-      "textMessagesCount": event.text
+  handleBotEvent(event?: any) {
+    if (event) {
+      this.cdata = {
+        "audioMessagesCount": event.audio,
+        "textMessagesCount": event.text
+      }
+      this.duration = event.duration;
     }
-    this.duration = event.duration;
     this.router.navigate(['/tabs/home']);
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Platform } from '@ionic/angular'
 import { Observable, ReplaySubject } from 'rxjs'
+import { UtilService } from '../util.service'
 import { PermissionsService, PermissionStatus, PermissionTypes } from './permissions.service'
 
 declare let QRScanner: any
@@ -17,6 +18,7 @@ export class ScannerService {
 
   public constructor(
       private readonly platform: Platform,
+      private utilService: UtilService,
       private readonly permissionsService: PermissionsService) {
 
   }
@@ -59,8 +61,9 @@ export class ScannerService {
    */
     public scan(successCallback: (text: string) => void, errorCallback: ((text: string) => void) | null = null): void {
       this.isActive = true;
-        (window as any).qrScanner.startScanner("Scan", "Point your phone to the QR code to scan it",
-            "#0b0b0b", "Point your phone to the QR code to scan it", false, this.platform.isRTL, async (scannedData: string) => {
+      let scannerInstructionText = this.utilService.translateMessage('SCAN_QR_INSTRUCTION');
+        (window as any).qrScanner.startScanner("Scan", scannerInstructionText,
+            "#0b0b0b", scannerInstructionText, false, this.platform.isRTL, async (scannedData: string) => {
               successCallback(scannedData);
               this.stopScanner()
             }, (e: any) => {
