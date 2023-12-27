@@ -130,7 +130,7 @@ export class DbService {
         return Promise.reject(`save: update no SET`);
       }
       // stmt = `${query} ${setString} WHERE ${wKey}='${where[wKey]}'`;
-      stmt = `${query} ${setString} WHERE ${this.getWhereStatement(where)}'`;
+      stmt = `${query} ${setString} WHERE ${this.getWhereStatement(where)}`;
       console.log('stmt', stmt);
       
     }
