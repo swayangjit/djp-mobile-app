@@ -11,6 +11,7 @@ import { ApiResponseInterceptor } from "./model/api.response.interceptor";
 import { HttpClientError } from "./model/http.client.error";
 import { HttpServerError } from "./model/http.serrver.error";
 import { v4 as uuidv4 } from "uuid";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +23,7 @@ export class HttpService {
 
     constructor(
         private http: HttpCapacitorAdapter,
+        private translate: TranslateService
     ) { }
 
     getBearerTokenInjectRequestInterceptor(): BearerTokenInjectRequestInterceptor {
@@ -96,6 +98,7 @@ export class HttpService {
     }
 
     private addGlobalHeader(language?: string) {
+        let languageCode = language || this.translate.currentLang;
         return {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -104,7 +107,7 @@ export class HttpService {
             'X-Source': 'mobileapp',
             'X-Request-ID': uuidv4(),
             'X-CONSUMER-ID': ApiModule.getInstance().getConfig().deviceInfo?.did!,
-            ...(language ? { 'x-preferred-language': language } : {}),
+            ...(languageCode ? { 'x-preferred-language': languageCode } : {}),
         };
     }
 
