@@ -7,6 +7,7 @@ export class RecentlyViewedContentMapper {
             [RecentlyViewedContentEntry.COLUMN_NAME_IDENTIFIER]: identifier,
             [RecentlyViewedContentEntry.COLUMN_NAME_CONTENT_IDENTIFIER]: content.metaData.identifier,
             [RecentlyViewedContentEntry.COLUMN_NAME_UID]: uid,
+            [RecentlyViewedContentEntry.COLUMN_NAME_CONTENT_METADATA]: JSON.stringify(content.metaData),
             [RecentlyViewedContentEntry.COLUMN_NAME_MIME_TYPE]: content.metaData.mimetype,
             [RecentlyViewedContentEntry.COLUMN_NAME_TIME_STAMP]: Date.now(),
         };

@@ -11,11 +11,12 @@ export class PlayListEntryMapper {
         };
     }
 
-    public static mapContentToValues(identifier: string, playListId: string, contentId: string, sourceType: string): any[] {
+    public static mapContentToValues(identifier: string, playListId: string, contentId: string, sourceType: string, metaData: string): any[] {
         return [
             identifier,
             playListId,
             contentId,
+            metaData,
             sourceType,
             Date.now(),
         ];

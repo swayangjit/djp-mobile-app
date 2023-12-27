@@ -13,7 +13,7 @@ import { ApiModule } from 'src/app/services/api/api.module';
   styleUrls: ['./bot-messages.component.scss'],
 })
 export class BotMessagesComponent  implements OnInit, AfterViewInit {
-  botMessages: Array<BotMessage> = [];
+  botMessages: Array<any> = [];
   textMessage: string = ''
   chat!: BotMessage;
   defaultLoaderMsg!: BotMessage;
@@ -58,7 +58,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     });
     this.record.botEventRecorded$.subscribe((res: any) => {
       console.log('record event ', res);
-      if (res.file) {
+      if (res?.file) {
         this.chat = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false }
         this.ngZone.run(() => {
           this.chat.messageType = 'audio';
@@ -94,10 +94,16 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     this.botMessages = [];
     if (this.config.type == Sakhi.STORY) {
       this.botMessages = botRes?.storySakhi ? botRes?.storySakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "Wecome to Story Sakhi!\nI can create a story for you about what you ask for.\nFor example:\nI can tell a story about a girl who saw the sea for the first time.\nI can tell a story about a Monkey and a Frog\nAsk me about anything that you want. You can type or speak."})
     } else if (this.config.type == Sakhi.TEACHER) {
       this.botMessages = botRes?.teacherSakhi ? botRes.teacherSakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "Wecome to Teacher Sakhi!\nI can suggest you activities that you can do with your students (of age 3 to 8 years) at schools.\nI can also answer your questions about the play based learning suggested in the new NCF for Foundational Stage.\nHere are few examples of what you can ask.\nExamples:\nWhat activity can I do with students to teach sorting or counting numbers\nHow can I conduct my class with children with special needs\nWhat can I do to engage a child who is always distracted.\nI can answer your questions about the new NCF\n\nAsk me about anything that you want. You can type or speak."})
     } else if (this.config.type == Sakhi.PARENT) {
       this.botMessages = botRes?.paretSakhi ? botRes.paretSakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "Wecome to Parent Sakhi!\nI can suggest you activities that you can do with your children at home. Here are few examples of what you can ask:\nExamples:\nWhat activity can I do with my child using vegetables in your kitchen\nSuggest how I can make my child interested in household activities\nMy child does not eat nutritious food, what to do\n\nAsk me about anything that you want. You can type or speak."})
     }
   }
 
@@ -120,13 +126,13 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     }
   }
 
-  async makeBotAPICall(text: string, audio: string) {
+   makeBotAPICall(text: string, audio: string) {
     this.textMessage = "";
     this.disabled = true;
     // Api call and response from bot, replace laoding text
     let index = this.botMessages.length;
     this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-    await this.messageApi.getBotMessage(text, audio).then(result => {
+     this.messageApi.getBotMessage(text, audio, this.config.type).then(result => {
       this.disabled = false;
       this.botMessages.forEach((msg, i) => {
         if (result.responseCode === 200) {

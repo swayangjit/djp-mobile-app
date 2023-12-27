@@ -20,6 +20,7 @@ export enum HttpResponseCode {
 
 export class ApiRequest {
     public host?: string;
+    public language?: string;
     public requestInterceptors: ApiRequestInterceptor[] = [];
     public responseInterceptors: ApiResponseInterceptor[] = [];
     public withBearerToken = false;
@@ -42,6 +43,10 @@ export class ApiRequest {
 
         withHost(host: string) {
             this.request._host = host;
+            return this;
+        }
+        withLanguge(language: string) {
+            this.request.language = language;
             return this;
         }
 

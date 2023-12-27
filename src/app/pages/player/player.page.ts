@@ -57,7 +57,7 @@ export class PlayerPage implements OnInit {
   private getPlayerType(mimetype: string): string {
     if (mimetype == PlayerType.PDF) {
       return 'pdf'
-    } else if (mimetype == PlayerType.MP4 || mimetype == PlayerType.WEBM) {
+    } else if (mimetype == PlayerType.MP4 || mimetype == PlayerType.WEBM || mimetype == PlayerType.AUDIO) {
       return 'video'
     } else if (mimetype == PlayerType.YOUTUBE) {
       return 'youtube'

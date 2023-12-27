@@ -4,12 +4,14 @@ import { Device, DeviceId } from '@capacitor/device';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceSpecification } from './telemetry/models/telemetry';
 import * as SHA1 from 'crypto-js/sha1';
+import { LoadingController } from '@ionic/angular';
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
 
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService,
+    private loadingCtrl: LoadingController,) { }
 
   async getDeviceSpec(): Promise<DeviceSpecification> {
     const spec = await Device.getInfo();
@@ -45,5 +47,13 @@ export class UtilService {
       }
     );
     return translatedMsg;
+  }
+
+  getLoader(duration?: number, message?: string): any {
+    return this.loadingCtrl.create({
+      message,
+      duration: duration ? duration : 30000,
+      cssClass: message ? 'custom-loader-message-class' : 'custom-loader-class'
+    });
   }
 }

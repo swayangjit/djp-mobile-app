@@ -7,6 +7,7 @@ import { AppHeaderService } from 'src/app/services';
 import { Router } from '@angular/router';
 import { MimeType, PlayerType } from 'src/app/appConstants';
 import { ContentUtil } from 'src/app/services/content/util/content.util';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-playlist',
@@ -31,19 +32,27 @@ export class CreatePlaylistPage implements OnInit {
   selectedContents: Array<any> = [];
   reSelectedContent: Array<any> = [];
   localContents: number = 0;
+  status = '';
   constructor(
     private contentService: ContentService,
     private playListService: PlaylistService,
     private headerService: AppHeaderService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
       if (extras.state?.['islocal']){
         this.playlists = extras.state?.['playlists'];
         this.selectedContents = this.playlists['playListcontentList'];
-        this.selectedContents.map((e) => e['isSelected'] = true);
+        this.selectedContents.map((e) => {
+          e['isSelected'] = true;
+          if (!e['metaData']) {
+            e['metaData'] = JSON.parse(e['content_metadata'])
+          }
+        });
         this.playlistName = this.playlists.name;
+        this.status = extras.state?.['status'];
       } else {
         this.selectedContents = extras.state?.['selectedContents'];
       }
@@ -56,7 +65,12 @@ export class CreatePlaylistPage implements OnInit {
     this.contentService.getRecentlyViewedContent('guest').then((result) => {
       this.contentList = result;
       console.log('result', result)
-    })
+    });
+    this.headerService.headerEventEmitted$.subscribe((event) => {
+      if (event === 'back' && this.status === 'edit') {
+        this.location.back();
+      }
+    });
   }
 
   ionViewWillEnter() {
@@ -80,11 +94,11 @@ export class CreatePlaylistPage implements OnInit {
         if (e['sourceType'] === 'local' || e['source'] === 'local') {
           request.push({identifier: e['metaData']['identifier'], type: 'local', localContent: e, isDeleted: false})
         } else {
-          request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' });
+          request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' , localContent: e});
         }
       } else {
         if (e['sourceType'] === 'local' || e['source'] === 'local') {
-          request.push({identifier: e['metaData']['identifier'], type: 'local', localContent: e, isDeleted: true})
+          request.push({identifier: e['metaData']['identifier'], localContent: e,type: 'local', isDeleted: true})
         }
       }
     });
@@ -93,7 +107,11 @@ export class CreatePlaylistPage implements OnInit {
       this.playListService.createPlayList(this.playlistName, 'guest', request, identifier).then((data) => {
         // API
         this.headerService.deviceBackBtnEvent({name: 'backBtn'})
-        window.history.go(-2)
+        if (this.status === 'edit') {
+          this.location.back();
+        } else {
+          window.history.go(-2)
+        }
       }).catch((err) => {
         console.log('errrrr', err)
       })
