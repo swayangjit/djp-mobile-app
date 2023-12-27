@@ -48,3 +48,11 @@ ion-icon {
     height: 90%;
   }
 }
+
+ion-list { 
+  background-color: transparent;
+}
+
+ion-item {
+  --background: transparent;
+}
