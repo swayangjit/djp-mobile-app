@@ -27,6 +27,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   duration = 0;
   durationDisplay = '';
   disabled = false;
+  audioRef!: HTMLAudioElement;
   constructor(
     private record: RecordingService,
     private ngZone: NgZone,
@@ -77,6 +78,19 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         this.makeBotAPICall('', res.data);
       }
     })
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        if(this.audioRef) {
+          this.botMessages.forEach(msg => {
+            if(msg.audio) {
+              msg.audio.play = false;
+            }
+          })
+          this.audioRef.pause();
+        }
+      }
+    });
   }
 
   ionViewWillEnter() {
@@ -208,7 +222,6 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         audioMsg.audio.play = false;
       }
     })
-    let audioRef: HTMLAudioElement;
     if (msg.type === 'sent') {
       const audioFile = await Filesystem.readFile({
         path: audio.file,
@@ -221,16 +234,17 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       url = audio.file;
       audio.play = !audio.play;
     }
-    audioRef = new Audio(url);
-    audioRef.load();
-    audioRef.controls = true;
-    audioRef.oncanplaythrough = () => { audio.play = true; audioRef.play()};
-    audioRef.onended = () => {audio.play = false; audioRef.pause();}
-    if(!audio.play) {
-      audioRef.pause();
-    } else {
-      audioRef.play();
-    }
+    this.audioRef = new Audio(url);
+    this.audioRef.load();
+    this.audioRef.controls = true;
+    this.audioRef.oncanplaythrough = () => { 
+      if(!audio.play) {
+        this.audioRef.pause();
+      } else {
+        this.audioRef.play();
+      }
+    };
+    this.audioRef.onended = () => {audio.play = false; this.audioRef.pause();}
   }
 
   handleBackNavigation() {
