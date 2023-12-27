@@ -13,7 +13,7 @@ import { ApiModule } from 'src/app/services/api/api.module';
   styleUrls: ['./bot-messages.component.scss'],
 })
 export class BotMessagesComponent  implements OnInit, AfterViewInit {
-  botMessages: Array<BotMessage> = [];
+  botMessages: Array<any> = [];
   textMessage: string = ''
   chat!: BotMessage;
   defaultLoaderMsg!: BotMessage;
@@ -94,10 +94,16 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     this.botMessages = [];
     if (this.config.type == Sakhi.STORY) {
       this.botMessages = botRes?.storySakhi ? botRes?.storySakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_STORY_SAKHI", type: 'received'})
     } else if (this.config.type == Sakhi.TEACHER) {
       this.botMessages = botRes?.teacherSakhi ? botRes.teacherSakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_TEACHER_SAKHI", type: 'received'})
     } else if (this.config.type == Sakhi.PARENT) {
       this.botMessages = botRes?.paretSakhi ? botRes.paretSakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_PARENT_SAKHI", type: 'received'})
     }
   }
 

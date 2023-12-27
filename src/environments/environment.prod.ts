@@ -8,6 +8,7 @@ export const config = {
     BASE_URL_NEW: 'https://dev.ejp.sunbird.org/',
     SEARCH_BASE_URL: 'http://129.154.42.158:8000/',
     BOT_BASE_URL: 'http://144.24.130.223:7081/',
+    STORY_BOT_BASE_URL: 'http://152.67.183.46:7081/',
     CONFIG: 'v1/config/read',
     PAGE_SEARCH_API: 'v1/page/search',
     CONTEXT_SEARCH: 'v1/context',
