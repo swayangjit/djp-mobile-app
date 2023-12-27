@@ -21,3 +21,14 @@ ion-input {
   margin-top: 1.5rem;
 }
 
+.bot-section__text{    
+  position: absolute;
+  left: 46%;
+  right: 0;
+  top: 16%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--ion-color-medium);
+  font-size: 0.85rem;
+}
+
