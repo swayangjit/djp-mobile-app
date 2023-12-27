@@ -68,6 +68,7 @@ export class PlaylistDetailsPage implements OnInit {
       this.playlists.map((playlist) => {
         playlist['metaData'] = JSON.parse(playlist['content_metadata'])
       });
+      this.playContentObject['playListcontentList'] = this.playlists;
     })
   }
 
