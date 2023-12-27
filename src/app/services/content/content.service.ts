@@ -69,12 +69,15 @@ export class ContentService {
   }
 
   async likeContent(content: Content, uid: string, isLiked: boolean): Promise<void> {
-    return this.dbService.readDbData(ContentReactionsEntry.readQuery(), { 'content_identifier': content.metaData.identifier }).then((result) => {
-      const query = (result) ? ContentReactionsEntry.updateQuery() : ContentReactionsEntry.insertQuery();
-      const whereCondition = (result) ? { 'identifier': content.metaData.identifier, 'uid': uid } : undefined
-      return this.dbService.save(query, ContentMapper.mapContentReactionEntry(content.metaData.identifier, 'guest'), whereCondition)
-    })
-
+    if (isLiked) {
+      return this.dbService.readDbData(ContentReactionsEntry.readQuery(), { 'content_identifier': content.metaData.identifier }).then((result) => {
+        const query = (result) ? ContentReactionsEntry.updateQuery() : ContentReactionsEntry.insertQuery();
+        const whereCondition = (result) ? { 'content_identifier': content.metaData.identifier, 'uid': uid } : undefined
+        return this.dbService.save(query, ContentMapper.mapContentReactionEntry(content.metaData.identifier, 'guest'), whereCondition)
+      })
+    } else {
+      return this.dbService.remove(ContentReactionsEntry.deleteQuery(), { 'content_identifier': content.metaData.identifier, 'uid': uid })
+    }
   }
 
   async markContentAsViewed(content: Content): Promise<void> {
