@@ -1,4 +1,5 @@
 import { Content } from "src/app/services/content/models/content";
+import { ContentReactionsEntry } from "../db/content.reactions.schema";
 import { ContentEntry } from "../db/content.schema";
 
 export class ContentMapper {
@@ -20,5 +21,13 @@ export class ContentMapper {
             JSON.stringify(content.metaData),
             Date.now(),
         ];
+    }
+
+    public static mapContentReactionEntry(identifier: string, uid: string): ContentReactionsEntry.SchemaMap {
+        return {
+            [ContentReactionsEntry.COLUMN_NAME_CONTENT_IDENTIFIER]: identifier,
+            [ContentReactionsEntry.COLUMN_NAME_UID]: uid,
+            [ContentReactionsEntry.COLUMN_NAME_TIME_STAMP]: Date.now(),
+        };
     }
 }
