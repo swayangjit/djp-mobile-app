@@ -65,5 +65,6 @@
     "No playlist add yet": "No playlist add yet",
 
     "Exit the app?": "Exit the app?",
-    "Exit": "Exit"
+    "Exit": "Exit",
+    "SCAN_QR_INSTRUCTION": "Point your phone to the QR code to scan it"
 }
