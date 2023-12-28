@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Content, ContentSrc } from 'src/app/appConstants';
+import { Content } from 'src/app/appConstants';
 import { SearchService } from 'src/app/services/search.service';
 import { AppHeaderService } from 'src/app/services';
 import { RecordingService } from 'src/app/services/recording.service';
@@ -16,6 +16,8 @@ import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import { Keyboard } from "@capacitor/keyboard";
 import { RecordingAlertComponent } from 'src/app/components/recording-alert/recording-alert.component';
+import { NativeAudio } from '@capacitor-community/native-audio';
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-search',
@@ -152,16 +154,30 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
       await modal.present();
     }
 
-    modal.onDidDismiss().then((result: any) => {
+    modal.onDidDismiss().then(async (result: any) => {
       this.optModalOpen = false;
       if(result.data && result.data.type === 'addToPitara') {
          this.addContentToMyPitara(result.data.content || content)
       } else if(result.data && result.data.type == 'like') {
+        this.contentService.likeContent(result.data.content || content, 'guest', true)
+        if(result.data.content.metaData.isLiked) {
+          await NativeAudio.play({
+            assetId: 'windchime',
+          });
+          confetti({
+            startVelocity: 30,
+            particleCount: 400,
+            spread: 360,
+            ticks: 60,
+            origin: { y: 0.5, x: 0.5 },
+            colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a']
+          });
+        }
         this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'search', 'search', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''))
       }
     });
   }
-  async addContentToMyPitara(content: ContentSrc) {
+  async addContentToMyPitara(content: Content) {
     const modal = await this.modalCtrl.create({
       component: AddToPitaraComponent,
       componentProps: {
