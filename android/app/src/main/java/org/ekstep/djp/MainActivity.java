@@ -1,4 +1,4 @@
-package org.ekstep.djp;
+package org.ejp.app;
 
 import com.getcapacitor.BridgeActivity;
 

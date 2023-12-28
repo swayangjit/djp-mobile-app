@@ -73,7 +73,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       req.request.filters = val.defaultFilter.filters;
       let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
       console.log('content', content);
-
       this.mappUIContentList(content);
     })
     // side bar menu and filter chip events
@@ -179,6 +178,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       if (result.data && result.data.type === 'addToPitara') {
         this.addContentToMyPitara(result.data.content || content)
       } else if (result.data && result.data.type == 'like') {
+        this.contentService.likeContent(result.data.content || content, 'guest', true)
         await NativeAudio.play({
           assetId: 'windchime',
         });
