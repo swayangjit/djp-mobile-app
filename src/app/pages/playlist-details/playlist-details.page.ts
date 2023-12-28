@@ -66,8 +66,9 @@ export class PlaylistDetailsPage implements OnInit {
     await this.playlistService.getPlayListContents(this.playContentObject.identifier).then((data) => {
       this.playlists = data;
       this.playlists.map((playlist) => {
-        playlist['metadata'] = JSON.parse(playlist['content_metadata'])
+        playlist['metaData'] = JSON.parse(playlist['content_metadata'])
       });
+      this.playContentObject['playListcontentList'] = this.playlists;
     })
   }
 

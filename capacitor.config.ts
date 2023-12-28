@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'org.ekstep.djp',
+  appId: 'org.ejp.app',
   appName: 'eJP',
   loggingBehavior: "none",
   webDir: 'www',

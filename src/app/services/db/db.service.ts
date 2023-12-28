@@ -7,6 +7,7 @@ import { RecentlyViewedContentEntry } from '../content/db/recently.viewed.conten
 import { TelemetryConfigEntry } from './telemetrySchema';
 import { ContentEntry } from '../content/db/content.schema';
 import { TelemetryProcessedEntry } from '../telemetry/db/telemetry.processed.schema';
+import { ContentReactionsEntry } from '../content/db/content.reactions.schema';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,7 @@ export class DbService {
     await this.createTable(RecentlyViewedContentEntry.getCreateEntry());
     await this.createTable(PlaylistEntry.getCreateEntry());
     await this.createTable(PlaylistContentEntry.getCreateEntry());
+    await this.createTable(ContentReactionsEntry.getCreateEntry());
     return true;
   }
 
@@ -127,7 +129,10 @@ export class DbService {
       if (setString.length === 0) {
         return Promise.reject(`save: update no SET`);
       }
-      stmt = `${query} ${setString} WHERE ${wKey}='${where[wKey]}'`;
+      // stmt = `${query} ${setString} WHERE ${wKey}='${where[wKey]}'`;
+      stmt = `${query} ${setString} WHERE ${this.getWhereStatement(where)}`;
+      console.log('stmt', stmt);
+      
     }
     const ret = await this.sqliteDBConnection.run(stmt, values);
     if (ret.changes!.changes != 1) {
@@ -139,9 +144,21 @@ export class DbService {
   // delete data from table
   async remove(query: string, where: any): Promise<any> {
     const key: string = Object.keys(where)[0];
-    const stmt: string = `${query} WHERE ${key}='${where[key]}';`
+    const stmt: string = `${query} WHERE ${this.getWhereStatement(where)};`
     const ret = (await this.sqliteDBConnection.run(stmt)).changes;
     return ret;
+  }
+
+  private getWhereStatement(whereCondition: any): string {
+    let condition = ''
+    const wKey: string[] = Object.keys(whereCondition)
+    for (let i = 0; i < wKey.length; i++) {
+      condition += `${wKey[i]}='${whereCondition[wKey[i]]}'`;
+      if (i < wKey.length - 1) {
+        condition += 'AND '
+      }
+    }
+    return condition
   }
 
   /**
