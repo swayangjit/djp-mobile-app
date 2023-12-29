@@ -24,9 +24,9 @@ export class ApplicationHeaderComponent  implements OnInit {
 
   async ngOnInit() {
     this.appInfo = await this.utilService.getAppInfo();
-    this.filters = [];
     this.defaultFilter = {};
     this.headerService.filterConfigEmitted$.subscribe((val: any) => {
+      this.filters = [];
       this.defaultFilter = val.defaultFilter;
       this.filters.push(val.defaultFilter);
       val.filter.forEach((item: any) => {
