@@ -15,7 +15,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
-
+import confetti from 'canvas-confetti';
+import { NativeAudio } from '@capacitor-community/native-audio';
 
 @Component({
   selector: 'app-home',
@@ -72,7 +73,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       req.request.filters = val.defaultFilter.filters;
       let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
       console.log('content', content);
-      
       this.mappUIContentList(content);
     })
     // side bar menu and filter chip events
@@ -80,10 +80,10 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       console.log(val);
       this.showSheenAnimation = true;
       try {
-        let res : any = await this.searchService.postContentSearch({ query: val.query, filter: val.filter });
+        let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filter });
         console.log('Response', res);
         this.mappUIContentList(res);
-        
+
       }
       catch (e) {
         console.log('error', e);
@@ -101,6 +101,13 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     } else {
       this.getServerMetaConfig();
     }
+    await NativeAudio.preload({
+      assetPath: 'public/assets/sounds/windchime.mp3',
+      assetId: 'windchime',
+      volume: 1.0,
+      audioChannelNum: 1,
+      isUrl: false
+    })
   }
 
   async mappUIContentList(content: Array<ContentMetaData>) {
@@ -166,11 +173,24 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       await modal.present();
     }
 
-    modal.onDidDismiss().then((result: any) => {
+    modal.onDidDismiss().then(async (result: any) => {
       this.optModalOpen = false;
       if (result.data && result.data.type === 'addToPitara') {
         this.addContentToMyPitara(result.data.content || content)
       } else if (result.data && result.data.type == 'like') {
+        this.contentService.likeContent(result.data.content || content, 'guest', true)
+        await NativeAudio.play({
+          assetId: 'windchime',
+        });
+        confetti({
+          startVelocity: 30,
+          particleCount: 400,
+          spread: 360,
+          ticks: 60,
+          origin: { y: 0.5, x: 0.5 },
+          colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a']
+        });
+
         this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'home', 'home', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''));
       }
     });
@@ -245,5 +265,14 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
 
   loadYoutubeImg(id: string): string {
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+  }
+
+  navigateToSakhi(type: string) {
+    this.telemetryGeneratorService.generateStartTelemetry('bot', `${type}-sakhi`);
+    if (type == "story") {
+      this.router.navigate([`/${type}`]);
+    } else if (type == "teacher") {
+      this.router.navigate(['/teacher-sakhi'])
+    }
   }
 }

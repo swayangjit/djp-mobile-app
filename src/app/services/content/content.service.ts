@@ -9,7 +9,7 @@ import { RecentlyViewedContent } from './models/recently.viewed.content';
 import { ContentRVCEntry } from './db/content.rvc';
 import { ContentRVCMixMapper } from './util/content.rvc.mix.entry.mapper';
 import { v4 as uuidv4 } from "uuid";
-import { MimeType } from 'src/app/appConstants';
+import { ContentMetaData, MimeType } from 'src/app/appConstants';
 import { HttpResponse } from '@capacitor/core';
 import { ContentUtil } from './util/content.util';
 import { ApiHttpRequestType, ApiRequest } from '../api/model/api.request';
@@ -17,6 +17,7 @@ import { ApiService } from '../api/api.service';
 import { DbService } from '..';
 import { lastValueFrom } from 'rxjs';
 import { ApiResponse } from '../api/model/api.response';
+import { ContentReactionsEntry } from './db/content.reactions.schema';
 @Injectable({
   providedIn: 'root'
 })
@@ -44,7 +45,6 @@ export class ContentService {
     FROM ${RecentlyViewedContentEntry.TABLE_NAME} rvc
     LEFT JOIN ${ContentEntry.TABLE_NAME} c
     ON rvc.content_identifier=c.identifier where rvc.uid='${uid}' ORDER BY rvc.ts DESC`;
-    console.log('get RecentlyViewed', query);
 
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);
     const recentlyViewedContent: Array<RecentlyViewedContent> = []
@@ -54,10 +54,30 @@ export class ContentService {
     return Promise.resolve(recentlyViewedContent)
   }
 
-  async getAllContent(): Promise<Array<Content>> {
-    const query = `SELECT * FROM ${ContentEntry.TABLE_NAME}`;
-    let res = await this.dbService.readDbData(query);
-    return Promise.resolve(res);
+  async getAllContent(): Promise<Array<ContentMetaData>> {
+    const query = `SELECT c.*, cr.content_identifier from ${ContentEntry.TABLE_NAME} c LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON c.identifier = cr.content_identifier ORDER BY ${ContentEntry.COLUMN_NAME_TIME_STAMP}`;
+    const contentList: Array<ContentMetaData> = []
+    return this.dbService.readDbData(query).then((content: Array<any>) => {
+      content.map((element) => {
+        const metaData = JSON.parse(element['metadata']) as ContentMetaData;
+        metaData.isLiked = !!element['content_identifier'];
+        contentList.push(metaData);
+      })
+
+      return Promise.resolve(contentList);
+    })
+  }
+
+  async likeContent(content: Content, uid: string, isLiked: boolean): Promise<void> {
+    if (isLiked) {
+      return this.dbService.readDbData(ContentReactionsEntry.readQuery(), { 'content_identifier': content.metaData.identifier }).then((result) => {
+        const query = (result) ? ContentReactionsEntry.updateQuery() : ContentReactionsEntry.insertQuery();
+        const whereCondition = (result) ? { 'content_identifier': content.metaData.identifier, 'uid': uid } : undefined
+        return this.dbService.save(query, ContentMapper.mapContentReactionEntry(content.metaData.identifier, 'guest'), whereCondition)
+      })
+    } else {
+      return this.dbService.remove(ContentReactionsEntry.deleteQuery(), { 'content_identifier': content.metaData.identifier, 'uid': uid })
+    }
   }
 
   async markContentAsViewed(content: Content): Promise<void> {
@@ -145,11 +165,11 @@ export class ContentService {
       }
     }
     const apiRequest = new ApiRequest.Builder()
-    .withHost('https://diksha.gov.in/')
-    .withPath('api/content/v1/search')
-    .withType(ApiHttpRequestType.POST)
-    .withBody(body)
-    .build()
+      .withHost('https://diksha.gov.in/')
+      .withPath('api/content/v1/search')
+      .withType(ApiHttpRequestType.POST)
+      .withBody(body)
+      .build()
     return lastValueFrom(this.apiService.fetch(apiRequest));
   }
 

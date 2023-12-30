@@ -11,6 +11,7 @@ import { ApiResponseInterceptor } from "./model/api.response.interceptor";
 import { HttpClientError } from "./model/http.client.error";
 import { HttpServerError } from "./model/http.serrver.error";
 import { v4 as uuidv4 } from "uuid";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +23,7 @@ export class HttpService {
 
     constructor(
         private http: HttpCapacitorAdapter,
+        private translate: TranslateService
     ) { }
 
     getBearerTokenInjectRequestInterceptor(): BearerTokenInjectRequestInterceptor {
@@ -32,7 +34,7 @@ export class HttpService {
     }
 
     public fetch<T = any>(request: ApiRequest): Observable<ApiResponse<T>> {
-        request.headers = { ...request.getHeaders(), ...this.addGlobalHeader() };
+        request.headers = { ...request.getHeaders(), ...this.addGlobalHeader(request.language) };
         this.buildInterceptorsFromRequest(request);
         const response: Promise<ApiResponse<T>> = (async () => {
             let localResponse: ApiResponse<T>;
@@ -95,7 +97,8 @@ export class HttpService {
         return from(response as Promise<ApiResponse<T>>);
     }
 
-    private addGlobalHeader() {
+    private addGlobalHeader(language?: string) {
+        let languageCode = language || this.translate.currentLang;
         return {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -103,8 +106,8 @@ export class HttpService {
             'X-device-id': ApiModule.getInstance().getConfig().deviceInfo?.did!,
             'X-Source': 'mobileapp',
             'X-Request-ID': uuidv4(),
-            // 'x-preferred-language': this.language,
-            'X-CONSUMER-ID': ApiModule.getInstance().getConfig().deviceInfo?.did!
+            'X-CONSUMER-ID': ApiModule.getInstance().getConfig().deviceInfo?.did!,
+            ...(languageCode ? { 'x-preferred-language': languageCode } : {}),
         };
     }
 

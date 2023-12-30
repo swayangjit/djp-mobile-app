@@ -5,6 +5,7 @@ import { AppHeaderService, BotApiService, RecordingService } from 'src/app/servi
 import { Keyboard } from "@capacitor/keyboard";
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiModule } from 'src/app/services/api/api.module';
 
 @Component({
   selector: 'app-bot-messages',
@@ -12,12 +13,12 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./bot-messages.component.scss'],
 })
 export class BotMessagesComponent  implements OnInit, AfterViewInit {
-  botMessages: Array<BotMessage> = [];
+  botMessages: Array<any> = [];
   textMessage: string = ''
   chat!: BotMessage;
   defaultLoaderMsg!: BotMessage;
   botStartTimeStamp = Date.now();
-  @Input() config: any;
+  @Input() config: any = {};
   @Output() botMessageEvent = new EventEmitter();
   @ViewChild('recordbtn', { read: ElementRef }) recordbtn: ElementRef | any;
   @ViewChild(IonContent, { static: true }) private content: any;
@@ -26,6 +27,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   duration = 0;
   durationDisplay = '';
   disabled = false;
+  audioRef!: HTMLAudioElement;
   constructor(
     private record: RecordingService,
     private ngZone: NgZone,
@@ -35,16 +37,16 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   ) { 
     this.defaultLoaderMsg = {message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false};
     this.botMessages = [];
-    this.initialiseBot();
   }
 
   ngOnInit() {
+    this.initialiseBot();
     this.headerService.headerEventEmitted$.subscribe((name: any) => {
       if (name == "back" && !this.navigated) {
         this.navigated = true;
-        this.botMessages = [];
         console.log('bot message back event ');
         this.handleBackNavigation();
+        this.botMessages = [];
       }
     })
     Keyboard.addListener('keyboardWillShow', () => {
@@ -57,7 +59,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     });
     this.record.botEventRecorded$.subscribe((res: any) => {
       console.log('record event ', res);
-      if (res.file) {
+      if (res?.file) {
         this.chat = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false }
         this.ngZone.run(() => {
           this.chat.messageType = 'audio';
@@ -76,6 +78,19 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         this.makeBotAPICall('', res.data);
       }
     })
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        if(this.audioRef) {
+          this.botMessages.forEach(msg => {
+            if(msg.audio) {
+              msg.audio.play = false;
+            }
+          })
+          this.audioRef.pause();
+        }
+      }
+    });
   }
 
   ionViewWillEnter() {
@@ -88,15 +103,22 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   }
 
   initialiseBot() {
-    // this.botMessages.push(this.defaultLoaderMsg);
+    // get the prevoius msg based on config type
+    let botRes: any = ApiModule.getInstance().getSakhiResponse();
+    this.botMessages = [];
     if (this.config.type == Sakhi.STORY) {
-
+      this.botMessages = botRes?.storySakhi ? botRes?.storySakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_STORY_SAKHI", type: 'received'})
     } else if (this.config.type == Sakhi.TEACHER) {
-
+      this.botMessages = botRes?.teacherSakhi ? botRes.teacherSakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_TEACHER_SAKHI", type: 'received'})
     } else if (this.config.type == Sakhi.PARENT) {
-
+      this.botMessages = botRes?.paretSakhi ? botRes.paretSakhi : [];
+      if(this.botMessages.length === 0)
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_PARENT_SAKHI", type: 'received'})
     }
-    // API call to get the innitial bot messages
   }
 
   async handleMessage() {
@@ -118,49 +140,59 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     }
   }
 
-  async makeBotAPICall(text: string, audio: string) {
+   makeBotAPICall(text: string, audio: string) {
     this.textMessage = "";
     this.disabled = true;
     // Api call and response from bot, replace laoding text
-    await this.messageApi.getBotMessage(text, audio).then(data => {
-      let index = this.botMessages.length;
-      this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-      this.disabled = false;
+    let index = this.botMessages.length;
+    this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
+     this.messageApi.getBotMessage(text, audio, this.config.type).then(result => {
       this.botMessages.forEach((msg, i) => {
-        if(i == index-1 && msg.type === 'received') {
-          msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'})
-          msg.timeStamp = Date.now();
-          if (!!data.output) {
-            msg.message = data.output?.text;
-            if (data.output?.text.length > 200 && (data.output.text.length - 200 > 100)) {
-              msg.displayMsg = data.output.text.substring(0, 200);
-              msg.readMore = true;
-            } else {
-              msg.displayMsg = data.output?.text;
+        if (result.responseCode === 200) {
+          let data = result.body;
+          if(i == index-1 && msg.type === 'received') {
+            msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'})
+            msg.timeStamp = Date.now();
+            if (data.output) {
+              this.disabled = false;
+              msg.message = data.output?.text;
+              if (data.output?.text.length > 200 && (data.output.text.length - 200 > 100)) {
+                msg.displayMsg = data.output.text.substring(0, 200);
+                msg.readMore = true;
+              } else {
+                msg.displayMsg = data.output?.text;
+              }
+              if (data.output?.audio) {
+                let audioMsg = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false }
+                audioMsg.audio = { file: data.output?.audio, duration: "", play: false }
+                audioMsg.messageType = 'audio';
+                this.ngZone.run(() => {
+                  this.botMessages.push(audioMsg);
+                  this.content.scrollToBottom(300).then(() => {
+                    this.content.scrollToBottom(300).then()
+                  });
+                })
+              }
+              this.content.scrollToBottom(300).then(() => {
+                this.content.scrollToBottom(300).then()
+              });
             }
-            if (data.output?.audio) {
-              let audioMsg = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false }
-              audioMsg.audio = { file: data.output?.audio, duration: "", play: false }
-              audioMsg.messageType = 'audio';
-              this.ngZone.run(() => {
-                this.botMessages.push(audioMsg);
-                this.content.scrollToBottom(300).then(() => {
-                  this.content.scrollToBottom(300).then()
-                });
-              })
-            }
-            this.content.scrollToBottom(300).then(() => {
-              this.content.scrollToBottom(300).then()
-            });
-          } else if(!!data.detail) {
-            msg.message = data.detail;
-            msg.displayMsg = data.detail;
           }
+        } else {
+          msg.message = result.errorMesg ? result.errorMesg : result.data?.detail ? result.data?.detail : "No Response";
+          msg.displayMsg = msg.message;
+          msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
+          msg.timeStamp = Date.now();
+          this.disabled = false;
         }
       })
     }).catch(e => {
       this.disabled = false;
       console.log('catch error ', e);
+      this.botMessages[index-1].message = "No Response";
+      this.botMessages[index-1].displayMsg = "No Response";
+      this.botMessages[index-1].time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
+      this.botMessages[index-1].timeStamp = Date.now();
     })
   }
 
@@ -185,33 +217,51 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   async playFile(msg: any) {
     let audio = msg.audio;
     let url = '';
-    this.botMessages.forEach((msg) => {
-      if (msg.audio?.play) {
-        msg.audio.play = false;
+    this.botMessages.forEach((audioMsg) => {
+      if (audioMsg.audio?.play && msg.timeStamp !== audioMsg.timeStamp) {
+        audioMsg.audio.play = false;
       }
     })
-    let audioRef: HTMLAudioElement;
     if (msg.type === 'sent') {
       const audioFile = await Filesystem.readFile({
         path: audio.file,
         directory: Directory.Data
       });
-      console.log('audio file', audioFile);
-      const base64Sound = audioFile.data;
+      const base64Sound: any = audioFile.data;
       url = `data:audio/aac;base64,${base64Sound}`
       audio.play = !audio.play;
     } else if (msg.type === "received") {
       url = audio.file;
       audio.play = !audio.play;
     }
-    audioRef = new Audio(url);
-    audioRef.controls = true;
-    audioRef.oncanplaythrough = () => audioRef.play();
-    audioRef.onended = () => audio.play = false;
-    audioRef.load();
+    this.audioRef = new Audio(url);
+    this.audioRef.load();
+    this.audioRef.controls = true;
+    this.audioRef.oncanplaythrough = () => { 
+      if(!audio.play) {
+        this.audioRef.pause();
+      } else {
+        this.audioRef.play();
+      }
+    };
+    this.audioRef.onended = () => {audio.play = false; this.audioRef.pause();}
   }
 
   handleBackNavigation() {
+    let res = ApiModule.getInstance().getSakhiResponse();
+    let sakiResp = {
+      story: res.storySakhi,
+      teacher: res.teacherSakhi,
+      parent: res.paretSakhi
+    }
+    if(this.config.type == 'story') {
+      sakiResp.story = this.botMessages
+    } else if(this.config.type == 'teacher') {
+      sakiResp.teacher = this.botMessages;
+    } else if(this.config.type == 'parent') {
+      sakiResp.parent = this.botMessages;
+    }
+    ApiModule.getInstance().setSakhiResponse(sakiResp);
     let botDuration = Date.now() - this.botStartTimeStamp;
     if (this.botMessages.length > 0) {
       let result = { audio: 0, text: 0 };

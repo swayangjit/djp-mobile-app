@@ -22,5 +22,6 @@ export interface ContentMetaData {
     status?: string,
     createdon?: string,
     lastupdatedon?: string,
-    artifactUrl?: string
+    artifactUrl?: string,
+    isLiked?: boolean
 }

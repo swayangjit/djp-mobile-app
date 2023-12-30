@@ -21,9 +21,9 @@
 
 <ion-content>
   <ion-list class="m-n" *ngIf="showSheenAnimation">
-    <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" lines="none" class="animation-background" style="padding: 5px;">
+    <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" lines="none" style="padding: 5px;">
         <div item-start style="border-radius: 16px;">
-            <app-skeleton-item height="100px" width="200px" style="border-radius: 16px;"></app-skeleton-item>
+            <app-skeleton-item height="100px" width="200px" radius="16px" style="border-radius: 16px;"></app-skeleton-item>
         </div>
         <ion-label style="padding-left: 10px;">
             <app-skeleton-item height="12px" width="100px" style="padding-bottom: 8px;"></app-skeleton-item>
@@ -53,5 +53,4 @@
         </div>
     </ion-item>
   </ion-list>
-  <ion-toast *ngIf="onError" message="This toast will disappear after 5 seconds" [duration]="5000"></ion-toast>
 </ion-content>

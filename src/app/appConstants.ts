@@ -99,7 +99,8 @@ export interface ContentMetaData {
     keyword: any;
     status: string,
     createdon: string,
-    lastupdatedon: string
+    lastupdatedon: string,
+    isLiked?: boolean
 }
 
 export interface Searchrequest {

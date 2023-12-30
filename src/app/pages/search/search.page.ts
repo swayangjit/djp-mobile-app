@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import { Keyboard } from "@capacitor/keyboard";
+import { RecordingAlertComponent } from 'src/app/components/recording-alert/recording-alert.component';
 
 @Component({
   selector: 'app-search',
@@ -29,7 +30,6 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   optModalOpen: boolean = false;
   mimeType = PlayerType;
   noSearchData: boolean = false;
-  onError = false;
   errMsg = "";
   constructor(
     private headerService: AppHeaderService,
@@ -65,42 +65,67 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
 
   async handleSearch(data?: any, audio: boolean = false) {
     try {
-      if(this.searchKeywords.replace(/\s/g, '').length > 0) {
+      if(audio) {
         this.showSheenAnimation = true;
-        Keyboard.hide();
-        let res = await this.searchApi.postSearchContext({text: audio ? data : this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
+        let res = await this.searchApi.postSearchContext({text: data, currentLang: this.tarnslate.currentLang}, audio);
         if (res.input) {
-          this.searchKeywords = res.input.englishText;
-          // Content search api call
-          let searchRes = await this.searchApi.postContentSearch({query: res.context, filter: ''});
-          console.log('searchRes ', searchRes);
-          this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes.length, 'search', '' )
-          if(searchRes.length > 0) {
-            this.showSheenAnimation = false;
-            this.noSearchData = false;
-            let list: any = {};
-            this.searchContentResult = [];
-            searchRes.forEach((ele: any) => {
-              list = {}
-              list.source = 'djp'
-              list.sourceType = 'djp-content'
-              list.metaData = ele
-              this.searchContentResult.push(list)
-            });
-            this.contentService.saveContents(this.searchContentResult).then()
-          } else {
-            this.showSheenAnimation = false;
-            this.noSearchData = true;
-            this.errMsg = "No Result";
+          if(res?.input?.sourceText || res?.input?.englishText) {
+            this.searchKeywords = res?.input?.sourceText || res?.input?.englishText;
           }
+          this.handleContentSearch(res, audio);
         } else {
-          this.searchContentResult = [];
           this.showSheenAnimation = false;
           this.noSearchData = true;
-          this.errMsg = "Sry, please try again!";
+          this.searchContentResult = [];
+          this.errMsg = "Sry, please try again!"
+        }
+      } else {
+        if(this.searchKeywords.replace(/\s/g, '').length > 0) {
+          this.showSheenAnimation = true;
+          Keyboard.hide();
+          let res = await this.searchApi.postSearchContext({text: this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
+            // Content search api call
+          this.handleContentSearch(res, false);
         }
       }
-    } catch(e){
+    } catch(e) {
+      if (audio) {
+        this.showSheenAnimation = false;
+        this.noSearchData = true;
+        this.searchContentResult = [];
+        this.errMsg = "Sry, please try again!"
+      } else {
+        this.handleContentSearch('', false);
+      }
+    }
+  }
+
+  async handleContentSearch(res?: any, audio: boolean = false) {
+    try {
+      let searchRes = await this.searchApi.postContentSearch({query: res?.context ?? this.searchKeywords, filter: res?.filter ?? ''});
+      console.log('searchRes ', searchRes);
+      this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes.length, 'search', '' )
+      if(searchRes.length > 0) {
+        this.showSheenAnimation = false;
+        this.noSearchData = false;
+        let list: any = {};
+        this.searchContentResult = [];
+        searchRes.forEach((ele: any) => {
+          list = {}
+          list.source = 'djp'
+          list.sourceType = 'djp-content'
+          list.metaData = ele
+          this.searchContentResult.push(list)
+        });
+        this.contentService.saveContents(this.searchContentResult).then()
+      } else {
+        this.showSheenAnimation = false;
+        this.noSearchData = true;
+        this.searchContentResult = [];
+        this.errMsg = "No Result";
+      }
+    }
+    catch {
       this.showSheenAnimation = false;
       this.noSearchData = true;
       this.searchContentResult = [];
@@ -167,10 +192,25 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     console.log('long press on search start');
     this.searchKeywords = "";
     this.record.startRecognition();
+    this.presentPopover(event);
+  }
+  modal: any
+  async presentPopover(event: any) {
+    this.modal = await this.modalCtrl.create({
+      component: RecordingAlertComponent,
+      cssClass: 'sheet-modal',
+      breakpoints: [0.3],
+      showBackdrop: false,
+      initialBreakpoint: 0.3,
+      handle: false,
+      handleBehavior: "none"
+    });
+    await this.modal.present();
   }
   
-  onLongPressEnd() {
+  async onLongPressEnd() {
     console.log('long press on search end');
+    await this.modal.dismiss();
     this.record.stopRecognition('search');
   }
 }

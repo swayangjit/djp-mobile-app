@@ -46,7 +46,7 @@
     "SEARCH_HINT": "Search",
     "No Result": "No Result",
 
-    "QrScan Result": "QrScan Result", 
+    "QR Scan Result": "QR Scan Result", 
 
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
@@ -56,7 +56,7 @@
     "Save Playlist": "Save Playlist",
     "createPlaylist": "Create Playlist",
     "create New Playlist": "Create New Playlist",
-    "noContentMetadata": "There is no content metadata available for this playlist",
+    "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Loading...",
     "Swipe left to cancel": "Swipe left to cancel",
@@ -65,5 +65,11 @@
     "No playlist add yet": "No playlist add yet",
 
     "Exit the app?": "Exit the app?",
-    "Exit": "Exit"
+    "Exit": "Exit",
+    "WELCOME_TO_STORY_SAKHI": "Wecome to Story Sakhi!\nI can create a story for you about what you ask for.\nFor example:\nI can tell a story about a girl who saw the sea for the first time.\nI can tell a story about a Monkey and a Frog\nAsk me about anything that you want. You can type or speak.",
+    "WELCOME_TO_TEACHER_SAKHI": "Wecome to Teacher Sakhi!\nI can suggest you activities that you can do with your students (of age 3 to 8 years) at schools.\nI can also answer your questions about the play based learning suggested in the new NCF for Foundational Stage.\nHere are few examples of what you can ask.\nExamples:\nWhat activity can I do with students to teach sorting or counting numbers\nHow can I conduct my class with children with special needs\nWhat can I do to engage a child who is always distracted.\nI can answer your questions about the new NCF\n\nAsk me about anything that you want. You can type or speak.",
+
+    "WELCOME_TO_PARENT_SAKHI": "Wecome to Parent Sakhi!\nI can suggest you activities that you can do with your children at home. Here are few examples of what you can ask:\nExamples:\nWhat activity can I do with my child using vegetables in your kitchen\nSuggest how I can make my child interested in household activities\nMy child does not eat nutritious food, what to do\n\nAsk me about anything that you want. You can type or speak.",
+    "Listening...": "Listening...",
+    "SCAN_QR_INSTRUCTION": "Point your phone to the QR code to scan it"
 }

@@ -3,3 +3,11 @@
 ion-content {
   --padding-top: 5rem !important;
 }
+
+ion-list { 
+  background-color: transparent;
+}
+
+ion-item {
+  --background: transparent;
+}

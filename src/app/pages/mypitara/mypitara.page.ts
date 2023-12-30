@@ -54,7 +54,6 @@ export class MyPitaraPage implements OnTabViewWillEnter{
     this.playlists = [];
     await this.playListService.getAllPlayLists('guest').then((result: Array<PlayList>) => {
       this.playlists = result;
-      console.log('playlists', this.playlists);
     }).catch((error) => {
       console.log('error', error)
     })
@@ -104,6 +103,8 @@ export class MyPitaraPage implements OnTabViewWillEnter{
       this.isNavigate = true;
       if(result && result.data.type === 'delete') {
         this.deletePlaylist(content);
+      } else if (result && result.data.type === 'edit') {
+        this.router.navigate(['/create-playlist'], { state: { playlists: content, islocal: true , status: 'edit'} })
       }
     });
   }
