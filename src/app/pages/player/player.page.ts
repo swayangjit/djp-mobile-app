@@ -41,7 +41,7 @@ export class PlayerPage implements OnInit {
     if (extras) {
       this.content = extras.state?.['content'] as Content;
       this.playerType = this.getPlayerType(this.content.metaData.mimetype);
-      this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url);
+      this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url+'?rel=0&enablejsapi=1');
       this.pageId = extras.state?.['pageid'];
     }
     this.populateCData();
@@ -129,7 +129,8 @@ export class PlayerPage implements OnInit {
         this.video.nativeElement.append(epubElement);
       }
     }
-    const player = new Plyr('#player', { autoplay: true });
+    const player = new Plyr('#player', { autoplay: true, speed: {selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]} });
+    player.speed = 1;
     console.log('player ', player);
   }
 
