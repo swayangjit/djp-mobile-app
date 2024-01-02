@@ -6,6 +6,7 @@ import { Keyboard } from "@capacitor/keyboard";
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiModule } from 'src/app/services/api/api.module';
+import { VoiceRecorder } from 'capacitor-voice-recorder';
 
 @Component({
   selector: 'app-bot-messages',
@@ -33,10 +34,11 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     private ngZone: NgZone,
     private headerService: AppHeaderService,
     private messageApi: BotApiService,
-    private translate: TranslateService,
+    private translate: TranslateService
   ) { 
     this.defaultLoaderMsg = {message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false};
     this.botMessages = [];
+    this.audioRef = new Audio();
   }
 
   ngOnInit() {
@@ -234,8 +236,9 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       url = audio.file;
       audio.play = !audio.play;
     }
-    this.audioRef = new Audio(url);
+    this.audioRef.src = url;
     this.audioRef.load();
+    this.audioRef.preload = "auto"
     this.audioRef.controls = true;
     this.audioRef.oncanplaythrough = () => { 
       if(!audio.play) {
@@ -244,6 +247,12 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         this.audioRef.play();
       }
     };
+    this.audioRef.ondurationchange = (ev) => {
+      console.log("ondurationchange ", ev);
+    }
+    this.audioRef.ontimeupdate = (ev) => {
+      console.log("time ", ev);
+    }
     this.audioRef.onended = () => {audio.play = false; this.audioRef.pause();}
   }
 
@@ -302,9 +311,13 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  onLongPressStart() {
+  async onLongPressStart() {
     console.log('long press start');
-    this.record.startRecognition();
+    if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
+      this.record.startRecognition();
+    } else {
+      await VoiceRecorder.requestAudioRecordingPermission();
+    }
   }
 
   onLongPressEnd() {

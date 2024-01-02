@@ -18,6 +18,7 @@ import { Keyboard } from "@capacitor/keyboard";
 import { RecordingAlertComponent } from 'src/app/components/recording-alert/recording-alert.component';
 import { NativeAudio } from '@capacitor-community/native-audio';
 import confetti from 'canvas-confetti';
+import { VoiceRecorder } from 'capacitor-voice-recorder';
 
 @Component({
   selector: 'app-search',
@@ -204,11 +205,15 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 
-  onLongPressStart() {
+  async onLongPressStart() {
     console.log('long press on search start');
     this.searchKeywords = "";
-    this.record.startRecognition();
-    this.presentPopover(event);
+    if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
+      this.record.startRecognition();
+      this.presentPopover(event);
+    } else {
+      await VoiceRecorder.requestAudioRecordingPermission();
+    }
   }
   modal: any
   async presentPopover(event: any) {

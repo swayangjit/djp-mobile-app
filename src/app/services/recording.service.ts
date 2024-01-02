@@ -53,7 +53,7 @@ export class RecordingService implements OnInit {
 
   async startRecognition() {
     this.cancelRecording = false;
-    await VoiceRecorder.requestAudioRecordingPermission();
+    VoiceRecorder.startRecording();
     Haptics.impact({style: ImpactStyle.Light});
     this.recordEvent.next(true);
     if(this.recording) {
@@ -61,12 +61,6 @@ export class RecordingService implements OnInit {
     }
     this.recording = true;
     this.calculation();
-    if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
-      VoiceRecorder.startRecording()
-    } else {
-      await VoiceRecorder.requestAudioRecordingPermission();
-      VoiceRecorder.startRecording();
-    }
   }
 
   calculation() {
