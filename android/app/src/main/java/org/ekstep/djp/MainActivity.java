@@ -1,4 +1,4 @@
-package org.ejp.app;
+package in.gov.myjp.app;
 
 import com.getcapacitor.BridgeActivity;
 

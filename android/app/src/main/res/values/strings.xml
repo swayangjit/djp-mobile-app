@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">eJP</string>
-    <string name="title_activity_main">eJP</string>
-    <string name="package_name">org.ejp.app</string>
-    <string name="custom_url_scheme">org.ejp.app</string>
+    <string name="app_name">MyJP</string>
+    <string name="title_activity_main">MyJP</string>
+    <string name="package_name">in.gov.myjp.app</string>
+    <string name="custom_url_scheme">in.gov.myjp.app</string>
 </resources>
