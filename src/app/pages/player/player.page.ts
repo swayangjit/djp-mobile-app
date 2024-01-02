@@ -19,7 +19,7 @@ import { Capacitor } from '@capacitor/core';
   styleUrls: ['./player.page.scss'],
 })
 export class PlayerPage implements OnInit {
-  content?: Content;
+  content?: any;
   orientationType: string = "";
   playerConfig: any = {};
   videoConfig: any;
@@ -85,12 +85,12 @@ export class PlayerPage implements OnInit {
         this.playerConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.playerConfig['metadata']['name'] = this.content?.metaData.name;
         this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
-        if (this.content?.source === 'local' && this.content?.metaData.url.includes('file://')) {
+        if ((this.content?.source === 'local' || this.content?.type === 'local') && this.content?.metaData.url.includes('file://')) {
           this.playerConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
         } else {
           this.playerConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
         }
-        this.playerConfig['metadata']['isAvailableLocally'] = this.content?.source === 'local'? true : false;
+        this.playerConfig['metadata']['isAvailableLocally'] = (this.content?.source === 'local' || this.content?.type === 'local')? true : false;
         this.playerConfig['metadata']['baseDir']='';
         this.playerConfig['context']['cdata'] = this.cdata;
         console.log('this.playerConfig', this.playerConfig)
@@ -109,13 +109,13 @@ export class PlayerPage implements OnInit {
         this.videoConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.videoConfig['metadata']['name'] = this.content?.metaData.name;
         this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
-        if (this.content?.source === 'local' && this.content?.metaData.url.includes('file://')) {
+        if ((this.content?.source === 'local' || this.content?.type === 'local') && this.content?.metaData.url.includes('file://')) {
           this.videoConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
         } else {
           this.videoConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
         }
         this.videoConfig['context']['cdata'] = this.cdata;
-        this.videoConfig['metadata']['isAvailableLocally'] = this.content?.source === 'local'? true : false;
+        this.videoConfig['metadata']['isAvailableLocally'] = (this.content?.source === 'local' || this.content?.type === 'local')? true : false;
         const epubElement = document.createElement('sunbird-video-player');
         epubElement.setAttribute('player-config', JSON.stringify(this.videoConfig));
         epubElement.addEventListener('playerEvent', (event) => {
