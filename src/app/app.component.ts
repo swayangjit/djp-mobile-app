@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppHeaderService } from './services/app-header.service';
 import { HeaderConfig } from './appConstants';
-import { IonRouterOutlet, PopoverController } from '@ionic/angular';
+import { IonRouterOutlet, ModalController, PopoverController } from '@ionic/angular';
 import { TelemetryAutoSyncService } from './services/telemetry/telemetry.auto.sync.service';
 import { App } from '@capacitor/app';
 import { ScannerService } from './services/scan/scanner.service';
 import { LangaugeSelectComponent } from './components/langauge-select/langauge-select.component';
 import { Router } from '@angular/router';
+import { QrcodePopupComponent } from './components/qrcode-popup/qrcode-popup.component';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
     private telemetryAutoSyncService: TelemetryAutoSyncService,
     private scannerService: ScannerService,
     private popoverCtrl: PopoverController,
+    private modalCtrl: ModalController,
     private router: Router) {
   }
 
@@ -55,7 +57,11 @@ export class AppComponent implements OnInit {
             scannenValue = execArray?.groups![Object.keys(execArray?.groups!).find((key) => !!execArray?.groups![key])!]
           }
           console.log('Scanned Value', scannenValue);
-          this.router.navigate(['/qr-scan-result'], {state: {scannedData: scannenValue}})
+          if (scannenValue) {
+            this.router.navigate(['/qr-scan-result'], {state: {scannedData: scannenValue}})
+          } else {
+            this.handleInvalidQRcode(scannedData);
+          }
         },
         (error) => {
           console.warn(error);
@@ -96,5 +102,22 @@ export class AppComponent implements OnInit {
 
   private autoSyncTelemetry() {
     this.telemetryAutoSyncService.start(30 * 1000).subscribe();
+  }
+
+  async handleInvalidQRcode(scannedData: string) {
+    const modal = await this.modalCtrl.create({
+      component: QrcodePopupComponent,
+      componentProps: {
+        scannedData
+      },
+      cssClass: 'add-to-pitara',
+      breakpoints: [0, 1],
+      showBackdrop: false,
+      initialBreakpoint: 1,
+      handle: false,
+      handleBehavior: "none"
+    });
+    await modal.present();
+    modal.onDidDismiss();
   }
 }
