@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
-import { ContentSrc, Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
+import { Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
 import { AppHeaderService, CachingService, PreprocessorService, SearchService, StorageService } from '../../../app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { ConfigService } from '../../../app/services/config.service';
@@ -27,7 +27,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   refresh: boolean = false;
   showSheenAnimation: boolean = true;
   contentList: Array<Content> = []
-  contents!: Array<ContentSrc>;
   filters!: Array<Filter>
   languages!: Array<Language>
   isOpen: boolean = false;
@@ -94,12 +93,16 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     if (forceRefresh) {
       this.getServerMetaConfig();
     } else if (!this.networkConnected) {
-      this.showSheenAnimation = false;
       this.configContents = [];
       this.configContents = await this.contentService.getAllContent();
       if (this.configContents.length == 0) this.getServerMetaConfig();
+      this.showSheenAnimation = false;
     } else {
       this.getServerMetaConfig();
+      this.configContents = [];
+      let content = await this.contentService.getAllContent();
+      this.configContents = content;
+      this.showSheenAnimation = false;
     }
     await NativeAudio.preload({
       assetPath: 'public/assets/sounds/windchime.mp3',
@@ -120,9 +123,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
       let list: any = {};
       content.forEach((ele: any, i: number) => {
         list = {}
-        list.source = i == 5 ? '' : 'djp'
-        list.sourceType = i == 5 ? '' : 'djp-content'
-        list.metaData = i == 5 ? {} : ele
+        list.source = 'djp'
+        list.sourceType = 'djp-content'
+        list.metaData = ele
         this.configContents.push(list)
       });
       this.contentService.saveContents(this.configContents).then()
@@ -179,18 +182,19 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
         this.addContentToMyPitara(result.data.content || content)
       } else if (result.data && result.data.type == 'like') {
         this.contentService.likeContent(result.data.content || content, 'guest', true)
-        await NativeAudio.play({
-          assetId: 'windchime',
-        });
-        confetti({
-          startVelocity: 30,
-          particleCount: 400,
-          spread: 360,
-          ticks: 60,
-          origin: { y: 0.5, x: 0.5 },
-          colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a']
-        });
-
+        if(result.data.content.metaData.isLiked) {
+          await NativeAudio.play({
+            assetId: 'windchime',
+          });
+          confetti({
+            startVelocity: 30,
+            particleCount: 400,
+            spread: 360,
+            ticks: 60,
+            origin: { y: 0.5, x: 0.5 },
+            colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a']
+          });
+        }
         this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'home', 'home', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''));
       }
     });
@@ -225,7 +229,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     // }
   }
 
-  async addContentToMyPitara(content: ContentSrc) {
+  async addContentToMyPitara(content: Content) {
     const modal = await this.modalCtrl.create({
       component: AddToPitaraComponent,
       componentProps: {

@@ -38,12 +38,6 @@ export class DbConstants {
     static NULL = 'NULL';
 }
 
-export interface ContentSrc {
-    name: string,
-    liked: boolean,
-    type: string
-}
-
 export interface Config {
     pageConfig: Array<PageConfig>,
     languages: Language[];
@@ -79,7 +73,6 @@ export interface Content {
     sourceType: string;
     metaData: ContentMetaData;
     play: boolean;
-    liked: boolean;
 }
 
 export interface ContentMetaData {

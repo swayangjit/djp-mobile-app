@@ -18,11 +18,12 @@ export class SheetModalComponent implements OnInit {
 
   ngOnInit() {
     this.content = this.navParams.get('content');
+    this.liked = !!this.content.metaData.isLiked;
   }
 
   contentLiked(event: Event) {
     if(event) {
-      this.content.liked = !this.content.liked;
+      this.content.metaData.isLiked = !this.content.metaData.isLiked;
       this.liked = !this.liked;
       this.modalCtrl.dismiss({type: 'like', content: this.content});
     }

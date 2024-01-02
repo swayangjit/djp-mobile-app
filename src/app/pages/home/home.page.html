@@ -32,7 +32,7 @@
     <!-- Cards -->
     <div *ngIf="!showSheenAnimation && configContents.length > 0">
       <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
-        <div class="bot-section" *ngIf="!content.metaData || !content.metaData.name">
+        <div class="bot-section" *ngIf="i === 5">
           <div class="image" (click)="navigateToSakhi('story')">
             <img src="assets/images/Story_bot.svg" alt="">
             <div class="image-title">{{"Story Sakhi" | translate }}</div>

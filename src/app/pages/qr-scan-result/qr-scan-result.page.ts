@@ -1,8 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NativeAudio } from '@capacitor-community/native-audio';
 import { ModalController } from '@ionic/angular';
-import { Content, ContentSrc, PlayerType } from 'src/app/appConstants';
+import confetti from 'canvas-confetti';
+import { Content, PlayerType } from 'src/app/appConstants';
 import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 import { AppHeaderService } from 'src/app/services';
@@ -93,17 +95,31 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
       });
       await modal.present();
     }
-    modal.onDidDismiss().then((result: any) => {
+    modal.onDidDismiss().then(async (result: any) => {
       this.optModalOpen = false;
       if(result.data && result.data.type === 'addToPitara') {
           this.addContentToMyPitara(result.data.content || content)
       } else if(result.data && result.data.type == 'like') {
+        this.contentService.likeContent(result.data.content || content, 'guest', true)
+        if(result.data.content.metaData.isLiked) {
+          await NativeAudio.play({
+            assetId: 'windchime',
+          });
+          confetti({
+            startVelocity: 30,
+            particleCount: 400,
+            spread: 360,
+            ticks: 60,
+            origin: { y: 0.5, x: 0.5 },
+            colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a']
+          });
+        }
         this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'content-liked', 'qr-scan-result', 'qr-scan-result', new TelemetryObject(content?.metaData.identifier!, content?.metaData.mimetype!, ''));
       }
     });
   }
 
-  async addContentToMyPitara(content: ContentSrc) {
+  async addContentToMyPitara(content: Content) {
     const modal = await this.modalCtrl.create({
       component: AddToPitaraComponent,
       componentProps: {
