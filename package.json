@@ -10,6 +10,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "ionic-build:ci": "ng build && ionic cap build android --no-open --source-map=true",
     "ionic-build": "ng build && ionic cap run android --source-map=true --target emulator-5554"
   },
   "private": true,
