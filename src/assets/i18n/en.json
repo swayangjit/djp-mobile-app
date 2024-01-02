@@ -71,5 +71,7 @@
 
     "WELCOME_TO_PARENT_SAKHI": "Wecome to Parent Sakhi!\nI can suggest you activities that you can do with your children at home. Here are few examples of what you can ask:\nExamples:\nWhat activity can I do with my child using vegetables in your kitchen\nSuggest how I can make my child interested in household activities\nMy child does not eat nutritious food, what to do\n\nAsk me about anything that you want. You can type or speak.",
     "Listening...": "Listening...",
-    "SCAN_QR_INSTRUCTION": "Point your phone to the QR code to scan it"
+    "SCAN_QR_INSTRUCTION": "Point your phone to the QR code to scan it",
+    "OPEN_IN_BROWSER": "Open in Browser",
+    "CLOSE": "CLOSE"
 }

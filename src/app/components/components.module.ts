@@ -14,6 +14,7 @@ import { SkeletonItemComponent } from './skeleton-item/skeleton-item.component';
 import { BotMessagesComponent } from './bot-messages/bot-messages.component';
 import { AppExitComponent } from './app-exit/app-exit.component';
 import { RecordingAlertComponent } from './recording-alert/recording-alert.component';
+import { QrcodePopupComponent } from './qrcode-popup/qrcode-popup.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { RecordingAlertComponent } from './recording-alert/recording-alert.compo
         SkeletonItemComponent,
         BotMessagesComponent,
         AppExitComponent,
-        RecordingAlertComponent
+        RecordingAlertComponent,
+        QrcodePopupComponent
     ],
     imports: [
         CommonModule,
@@ -46,7 +48,8 @@ import { RecordingAlertComponent } from './recording-alert/recording-alert.compo
         SkeletonItemComponent,
         BotMessagesComponent,
         AppExitComponent,
-        RecordingAlertComponent
+        RecordingAlertComponent,
+        QrcodePopupComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [
