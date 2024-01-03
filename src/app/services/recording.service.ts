@@ -55,12 +55,12 @@ export class RecordingService implements OnInit {
     this.cancelRecording = false;
     VoiceRecorder.startRecording();
     Haptics.impact({style: ImpactStyle.Light});
-    this.recordEvent.next(true);
     if(this.recording) {
       return
     }
     this.recording = true;
     this.calculation(type);
+    this.recordEvent.next(true);
   }
 
   calculation(type: string) {
@@ -74,37 +74,24 @@ export class RecordingService implements OnInit {
     const min = Math.floor(this.duration / 60);
     const sec = (this.duration %60).toString().padStart(2, '0');
     this.durationDisplay = `${min}:${sec}`;
-    if(type == 'search' && this.durationDisplay > '0:05') {
-      this.stopRecognition(type);
-    }
     setTimeout(() => {
       this.calculation(type);
     }, 1000);
   }
 
-  async stopRecognition(type: string) {
+  async stopRecognition(type: string): Promise<any> {
     Haptics.impact({style: ImpactStyle.Light});
     this.recordEvent.next(false);
     if(!this.recording) {return;}
-    VoiceRecorder.stopRecording().then(async (result: RecordingData) => {
+    return await VoiceRecorder.stopRecording().then(async (result: RecordingData) => {
       this.recording = false;
-      if(result.value && result.value.recordDataBase64) {
-        const recordData = result.value.recordDataBase64;
-        console.log('..................', result);
-        if (type == "search") {
-          this.searchEvent.next(recordData);
-        } else if (type == "audio"){
-          const fileName = new Date().getTime() + '.wav';
-          await Filesystem.writeFile({
-            path: fileName,
-            directory: Directory.Data,
-            data: recordData
-          })
-          if(this.cancelRecording) {
-            this.botEvent.next({file: ''})
-          } else {
-            this.botEvent.next({file: fileName, data:recordData, duration: this.durationDisplay})
-          }
+      if(this.cancelRecording) {
+        return;
+      } else {
+        if(type == 'search') {
+          return result.value.recordDataBase64;
+        } else {
+          return result;
         }
       }
     })

@@ -48,7 +48,6 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         this.navigated = true;
         console.log('bot message back event ');
         this.handleBackNavigation();
-        this.botMessages = [];
       }
     })
     Keyboard.addListener('keyboardWillShow', () => {
@@ -59,27 +58,6 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       this.startRecording = res;
       this.calculation();
     });
-    this.record.botEventRecorded$.subscribe((res: any) => {
-      console.log('record event ', res);
-      if (res?.file) {
-        this.chat = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false }
-        this.ngZone.run(() => {
-          this.chat.messageType = 'audio';
-          this.chat.audio = { file: res.file, base64Data: res.data, duration: res.duration, play: false };
-          this.chat.timeStamp = Date.now();
-          this.botMessages.push(this.chat);
-          this.content.scrollToBottom(300).then(() => {
-            this.content.scrollToBottom(300)
-          })
-          this.botMessages.push(this.defaultLoaderMsg);
-          this.content.scrollToBottom(300).then(() => {
-            this.content.scrollToBottom(300)
-          })
-        })
-        // Api call and response from bot, replace laoding text 
-        this.makeBotAPICall('', res.data);
-      }
-    })
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
@@ -142,29 +120,29 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     }
   }
 
-   makeBotAPICall(text: string, audio: string) {
+  async makeBotAPICall(text: string, audio: string) {
     this.textMessage = "";
     this.disabled = true;
     // Api call and response from bot, replace laoding text
     let index = this.botMessages.length;
+    await this.messageApi.getBotMessage(text, audio, this.config.type).then(result => {
     this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-     this.messageApi.getBotMessage(text, audio, this.config.type).then(result => {
       this.botMessages.forEach((msg, i) => {
         if (result.responseCode === 200) {
           let data = result.body;
           if(i == index-1 && msg.type === 'received') {
             msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'})
             msg.timeStamp = Date.now();
-            if (data.output) {
+            if (data?.output) {
               this.disabled = false;
               msg.message = data.output?.text;
-              if (data.output?.text.length > 200 && (data.output.text.length - 200 > 100)) {
+              if (data?.output?.text.length > 200 && (data?.output.text.length - 200 > 100)) {
                 msg.displayMsg = data.output.text.substring(0, 200);
                 msg.readMore = true;
               } else {
                 msg.displayMsg = data.output?.text;
               }
-              if (data.output?.audio) {
+              if (data?.output?.audio) {
                 let audioMsg = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false }
                 audioMsg.audio = { file: data.output?.audio, duration: "", play: false }
                 audioMsg.messageType = 'audio';
@@ -247,11 +225,11 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         this.audioRef.play();
       }
     };
-    this.audioRef.ondurationchange = (ev) => {
+    this.audioRef.ondurationchange = (ev: Event) => {
       console.log("ondurationchange ", ev);
     }
-    this.audioRef.ontimeupdate = (ev) => {
-      console.log("time ", ev);
+    this.audioRef.ontimeupdate = (ev: Event) => {
+      this.audioRef.currentTime = (ev.target as any)?.currentTime
     }
     this.audioRef.onended = () => {audio.play = false; this.audioRef.pause();}
   }
@@ -279,6 +257,12 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           result.text++;
         } else if (msg.messageType == 'audio') {
           result.audio++;
+          if(this.audioRef) {
+            if(msg.audio) {
+              msg.audio.play = false;
+            }
+            this.audioRef.pause();
+          }
         }
       });
       console.log('result count ', result);
@@ -286,11 +270,14 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     } else {
       this.botMessageEvent.emit({ audio: 0, text: 0, duration: botDuration/1000 })
     }
+    this.botMessages = [];
   }
 
-  cancelRecording() {
+  async cancelRecording() {
     console.log('cancel recording');
-    this.record.stopRecognition('audio');
+    await this.record.stopRecognition('audio').then(res => {
+      console.log('res on recorded data ', res);
+    });
     this.startRecording = false;
   }
 
@@ -320,8 +307,41 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     }
   }
 
-  onLongPressEnd() {
+  async onLongPressEnd() {
     console.log('long press end');
-    this.record.stopRecognition('audio');
+    await this.record.stopRecognition('audio').then(async result => {
+      console.log('result on recorded data ', result);
+      if(result.value && result.value.recordDataBase64) {
+        this.chat = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false }
+        const recordData = result.value.recordDataBase64;
+        console.log('..................', result, this.durationDisplay);
+        const fileName = new Date().getTime() + '.wav';
+        await Filesystem.writeFile({
+          path: fileName,
+          directory: Directory.Data,
+          data: recordData
+        })
+        this.ngZone.run(() => {
+          this.chat.messageType = 'audio';
+          this.chat.audio = { file: fileName, base64Data: recordData, duration: this.getTimeString(result.value.msDuration), play: false };
+          this.chat.timeStamp = Date.now();
+          this.botMessages.push(this.chat);
+          this.content.scrollToBottom(300).then(() => {
+            this.content.scrollToBottom(300)
+          })
+          this.botMessages.push(this.defaultLoaderMsg);
+          this.content.scrollToBottom(300).then(() => {
+            this.content.scrollToBottom(300)
+          })
+        })
+        this.makeBotAPICall('', recordData);
+      }
+    });
+  }
+
+  getTimeString(duration: any) {
+    let minutes = Math.floor(duration / 1000 / 60);
+    let seconds = Math.floor((duration / 1000) - (minutes * 60));
+    return minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
   }
 }
