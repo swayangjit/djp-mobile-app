@@ -73,5 +73,6 @@
     "Listening...": "Listening...",
     "SCAN_QR_INSTRUCTION": "Point your phone to the QR code to scan it",
     "OPEN_IN_BROWSER": "Open in Browser",
-    "CLOSE": "CLOSE"
+    "CLOSE": "CLOSE",
+    "CONTENT_IS_BEING_ADDED": "Content will be added soon to this QRcode. It will be available shortly"
 }

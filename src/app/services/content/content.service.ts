@@ -185,40 +185,46 @@ export class ContentService {
   public getContents(query: string): Promise<Array<Content>> {
     return this.searchContentInDiksha(query)
       .then((response: ApiResponse) => {
-        return this.getCollectionHierarchy(
-          response.body.result.content[0].identifier
-        );
+        if (response.body.result?.content?.length) {
+          return this.getCollectionHierarchy(
+            response.body.result.content[0].identifier
+          );
+        } else {
+          return '' as any;
+        }
       })
       .then((hierarchyResponse: ApiResponse) => {
         this.results = [];
-        this.showAllChild(hierarchyResponse.body.result.content)
         const contentList: Array<Content> = []
-        this.results.map((content: any) => {
-          contentList.push({
-            source: 'dialcode',
-            sourceType: 'Diksha',
-            metaData: {
-              identifier: content?.identifier,
-              name: content?.name,
-              thumbnail: content?.posterImage,
-              description: content?.name,
-              mimetype: content?.mimetype || content?.mimeType,
-              url: content?.streamingUrl,
-              focus: content?.focus,
-              keyword: content?.keyword,
-              domain: content?.domain,
-              curriculargoal: content?.curriculargoal,
-              competencies: content?.competencies,
-              language: content?.language,
-              category: content?.category,
-              audience: content?.audience,
-              status: content?.status,
-              createdon: content?.createdOn,
-              lastupdatedon: content?.lastupdatedon || content?.lastUpdatedOn,
-              artifactUrl: content?.artifactUrl
-            }
+        if (hierarchyResponse) {
+          this.showAllChild(hierarchyResponse.body.result.content)
+          this.results.map((content: any) => {
+            contentList.push({
+              source: 'dialcode',
+              sourceType: 'Diksha',
+              metaData: {
+                identifier: content?.identifier,
+                name: content?.name,
+                thumbnail: content?.posterImage,
+                description: content?.name,
+                mimetype: content?.mimetype || content?.mimeType,
+                url: content?.streamingUrl,
+                focus: content?.focus,
+                keyword: content?.keyword,
+                domain: content?.domain,
+                curriculargoal: content?.curriculargoal,
+                competencies: content?.competencies,
+                language: content?.language,
+                category: content?.category,
+                audience: content?.audience,
+                status: content?.status,
+                createdon: content?.createdOn,
+                lastupdatedon: content?.lastupdatedon || content?.lastUpdatedOn,
+                artifactUrl: content?.artifactUrl
+              }
+            })
           })
-        })
+        }
         return contentList;
       })
       .catch((error) => {
