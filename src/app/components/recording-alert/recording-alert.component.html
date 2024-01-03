@@ -3,6 +3,15 @@
     <ion-label class="record_audio">{{'Listening...' | translate }}</ion-label>
   </ion-item>
   <div class="msg_speak">
-    <ion-icon aria-hidden="true" src="assets/icon/mic.svg"></ion-icon>
+    <div class="circle_ripple"></div>
+       <div class="circle_ripple-2"></div>
+      <div class="circle">
+        <div class="circle-2">
+          <ion-icon aria-hidden="true" src="assets/icon/mic.svg"></ion-icon>
+        </div>
+      </div>     
+  </div>
+  <div class="search_div">
+    <ion-button (click)="hadleAudioSearch()">{{'Search' | translate }}</ion-button>
   </div>
 </div>

@@ -7,11 +7,11 @@
         </ion-button>
       </ion-buttons>
       <ion-input type="search" #searchInput (keyup.enter)="handleSearch()" fill="outline" shape="round"
-        (ngModelChange)="!searchContentResult"
+        (ngModelChange)="!searchContentResult" [disabled]="disabled"
         [(ngModel)]="searchKeywords" [placeholder]="'SEARCH_HINT' | translate">
       </ion-input>
       <ion-buttons slot="end">
-        <ion-button (touchstart)="onLongPressStart()" (touchend)="onLongPressEnd()">
+        <ion-button (click)="onLongPressStart()" [disabled]="disabled">
           <ion-icon aria-hidden="true" src="assets/icon/mic.svg"></ion-icon>
         </ion-button>
       </ion-buttons>

@@ -51,7 +51,7 @@ export class RecordingService implements OnInit {
     swipeLeft.enable();
   }
 
-  async startRecognition() {
+  async startRecognition(type: string) {
     this.cancelRecording = false;
     VoiceRecorder.startRecording();
     Haptics.impact({style: ImpactStyle.Light});
@@ -60,10 +60,10 @@ export class RecordingService implements OnInit {
       return
     }
     this.recording = true;
-    this.calculation();
+    this.calculation(type);
   }
 
-  calculation() {
+  calculation(type: string) {
     if(!this.recording) {
       this.duration = 0;
       this.durationDisplay = '';
@@ -74,9 +74,11 @@ export class RecordingService implements OnInit {
     const min = Math.floor(this.duration / 60);
     const sec = (this.duration %60).toString().padStart(2, '0');
     this.durationDisplay = `${min}:${sec}`;
-
+    if(type == 'search' && this.durationDisplay > '0:05') {
+      this.stopRecognition(type);
+    }
     setTimeout(() => {
-      this.calculation();
+      this.calculation(type);
     }, 1000);
   }
 

@@ -34,6 +34,8 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   mimeType = PlayerType;
   noSearchData: boolean = false;
   errMsg = "";
+  modalPresent: boolean = false;
+  disabled: boolean = false;
   constructor(
     private headerService: AppHeaderService,
     private location: Location,
@@ -52,7 +54,11 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   }
 
   ngOnInit() {
-    this.record.searchEventRecorded$.subscribe((res: any) => {
+    this.record.searchEventRecorded$.subscribe(async (res: any) => {
+      if(this.modalPresent) {
+        this.modalPresent = false;
+        await this.modal.dismiss();
+      }
       this.handleSearch(res, true);
     })
   }
@@ -77,6 +83,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
           }
           this.handleContentSearch(res, audio);
         } else {
+          this.disabled = false;
           this.showSheenAnimation = false;
           this.noSearchData = true;
           this.searchContentResult = [];
@@ -93,6 +100,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
       }
     } catch(e) {
       if (audio) {
+        this.disabled = false;
         this.showSheenAnimation = false;
         this.noSearchData = true;
         this.searchContentResult = [];
@@ -108,6 +116,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
       let searchRes = await this.searchApi.postContentSearch({query: res?.context ?? this.searchKeywords, filter: res?.filter ?? ''});
       console.log('searchRes ', searchRes);
       this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes.length, 'search', '' )
+      this.disabled = false;
       if(searchRes.length > 0) {
         this.showSheenAnimation = false;
         this.noSearchData = false;
@@ -129,6 +138,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
       }
     }
     catch {
+      this.disabled = false;
       this.showSheenAnimation = false;
       this.noSearchData = true;
       this.searchContentResult = [];
@@ -208,8 +218,9 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   async onLongPressStart() {
     console.log('long press on search start');
     this.searchKeywords = "";
+    this.disabled = true;
     if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
-      this.record.startRecognition();
+      this.record.startRecognition('search');
       this.presentPopover(event);
     } else {
       await VoiceRecorder.requestAudioRecordingPermission();
@@ -220,18 +231,27 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     this.modal = await this.modalCtrl.create({
       component: RecordingAlertComponent,
       cssClass: 'sheet-modal',
-      breakpoints: [0.3],
+      breakpoints: [0.45],
       showBackdrop: false,
-      initialBreakpoint: 0.3,
+      initialBreakpoint: 0.45,
       handle: false,
       handleBehavior: "none"
     });
+    this.modalPresent = true;
     await this.modal.present();
+    await this.modal.onDidDismiss().then((res: any) => {
+      if(res.data === 'search') {
+        this.onLongPressEnd();
+      }
+    })
   }
   
   async onLongPressEnd() {
     console.log('long press on search end');
-    await this.modal.dismiss();
+    if(this.modalPresent) {
+      this.modalPresent = false;
+      await this.modal.dismiss();
+    }
     this.record.stopRecognition('search');
   }
 }
