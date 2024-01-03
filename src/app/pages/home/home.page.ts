@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
 import { Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
@@ -17,13 +17,15 @@ import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import confetti from 'canvas-confetti';
 import { NativeAudio } from '@capacitor-community/native-audio';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
-export class HomePage implements OnInit, OnTabViewWillEnter {
+export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   refresh: boolean = false;
   showSheenAnimation: boolean = true;
   contentList: Array<Content> = []
@@ -36,6 +38,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
   networkConnected: boolean = false;
   mimeType = PlayerType;
   noSearchData: boolean = false;
+  langChangeSubscription: Subscription | null = null;
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -49,15 +52,30 @@ export class HomePage implements OnInit, OnTabViewWillEnter {
     private domSanitiser: DomSanitizer,
     private storage: StorageService,
     private telemetryGeneratorService: TelemetryGeneratorService,
-    private searchService: SearchService) {
+    private searchService: SearchService,
+    private translateService: TranslateService) {
     this.configContents = [];
     this.networkService.networkConnection$.subscribe(ev => {
       console.log(ev);
       this.networkConnected = ev;
     })
   }
+  ngOnDestroy(): void {
+    try {
+      this.langChangeSubscription && this.langChangeSubscription.unsubscribe()  
+    } catch (error) {
+      console.log(`error in unsubscribe`, error)
+    }
+    
+  }
 
   async ngOnInit(): Promise<void> {
+
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.showSheenAnimation = true;
+      this.getServerMetaConfig();
+    });
+
     let req: Searchrequest = {
       request: {
         pageId: '',
