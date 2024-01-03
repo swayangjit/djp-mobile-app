@@ -34,7 +34,7 @@ jobs:
       run: npm install
 
     - name: Install app dependencies
-      run: npm uninstall cordova-plugin-filepath && npm i https://github.com/swayangjit/cordova-plugin-filepath.git && npx cap sync
+      run: npm uninstall cordova-plugin-filepath && npm i https://github.com/swayangjit/cordova-plugin-filepath.git
 
     - name: Convert Windows line endings to Linux from the gradlew file
       run: sudo apt update && sudo apt install dos2unix && cd android && dos2unix ./gradlew && cd ..
@@ -43,7 +43,7 @@ jobs:
       run: cd android && chmod +x ./gradlew && cd ..
 
     - name: Build Ionic assets
-      run: ionic build --prod
+      run: ionic build --prod && npx cap sync
 
     - name: Copy generated assets from Ionic to Capacitor Android platform
       run: npx cap copy android && npx cap update android
