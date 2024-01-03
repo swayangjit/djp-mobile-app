@@ -11,7 +11,7 @@
         [(ngModel)]="searchKeywords" [placeholder]="'SEARCH_HINT' | translate">
       </ion-input>
       <ion-buttons slot="end">
-        <ion-button (touchstart)="onLongPressStart()" (touchend)="onLongPressEnd()">
+        <ion-button (click)="onLongPressStart()">
           <ion-icon aria-hidden="true" src="assets/icon/mic.svg"></ion-icon>
         </ion-button>
       </ion-buttons>

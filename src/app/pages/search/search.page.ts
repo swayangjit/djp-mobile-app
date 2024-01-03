@@ -34,6 +34,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   mimeType = PlayerType;
   noSearchData: boolean = false;
   errMsg = "";
+  modalPresent: boolean = false;
   constructor(
     private headerService: AppHeaderService,
     private location: Location,
@@ -52,8 +53,12 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   }
 
   ngOnInit() {
-    this.record.searchEventRecorded$.subscribe((res: any) => {
-      this.handleSearch(res, true);
+    this.record.searchEventRecorded$.subscribe(async (res: any) => {
+      if(this.modalPresent) {
+        this.modalPresent = false;
+        await this.modal.dismiss();
+        this.handleSearch(res, true);
+      }
     })
   }
 
@@ -209,7 +214,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     console.log('long press on search start');
     this.searchKeywords = "";
     if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
-      this.record.startRecognition();
+      this.record.startRecognition('search');
       this.presentPopover(event);
     } else {
       await VoiceRecorder.requestAudioRecordingPermission();
@@ -220,18 +225,27 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     this.modal = await this.modalCtrl.create({
       component: RecordingAlertComponent,
       cssClass: 'sheet-modal',
-      breakpoints: [0.3],
+      breakpoints: [0.45],
       showBackdrop: false,
-      initialBreakpoint: 0.3,
+      initialBreakpoint: 0.45,
       handle: false,
       handleBehavior: "none"
     });
+    this.modalPresent = true;
     await this.modal.present();
+    await this.modal.onDidDismiss().then((res: any) => {
+      if(res.data === 'search') {
+        this.onLongPressEnd();
+      }
+    })
   }
   
   async onLongPressEnd() {
     console.log('long press on search end');
-    await this.modal.dismiss();
-    this.record.stopRecognition('search');
+    if(this.modalPresent) {
+      this.modalPresent = false;
+      await this.modal.dismiss();
+      this.record.stopRecognition('search');
+    }
   }
 }
