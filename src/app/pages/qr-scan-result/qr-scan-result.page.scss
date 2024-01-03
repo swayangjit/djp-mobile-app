@@ -11,3 +11,14 @@ ion-list {
 ion-item {
   --background: transparent;
 }
+
+.text-not-available{
+  position: absolute;
+  left: 46%;
+  right: 0;
+  top: 20%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--ion-color-medium);
+  font-size: 0.85rem;
+}
