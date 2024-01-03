@@ -314,7 +314,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   async onLongPressStart() {
     console.log('long press start');
     if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
-      this.record.startRecognition();
+      this.record.startRecognition('');
     } else {
       await VoiceRecorder.requestAudioRecordingPermission();
     }

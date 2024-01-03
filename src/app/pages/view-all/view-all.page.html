@@ -1,7 +1,7 @@
 
 <ion-content [fullscreen]="true">
   <!-- recentlyviewed -->
-  <div class="djp-cards-container">
+  <div class="djp-cards-container" [ngClass]="{'createList-cards': type==='playlist'}">
     <div class="djp-card" *ngFor="let content of contentList; let i=index" (click)="playcontent(content)">
       <div class="djp-card__img">
         <img [src] ="content?.metaData?.thumbnail" alt="Playlist Image">

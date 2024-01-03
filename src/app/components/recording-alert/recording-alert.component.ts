@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recording-alert',
@@ -7,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecordingAlertComponent  implements OnInit {
 
-  constructor() { }
+  constructor(
+    private modalCtrl: ModalController
+  ) { }
 
   ngOnInit() {}
+
+  hadleAudioSearch() {
+    this.modalCtrl.dismiss('search');
+  }
 
 }
