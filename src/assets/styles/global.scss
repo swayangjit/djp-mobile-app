@@ -109,21 +109,21 @@ app-langauge-select ion-header ion-toolbar{
     --background: none;
 }
 
-.plyr--youtube.plyr--paused.plyr--playing.plyr--hide-controls.plyr__poster-enabled:not(.plyr--stopped) .plyr__poster {
-    display: block !important;
-    z-index: 2;
-    position: absolute;
-    opacity: 1;
-}
-.plyr--playing .plyr__poster {
-    z-index: 2;
-    position: absolute;
-    opacity: 1;
-    display: block !important;
-}
-.plyr--paused .plyr__poster {
-    z-index: 2;
-    position: absolute;
-    opacity: 1;
-    display: block !important;
-}
+// .plyr--youtube.plyr--paused.plyr--playing.plyr--hide-controls.plyr__poster-enabled:not(.plyr--stopped) .plyr__poster {
+//     display: block !important;
+//     z-index: 2;
+//     position: absolute;
+//     opacity: 1;
+// }
+// .plyr--playing .plyr__poster {
+//     z-index: 2;
+//     position: absolute;
+//     opacity: 1;
+//     display: block !important;
+// }
+// .plyr--paused .plyr__poster {
+//     z-index: 2;
+//     position: absolute;
+//     opacity: 1;
+//     display: block !important;
+// }
