@@ -1,0 +1,10 @@
+<div class="inner-content">
+  <h4>{{scanText}}</h4>
+  <div *ngIf="isValidURL">
+    <ion-button expand="block" (click)="openLink()">{{ 'OPEN_IN_BROWSER' | translate}}</ion-button>
+    <ion-button fill="clear" expand="full" (click)="close()">Close</ion-button>
+  </div>
+  <div *ngIf="!isValidURL">
+    <ion-button expand="block" (click)="close()">{{'CLOSE' | translate}}</ion-button>
+  </div>
+</div>
