@@ -31,13 +31,14 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   filters!: Array<Filter>
   languages!: Array<Language>
   isOpen: boolean = false;
-  configContents!: Array<any>;
+  configContents: Array<any> = [];
   optModalOpen: boolean = false;
   @ViewChild('refresher', { static: false }) refresher!: IonRefresher;
   networkConnected: boolean = false;
   mimeType = PlayerType;
   noSearchData: boolean = false;
   langChangeSubscription: Subscription | null = null;
+  serverError: boolean = false
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -105,9 +106,17 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       req.request.pageId = PageId.HOME;
       req.request.query = val.defaultFilter.query;
       req.request.filters = val.defaultFilter.filters;
-      let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
-      console.log('content', content);
-      this.mappUIContentList(content);
+      this.configContents = [];
+      this.serverError = false;
+      try {
+        let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
+        console.log('content', content);
+        this.mappUIContentList(content);
+      }
+      catch (e) {
+        this.showSheenAnimation = false;
+        this.serverError = true;
+      }
     })
     // side bar menu and filter chip events
     this.headerService.sideMenuItemEventEmitted$.subscribe(async (val: any) => {
@@ -284,6 +293,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
 
   doRefresh(refresher: any) {
     this.refresh = true;
+    this.showSheenAnimation = true;
     this.getServerMetaConfig();
     setTimeout(() => {
       this.refresh = false;
