@@ -30,6 +30,9 @@ ion-tab-button {
     ion-label{
       color: var(--ion-color-tertiary);
       font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
 }
