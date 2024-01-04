@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRefresher } from '@ionic/angular';
+import { IonRefresher, ModalController, ToastController } from '@ionic/angular';
 import { Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
-import { AppHeaderService, CachingService, PreprocessorService, SearchService, StorageService } from '../../../app/services';
+import { AppHeaderService, CachingService, SearchService, StorageService } from '../../../app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { ConfigService } from '../../../app/services/config.service';
 import { SunbirdPreprocessorService } from '../../services/sources/sunbird-preprocessor.service';
-import { ModalController } from '@ionic/angular';
 import { Filter, Language, MappingElement, MetadataMapping, SourceConfig } from 'src/app/services/config/models/config';
 import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.component';
 import { NetworkService } from 'src/app/services/network.service';
@@ -45,7 +44,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private contentService: ContentService,
     private configService: ConfigService,
     private sunbirdProcess: SunbirdPreprocessorService,
-    private preprocessor: PreprocessorService,
     private modalCtrl: ModalController,
     private networkService: NetworkService,
     private cacheService: CachingService,
@@ -53,13 +51,32 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private storage: StorageService,
     private telemetryGeneratorService: TelemetryGeneratorService,
     private searchService: SearchService,
-    private translateService: TranslateService) {
+    private translateService: TranslateService,
+    private toastController: ToastController) {
     this.configContents = [];
     this.networkService.networkConnection$.subscribe(ev => {
       console.log(ev);
       this.networkConnected = ev;
+      if(this.networkConnected) {
+        this.presentToast(this.translateService.instant('INTERNET_AVAILABLE'));
+        this.showSheenAnimation = true;
+        this.getServerMetaConfig();
+      } else {
+        this.presentToast(this.translateService.instant('NO_INTERNET_TITLE'));
+      }
     })
   }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1500,
+      position: 'top',
+      color: this.networkConnected ? 'success' : 'danger' 
+    });
+    await toast.present();
+  }
+
   ngOnDestroy(): void {
     try {
       this.langChangeSubscription && this.langChangeSubscription.unsubscribe()  
