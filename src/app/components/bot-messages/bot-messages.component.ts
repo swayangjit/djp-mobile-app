@@ -7,6 +7,7 @@ import { Directory, Filesystem } from '@capacitor/filesystem';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiModule } from 'src/app/services/api/api.module';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
+import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
 @Component({
   selector: 'app-bot-messages',
@@ -34,9 +35,10 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     private ngZone: NgZone,
     private headerService: AppHeaderService,
     private messageApi: BotApiService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private telemetryGeneratorService: TelemetryGeneratorService
   ) { 
-    this.defaultLoaderMsg = {message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false};
+    this.defaultLoaderMsg = {message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false};
     this.botMessages = [];
     this.audioRef = new Audio();
   }
@@ -89,20 +91,23 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     if (this.config.type == Sakhi.STORY) {
       this.botMessages = botRes?.storySakhi ? botRes?.storySakhi : [];
       if(this.botMessages.length === 0)
-        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_STORY_SAKHI", type: 'received'})
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_STORY_SAKHI", type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now()})
     } else if (this.config.type == Sakhi.TEACHER) {
       this.botMessages = botRes?.teacherSakhi ? botRes.teacherSakhi : [];
       if(this.botMessages.length === 0)
-        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_TEACHER_SAKHI", type: 'received'})
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_TEACHER_SAKHI", type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now()})
     } else if (this.config.type == Sakhi.PARENT) {
       this.botMessages = botRes?.paretSakhi ? botRes.paretSakhi : [];
       if(this.botMessages.length === 0)
-        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_PARENT_SAKHI", type: 'received'})
+        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_PARENT_SAKHI", type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now()})
     }
+    this.content.scrollToBottom(300).then(() => {
+      this.content.scrollToBottom(300)
+    })
   }
 
   async handleMessage() {
-    this.chat = { message: '', messageType: 'text', type: 'sent', displayMsg: "", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false }
+    this.chat = { message: '', messageType: 'text', type: 'sent', displayMsg: "", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false}
     if (this.textMessage.replace(/\s/g, '').length > 0) {
       Keyboard.hide();
       this.chat.message = this.textMessage;
@@ -127,7 +132,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     let index = this.botMessages.length;
     await this.messageApi.getBotMessage(text, audio, this.config.type).then(result => {
     this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-      this.botMessages.forEach((msg, i) => {
+      this.botMessages.forEach(async (msg, i) => {
         if (result.responseCode === 200) {
           let data = result.body;
           if(i == index-1 && msg.type === 'received') {
@@ -142,9 +147,14 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
               } else {
                 msg.displayMsg = data.output?.text;
               }
+              this.content.scrollToBottom(300).then(() => {
+                this.content.scrollToBottom(300)
+              })
               if (data?.output?.audio) {
-                let audioMsg = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false }
-                audioMsg.audio = { file: data.output?.audio, duration: "", play: false }
+                let duration = await this.fetchAudioDuration(data.output.audio);
+                console.log("duration ", duration);
+                let audioMsg = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false }
+                audioMsg.audio = { file: data.output?.audio, duration: duration, play: false }
                 audioMsg.messageType = 'audio';
                 this.ngZone.run(() => {
                   this.botMessages.push(audioMsg);
@@ -312,7 +322,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     await this.record.stopRecognition('audio').then(async result => {
       console.log('result on recorded data ', result);
       if(result.value && result.value.recordDataBase64) {
-        this.chat = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false }
+        this.chat = { message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false }
         const recordData = result.value.recordDataBase64;
         console.log('..................', result, this.durationDisplay);
         const fileName = new Date().getTime() + '.wav';
@@ -343,5 +353,37 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     let minutes = Math.floor(duration / 1000 / 60);
     let seconds = Math.floor((duration / 1000) - (minutes * 60));
     return minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+  }
+
+  fetchAudioDuration(url: string): Promise<any> {
+    const audioContext = new AudioContext(); 
+    return fetch(url)
+    .then(response => response.arrayBuffer())
+    .then(buffer => audioContext.decodeAudioData(buffer)) 
+    .then(audioBuffer => { 
+      const duration = audioBuffer.duration; 
+      console.log(`The audio file duration is ${duration} seconds`); 
+      let minute = (Math.floor(duration/ 60)).toString().padStart(2, '0');
+      let seconds = Math.floor(duration % 60).toString().padStart(2, '0');
+      return minute + ':' + seconds;
+    }).catch (e => {
+      return '';
+    }); 
+  }
+
+  msgLiked(msg: BotMessage, type: string) {
+    this.botMessages.forEach(bot => {
+      if(msg.timeStamp == bot.timeStamp) {
+        if(type == 'like') {
+          bot.likeMsg = true;
+          bot.dislikeMsg = false;
+          this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'message-liked', 'bot', 'bot');
+        } else {
+          msg.dislikeMsg = true;
+          msg.likeMsg = false;
+          this.telemetryGeneratorService.generateInteractTelemetry('TOUCH', 'message-disliked', 'bot', 'bot');
+        }
+      }
+    })
   }
 }

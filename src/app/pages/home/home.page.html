@@ -29,6 +29,12 @@
         <ion-label class="no-data">{{'No Result' | translate }}</ion-label>
       </ion-item>
     </ion-list>
+
+    <ion-list *ngIf="!showSheenAnimation && serverError">
+      <ion-item lines="none">
+        <ion-label class="no-data">{{'Server Error' | translate }}</ion-label>
+      </ion-item>
+    </ion-list>
     <!-- Cards -->
     <div *ngIf="!showSheenAnimation && configContents.length > 0">
       <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">

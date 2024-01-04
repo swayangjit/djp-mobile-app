@@ -58,7 +58,7 @@
     "create New Playlist": "Create New Playlist",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
-    "Loading...": "Loading...",
+    "Loading...": "Please wait, crafting response. It might take upto a minute.",
     "Swipe left to cancel": "Swipe left to cancel",
     "Read more...": "Read more...",
     "Type here": "Type here",
@@ -73,5 +73,9 @@
     "Listening...": "Listening...",
     "SCAN_QR_INSTRUCTION": "Point your phone to the QR code to scan it",
     "OPEN_IN_BROWSER": "Open in Browser",
-    "CLOSE": "CLOSE"
+    "CLOSE": "CLOSE",
+    "INTERNET_AVAILABLE": "You are online now",
+    "NO_INTERNET_TITLE": "You are offline",
+    "No Response": "No Response",
+    "Server Error": "Server Failed to fetch content"
 }

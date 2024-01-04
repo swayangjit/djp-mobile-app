@@ -248,6 +248,8 @@ export interface BotMessage {
     time: string;
     timeStamp: any;
     readMore: boolean;
+    likeMsg: boolean;
+    dislikeMsg: boolean;
 }
 
 export class Sakhi {
