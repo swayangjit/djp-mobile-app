@@ -198,6 +198,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
 
   async tabViewWillEnter() {
     await this.headerService.showHeader('Title', false);
+    setTimeout(() => {
+      this.headerService.showStatusBar(false);
+    }, 0);
   }
 
   async ionViewWillEnter() {
