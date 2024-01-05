@@ -224,6 +224,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       url = audio.file;
       audio.play = !audio.play;
     }
+    this.audioRef.src = "";
     this.audioRef.src = url;
     this.audioRef.load();
     this.audioRef.preload = "auto"
@@ -239,7 +240,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       console.log("ondurationchange ", ev);
     }
     this.audioRef.ontimeupdate = (ev: Event) => {
-      this.audioRef.currentTime = (ev.target as any)?.currentTime
+      // this.audioRef.currentTime = (ev.target as any)?.currentTime
     }
     this.audioRef.onended = () => {audio.play = false; this.audioRef.pause();}
   }
