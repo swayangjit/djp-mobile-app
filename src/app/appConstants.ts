@@ -240,6 +240,7 @@ export const sidebarMenuItems = [
 ]
 
 export interface BotMessage {
+    identifier: string;
     message: string;
     messageType: string;
     displayMsg: string;

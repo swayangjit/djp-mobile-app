@@ -15,8 +15,8 @@ export const config = {
     BOT_SAKHI_API_PATH: 'api/storybot/v1/query',
     BOT_ACTIVITY_API_PATH: 'api/activitybot/v1/query',
     REGISTER_DEVICE_API_PATH: 'api/registerMobileDevice',
-    KEY: 'myjp-0.1',
-    SECRET: '7tVOEu0xj0zYQiYtCYbauEkNC3NBXCpM'
+    KEY: '',
+    SECRET: ''
   },
   telmetry: {
     PRODUCER_ID: 'dev.ejp.mobileapp',
