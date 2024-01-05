@@ -9,6 +9,8 @@ import { ApiModule } from 'src/app/services/api/api.module';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { CorrelationData } from 'src/app/services/telemetry/models/telemetry';
+import { ChatMessage } from 'src/app/services/bot/db/models/chat.message';
+import { v4 as uuidv4 } from "uuid";
 
 @Component({
   selector: 'app-bot-messages',
@@ -105,6 +107,9 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     this.content.scrollToBottom(300).then(() => {
       this.content.scrollToBottom(300)
     })
+    this.messageApi.getAllChatMessages('story').then((res) => {
+      console.log('Bot response', res);
+    })
   }
 
   async handleMessage() {
@@ -115,6 +120,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       this.chat.displayMsg = this.textMessage;
       this.chat.timeStamp = Date.now()
       this.botMessages.push(this.chat);
+      this.saveChatMessage(this.chat);
       this.content.scrollToBottom(300).then(() => {
         this.content.scrollToBottom(300)
       })
@@ -124,6 +130,22 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       })
       await this.makeBotAPICall(this.textMessage, '');
     }
+  }
+
+  private saveChatMessage(message: BotMessage) {
+    const chatMessage: ChatMessage = {
+      identifier: uuidv4(),
+      message: message.message,
+      botType: this.config.type,
+      fromMe: message.type == 'sent' ? 1 : 0,
+      messageType: message.messageType,
+      mediaMimeType: message.messageType,
+      mediaData :(message.type == 'sent' && message.messageType == 'audio') ? message.audio.file : '',
+      mediaUrl: (message.type == 'received' && message.messageType == 'audio') ? message.audio.file : '',
+      duration: message.audio.duration,
+      ts: message.timeStamp
+    }
+    this.messageApi.saveChatMessage(chatMessage).then();
   }
 
   async makeBotAPICall(text: string, audio: string) {
@@ -159,6 +181,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
                 audioMsg.messageType = 'audio';
                 this.ngZone.run(() => {
                   this.botMessages.push(audioMsg);
+                  this.saveChatMessage(audioMsg);
                   this.content.scrollToBottom(300).then(() => {
                     this.content.scrollToBottom(300).then()
                   });
@@ -341,6 +364,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           this.chat.audio = { file: fileName, base64Data: recordData, duration: this.getTimeString(result.value.msDuration), play: false };
           this.chat.timeStamp = Date.now();
           this.botMessages.push(this.chat);
+          this.saveChatMessage(this.chat);
           this.content.scrollToBottom(300).then(() => {
             this.content.scrollToBottom(300)
           })
