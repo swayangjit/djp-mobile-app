@@ -57,7 +57,8 @@ export class HttpCapacitorAdapter implements HttpClient{
                 body: response.data,
                 responseCode : response.status,
                 errorMesg : '',
-                headers : response.headers
+                headers : response.headers,
+                requestHeaders: requestOptions.headers
             }
             console.log('apiResponse', apiResponse);
             observable.next(apiResponse);
@@ -68,7 +69,8 @@ export class HttpCapacitorAdapter implements HttpClient{
                 body: {},
                 responseCode : response.status,
                 errorMesg : 'SERVER_ERROR',
-                headers : response.headers
+                headers : response.headers,
+                requestHeaders: requestOptions.headers
             }
             try {
                 try {

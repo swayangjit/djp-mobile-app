@@ -250,6 +250,7 @@ export interface BotMessage {
     readMore: boolean;
     likeMsg: boolean;
     dislikeMsg: boolean;
+    requestId: string;
 }
 
 export class Sakhi {
