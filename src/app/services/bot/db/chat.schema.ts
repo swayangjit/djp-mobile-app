@@ -66,8 +66,9 @@ export namespace BotChatEntry {
                     ${BotChatEntry.COLUMN_NAME_MEDIA_DATA},
                     ${BotChatEntry.COLUMN_NAME_MEDIA_PATH},
                     ${BotChatEntry.COLUMN_NAME_DURATION},
-                    ${BotChatEntry.COLUMN_NAME_TIME_STAMP}) 
-                VALUES (?,?,?,?,?,?,?,?,?)`
+                    ${BotChatEntry.COLUMN_NAME_TIME_STAMP},
+                    ${BotChatEntry.COLUMN_NAME_REACTIONS}) 
+                VALUES (?,?,?,?,?,?,?,?,?,?)`
     };
 
     export const updateQuery: (() => string) = () => {
