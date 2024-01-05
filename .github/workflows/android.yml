@@ -42,6 +42,14 @@ jobs:
     - name: Make ./gradlew command executable
       run: cd android && chmod +x ./gradlew && cd ..
 
+    - name: Decode env file
+      id: decode_env
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: 'environment.prod.ts'
+        fileDir: '/home/runner/work/djp-mobile-app/djp-mobile-app/src/environments/'
+        encodedString: ${{ secrets.ENV }}
+
     - name: Build Ionic assets
       run: ionic build --prod && npx cap sync
 
