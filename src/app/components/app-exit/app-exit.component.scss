@@ -2,8 +2,12 @@
     padding: 0 1rem;
 }
 
+ion-button {
+    text-wrap: wrap;
+}
+
 .btn-info{
-    width: 34%;
+    width: 40%;
     color: var(--ion-color-primary-contrast);
     --background: var(--ion-color-tertiary);
     font-size: 0.875rem;
@@ -13,6 +17,8 @@
     line-height: 19.60px;
     word-wrap: break-word;
     padding: 5px;
+    text-wrap: wrap;
+    text-align: center;
 }
  
 .exit{

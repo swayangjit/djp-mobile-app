@@ -36,6 +36,10 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   errMsg = "";
   modalPresent: boolean = false;
   disabled: boolean = false;
+  startRecording: boolean = false;
+  duration = 0;
+  durationDisplay = '';
+
   constructor(
     private headerService: AppHeaderService,
     private location: Location,
@@ -53,15 +57,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     this.headerService.showStatusBar(false);
   }
 
-  ngOnInit() {
-    this.record.searchEventRecorded$.subscribe(async (res: any) => {
-      if(this.modalPresent) {
-        this.modalPresent = false;
-        await this.modal.dismiss();
-      }
-      this.handleSearch(res, true);
-    })
-  }
+  ngOnInit() {}
 
   navigateBack() {
     this.location.back();
@@ -78,8 +74,8 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
         this.showSheenAnimation = true;
         let res = await this.searchApi.postSearchContext({text: data, currentLang: this.tarnslate.currentLang}, audio);
         if (res.input) {
-          if(res?.input?.sourceText || res?.input?.englishText) {
-            this.searchKeywords = res?.input?.sourceText || res?.input?.englishText;
+          if(res?.input?.englishText) {
+            this.searchKeywords = res?.input?.englishText;
           }
           this.handleContentSearch(res, audio);
         } else {
@@ -95,6 +91,9 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
           Keyboard.hide();
           let res = await this.searchApi.postSearchContext({text: this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
             // Content search api call
+          if(res?.input?.englishText) {
+            this.searchKeywords = res?.input?.englishText;
+          }
           this.handleContentSearch(res, false);
         }
       }
@@ -221,7 +220,10 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     this.disabled = true;
     if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
       this.record.startRecognition('search');
+      this.disabled = true;
+      this.startRecording = true;
       this.presentPopover(event);
+      this.calculation();
     } else {
       await VoiceRecorder.requestAudioRecordingPermission();
     }
@@ -245,13 +247,35 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
       }
     })
   }
-  
+
+  calculation() {
+    if (!this.startRecording) {
+      this.duration = 0;
+      this.durationDisplay = '';
+      return;
+    }
+
+    this.duration += 1;
+    const min = Math.floor(this.duration / 60);
+    const sec = (this.duration % 60).toString().padStart(2, '0');
+    this.durationDisplay = `${min}:${sec}`;
+    if(this.durationDisplay > '0:05') {
+      this.onLongPressEnd();
+    }
+    setTimeout(() => {
+      this.calculation();
+    }, 1000);
+  }
+
   async onLongPressEnd() {
     console.log('long press on search end');
-    if(this.modalPresent) {
-      this.modalPresent = false;
-      await this.modal.dismiss();
-    }
-    this.record.stopRecognition('search');
+    await this.record.stopRecognition('search').then(async res => {
+      if(this.modalPresent) {
+        this.modalPresent = false;
+        await this.modal.dismiss();
+      }
+      this.startRecording = false;
+      this.handleSearch(res, true);
+    })
   }
 }

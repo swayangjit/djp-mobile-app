@@ -4,4 +4,5 @@ export class ApiResponse<T = any> {
     public errorMesg!: string;
     public body!: T;
     public headers: any;
+    public requestHeaders: any;
 }
