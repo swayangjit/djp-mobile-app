@@ -8,6 +8,7 @@ import { TelemetryConfigEntry } from './telemetrySchema';
 import { ContentEntry } from '../content/db/content.schema';
 import { TelemetryProcessedEntry } from '../telemetry/db/telemetry.processed.schema';
 import { ContentReactionsEntry } from '../content/db/content.reactions.schema';
+import { BotChatEntry } from '../bot/db/chat.schema';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class DbService {
     await this.createTable(PlaylistEntry.getCreateEntry());
     await this.createTable(PlaylistContentEntry.getCreateEntry());
     await this.createTable(ContentReactionsEntry.getCreateEntry());
+    await this.createTable(BotChatEntry.getCreateEntry());
     return true;
   }
 

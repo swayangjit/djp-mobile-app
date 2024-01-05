@@ -17,7 +17,7 @@
         </div>
         <ion-text class="time" *ngIf="msg?.time" >{{msg?.time}}</ion-text>
       </div>
-      <div *ngIf="msg?.type === 'received' && i !== 0 && msg.timeStamp && !msg.audio && msg.message !== 'No Response'" class="action-div">
+      <div *ngIf="msg?.type === 'received' && i !== 0 && msg.timeStamp && !msg?.audio?.file && msg.message !== 'No Response'" class="action-div">
         <div class="action_button" (click)="msgLiked(msg, 'like')">
           <ion-icon class="like" aria-hidden="true" src="assets/icon/thumb-up.svg" *ngIf="!msg.likeMsg"></ion-icon>
           <ion-icon aria-hidden="true" src="assets/icon/like.svg" *ngIf="msg.likeMsg"></ion-icon>
