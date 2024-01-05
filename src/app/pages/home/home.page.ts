@@ -163,7 +163,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       audioChannelNum: 1,
       isUrl: false
     })
-    this.botMessageApiService.deleteExpiredChatMessages();
+    this.botMessageApiService.deleteExpiredChatMessages().catch((err) => {
+      console.error(err);
+    });
   }
 
   async mappUIContentList(content: Array<ContentMetaData>) {
