@@ -39,6 +39,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   noSearchData: boolean = false;
   langChangeSubscription: Subscription | null = null;
   serverError: boolean = false
+  onlineState: boolean = false
+  offlineState: boolean = false
+  networkChangeSub: Subscription | null = null;
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -55,25 +58,29 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private translateService: TranslateService,
     private toastController: ToastController) {
     this.configContents = [];
-    this.networkService.networkConnection$.subscribe(ev => {
-      console.log(ev);
+    this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
       this.networkConnected = ev;
-      if(this.networkConnected) {
-        this.presentToast(this.translateService.instant('INTERNET_AVAILABLE'));
+      if(this.networkConnected && !this.onlineState) {
+        console.log(ev);
+        this.onlineState = true;
+        this.presentToast(this.translateService.instant('INTERNET_AVAILABLE'), "success");
         this.showSheenAnimation = true;
         this.getServerMetaConfig();
-      } else {
-        this.presentToast(this.translateService.instant('NO_INTERNET_TITLE'));
+        this.offlineState = false;
+      } else if(!this.networkConnected && !this.offlineState) {
+        this.offlineState = true;
+        this.presentToast(this.translateService.instant('NO_INTERNET_TITLE'), "danger");
+        this.onlineState = false;
       }
     })
   }
 
-  async presentToast(msg: string) {
+  async presentToast(msg: string, color: string) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 1500,
+      duration: 1000,
       position: 'top',
-      color: this.networkConnected ? 'success' : 'danger' 
+      color: color
     });
     await toast.present();
   }
@@ -81,10 +88,10 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   ngOnDestroy(): void {
     try {
       this.langChangeSubscription && this.langChangeSubscription.unsubscribe()  
+      this.networkChangeSub && this.networkChangeSub.unsubscribe();
     } catch (error) {
       console.log(`error in unsubscribe`, error)
     }
-    
   }
 
   async ngOnInit(): Promise<void> {
