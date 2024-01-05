@@ -21,7 +21,6 @@ export class BotApiService {
     console.log('text ', text, text !== "");
     console.log('audio ', audio, audio !== "");
     let botApiPath = this.getBotApiPath(botType);
-    let baseUrl = this.getBotBaseUrl(botType)
     let req = {
       input: {},
       output: {
@@ -40,7 +39,7 @@ export class BotApiService {
       }
     }
     const apiRequest = new ApiRequest.Builder()
-      .withHost(baseUrl)
+      .withHost(config.api.BASE_URL)
       .withPath(botApiPath)
       .withType(ApiHttpRequestType.POST)
       .withBearerToken(true)
@@ -64,19 +63,6 @@ export class BotApiService {
         return config.api.BOT_ACTIVITY_API_PATH;
       case Sakhi.TEACHER:
         return config.api.BOT_ACTIVITY_API_PATH;
-      default:
-        return '';
-    }
-  }
-
-  getBotBaseUrl(type: string): string {
-    switch (type) {
-      case Sakhi.STORY:
-        return config.api.STORY_BOT_BASE_URL;
-      case Sakhi.PARENT:
-        return config.api.BOT_BASE_URL;
-      case Sakhi.TEACHER:
-        return config.api.BOT_BASE_URL;
       default:
         return '';
     }
