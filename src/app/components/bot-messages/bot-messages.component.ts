@@ -214,8 +214,6 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
                 this.content.scrollToBottom(300).then()
               });
             }
-          } else if(i == index-2 && msg.type == "sent") {
-            msg.requestId = result.requestHeaders['X-Request-ID']
           }
         } else {
           msg.message = result.errorMesg ? result.errorMesg : result.data?.detail ? result.data?.detail : "No Response";
