@@ -10,4 +10,5 @@ export interface ChatMessage {
     duration?: string;
     ts: string;
     requestId?: string;
+    reaction: number;
 }

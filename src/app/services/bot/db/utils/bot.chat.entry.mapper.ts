@@ -14,6 +14,7 @@ export class BotChatEntryMapper {
             chatMessage.mediaUrl,
             chatMessage.duration,
             chatMessage.ts,
+            chatMessage.reaction
         ]
     }
 
@@ -29,6 +30,7 @@ export class BotChatEntryMapper {
             mediaUrl: chatEntry[BotChatEntry.COLUMN_NAME_MEDIA_PATH],
             duration: chatEntry[BotChatEntry.COLUMN_NAME_DURATION],
             ts: chatEntry[BotChatEntry.COLUMN_NAME_TIME_STAMP],
+            reaction: chatEntry[BotChatEntry.COLUMN_NAME_REACTIONS]
         }
     }
 }

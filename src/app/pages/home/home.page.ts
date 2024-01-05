@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher, ModalController, ToastController } from '@ionic/angular';
 import { Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
-import { AppHeaderService, CachingService, SearchService, StorageService } from '../../../app/services';
+import { AppHeaderService, BotApiService, CachingService, SearchService, StorageService } from '../../../app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { ConfigService } from '../../../app/services/config.service';
 import { SunbirdPreprocessorService } from '../../services/sources/sunbird-preprocessor.service';
@@ -56,7 +56,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private telemetryGeneratorService: TelemetryGeneratorService,
     private searchService: SearchService,
     private translateService: TranslateService,
-    private toastController: ToastController) {
+    private toastController: ToastController,
+    private botMessageApiService: BotApiService) {
     this.configContents = [];
     this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
       this.networkConnected = ev;
@@ -162,6 +163,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       audioChannelNum: 1,
       isUrl: false
     })
+    this.botMessageApiService.deleteExpiredChatMessages();
   }
 
   async mappUIContentList(content: Array<ContentMetaData>) {

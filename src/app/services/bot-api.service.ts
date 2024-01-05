@@ -10,6 +10,7 @@ import { ChatMessage } from './bot/db/models/chat.message';
 import { capSQLiteSet } from '@capacitor-community/sqlite';
 import { BotChatEntry } from './bot/db/chat.schema';
 import { BotChatEntryMapper } from './bot/db/utils/bot.chat.entry.mapper';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 
 @Injectable({
   providedIn: 'root'
@@ -82,10 +83,41 @@ export class BotApiService {
   getAllChatMessages(botType: string): Promise<Array<ChatMessage>> {
     return this.dbService.readDbData(BotChatEntry.readQuery(), { 'bot_type': botType }).then((chatMessages: any[]) => {
       const chatMessageList: Array<ChatMessage> = []
-      chatMessages.map((chatMessage: any) => {
-        chatMessageList.push(BotChatEntryMapper.mapChatToChatEntryToModel(chatMessage))
-      });
-      return chatMessageList
+      if(chatMessages && chatMessages.length > 0) {
+        chatMessages.map((chatMessage: any) => {
+          chatMessageList.push(BotChatEntryMapper.mapChatToChatEntryToModel(chatMessage))
+        });
+      } 
+      return chatMessageList;
     });
+  }
+
+  updateMessageReactions(identifier: string, reaction: number): Promise<any> {
+    const query = `UPDATE ${BotChatEntry.TABLE_NAME}
+    SET ${BotChatEntry.COLUMN_NAME_REACTIONS} = ${reaction}
+    WHERE ${BotChatEntry.COLUMN_NAME_IDENTIFIER} = '${identifier}';`
+    return this.dbService.executeQuery(query);
+  }
+
+  async deleteExpiredChatMessages(): Promise<any> {
+    const audioFile = await Filesystem.readdir({
+      path: '',
+      directory: Directory.Data
+    });
+    console.log(audioFile);
+    for (let index = 0; index < audioFile.files.length; index++) {
+      const file = audioFile.files[index];
+      if(file.uri.endsWith('.wav')) {
+        console.log('file uri ', file);
+        const oneDay = 24 * 60 * 60 * 1000;
+        if(file?.ctime) {
+          if((Date.now() - file?.ctime) > oneDay) {
+            await Filesystem.deleteFile({path: file.uri, directory: Directory.Data});
+          }
+          const query = `DELETE FROM ${BotChatEntry.TABLE_NAME} WHERE ${BotChatEntry.COLUMN_NAME_TIME_STAMP} <= strftime('%s', datetime('now', '-1 day'));`
+          return this.dbService.executeQuery(query);
+        }
+      }
+    }
   }
 }
