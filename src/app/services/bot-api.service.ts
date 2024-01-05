@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { config } from 'src/environments/environment.prod';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from '.';
+import { ApiService, DbService } from '.';
 import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
 import { catchError, lastValueFrom, map, tap } from 'rxjs';
 import { ApiResponse } from './api/model/api.response';
 import { Sakhi } from '../appConstants';
+import { ChatMessage } from './bot/db/models/chat.message';
+import { capSQLiteSet } from '@capacitor-community/sqlite';
+import { BotChatEntry } from './bot/db/chat.schema';
+import { BotChatEntryMapper } from './bot/db/utils/bot.chat.entry.mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +18,8 @@ export class BotApiService {
 
   constructor(
     private apiService: ApiService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private dbService: DbService
   ) { }
 
   async getBotMessage(text: string, audio: string, botType: string): Promise<any> {
@@ -66,5 +71,21 @@ export class BotApiService {
       default:
         return '';
     }
+  }
+
+  saveChatMessage(message: ChatMessage): Promise<any> {
+    const capSQLiteSet: capSQLiteSet[] = [];
+    capSQLiteSet.push({ statement: BotChatEntry.insertQueryWithColumns(), values: BotChatEntryMapper.mapChatToChatValues(message) })
+    return this.dbService.executeSet(capSQLiteSet);
+  }
+
+  getAllChatMessages(botType: string): Promise<Array<ChatMessage>> {
+    return this.dbService.readDbData(BotChatEntry.readQuery(), { 'bot_type': botType }).then((chatMessages: any[]) => {
+      const chatMessageList: Array<ChatMessage> = []
+      chatMessages.map((chatMessage: any) => {
+        chatMessageList.push(BotChatEntryMapper.mapChatToChatEntryToModel(chatMessage))
+      });
+      return chatMessageList
+    });
   }
 }
