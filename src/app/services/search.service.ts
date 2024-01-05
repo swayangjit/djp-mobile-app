@@ -32,7 +32,7 @@ export class SearchService {
     let body = JSON.stringify(request)
     console.log("body ", body);
     const apiRequest = new ApiRequest.Builder()
-      .withHost(config.api.SEARCH_BASE_URL)
+      .withHost(config.api.BASE_URL)
       .withPath(config.api.CONTEXT_SEARCH)
       .withType(ApiHttpRequestType.POST)
       .withBody(body)

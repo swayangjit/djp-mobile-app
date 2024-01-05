@@ -16,6 +16,7 @@
       </div>
     </ion-item>
   </ion-list>
+  <div *ngIf="!configContents.length && !showSheenAnimation" class="text-not-available">{{'CONTENT_IS_BEING_ADDED' | translate}}</div>
   <div *ngIf="!showSheenAnimation && configContents.length > 0">
     <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
       <div class="bot-section" *ngIf="!content.metaData || !content.metaData.name">
