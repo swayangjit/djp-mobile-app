@@ -27,7 +27,7 @@ export class BotApiService {
     console.log('text ', text, text !== "");
     console.log('audio ', audio, audio !== "");
     let botApiPath = this.getBotApiPath(botType);
-    let req = {
+    let req: any = {
       input: {},
       output: {
         format: text ? "text" : "audio"
@@ -43,6 +43,9 @@ export class BotApiService {
         language: this.translate.currentLang,
         audio: audio
       }
+    }
+    if (botType !== "story") {
+      req.input.audienceType = botType 
     }
     const apiRequest = new ApiRequest.Builder()
       .withHost(config.api.BASE_URL)
