@@ -44,12 +44,22 @@ export class SplashPage implements OnInit {
     this.storage.setData('configMeta', JSON.stringify(config));
     let lang = await this.storage.getData('lang')
     if(lang) {
-      this.translate.use(lang);
+      if(lang !== 'hi') {
+        this.translate.use('en');
+      } else {
+        this.translate.use(lang);
+      }
     } else {
       config.languages.forEach(lang => {
+        this.storage.setData('lang', lang.id);
         if (lang?.default) {
-          this.translate.setDefaultLang(lang.id)
-          this.translate.use(lang.id);
+          if(lang.id !== 'hi') {
+            this.translate.use('en');
+            this.translate.setDefaultLang('en')
+          } else {
+            this.translate.use(lang.id);
+            this.translate.setDefaultLang(lang.id)
+          }
         }
       })
     }

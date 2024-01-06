@@ -36,7 +36,9 @@ export class ApiService {
         });
 
         this.toastController.create({ animated: false }).then(t => { t.present(); t.dismiss(); });
-        this.language = translate.currentLang;
+        this.storageService.getData('lang').then((val: any) => {
+            this.language = val;
+        })
     }
 
     getBearerTokenRefreshInterceptor(): BearerTokenRefreshInterceptor {
