@@ -129,7 +129,7 @@ export class PlayerPage implements OnInit {
         this.video.nativeElement.append(epubElement);
       }
     }
-    const player = new Plyr('#player', { });
+    const player = new Plyr('#player', { autoplay: true});
     console.log('player ', player);
   }
 
