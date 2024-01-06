@@ -93,6 +93,7 @@ export interface ContentMetaData {
     status: string,
     createdon: string,
     lastupdatedon: string,
+    media?: Array<any>,
     isLiked?: boolean
 }
 

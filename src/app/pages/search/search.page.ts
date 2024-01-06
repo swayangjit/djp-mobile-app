@@ -129,7 +129,6 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
           list.metaData = ele
           this.searchContentResult.push(list)
         });
-        this.contentService.saveContents(this.searchContentResult).then()
       } else {
         this.showSheenAnimation = false;
         this.noSearchData = true;
