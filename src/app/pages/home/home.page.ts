@@ -42,6 +42,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   onlineState: boolean = false
   offlineState: boolean = false
   networkChangeSub: Subscription | null = null;
+  selectedLang: any = "";
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -98,12 +99,19 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-
-    this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.showSheenAnimation = true;
-      this.getServerMetaConfig();
-    });
-
+    this.headerService.headerEventEmitted$.subscribe(async (val) => {
+      if(val == 'language') {
+        let lang = await this.storage.getData('lang');
+        console.log('lang ', lang, this.selectedLang);
+        if (this.selectedLang !== lang) {
+          this.selectedLang = lang;
+          this.showSheenAnimation = true;
+          this.getServerMetaConfig();
+        }
+      }
+    })
+    // this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+    // });
     let req: Searchrequest = {
       request: {
         pageId: '',
@@ -119,7 +127,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       this.configContents = [];
       this.serverError = false;
       try {
-        let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
+        let lang = await this.storage.getData('lang')
+        let content: Array<ContentMetaData> = await this.configService.getAllContent(req, lang);
         console.log('content', content);
         this.mappUIContentList(content);
       }
@@ -133,7 +142,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       console.log(val);
       this.showSheenAnimation = true;
       try {
-        let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filter });
+        let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filter }, await this.storage.getData('lang'));
         console.log('Response', res);
         this.mappUIContentList(res);
 

@@ -93,6 +93,7 @@ export class AppComponent implements OnInit {
     modal.onDidDismiss().then((_ => {
       console.log('dismiss');
       this.langModalOpen = false
+      this.headerService.sidebarEvent({name: 'language'});
     }));
   }
 
