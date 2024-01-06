@@ -135,6 +135,12 @@ ion-icon {
 }
 
 ion-title {
+  font-weight: 700;
+  padding: 0 0.5rem 0 0;
+  font-size: 1.1rem;
+}
+
+.animate_title {
   background-image: linear-gradient(-225deg, #FCB915 5%, #CF4147 29%, #B6393E 67%, #EC5050 100%);
   background-size: auto auto;
   background-clip: border-box;
