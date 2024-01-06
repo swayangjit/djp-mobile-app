@@ -10,7 +10,7 @@
           <ion-icon class="back-btn" aria-hidden="true" src="assets/icon/back.svg"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-title role="heading" [ngClass]="headerConfig?.showbackButton ? 'title_bb': ''" aria-level="1" 
+      <ion-title role="heading" [ngClass]="{'title_bb': headerConfig?.showbackButton, 'animate_title': headerConfig?.pageTitle == 'Title'}" aria-level="1" 
       *ngIf="!(headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0)">{{ headerConfig?.pageTitle | translate}}</ion-title>
       <ion-input type="search" *ngIf="headerConfig?.showbackButton && headerConfig?.actionButtons?.indexOf('search') >=0" #searchInput [placeholder]="'SEARCH_HINT' | translate"></ion-input>
       <ion-buttons slot="end" [hidden]="headerConfig?.showbackButton">

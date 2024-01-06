@@ -60,33 +60,33 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private botMessageApiService: BotApiService) {
     this.configContents = [];
     this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
-      if (this.networkConnected !== ev) {
-        this.networkConnected = ev;
-        if(this.networkConnected && !this.onlineState) {
-          console.log(ev);
-          this.onlineState = true;
-          this.presentToast(this.translateService.instant('INTERNET_AVAILABLE'), "success");
-          this.showSheenAnimation = true;
-          this.getServerMetaConfig();
-          this.offlineState = false;
-        } else if(!this.networkConnected && !this.offlineState) {
-          this.offlineState = true;
-          this.presentToast(this.translateService.instant('NO_INTERNET_TITLE'), "danger");
-          this.onlineState = false;
-        }
-      }
+      this.networkConnected = ev;
+      // if (this.networkConnected !== ev) {
+      //   if(this.networkConnected && !this.onlineState) {
+      //     console.log(ev);
+      //     this.onlineState = true;
+      //     this.presentToast(this.translateService.instant('INTERNET_AVAILABLE'), "success");
+      //     this.showSheenAnimation = true;
+      //     this.getServerMetaConfig();
+      //     this.offlineState = false;
+      //   } else if(!this.networkConnected && !this.offlineState) {
+      //     this.offlineState = true;
+      //     this.presentToast(this.translateService.instant('NO_INTERNET_TITLE'), "danger");
+      //     this.onlineState = false;
+      //   }
+      // }
     })
   }
 
-  async presentToast(msg: string, color: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1000,
-      position: 'top',
-      color: color
-    });
-    await toast.present();
-  }
+  // async presentToast(msg: string, color: string) {
+  //   const toast = await this.toastController.create({
+  //     message: msg,
+  //     duration: 1000,
+  //     position: 'top',
+  //     color: color
+  //   });
+  //   await toast.present();
+  // }
 
   ngOnDestroy(): void {
     try {
