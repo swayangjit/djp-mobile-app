@@ -16,10 +16,10 @@ export class LangaugeSelectComponent  implements OnInit {
     private modalCtrl: ModalController,
     private storage: StorageService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.languages = [];
     this.languages = this.navParams.get('languages');
-    let currentLang = this.translateService.currentLang;
+    let currentLang: any = await this.storage.getData('lang');
     console.log('current lang ', currentLang);
     this.selectedLanguage = currentLang;
   }
@@ -30,11 +30,10 @@ export class LangaugeSelectComponent  implements OnInit {
     this.storage.setData('lang', val);
     if(val !== 'hi') {
       this.translateService.use('en');
-      this.selectedLanguage = 'en';
     } else {
       this.translateService.use(val);
-      this.selectedLanguage = val;
     }
+    this.selectedLanguage = val;
     this.dismissModal();
   }
 

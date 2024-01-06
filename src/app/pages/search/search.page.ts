@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Content } from 'src/app/appConstants';
 import { SearchService } from 'src/app/services/search.service';
-import { AppHeaderService } from 'src/app/services';
+import { AppHeaderService, StorageService } from 'src/app/services';
 import { RecordingService } from 'src/app/services/recording.service';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 import { PlayerType } from "../../appConstants";
@@ -49,7 +49,8 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     private modalCtrl: ModalController,
     private contentService: ContentService,
     private router: Router,
-    private telemetryGeneratorService: TelemetryGeneratorService
+    private telemetryGeneratorService: TelemetryGeneratorService,
+    private storage: StorageService
   ) { }
   
   tabViewWillEnter(): void {
@@ -72,7 +73,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     try {
       if(audio) {
         this.showSheenAnimation = true;
-        let res = await this.searchApi.postSearchContext({text: data, currentLang: this.tarnslate.currentLang}, audio);
+        let res = await this.searchApi.postSearchContext({text: data, currentLang: await this.storage.getData('lang')}, audio);
         if (res.input) {
           if(res?.input?.englishText) {
             this.searchKeywords = res?.input?.englishText;
@@ -89,7 +90,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
         if(this.searchKeywords.replace(/\s/g, '').length > 0) {
           this.showSheenAnimation = true;
           Keyboard.hide();
-          let res = await this.searchApi.postSearchContext({text: this.searchKeywords, currentLang: this.tarnslate.currentLang}, audio);
+          let res = await this.searchApi.postSearchContext({text: this.searchKeywords, currentLang:  await this.storage.getData('lang')}, audio);
             // Content search api call
           if(res?.input?.englishText) {
             this.searchKeywords = res?.input?.englishText;
@@ -112,7 +113,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
 
   async handleContentSearch(res?: any, audio: boolean = false) {
     try {
-      let searchRes = await this.searchApi.postContentSearch({query: res?.context ?? this.searchKeywords, filter: res?.filter ?? ''});
+      let searchRes = await this.searchApi.postContentSearch({query: res?.context ?? this.searchKeywords, filter: res?.filter ?? ''}, await this.storage.getData('lang'));
       console.log('searchRes ', searchRes);
       this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes.length, 'search', '' )
       this.disabled = false;

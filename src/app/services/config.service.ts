@@ -30,7 +30,7 @@ export class ConfigService {
     })
   }
 
-  async getAllContent(req: any): Promise<any> {
+  async getAllContent(req: any, lang: any): Promise<any> {
     console.log('req ', req);
     const apiRequest = new ApiRequest.Builder()
       .withHost(config.api.BASE_URL)
@@ -38,6 +38,7 @@ export class ConfigService {
       .withType(ApiHttpRequestType.POST)
       .withBearerToken(true)
       .withBody(req)
+      .withLanguge(lang)
       .build()
     return lastValueFrom(this.apiService.fetch(apiRequest).pipe(
       map((apiResponse) => apiResponse.body.result),

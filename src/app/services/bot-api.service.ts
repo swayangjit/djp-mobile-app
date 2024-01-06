@@ -23,7 +23,7 @@ export class BotApiService {
     private dbService: DbService
   ) { }
 
-  async getBotMessage(text: string, audio: string, botType: string): Promise<any> {
+  async getBotMessage(text: string, audio: string, botType: string, lang: any): Promise<any> {
     console.log('text ', text, text !== "");
     console.log('audio ', audio, audio !== "");
     let botApiPath = this.getBotApiPath(botType);
@@ -35,12 +35,12 @@ export class BotApiService {
     }
     if (text !== "") {
       req.input = {
-        language: this.translate.currentLang,
+        language: lang,
         text: text
       }
     } else if (audio !== "") {
       req.input = {
-        language: this.translate.currentLang,
+        language: lang,
         audio: audio
       }
     }
@@ -53,6 +53,7 @@ export class BotApiService {
       .withType(ApiHttpRequestType.POST)
       .withBearerToken(true)
       .withBody(req)
+      .withLanguge(lang)
       .build()
     return lastValueFrom(this.apiService.fetch(apiRequest).pipe(
       map((response: ApiResponse) => {
