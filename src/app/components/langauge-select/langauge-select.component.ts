@@ -28,11 +28,11 @@ export class LangaugeSelectComponent  implements OnInit {
     let val = ev.detail.value;
     console.log('Current value:', JSON.stringify(val));
     this.storage.setData('lang', val);
-    if(val !== 'hi') {
-      this.translateService.use('en');
-    } else {
+    // if(val !== 'hi') {
+    //   this.translateService.use('en');
+    // } else {
       this.translateService.use(val);
-    }
+    // }
     this.selectedLanguage = val;
     this.dismissModal();
   }
