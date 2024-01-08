@@ -198,6 +198,7 @@ export class TelemetrySyncHandler {
             .withHost(config.api.BASE_URL)
             .withPath(config.api.TELEMETRY_SYNC)
             .withType(ApiHttpRequestType.POST)
+            .withBearerToken(true)
             .withBody(JSON.parse(processedEventsBatchEntry[TelemetryProcessedEntry.COLUMN_NAME_DATA]))
             .build()
         return this.apiService.fetch(apiRequest).pipe(

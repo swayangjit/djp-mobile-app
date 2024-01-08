@@ -51,8 +51,8 @@ export class SplashPage implements OnInit {
       }
     } else {
       config.languages.forEach(lang => {
-        this.storage.setData('lang', lang.id);
         if (lang?.default) {
+          this.storage.setData('lang', lang.id);
           if(lang.id !== 'hi') {
             this.translate.use('en');
             this.translate.setDefaultLang('en')

@@ -108,11 +108,11 @@ export class PlayerPage implements OnInit {
       } else if (this.playerType == "video") {
         this.videoConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.videoConfig['metadata']['name'] = this.content?.metaData.name;
-        this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
+        this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || this.content?.metaData.url || ""
         if ((this.content?.source === 'local' || this.content?.type === 'local') && this.content?.metaData.url.includes('file://')) {
           this.videoConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
         } else {
-          this.videoConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
+          // this.videoConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
         }
         this.videoConfig['context']['cdata'] = this.cdata;
         this.videoConfig['metadata']['isAvailableLocally'] = (this.content?.source === 'local' || this.content?.type === 'local')? true : false;
@@ -129,7 +129,7 @@ export class PlayerPage implements OnInit {
         this.video.nativeElement.append(epubElement);
       }
     }
-    const player = new Plyr('#player', { });
+    const player = new Plyr('#player', { autoplay: true});
     console.log('player ', player);
   }
 
