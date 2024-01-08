@@ -116,6 +116,7 @@ export class DbService {
     for (const key of keys) {
       values.push(mObj[key]);
     }
+    let ret;
     if (!isUpdate) {
       // INSERT
       const qMarks: string[] = [];
@@ -123,23 +124,25 @@ export class DbService {
         qMarks.push('?');
       }
       stmt = `${query} (${keys.toString()}) VALUES (${qMarks.toString()});`;
+      ret = await this.sqliteDBConnection.run(stmt, values);
+      console.log('ret', ret);
+      if (ret.changes!.changes != 1) {
+        return Promise.reject(`save: insert changes != 1`);
+      }
     } else {
       // UPDATE
       const wKey: string = Object.keys(where)[0];
 
-      const setString: string = await this.setNameForUpdate(keys);
+      const setString: string = await this.setNameForUpdate(keys, values);
       if (setString.length === 0) {
         return Promise.reject(`save: update no SET`);
       }
-      // stmt = `${query} ${setString} WHERE ${wKey}='${where[wKey]}'`;
+
       stmt = `${query} ${setString} WHERE ${this.getWhereStatement(where)}`;
-      console.log('stmt', stmt);
-      
+      const result = await this.sqliteDBConnection.query(stmt);
+      console.log('result', result);
     }
-    const ret = await this.sqliteDBConnection.run(stmt, values);
-    if (ret.changes!.changes != 1) {
-      return Promise.reject(`save: insert changes != 1`);
-    }
+  
     return;
   }
 
@@ -162,16 +165,20 @@ export class DbService {
     }
     return condition
   }
-
   /**
    * SetNameForUpdate
    * @param names
    */
-  private async setNameForUpdate(names: string[]): Promise<string> {
+  private async setNameForUpdate(names: string[], values: any[]): Promise<string> {
     let retString = '';
-    for (const name of names) {
-      retString += `${name} = ? ,`;
+    for (let i = 0; i < names.length; i++) {
+      if (typeof values[i] === "string") {
+        retString += `${names[i]} = '${values[i]}' ,`;
+      } else {
+        retString += `${names[i]} = ${values[i]} ,`;
+      }
     }
+
     if (retString.length > 1) {
       retString = retString.slice(0, -1);
       return retString;
