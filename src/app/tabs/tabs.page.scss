@@ -37,6 +37,9 @@ ion-tab-button {
       text-wrap: wrap;
     }
   }
+  ion-label {
+    white-space: pre-line !important;
+  }
 }
 .home-screen{
   position: fixed;
