@@ -31,9 +31,13 @@ ion-tab-button {
       color: var(--ion-color-tertiary);
       font-weight: 700;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      white-space: pre-line;
       overflow: hidden;
+      text-wrap: wrap;
     }
+  }
+  ion-label {
+    white-space: pre-line !important;
   }
 }
 .home-screen{
