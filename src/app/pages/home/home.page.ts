@@ -142,7 +142,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       console.log(val);
       this.showSheenAnimation = true;
       try {
-        let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filter }, await this.storage.getData('lang'));
+        let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filters }, await this.storage.getData('lang'));
         console.log('Response', res);
         this.mappUIContentList(res);
 
