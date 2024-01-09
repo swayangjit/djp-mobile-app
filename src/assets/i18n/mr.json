@@ -4,7 +4,7 @@
     "Rhymes": "यमक",
     "Stories": "कथा",
     "For Teachers": "शिक्षकांसाठी",
-    "Activity": "उपक्रम",
+    "Activities": "उपक्रम",
     "Cards": "कार्ड्स",
     "Puzzles": "कोडी",
     "Posters": "पोस्टर्स",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "पालक सखीमध्ये आपले स्वागत आहे! \n मी तुम्हाला असे उपक्रम सुचवू शकतो जे तुम्ही तुमच्या मुलांसोबत घरी करू शकता. तुम्ही काय विचारू शकता याची काही उदाहरणे येथे आहेत: \n उदाहरणे: \n तुमच्या स्वयंपाकघरातील भाज्या वापरून मी माझ्या मुलासोबत कोणती क्रिया करू शकतो \n मी माझ्या मुलाला घरगुती कामात रस कसा निर्माण करू शकतो ते सुचवा \n माझे मूल पौष्टिक अन्न खात नाही, काय करावे \n तुम्हाला पाहिजे असलेल्या कोणत्याही गोष्टीबद्दल मला विचारा. तुम्ही टाइप करू शकता किंवा बोलू शकता.",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",

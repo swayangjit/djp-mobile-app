@@ -4,7 +4,7 @@
     "Rhymes": "कविता",
     "Stories": "क्हानियां",
     "For Teachers": "शिक्षकें आस्तै",
-    "Activity": "क्रिया कलाप",
+    "Activities": "क्रिया कलाप",
     "Cards": "कार्ड",
     "Puzzles": "puzzle",
     "Posters": "पोस्टर /इश्तिहार",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "माता पिता सखी च तुं'दा सुआगत ऐ! \n में तुसें गी ओह् क्रिया कलाप सुझाई सकनां जेह्ड़े तुस घरै च अपने ञ्याणें कन्नै करी सकदे ओ। तुस जे किश पुच्छी सकदे हो ओह्दियां किश मसालां इत्थै न : \n रसोई च सब्जियां इस्तेमाल करदे होई में अपने बच्चे कन्नै केह् क्रिया कलाप करी सकनां। मिगी सुझाओ जे में घरेलु कम्में च अपने बच्चे दी दिलचस्पी कि'यां बनाई सकनां । \n मेरा बच्चा पौष्टिक रुट्टी नेईं खंदा। केह् करना ऐ तुस जे किश बी चांह्दे हो ओह्दे बारे च मिगी पुच्छो। तुस टाइप करी सकदे हो जां बोल्ली सकदे हो।",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",

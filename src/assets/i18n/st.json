@@ -4,7 +4,7 @@
     "Rhymes": "कविता",
     "Stories": "का़हनी",
     "For Teachers": "माहासो़य ला़गित्",
-    "Activity": "का़मी का़सनी",
+    "Activities": "का़मी का़सनी",
     "Cards": "कार्ड",
     "Puzzles": "कुदुम",
     "Posters": "पोसटर",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "गो-बाबा गाते रे आताञदाराम \n इञ दो़ का़मी का़सनीञ ला़याम काना ओ़का दो़ आम गिदरा़ सॉव ते ओ़ड़ाक् रेम चेका दाड़ेयाक्आ।  \n आमाक् कुकली लेकान पा़रतुल नोंनडे मेनाक्आ। \n पा़रतुल \n इञ दो़ गिअरा़ सॉव ते उतुजिनीस को़ सोंगे दाका ओ़ड़क् रे चेत् लेकानाक् का़मी का़सनीन चेका दाड़ेयाक्आ। \n ला़यआ़न मे इञ रेन गिदरा़ चेत् लेका ओ़ड़ाक् रेयाक् का़मी रे मो़नेन लागाव आचो़य ताको़वा। \n इञ रे गिदरा़ दो़ भागे-भागे जोमाक् बाय जो़मा , ला़य मे चेत् इञ चेकाया । \n जॉहानाक् गे जा़रुड़ाम कान टाइप मे। आम दो़ टाइप से ओ़ल मे।",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",
