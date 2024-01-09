@@ -7,6 +7,7 @@ ion-tab-bar {
 }
 
 ion-tab-button {
+  width: 3rem;
   --color: var(--ion-color-primary-contrast);
   --color-selected: var(--ion-color-primary-contrast);
 }
@@ -33,6 +34,7 @@ ion-tab-button {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      text-wrap: wrap;
     }
   }
 }
