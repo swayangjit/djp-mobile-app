@@ -11,7 +11,7 @@ ion-list {
     --border-radius: 1.25rem;
     color: var(--ion-color-primary-contrast);
     --background: var(--ion-color-tertiary);
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-family: Noto Sans;
     font-weight: 700;
     text-transform: uppercase;
@@ -27,21 +27,21 @@ ion-item{
 .new-pitara{
     // font-size: 17px;
     // color: cadetblue;
-    color: var(--ion-color-secondary);
-font-size: 0.875rem;
-font-family: Noto Sans Devanagari;
-font-weight: 400;
-line-height: 19.60px;
-word-wrap: break-word
+  color: var(--ion-color-secondary);
+  font-size: 0.75rem;
+  font-family: Noto Sans Devanagari;
+  font-weight: 400;
+  line-height: 19.60px;
+  word-wrap: break-word
 }
 
 .add-to{
-    color: #333333;
-font-size: 0.875rem;
-font-family: Noto Sans Devanagari;
-font-weight: 400;
-line-height: 19.60px;
-word-wrap: break-word
+  color: #333333;
+  font-size: 0.75rem;
+  font-family: Noto Sans Devanagari;
+  font-weight: 400;
+  line-height: 19.60px;
+  word-wrap: break-word
 }
 
 ion-radio{
