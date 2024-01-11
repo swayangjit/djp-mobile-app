@@ -7,9 +7,16 @@ ion-tab-bar {
 }
 
 ion-tab-button {
-  width: 3rem;
   --color: var(--ion-color-primary-contrast);
   --color-selected: var(--ion-color-primary-contrast);
+}
+
+#tab-button-story,#tab-button-my-pitara {
+  width: 25%;
+}
+
+#tab-button-parent-sakhi,#tab-button-teacher-sakhi {
+  width: 30%;
 }
 
 ion-icon {

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AppHeaderService, UtilService } from '../../../app/services';
 import { MenuController } from '@ionic/angular';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-application-header',
@@ -16,11 +17,16 @@ export class ApplicationHeaderComponent  implements OnInit {
   isMenuOpen: boolean = false;
   filters: Array<any> = []
   defaultFilter!: any;
+  appVersion: string = ''
   constructor(private utilService: UtilService,
     private telemetryGeneratorService: TelemetryGeneratorService,
     public menuCtrl: MenuController,
     public headerService: AppHeaderService
-    ) {}
+    ) {
+      App.getInfo().then(val => {
+        this.appVersion = `v${val.version}.${val.build}`
+      })
+    }
 
   async ngOnInit() {
     this.appInfo = await this.utilService.getAppInfo();
