@@ -1,10 +1,10 @@
 {
-    "Title": "আমার জাদুই পিটারা",
+    "e-Jaadui Pitara": "ইংরেজি পাঠ্য",
     "All": "সব",
     "Rhymes": "ছড়া",
     "Stories": "গল্পসমূহ",
     "For Teachers": "শিক্ষকদের জন্য",
-    "Activity": "কার্যক্রম",
+    "Activities": "কার্যক্রম",
     "Cards": "তাস",
     "Puzzles": "ধাঁধা",
     "Posters": "পোস্টার",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "পিতা মাতা সখির কাছে স্বাগতম! \n আমি আপনাকে এমন কার্যকলাপের পরামর্শ দিতে পারি যা আপনি বাড়িতে আপনার বাচ্চাদের সাথে করতে পারেন। আপনি যা জিজ্ঞাসা করতে পারেন তার কয়েকটি উদাহরণ এখানে রয়েছে: \n উদাহরণ: \n আপনার রান্নাঘরে শাকসবজি ব্যবহার করে আমি আমার সন্তানের সাথে কী কাজ করতে পারি \n আমি কীভাবে আমার সন্তানকে গৃহস্থালীর কাজে আগ্রহী করে তুলতে পারি তার পরামর্শ দিন \n আমার সন্তান পুষ্টিকর খাবার খায় না, কী করব \n আপনি চান যে কিছু সম্পর্কে আমাকে জিজ্ঞাসা করুন. আপনি টাইপ বা কথা বলতে পারেন।",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",

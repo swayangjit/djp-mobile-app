@@ -1,10 +1,10 @@
 {
-    "Title": "मेरो जादुई पिटारा",
+    "e-Jaadui Pitara": "e-जादुई पिटारा",
     "All": "सबै",
     "Rhymes": "राइम्स",
     "Stories": "कथाहरू",
     "For Teachers": "शिक्षकहरूका लागि",
-    "Activity": "गतिविधिहरू",
+    "Activities": "गतिविधिहरू",
     "Cards": "कार्डहरू",
     "Puzzles": "पजलहरू",
     "Posters": "पोस्टरहरू",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "अभिभावक सखीमा स्वागत छ! \n म तपाईंलाई गतिविधिहरूबारे सुझाव दिन सक्छु जुन तपाईं घरमा आफ्नो बच्चाहरूसँग गर्न सक्नुहुन्छ। यहाँ तपाईंले सोध्न सक्ने केही उदाहरणहरू छन्: \n उदाहरणहरू: \n तपाईंको भान्साकोठाको सब्जीहरूको प्रयोग गरेर म मेरो बच्चासँग के गतिविधि गर्न सक्छु \n मैले मेरो बच्चालाई घरायसी गतिविधिहरूप्रति कसरी रुचि बढाउन सक्छु भनी सुझाव दिनुहोस् \n मेरो बच्चाले पौष्टिक खाना खाँदैन, के गर्ने? \n तपाईले चाहनु भएको कुनै पनि कुराको बारेमा मलाई सोध्नुहोस्। तपाईं टाइप गर्न वा भन्न सक्नुहुन्छ।",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",

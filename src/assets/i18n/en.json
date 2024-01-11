@@ -1,10 +1,10 @@
 {
-    "Title": "My Jaadui Pitara",
+    "e-Jaadui Pitara": "e-Jaadui Pitara",
     "All": "All",
     "Rhymes": "Rhymes",
     "Stories": "Stories",
     "For Teachers": "For Teachers",
-    "Activity": "Activities",
+    "Activities": "Activities",
     "Cards": "Cards",
     "Puzzles": "Puzzles",
     "Posters": "Posters",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "Wecome to Parent Sakhi!\nI can suggest you activities that you can do with your children at home. Here are few examples of what you can ask:\nExamples:\nWhat activity can I do with my child using vegetables in your kitchen\nSuggest how I can make my child interested in household activities\nMy child does not eat nutritious food, what to do\n\nAsk me about anything that you want. You can type or speak.",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",
