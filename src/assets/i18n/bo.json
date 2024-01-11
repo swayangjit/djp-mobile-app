@@ -1,10 +1,10 @@
 {
-    "Title": "आंनि जादुनि बाकसु",
+    "e-Jaadui Pitara": "इ-जादुनि बाकसु",
     "All": "गासैबो",
     "Rhymes": "राइम्स",
     "Stories": "सल'फोर",
     "For Teachers": "फोरोंगिरिफोरनि थाखाय",
-    "Activity": "हाबाफारिफोर",
+    "Activities": "हाबाफारिफोर",
     "Cards": "कार्डफोर",
     "Puzzles": "Puzzles",
     "Posters": "पस्टारफोर",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "जों बिमा-बिफा साखिनि खाथियाव फैयो!  \n आं नोंथांनो बै हाबाफारिफोरखौ सुबुरुन होनो हायो जायखौ नोंथाङा नोंथांनि गथ'फोरजों न'आव मावनो हायो। नोंथाङा मा सोंनो हायो बेनि माखासे बिदिन्थिफोर बेयाव होनाय जाबाय: \n बिदिन्थिफोर: \n आंनि खुदियाया नोंथांनि ओंखाम संग्रायाव मैगं-थाइगं बाहायनायजों आं मा हाबा मावनो हागोन? \n आं आंनि खुदियाखौ नख'रारि हाबाफोराव माबोरै गोसो होनो हायो बेखौ सुबुरुन हो। \n आंनि खुदियाया पुष्टिगोनां आदार जाया, मा खालामनांगौ? \n नोंथाङा लुबैनाय जायखिजाया बाथ्रानि सोमोन्दै आंनाव सों। नोंथाङा type (टाइप) खालामनो एबा रायज्लायनो हागोन।",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",

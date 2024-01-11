@@ -1,10 +1,10 @@
 {
-    "Title": "میرا جادوئی پٹارا",
+    "e-Jaadui Pitara": "ای-جادوئی پٹارا",
     "All": "تمام",
     "Rhymes": "نظمیں",
     "Stories": "کہانیاں",
     "For Teachers": "اساتذہ کے لیے",
-    "Activity": "سرگرمیاں",
+    "Activities": "سرگرمیاں",
     "Cards": "کارڈز",
     "Puzzles": "پہیلیاں",
     "Posters": "پوسٹرز",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "والدین سکھی میں خوش آمدید!\n میں آپ کو ایسی سرگرمیاں تجویز کر سکتا ہوں جو آپ گھر پر اپنے بچوں کے ساتھ کر سکتے ہیں۔ یہاں کچھ مثالیں ہیں جو آپ پوچھ سکتے ہیں:\n مثالیں:\n میں اپنے بچے کے ساتھ آپ کے باورچی خانے میں سبزیوں کا استعمال کرتے ہوئے کونسی سرگرمی کر سکتا ہوں۔\n تجویز کریں کہ میں اپنے بچے کو گھریلو سرگرمیوں میں کس طرح دلچسپی پیدا کر سکتا ہوں۔\n میرا بچہ غذائیت سے بھرپور کھانا نہیں کھاتا، کیا کروں؟\n جو کچھ آپ چاہتے ہیں اس کے بارے میں مجھ سے پوچھیں۔ آپ ٹائپ یا بول سکتے ہیں۔",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",

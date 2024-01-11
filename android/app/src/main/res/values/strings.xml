@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">MyJP</string>
-    <string name="title_activity_main">MyJP</string>
+    <string name="app_name">e-Jaadui Pitara</string>
+    <string name="title_activity_main">e-Jaadui Pitara</string>
     <string name="package_name">in.gov.myjp.app</string>
     <string name="custom_url_scheme">in.gov.myjp.app</string>
 </resources>
