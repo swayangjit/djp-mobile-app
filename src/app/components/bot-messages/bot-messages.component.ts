@@ -218,7 +218,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
             }
           }
         } else {
-          msg.message = result.errorMesg ? result.errorMesg : result.data?.detail ? result.data?.detail : "No Response";
+          msg.message = result.errorMesg ? result.errorMesg : result.data?.detail ? result.data.detail : "An unknown error occured, please try after sometime";
           msg.displayMsg = msg.message;
           msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
           msg.timeStamp = Date.now();
@@ -228,8 +228,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     }).catch(e => {
       this.disabled = false;
       console.log('catch error ', e);
-      this.botMessages[index-1].message = "No Response";
-      this.botMessages[index-1].displayMsg = "No Response";
+      this.botMessages[index-1].message = "An unknown error occured, please try after sometime";
+      this.botMessages[index-1].displayMsg = "An unknown error occured, please try after sometime";
       this.botMessages[index-1].time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
       this.botMessages[index-1].timeStamp = Date.now();
     })

@@ -5,7 +5,7 @@
       <ion-icon slot="end" aria-hidden="true" src="assets/icon/edit.svg"></ion-icon>
     </ion-item>
     <div class="create-playlist-container">
-      <div *ngIf="!selectedContents.length" class="bot-section__text">{{ 'noContentMetadata' | translate}}</div>
+      <div *ngIf="!selectedContents.length" class="bot-section__text">{{ 'Add content to the playlist' | translate}}</div>
       <div class="djp-card" *ngFor="let content of selectedContents; let i=index">
         <div class="djp-card__img">
           <img [src] ="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'"  alt="Playlist Image">
