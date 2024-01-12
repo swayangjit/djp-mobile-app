@@ -1,10 +1,10 @@
 {
-    "Title": "मम मायाविनी मञ्जूषा",
+    "e-Jaadui Pitara": "ई-जादुई पिटारा",
     "All": "सर्वम्",
     "Rhymes": "छन्दः",
     "Stories": "कथाः",
     "For Teachers": "शिक्षकाणां कृते",
-    "Activity": "क्रियाकलापाः",
+    "Activities": "क्रियाकलापाः",
     "Cards": "पत्रकाणि",
     "Puzzles": "प्रहेलिकाः",
     "Posters": "भित्तिपत्रम्",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "मातापितरं सखी' इत्यत्र भवतां/भवतीनां स्वागतम् ! \n अहं भवन्तं तादृशान् क्रियाकलापान् सूचयितुं शक्नोमि यानि भवान् स्वसन्ततिभिः सह गृहे एव कर्तुं शक्नोति। भवान् किं–किं प्रष्टुं शक्नोति तस्य कतिपयानि उदाहरणानि अत्र प्रदत्तानि । \n उदाहरणार्थम्:  \n मम पाकशालायां शाकानाम् उपयोगेन अहं स्व सन्ततिभिः सह किं क्रियाकलापं कर्तुं शक्नोमि? \n गृहकार्येषु मम सन्ततीनां रुचिं कथं जनयितुं शक्नोमि इति सूचयतु। \n मम सन्ततिः पौष्टिकं भोजनं न खादति, किं कर्तव्यम्? \n यत्किमपि इच्छसि तत् मां पृच्छतु। भवान् तत् टङ्कयित्वा उक्त्वा वा प्रष्टुं शक्नोति।",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",

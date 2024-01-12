@@ -212,7 +212,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   }
 
   async tabViewWillEnter() {
-    await this.headerService.showHeader('Title', false);
+    await this.headerService.showHeader('e-Jaadui Pitara', false);
     setTimeout(() => {
       this.headerService.showStatusBar(false);
     }, 0);

@@ -109,6 +109,15 @@ app-langauge-select ion-header ion-toolbar{
     --background: none;
 }
 
+ion-button {
+    font-size: 0.75rem;
+}
+
+ion-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+}
+
 // .plyr--youtube.plyr--paused.plyr--playing.plyr--hide-controls.plyr__poster-enabled:not(.plyr--stopped) .plyr__poster {
 //     display: block !important;
 //     z-index: 2;

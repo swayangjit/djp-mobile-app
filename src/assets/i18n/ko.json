@@ -1,10 +1,10 @@
 {
-    "Title": "म्हजें जादूचें पेटूल",
+    "e-Jaadui Pitara": "ई-जादूचें पेटूल",
     "All": "सगलें",
     "Rhymes": "यमक",
     "Stories": "कथा",
     "For Teachers": "शिक्षकांखातीर",
-    "Activity": "उपक्रम",
+    "Activities": "उपक्रम",
     "Cards": "कार्डां",
     "Puzzles": "कोडीं",
     "Posters": "पोस्टर",
@@ -47,12 +47,10 @@
     "WELCOME_TO_PARENT_SAKHI": "पालक सखीं ' त तुमकां येवकार ! \n तुमी तुमच्या भुरग्यांवांगडा घरांत करूंक शकतात अशे उपक्रम हांव तुमकां सुचयतां. तुमी विचारूंक शकतात अशीं कांय उदाहरणां हांगा दिल्यांत: \n देखीक- १. \n म्हजे रांदचे कुडींत भाजी वापरून म्हज्या भुरग्यावांगडा हांव खंयचो उपक्रम करूंक शकतां! \n म्हज्या भुरग्यांत घरगुती उपक्रमांविशीं हांव आवड कशी निर्माण करूंक शकता! तें सुचयात. \n म्हजें भुरगें पोशक अन्न खायना, कितें करचें ? \n तुमकां जाय आशिल्ल्या खंयच्याय गजालीविशीं म्हाका विचारात. तुमी टायप करपाक वा उलोवंक शकतात.",
 
     
-    "Add to playlist": "Add to playlist",
     "Create": "Create",
     "You have to watch content": "You have to watch content",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "Playlist name": "Playlist name",
     "noContentMetadata": "There is no content metadata available in this playlist yet",
     "Sry, please try again!": "Sry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",

@@ -52,7 +52,7 @@ export class AppHeaderService {
   getDefaultPageConfig() {
     const defaultConfig: HeaderConfig = {
       showHeader: true,
-      pageTitle: 'Title',
+      pageTitle: 'e-Jaadui Pitara',
       showbackButton: false,
       actionButtons: [''],
     };
@@ -61,7 +61,7 @@ export class AppHeaderService {
 
   async showHeader(pageTitle?: string, backbutton?: boolean, actionButtons?: Array<string>) {
     const defaultConfig = this.getDefaultPageConfig();
-    defaultConfig.pageTitle = pageTitle ? pageTitle : 'Title';
+    defaultConfig.pageTitle = pageTitle ? pageTitle : 'e-Jaadui Pitara';
     defaultConfig.showbackButton = backbutton ?? false;
     defaultConfig.actionButtons = actionButtons ?? ['']
     this.updatePageConfig(defaultConfig);
