@@ -48,11 +48,11 @@
 
 
     "Create": "সৃষ্টি কৰা",
-    "You have to watch content": "কন্টেন্ট চাব লাগিব",
+    "No contents": "কোনো বিষয়বস্তু নাই",
     "Make a Story": "এটা কাহিনী বনাওক",
     "Ask a Doubt": "এটা সন্দেহ সুধিব",
-    "noContentMetadata": "এই প্লেলিষ্টৰ বাবে কোনো বিষয়বস্তুৰ মেটাডাটা উপলব্ধ নহয়",
-    "Sry, please try again!": "দুঃখিত, অনুগ্ৰহ কৰি আকৌ চেষ্টা কৰক!",
+    "Add content to the playlist": "প্লেলিষ্টত বিষয়বস্তু যোগ কৰক",
+    "Sorry, please try again!": "ক্ষমা কৰিব, অনুগ্ৰহ কৰি আকৌ এবাৰ চেষ্টা কৰক!",
     "Loading...": "অনুগ্ৰহ কৰি অপেক্ষা কৰক, ক্ৰাফটিং সঁহাৰি। এমিনিটলৈকে সময় লাগিব পাৰে।",
     "Swipe left to cancel": "বাতিল কৰিবলৈ বাওঁফালে চুইপ কৰক",
     "Read more...": "আরো পড়ুন...",
@@ -60,13 +60,15 @@
     "No playlist add yet": "এতিয়াও কোনো প্লেলিষ্ট যোগ কৰা হোৱা নাই",
     "Exit the app?": "এপটোৰ পৰা ওলাই যাবনে?",
     "Exit": "প্ৰস্থান",
-    "Listening...": "শুনা...",
+    "Speak...": "কথা কোৱা...",
     "SCAN_QR_INSTRUCTION": "আপোনাৰ ফোনটো স্কেন কৰিবলৈ QR ক’ডটোলৈ আঙুলিয়াওক",
     "OPEN_IN_BROWSER": "ব্ৰাউজাৰত খোলক",
     "CLOSE": "বন্ধ",
-    "INTERNET_AVAILABLE": "আপুনি এতিয়া অনলাইন হৈ আছে",
-    "NO_INTERNET_TITLE": "আপুনি অফলাইন হৈ আছে",
-    "No Response": "কোনো সঁহাৰি নাই",
-    "CONTENT_IS_BEING_ADDED": "Content will be added soon to this QRcode. It will be available shortly",
-    "Server Error": "চাৰ্ভাৰ বিষয়বস্তু আনিবলৈ ব্যৰ্থ"
+    "An unknown error occured, please try after sometime": "এটা অজ্ঞাত ভুল হৈছে, অনুগ্ৰহ কৰি কিছু সময়ৰ পিছত চেষ্টা কৰক",
+    "CONTENT_IS_BEING_ADDED": "এই QRcode ত অতি সোনকালে কন্টেন্ট যোগ কৰা হব",
+    "Songs": "গীত",
+    "Audio Books": "অডিঅ' বুক",
+    "Toys and Games": "খেলনা আৰু খেল",
+    "Handbooks": "হাতপুথি",
+    "Charts": "চাৰ্ট"
 }

@@ -48,11 +48,11 @@
 
     
     "Create": "Create",
-    "You have to watch content": "You have to watch content",
+    "No contents": "No contents",
     "Make a Story": "Make a Story",
     "Ask a Doubt": "Ask a Doubt",
-    "noContentMetadata": "There is no content metadata available in this playlist yet",
-    "Sry, please try again!": "Sry, please try again!",
+    "Add content to the playlist": "Add content to the playlist",
+    "Sorry, please try again!": "Sorry, please try again!",
     "Loading...": "Please wait, crafting response. It might take upto a minute.",
     "Swipe left to cancel": "Swipe left to cancel",
     "Read more...": "Read more...",
@@ -60,13 +60,15 @@
     "No playlist add yet": "No playlist add yet",
     "Exit the app?": "Exit the app?",
     "Exit": "Exit",
-    "Listening...": "Listening...",
+    "Speak...": "Speak...",
     "SCAN_QR_INSTRUCTION": "Point your phone to the QR code to scan it",
     "OPEN_IN_BROWSER": "Open in Browser",
     "CLOSE": "CLOSE",
-    "INTERNET_AVAILABLE": "You are online now",
-    "NO_INTERNET_TITLE": "You are offline",
-    "No Response": "No Response",
-    "CONTENT_IS_BEING_ADDED": "Content will be added soon to this QRcode. It will be available shortly",
-    "Server Error": "Server Failed to fetch content"
+    "An unknown error occured, please try after sometime": "An unknown error occured, please try after sometime",
+    "CONTENT_IS_BEING_ADDED": "Content will be added soon to this QRcode",
+    "Songs": "Songs",
+    "Audio Books": "Audio Books",
+    "Toys and Games": "Toys and Games",
+    "Handbooks": "Handbooks",
+    "Charts": "Charts"
 }
