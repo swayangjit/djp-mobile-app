@@ -110,9 +110,8 @@ export class PlayerPage implements OnInit {
         this.videoConfig['metadata']['name'] = this.content?.metaData.name;
         this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || this.content?.metaData.url || ""
         if ((this.content?.source === 'local' || this.content?.type === 'local') && this.content?.metaData.url.includes('file://')) {
-          this.videoConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
-        } else {
-          // this.videoConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
+          this.videoConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''));
+          this.videoConfig['metadata']['artifactUrl'] = '';
         }
         this.videoConfig['context']['cdata'] = this.cdata;
         this.videoConfig['metadata']['isAvailableLocally'] = (this.content?.source === 'local' || this.content?.type === 'local')? true : false;
