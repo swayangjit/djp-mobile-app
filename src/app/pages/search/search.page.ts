@@ -84,7 +84,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
           this.showSheenAnimation = false;
           this.noSearchData = true;
           this.searchContentResult = [];
-          this.errMsg = "Sry, please try again!"
+          this.errMsg = "Sorry, please try again!"
         }
       } else {
         if(this.searchKeywords.replace(/\s/g, '').length > 0) {
@@ -104,7 +104,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
         this.showSheenAnimation = false;
         this.noSearchData = true;
         this.searchContentResult = [];
-        this.errMsg = "Sry, please try again!"
+        this.errMsg = "Sorry, please try again!"
       } else {
         this.handleContentSearch('', false);
       }
@@ -141,7 +141,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
       this.showSheenAnimation = false;
       this.noSearchData = true;
       this.searchContentResult = [];
-      this.errMsg = "Sry, please try again!"
+      this.errMsg = "Sorry, please try again!"
     }
   }
 
