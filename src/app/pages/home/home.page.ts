@@ -157,14 +157,15 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       this.getServerMetaConfig();
     } else if (!this.networkConnected) {
       this.configContents = [];
-      this.configContents = await this.contentService.getAllContent();
+      let dbContent = await this.contentService.getAllContent();
+      this.mapDbContent(dbContent);
       if (this.configContents.length == 0) this.getServerMetaConfig();
       this.showSheenAnimation = false;
     } else {
       this.getServerMetaConfig();
       this.configContents = [];
       let content = await this.contentService.getAllContent();
-      this.configContents = content;
+      this.mapDbContent(content);
       this.showSheenAnimation = false;
     }
     await NativeAudio.preload({
@@ -194,9 +195,23 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
         list.metaData = ele
         this.configContents.push(list)
       });
-      this.contentService.saveContents(this.configContents).then()
+      await this.contentService.saveContents(this.configContents).then()
+      this.contentService.getAllContent().then(val => {
+        this.mapDbContent(val);
+      })
     } else {
       this.noSearchData = true;
+    }
+  }
+
+  mapDbContent(dbContent: any) {
+    let content:any = {};
+    if(dbContent?.length > 0) {
+      this.configContents = [];
+      dbContent.forEach((cont: any) => {
+        content.metaData = cont
+        this.configContents.push(content);
+      })
     }
   }
 
