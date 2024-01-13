@@ -61,7 +61,8 @@ export class ContentService {
       content.map((element) => {
         const metaData = JSON.parse(element['metadata']) as ContentMetaData;
         metaData.isLiked = !!element['content_identifier'];
-        contentList.push(metaData);
+        element.metaData = metaData;
+        contentList.push(element);
       })
 
       return Promise.resolve(contentList);
