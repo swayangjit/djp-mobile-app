@@ -32,7 +32,7 @@ export class StoryPage implements OnInit, OnTabViewWillEnter, OnDestroy{
     
     ionViewWillEnter()  {
       this.config = {type: 'story'}
-      this.headerService.showHeader("Story Sakhi", true, ['bot']);
+      this.headerService.showHeader("Katha Sakhi", true, ['bot']);
       this.headerService.showStatusBar(false, '#CF4147');
     }
 

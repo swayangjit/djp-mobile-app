@@ -31,7 +31,7 @@ export class TeacherSakhiPage implements OnInit, OnDestroy {
   
   ionViewWillEnter()  {
     this.config = {type: 'teacher'}
-    this.headerService.showHeader("Teacher Sakhi", true, ['bot']);
+    this.headerService.showHeader("Teacher Tara", true, ['bot']);
     this.headerService.showStatusBar(false, '#FCB915');
   }
 
