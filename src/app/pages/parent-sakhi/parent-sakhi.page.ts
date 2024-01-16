@@ -31,7 +31,7 @@ export class ParentSakhiPage implements OnInit, OnDestroy {
   
   ionViewWillEnter()  {
     this.config = {type: 'parent'}
-    this.headerService.showHeader("Parent Sakhi", true, ['bot']);
+    this.headerService.showHeader("Parent Tara", true, ['bot']);
     this.headerService.showStatusBar(false, '#FCB915');
   }
 

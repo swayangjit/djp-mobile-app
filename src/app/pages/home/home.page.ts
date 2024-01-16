@@ -157,7 +157,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       this.getServerMetaConfig();
     } else if (!this.networkConnected) {
       this.configContents = [];
-      this.configContents = await this.contentService.getAllContent();
+      let dbContent = await this.contentService.getAllContent();
+      this.configContents = dbContent;
       if (this.configContents.length == 0) this.getServerMetaConfig();
       this.showSheenAnimation = false;
     } else {
@@ -194,7 +195,11 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
         list.metaData = ele
         this.configContents.push(list)
       });
-      this.contentService.saveContents(this.configContents).then()
+      await this.contentService.saveContents(this.configContents)
+      this.contentService.getAllContent().then(val => {
+        this.configContents = [];
+        this.configContents = val;
+      })
     } else {
       this.noSearchData = true;
     }

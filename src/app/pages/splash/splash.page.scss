@@ -1,7 +1,7 @@
 
 ion-content{
   --padding-top: 0;
-  --background: url('../../../assets/images/splash-bg.png') center center / cover no-repeat; /* Set your image path */
+  --background: url('/assets/images/splash-bg1.png') center center / cover no-repeat; /* Set your image path */
 }
 
 .splash-screen{
@@ -9,7 +9,8 @@ ion-content{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 1rem;
+    padding: 1rem;
+    background-color: #fff;
     img{
       &:first-child{
         width: 100px;
@@ -19,14 +20,30 @@ ion-content{
       }
     }
   }
-  .splash-screen-container{
+  .splash-screen-img{
     position: absolute;
-    top: 16%;
-    left: 0;
-    right: 0;
+    top: 50%;
+    left: 50%;
     text-align: center;
-    img{
-      width: 75%;
+    transform: translate(-50%, -50%);
+    width: 13.8rem;
+    height: 13.8rem;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .pm-logo {
+      position: absolute;
+      width: 98px;
+      height: 98px;
+      left: -24px;
+      top: -24px;
+      z-index: 1;
+    }
+    .pitara-box{
+      width: 85%;
+      margin-top: -40px;
     }
     .splash-screen-logo{
       padding-top: 30px;
@@ -45,6 +62,23 @@ ion-content{
         font-weight: 700;
         letter-spacing: 2px;
       }
+    }
+  }
+
+  .footer-img {
+    position: fixed;
+    bottom: -25%;
+    background: white;
+    border-radius: 50%;
+    width: 22.5rem;
+    height: 22.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    left: 50%;
+    transform: translateX(-50%);
+    img {
+      width: 10rem;
     }
   }
 }
