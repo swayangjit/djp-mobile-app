@@ -27,6 +27,7 @@ import { TelemetryGeneratorService } from './services/telemetry/telemetry.genera
 import { ScannerService } from './services/scan/scanner.service';
 import { PermissionsService } from './services/scan/permissions.service';
 import { TabsService } from './services/tabs.service';
+import { AppUpdateService } from './services/app-update/app-update.service';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -71,7 +72,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     Diagnostic,
     SearchService,
     TabsService,
-    BotApiService
+    BotApiService,
+    AppUpdateService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

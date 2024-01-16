@@ -18,6 +18,7 @@ import confetti from 'canvas-confetti';
 import { NativeAudio } from '@capacitor-community/native-audio';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { AppUpdateService } from 'src/app/services/app-update/app-update.service';
 
 @Component({
   selector: 'app-home',
@@ -58,7 +59,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private searchService: SearchService,
     private translateService: TranslateService,
     private toastController: ToastController,
-    private botMessageApiService: BotApiService) {
+    private botMessageApiService: BotApiService,
+    private appUpdateService: AppUpdateService) {
     this.configContents = [];
     this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
       this.networkConnected = ev;
@@ -178,6 +180,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     this.botMessageApiService.deleteExpiredChatMessages().catch((err) => {
       console.error(err);
     });
+    this.appUpdateService.checkForUpdate();
   }
 
   async mappUIContentList(content: Array<ContentMetaData>) {
