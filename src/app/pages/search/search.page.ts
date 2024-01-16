@@ -75,8 +75,8 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
         this.showSheenAnimation = true;
         let res = await this.searchApi.postSearchContext({text: data, currentLang: await this.storage.getData('lang')}, audio);
         if (res.input) {
-          if(res?.input?.englishText) {
-            this.searchKeywords = res?.input?.englishText;
+          if(res?.input?.sourceText) {
+            this.searchKeywords = res?.input?.sourceText;
           }
           this.handleContentSearch(res, audio);
         } else {
@@ -92,8 +92,8 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
           Keyboard.hide();
           let res = await this.searchApi.postSearchContext({text: this.searchKeywords, currentLang:  await this.storage.getData('lang')}, audio);
             // Content search api call
-          if(res?.input?.englishText) {
-            this.searchKeywords = res?.input?.englishText;
+          if(res?.input?.sourceText) {
+            this.searchKeywords = res?.input?.sourceText;
           }
           this.handleContentSearch(res, false);
         }
