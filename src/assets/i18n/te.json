@@ -70,5 +70,10 @@
     "Audio Books": "ఆడియో పుస్తకాలు",
     "Toys and Games": "బొమ్మలు మరియు ఆటలు",
     "Handbooks": "సూచన పుస్తకాలు",
-    "Charts": "చార్ట్‌లు"
+    "Charts": "చార్ట్‌లు",
+
+    "Update Downloaded": "Update Downloaded",
+    "The update has been downloaded. Would you like to restart the app to complete the update now?": "The update has been downloaded. Would you like to restart the app to complete the update now?",
+    "Later": "Later",
+    "Restart Now": "Restart Now"
 }

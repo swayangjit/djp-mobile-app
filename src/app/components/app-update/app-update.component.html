@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'Update Downloaded' | translate}}</ion-title>
+  </ion-toolbar>
+  <ion-content>
+    <ion-item lines="none">
+      <ion-label>
+        {{"The update has been downloaded. Would you like to restart the app to complete the update now?" | translate }}
+      </ion-label>
+    </ion-item>
+  </ion-content>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="handleButtonAction('cancel')">{{"Later" | translate}}</ion-button>
+      <ion-button (click)="handleButtonAction('restart')">{{"Restart Now" | translate}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+  

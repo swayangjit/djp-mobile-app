@@ -70,5 +70,10 @@
     "Audio Books": "ಆಡಿಯೋ ಪುಸ್ತಕಗಳು",
     "Toys and Games": "ಆಟಿಕೆಗಳು ಮತ್ತು ಆಟಗಳು",
     "Handbooks": "ಕೈಪಿಡಿಗಳು",
-    "Charts": "ಪಟ್ಟಿಯಲ್ಲಿ"
+    "Charts": "ಪಟ್ಟಿಯಲ್ಲಿ",
+
+    "Update Downloaded": "Update Downloaded",
+    "The update has been downloaded. Would you like to restart the app to complete the update now?": "The update has been downloaded. Would you like to restart the app to complete the update now?",
+    "Later": "Later",
+    "Restart Now": "Restart Now"
 }

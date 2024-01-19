@@ -70,5 +70,10 @@
     "Audio Books": "ଅଡିଓ ବୁକ୍ |",
     "Toys and Games": "ଖେଳନା ଏବଂ ଖେଳ",
     "Handbooks": "ହ୍ୟାଣ୍ଡବୁକ୍ |",
-    "Charts": "ଚାର୍ଟ"
+    "Charts": "ଚାର୍ଟ",
+
+    "Update Downloaded": "Update Downloaded",
+    "The update has been downloaded. Would you like to restart the app to complete the update now?": "The update has been downloaded. Would you like to restart the app to complete the update now?",
+    "Later": "Later",
+    "Restart Now": "Restart Now"
 }
