@@ -55,13 +55,14 @@ export class ContentService {
   }
 
   async getAllContent(): Promise<Array<ContentMetaData>> {
-    const query = `SELECT c.*, cr.content_identifier from ${ContentEntry.TABLE_NAME} c LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON c.identifier = cr.content_identifier ORDER BY ${ContentEntry.COLUMN_NAME_TIME_STAMP}`;
+    const query = `SELECT c.*, cr.content_identifier from ${ContentEntry.TABLE_NAME} c LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON c.identifier = cr.content_identifier WHERE ${ContentEntry.COLUMN_NAME_SOURCE} != 'local' ORDER BY ${ContentEntry.COLUMN_NAME_TIME_STAMP}`;
     const contentList: Array<ContentMetaData> = []
     return this.dbService.readDbData(query).then((content: Array<any>) => {
       content.map((element) => {
         const metaData = JSON.parse(element['metadata']) as ContentMetaData;
         metaData.isLiked = !!element['content_identifier'];
-        contentList.push(metaData);
+        element.metaData = metaData;
+        contentList.push(element);
       })
 
       return Promise.resolve(contentList);

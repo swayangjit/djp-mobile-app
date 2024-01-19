@@ -11,6 +11,14 @@ ion-tab-button {
   --color-selected: var(--ion-color-primary-contrast);
 }
 
+#tab-button-story,#tab-button-my-pitara {
+  width: 30%;
+}
+
+#tab-button-parent-sakhi,#tab-button-teacher-sakhi {
+  width: 30%;
+}
+
 ion-icon {
   width: 1.375rem;
   height: 1.5rem;
@@ -33,9 +41,15 @@ ion-tab-button {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      text-wrap: wrap;
     }
   }
 }
+
+ion-label {
+  font-size: 10px;
+}
+
 .home-screen{
   position: fixed;
   left: 0;

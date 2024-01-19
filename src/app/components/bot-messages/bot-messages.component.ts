@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { BotMessage, Sakhi } from 'src/app/appConstants';
-import { AppHeaderService, BotApiService, RecordingService } from 'src/app/services';
+import { AppHeaderService, BotApiService, RecordingService, StorageService } from 'src/app/services';
 import { Keyboard } from "@capacitor/keyboard";
 import { Directory, FileInfo, Filesystem } from '@capacitor/filesystem';
 import { TranslateService } from '@ngx-translate/core';
@@ -38,7 +38,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     private headerService: AppHeaderService,
     private messageApi: BotApiService,
     private translate: TranslateService,
-    private telemetryGeneratorService: TelemetryGeneratorService
+    private telemetryGeneratorService: TelemetryGeneratorService,
+    private storage: StorageService
   ) { 
     this.defaultLoaderMsg = {identifier: "", message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: ""};
     this.botMessages = [];
@@ -174,7 +175,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     this.disabled = true;
     // Api call and response from bot, replace laoding text
     let index = this.botMessages.length;
-    await this.messageApi.getBotMessage(text, audio, this.config.type).then(result => {
+    let lang = await this.storage.getData('lang');
+    await this.messageApi.getBotMessage(text, audio, this.config.type, lang).then(result => {
     this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
       this.botMessages.forEach(async (msg, i) => {
         if (result.responseCode === 200) {
@@ -216,7 +218,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
             }
           }
         } else {
-          msg.message = result.errorMesg ? result.errorMesg : result.data?.detail ? result.data?.detail : "No Response";
+          msg.message = result.errorMesg ? result.errorMesg : result.data?.detail ? result.data.detail : "An unknown error occured, please try after sometime";
           msg.displayMsg = msg.message;
           msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
           msg.timeStamp = Date.now();
@@ -226,8 +228,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     }).catch(e => {
       this.disabled = false;
       console.log('catch error ', e);
-      this.botMessages[index-1].message = "No Response";
-      this.botMessages[index-1].displayMsg = "No Response";
+      this.botMessages[index-1].message = "An unknown error occured, please try after sometime";
+      this.botMessages[index-1].displayMsg = "An unknown error occured, please try after sometime";
       this.botMessages[index-1].time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
       this.botMessages[index-1].timeStamp = Date.now();
     })

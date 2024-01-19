@@ -30,21 +30,24 @@ ion-input {
 }
 
 ion-icon {
-    width: 1.875rem;
-    height: 1.875rem;
+    width: 1.75rem;
+    height: 1.75rem;
     margin-left: 0;
 }
 
 .djp-card {
   &__img {
-    width: 50%;
+    width: 40%;
     height: auto;
+    img {
+      max-width: 90% !important;
+    }
   }
   &__metadata {
     padding-top: 0;
     padding-left: 1rem;
-    align-items: flex-start;
-    width: 50%;
+    align-items: center;
+    width: 60%;
     height: 90%;
   }
 }

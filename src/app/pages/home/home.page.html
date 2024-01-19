@@ -1,74 +1,75 @@
 <ion-content [fullscreen]="true">
-    <!-- For now pasting code for testing purpose Needs to be removed-->
-    <div class="spinner-div" *ngIf="refresh">
-        <ion-spinner icon="spiral" class="refreshspinner"></ion-spinner>
-    </div>
-    <ion-refresher #refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content refreshingSpinner="circles"></ion-refresher-content>
-    </ion-refresher>
+  <!-- For now pasting code for testing purpose Needs to be removed-->
+  <div class="spinner-div" *ngIf="refresh">
+    <ion-spinner icon="spiral" class="refreshspinner"></ion-spinner>
+  </div>
+  <ion-refresher #refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshingSpinner="circles"></ion-refresher-content>
+  </ion-refresher>
 
-    <ion-list class="m-n" *ngIf="showSheenAnimation">
-      <ion-item lines="none" *ngFor="let i of [0,1,2,3,4,5,6,7,8]">
-        <div class="djp-card">
-          <div item-start class="djp-card__img">
-            <app-skeleton-item height="15rem" width="22rem" radius="16px"></app-skeleton-item>
-          </div>
-          <div class="djp-card__metadata">
-            <div style="width: 90%;">
-              <app-skeleton-item height="12px" width="100%"></app-skeleton-item>
-            </div>
-            <div style="padding-left: 1.5rem; width: 10%;">
-              <app-skeleton-item height="12px" width="100%"></app-skeleton-item>
-            </div>
-          </div>
+  <ion-list class="m-n" *ngIf="showSheenAnimation">
+    <div class="djp-cards-container" *ngFor="let i of [0,1,2,3,4,5,6,7,8]">
+      <div class="djp-card">
+        <div item-start class="djp-card__img">
+          <app-skeleton-item height="15rem" width="100%" radius="16px"></app-skeleton-item>
         </div>
-      </ion-item>
-    </ion-list>
-    <ion-list *ngIf="!showSheenAnimation && noSearchData && configContents.length == 0">
-      <ion-item lines="none">
-        <ion-label class="no-data">{{'No Result' | translate }}</ion-label>
-      </ion-item>
-    </ion-list>
-
-    <ion-list *ngIf="!showSheenAnimation && serverError">
-      <ion-item lines="none">
-        <ion-label class="no-data">{{'Server Error' | translate }}</ion-label>
-      </ion-item>
-    </ion-list>
-    <!-- Cards -->
-    <div *ngIf="!showSheenAnimation && configContents.length > 0">
-      <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
-        <div class="bot-section" *ngIf="i === 5">
-          <div class="image" (click)="navigateToSakhi('story')">
-            <img src="assets/images/Story_bot.svg" alt="">
-            <div class="image-title">{{"Story Sakhi" | translate }}</div>
+        <div class="djp-card__metadata">
+          <div style="width: 90%;">
+            <app-skeleton-item height="12px" width="100%"></app-skeleton-item>
           </div>
-          <div class="image" (click)="navigateToSakhi('teacher')">
-            <img src="assets/images/Question_bot.svg" alt="">
-            <div class="image-title">{{"Teacher Sakhi" | translate }}</div>
-          </div>
-        </div>
-        <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
-          <div class="djp-card__img" (click)="playContent($event, content)">
-            <img src="assets/images/Audio.png" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
-            <img [src]="loadYoutubeImg(content.metaData.identifier)" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE">
-            <!-- <img [src]="loadYoutubeImg(content.metaData.identifier)" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE && !content.play"> -->
-            <img src="assets/images/Video.png" alt="" *ngIf="content.metaData.mimetype === mimeType.MP4">
-            <img src="assets/images/PDF.png" alt="" *ngIf="content.metaData.mimetype === mimeType.PDF">
-            <!-- <ion-img *ngIf="content.metaData.thumbnail && !content.play" [src]="content.metaData.thumbnail" alt=""/>
-            <ion-img *ngIf="!content.metaData.thumbnail && !content.play" [src]="loadYoutubeImg(content.metaData.identifier)" alt=""/> -->
-            <!-- <div *ngIf="content.metaData.mimetype === 'video/x-youtube' && content.play">
-              <iframe title="" width="380" height="200" allowfullscreen [src]="sanitiseUrl(content.metaData.url)"></iframe>
-            </div> -->
-            <!-- <div class="landscape-icon" (click)="switchLandscape(content)">
-              <ion-icon name="scan" size="large" color="light"></ion-icon>
-            </div> -->
-          </div>
-          <div class="djp-card__metadata">
-            <div class="djp-card__title">{{content.metaData?.name}}</div>
-            <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
+          <div style="padding-left: 1.5rem; width: 10%;">
+            <app-skeleton-item height="12px" width="100%"></app-skeleton-item>
           </div>
         </div>
       </div>
     </div>
+  </ion-list>
+  <ion-list *ngIf="!showSheenAnimation && noSearchData && configContents.length == 0">
+    <ion-item lines="none">
+      <ion-label class="no-data">{{'No Result' | translate }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="!showSheenAnimation && serverError">
+    <ion-item lines="none">
+      <ion-label class="no-data">{{'An unknown error occured, please try after sometime' | translate }}</ion-label>
+    </ion-item>
+  </ion-list>
+  <!-- Cards -->
+  <div *ngIf="!showSheenAnimation && configContents.length > 0">
+    <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
+      <div class="bot-section" *ngIf="i === 5">
+        <div class="image" (click)="navigateToSakhi('story')">
+          <img src="assets/images/Story_bot.svg" alt="">
+          <div class="image-title">{{"Katha Sakhi" | translate }}</div>
+        </div>
+        <div class="image" (click)="navigateToSakhi('teacher')">
+          <img src="assets/images/Question_bot.svg" alt="">
+          <div class="image-title">{{"Teacher Tara" | translate }}</div>
+        </div>
+      </div>
+      <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
+        <div class="djp-card__img" (click)="playContent($event, content)">
+          <img src="assets/images/Audio.png" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
+          <img [src]="loadYoutubeImg(content.metaData.identifier)" alt=""
+            *ngIf="content.metaData.mimetype === mimeType.YOUTUBE">
+          <!-- <img [src]="loadYoutubeImg(content.metaData.identifier)" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE && !content.play"> -->
+          <img src="assets/images/Video.png" alt="" *ngIf="content.metaData.mimetype === mimeType.MP4">
+          <img src="assets/images/PDF.png" alt="" *ngIf="content.metaData.mimetype === mimeType.PDF">
+          <!-- <ion-img *ngIf="content.metaData.thumbnail && !content.play" [src]="content.metaData.thumbnail" alt=""/>
+            <ion-img *ngIf="!content.metaData.thumbnail && !content.play" [src]="loadYoutubeImg(content.metaData.identifier)" alt=""/> -->
+          <!-- <div *ngIf="content.metaData.mimetype === 'video/x-youtube' && content.play">
+              <iframe title="" width="380" height="200" allowfullscreen [src]="sanitiseUrl(content.metaData.url)"></iframe>
+            </div> -->
+          <!-- <div class="landscape-icon" (click)="switchLandscape(content)">
+              <ion-icon name="scan" size="large" color="light"></ion-icon>
+            </div> -->
+        </div>
+        <div class="djp-card__metadata">
+          <div class="djp-card__title">{{content.metaData?.name}}</div>
+          <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

@@ -42,6 +42,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   onlineState: boolean = false
   offlineState: boolean = false
   networkChangeSub: Subscription | null = null;
+  selectedLang: any = "";
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -61,30 +62,32 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     this.configContents = [];
     this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
       this.networkConnected = ev;
-      if(this.networkConnected && !this.onlineState) {
-        console.log(ev);
-        this.onlineState = true;
-        this.presentToast(this.translateService.instant('INTERNET_AVAILABLE'), "success");
-        this.showSheenAnimation = true;
-        this.getServerMetaConfig();
-        this.offlineState = false;
-      } else if(!this.networkConnected && !this.offlineState) {
-        this.offlineState = true;
-        this.presentToast(this.translateService.instant('NO_INTERNET_TITLE'), "danger");
-        this.onlineState = false;
-      }
+      // if (this.networkConnected !== ev) {
+      //   if(this.networkConnected && !this.onlineState) {
+      //     console.log(ev);
+      //     this.onlineState = true;
+      //     this.presentToast(this.translateService.instant('INTERNET_AVAILABLE'), "success");
+      //     this.showSheenAnimation = true;
+      //     this.getServerMetaConfig();
+      //     this.offlineState = false;
+      //   } else if(!this.networkConnected && !this.offlineState) {
+      //     this.offlineState = true;
+      //     this.presentToast(this.translateService.instant('NO_INTERNET_TITLE'), "danger");
+      //     this.onlineState = false;
+      //   }
+      // }
     })
   }
 
-  async presentToast(msg: string, color: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1000,
-      position: 'top',
-      color: color
-    });
-    await toast.present();
-  }
+  // async presentToast(msg: string, color: string) {
+  //   const toast = await this.toastController.create({
+  //     message: msg,
+  //     duration: 1000,
+  //     position: 'top',
+  //     color: color
+  //   });
+  //   await toast.present();
+  // }
 
   ngOnDestroy(): void {
     try {
@@ -96,12 +99,19 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-
-    this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.showSheenAnimation = true;
-      this.getServerMetaConfig();
-    });
-
+    this.headerService.headerEventEmitted$.subscribe(async (val) => {
+      if(val == 'language') {
+        let lang = await this.storage.getData('lang');
+        console.log('lang ', lang, this.selectedLang);
+        if (this.selectedLang !== lang) {
+          this.selectedLang = lang;
+          this.showSheenAnimation = true;
+          this.getServerMetaConfig();
+        }
+      }
+    })
+    // this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+    // });
     let req: Searchrequest = {
       request: {
         pageId: '',
@@ -117,7 +127,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       this.configContents = [];
       this.serverError = false;
       try {
-        let content: Array<ContentMetaData> = await this.configService.getAllContent(req);
+        let lang = await this.storage.getData('lang')
+        let content: Array<ContentMetaData> = await this.configService.getAllContent(req, lang);
         console.log('content', content);
         this.mappUIContentList(content);
       }
@@ -131,7 +142,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       console.log(val);
       this.showSheenAnimation = true;
       try {
-        let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filter });
+        let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filters }, await this.storage.getData('lang'));
         console.log('Response', res);
         this.mappUIContentList(res);
 
@@ -146,7 +157,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       this.getServerMetaConfig();
     } else if (!this.networkConnected) {
       this.configContents = [];
-      this.configContents = await this.contentService.getAllContent();
+      let dbContent = await this.contentService.getAllContent();
+      this.configContents = dbContent;
       if (this.configContents.length == 0) this.getServerMetaConfig();
       this.showSheenAnimation = false;
     } else {
@@ -183,7 +195,11 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
         list.metaData = ele
         this.configContents.push(list)
       });
-      this.contentService.saveContents(this.configContents).then()
+      await this.contentService.saveContents(this.configContents)
+      this.contentService.getAllContent().then(val => {
+        this.configContents = [];
+        this.configContents = val;
+      })
     } else {
       this.noSearchData = true;
     }
@@ -201,7 +217,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   }
 
   async tabViewWillEnter() {
-    await this.headerService.showHeader('Title', false);
+    await this.headerService.showHeader('e-Jaadui Pitara', false);
     setTimeout(() => {
       this.headerService.showStatusBar(false);
     }, 0);
