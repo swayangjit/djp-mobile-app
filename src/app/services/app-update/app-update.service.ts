@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-update';
-import { AlertController, Platform } from '@ionic/angular';
+import { Platform, PopoverController } from '@ionic/angular';
+import { AppUpdateComponent } from 'src/app/components/app-update/app-update.component';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,7 @@ export class AppUpdateService {
     constructor(
         public router: Router,
         public platform: Platform,
-        private alertController: AlertController
+        private popoverController: PopoverController
     ) { }
 
     async checkForUpdate() {
@@ -28,24 +29,18 @@ export class AppUpdateService {
                 } else if (result.flexibleUpdateAllowed) {
                     await AppUpdate.startFlexibleUpdate();
                     AppUpdate.addListener('onFlexibleUpdateStateChange', async () => {
-                        const alert = await this.alertController.create({
-                            header: 'Update Downloaded',
-                            message: 'The update has been downloaded. Would you like to restart the app to complete the update now?',
-                            buttons: [
-                                {
-                                    text: 'Later',
-                                    role: 'cancel',
-                                },
-                                {
-                                    text: 'Restart Now',
-                                    handler: () => {
-                                        AppUpdate.completeFlexibleUpdate();
-                                    }
-                                }
-                            ]
-                        });
-
-                        await alert.present();
+                        let modal = await this.popoverController.create({
+                            component: AppUpdateComponent,
+                            cssClass: 'update-modal',
+                            translucent: true,
+                            dismissOnSelect: true
+                        })
+                        await modal.present();
+                        modal.onDidDismiss().then((res => {
+                            if(res.data == "restart") {
+                                AppUpdate.completeFlexibleUpdate();
+                            }
+                        }));
                     });
                 } else {
                     // Handle the case where an update is not allowed
