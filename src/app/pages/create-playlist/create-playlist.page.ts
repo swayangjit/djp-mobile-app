@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MimeType, PlayerType } from 'src/app/appConstants';
 import { ContentUtil } from 'src/app/services/content/util/content.util';
 import { Location } from '@angular/common';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-create-playlist',
@@ -20,6 +21,7 @@ export class CreatePlaylistPage implements OnInit {
   playlists: any;
   playlistName = '';
   public files: PickedFile[] = [];
+  navigateBack: boolean = false;
   resolveNativePath = (path : string) =>
   new Promise((resolve, reject) => {
     (window as any).FilePath.resolveNativePath(path, resolve, (err : any) => {
@@ -68,7 +70,8 @@ export class CreatePlaylistPage implements OnInit {
       console.log('result', result)
     });
     this.headerService.headerEventEmitted$.subscribe((event) => {
-      if (event === 'back' && this.status === 'edit') {
+      if (event === 'back' && this.status === 'edit' && !this.navigateBack) {
+        this.navigateBack = true;
         this.location.back();
       }
     });

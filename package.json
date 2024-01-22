@@ -44,7 +44,6 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "@project-sunbird/sunbird-pdf-player-web-component": "1.1.0",
     "@project-sunbird/sunbird-video-player-web-component": "1.1.1",
-    "@project-sunbird/telemetry-sdk": "0.0.29",
     "canvas-confetti": "^1.9.2",
     "capacitor-voice-recorder": "^5.0.0",
     "cordova-plugin-filepath": " git+https://github.com/swayangjit/cordova-plugin-filepath.git",
