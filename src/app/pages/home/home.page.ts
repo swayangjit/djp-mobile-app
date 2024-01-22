@@ -16,8 +16,9 @@ import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import confetti from 'canvas-confetti';
 import { NativeAudio } from '@capacitor-community/native-audio';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-home',
@@ -342,7 +343,12 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     return this.domSanitiser.bypassSecurityTrustResourceUrl(sanitizeUrl.replace('watch?v=', 'embed/') + '?autoplay=1&controls=1');
   }
 
-  loadYoutubeImg(id: string): string {
+  loadYoutubeImg(metaData: any): string {
+    let id = metaData.identifier;
+    if(id.startsWith("do_")) {
+      id = getYouTubeID(metaData.url);
+      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
+    }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 

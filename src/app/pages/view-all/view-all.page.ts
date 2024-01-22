@@ -14,6 +14,7 @@ import { SheetModalComponent } from 'src/app/components/sheet-modal/sheet-modal.
 import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pitara.component';
 import { NativeAudio } from '@capacitor-community/native-audio';
 import confetti from 'canvas-confetti';
+import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-view-all',
@@ -228,7 +229,7 @@ export class ViewAllPage implements OnInit {
   getContentImgPath(contents: Array<any>, isSelected?: boolean) : Array<any>{
     contents.forEach((ele) => {
       if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
-        ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData.identifier);
+        ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData);
       } else {
         ele.metaData['thumbnail'] = ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
       }
@@ -240,7 +241,12 @@ export class ViewAllPage implements OnInit {
     return contents;
   }
 
-  loadYoutubeImg(id: string): string {
+  loadYoutubeImg(metaData: any): string {
+    let id = metaData.identifier;
+    if(id.startsWith("do_")) {
+      id = getYouTubeID(metaData.url);
+      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
+    }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 

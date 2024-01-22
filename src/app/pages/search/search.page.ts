@@ -19,6 +19,7 @@ import { RecordingAlertComponent } from 'src/app/components/recording-alert/reco
 import { NativeAudio } from '@capacitor-community/native-audio';
 import confetti from 'canvas-confetti';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
+import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-search',
@@ -210,7 +211,12 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     await this.router.navigate(['/player'], {state: {content}})
   }
   
-  loadYoutubeImg(id: string): string {
+  loadYoutubeImg(metaData: any): string {
+    let id = metaData.identifier;
+    if(id.startsWith("do_")) {
+      id = getYouTubeID(metaData.url);
+      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
+    }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 

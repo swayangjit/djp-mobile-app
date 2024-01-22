@@ -12,6 +12,7 @@ import { ContentService } from 'src/app/services/content/content.service';
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
+import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-qr-scan-result',
@@ -137,7 +138,12 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
     });
   }
 
-  loadYoutubeImg(id: string): string {
+  loadYoutubeImg(metaData: any): string {
+    let id = metaData.identifier;
+    if(id.startsWith("do_")) {
+      id = getYouTubeID(metaData.url);
+      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
+    }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 }
