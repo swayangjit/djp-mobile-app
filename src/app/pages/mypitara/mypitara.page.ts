@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonModal, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { EditRemovedModalComponent } from 'src/app/components/edit-removed-modal/edit-removed-modal.component';
 import { AppHeaderService } from 'src/app/services/app-header.service';
 import { ContentService } from 'src/app/services/content/content.service';
@@ -114,7 +114,6 @@ export class MyPitaraPage implements OnTabViewWillEnter{
     let id = metaData.identifier;
     if(id.startsWith("do_")) {
       id = getYouTubeID(metaData.url);
-      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
     }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }

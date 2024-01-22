@@ -18,7 +18,6 @@ import confetti from 'canvas-confetti';
 import { NativeAudio } from '@capacitor-community/native-audio';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-home',
@@ -242,9 +241,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
           content: content
         },
         cssClass: 'sheet-modal',
-        breakpoints: [0.3],
+        breakpoints: [0.25],
         showBackdrop: false,
-        initialBreakpoint: 0.3,
+        initialBreakpoint: 0.25,
         handle: false,
         handleBehavior: "none"
       });
@@ -341,15 +340,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   sanitiseUrl(url: string): SafeResourceUrl {
     let sanitizeUrl = url.split('&')[0]
     return this.domSanitiser.bypassSecurityTrustResourceUrl(sanitizeUrl.replace('watch?v=', 'embed/') + '?autoplay=1&controls=1');
-  }
-
-  loadYoutubeImg(metaData: any): string {
-    let id = metaData.identifier;
-    if(id.startsWith("do_")) {
-      id = getYouTubeID(metaData.url);
-      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
-    }
-    return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 
   navigateToSakhi(type: string) {

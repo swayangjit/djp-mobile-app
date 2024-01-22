@@ -8,6 +8,7 @@ import { PlaylistDetailsPageRoutingModule } from './playlist-details-routing.mod
 
 import { PlaylistDetailsPage } from './playlist-details.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     PlaylistDetailsPageRoutingModule,
-    TranslateModule
+    TranslateModule,
+    DirectivesModule
   ],
   declarations: [PlaylistDetailsPage]
 })

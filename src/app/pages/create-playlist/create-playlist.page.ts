@@ -151,7 +151,6 @@ export class CreatePlaylistPage implements OnInit {
     let id = metaData.identifier;
     if(id.startsWith("do_")) {
       id = getYouTubeID(metaData.url);
-      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
     }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }

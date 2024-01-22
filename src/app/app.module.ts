@@ -27,6 +27,7 @@ import { TelemetryGeneratorService } from './services/telemetry/telemetry.genera
 import { ScannerService } from './services/scan/scanner.service';
 import { PermissionsService } from './services/scan/permissions.service';
 import { TabsService } from './services/tabs.service';
+import { DirectivesModule } from './directives/directives.module';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -45,7 +46,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
           deps: [HttpClient]
       }
     }),
-    ComponentsModule],
+    ComponentsModule,
+    DirectivesModule],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     StorageService,

@@ -19,7 +19,6 @@ import { RecordingAlertComponent } from 'src/app/components/recording-alert/reco
 import { NativeAudio } from '@capacitor-community/native-audio';
 import confetti from 'canvas-confetti';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
-import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-search',
@@ -156,9 +155,9 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
           content: content
         },
         cssClass: 'sheet-modal',
-        breakpoints: [0.3],
+        breakpoints: [0.25],
         showBackdrop: false,
-        initialBreakpoint: 0.3,
+        initialBreakpoint: 0.25,
         handle: false,
         handleBehavior: "none"
       });
@@ -210,15 +209,6 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     this.contentService.markContentAsViewed(content)
     await this.router.navigate(['/player'], {state: {content}})
   }
-  
-  loadYoutubeImg(metaData: any): string {
-    let id = metaData.identifier;
-    if(id.startsWith("do_")) {
-      id = getYouTubeID(metaData.url);
-      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
-    }
-    return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
-  }
 
   async onLongPressStart() {
     console.log('long press on search start');
@@ -239,9 +229,9 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     this.modal = await this.modalCtrl.create({
       component: RecordingAlertComponent,
       cssClass: 'sheet-modal',
-      breakpoints: [0.45],
+      breakpoints: [0.4],
       showBackdrop: false,
-      initialBreakpoint: 0.45,
+      initialBreakpoint: 0.4,
       handle: false,
       handleBehavior: "none"
     });

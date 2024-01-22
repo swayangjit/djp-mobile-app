@@ -8,7 +8,8 @@ import { SearchPageRoutingModule } from './search-routing.module';
 
 import { SearchPage } from './search.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentsModule } from "../../components/components.module";
+import { DirectivesModule } from 'src/app/directives/directives.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
     declarations: [SearchPage],
@@ -18,7 +19,8 @@ import { ComponentsModule } from "../../components/components.module";
         IonicModule,
         SearchPageRoutingModule,
         TranslateModule,
-        ComponentsModule
+        ComponentsModule,
+        DirectivesModule
     ]
 })
 export class SearchPageModule {}

@@ -6,7 +6,6 @@ import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { ModalController } from '@ionic/angular';
 import { EditRemovedModalComponent } from 'src/app/components/edit-removed-modal/edit-removed-modal.component';
 import { Location } from '@angular/common';
-import getYouTubeID from 'get-youtube-id';
 @Component({
   selector: 'app-playlist-details',
   templateUrl: './playlist-details.page.html',
@@ -90,15 +89,6 @@ export class PlaylistDetailsPage implements OnInit {
         this.router.navigate(['/create-playlist'], { state: { playlists: this.playContentObject, islocal: true } })
       }
     });
-  }
-
-  loadYoutubeImg(metaData: any): string {
-    let id = metaData.identifier;
-    if(id.startsWith("do_")) {
-      id = getYouTubeID(metaData.url);
-      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
-    }
-    return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 
 }

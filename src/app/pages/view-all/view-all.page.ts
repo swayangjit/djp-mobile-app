@@ -130,9 +130,9 @@ export class ViewAllPage implements OnInit {
           content: content
         },
         cssClass: 'sheet-modal',
-        breakpoints: [0.3],
+        breakpoints: [0.25],
         showBackdrop: false,
-        initialBreakpoint: 0.3,
+        initialBreakpoint: 0.25,
         handle: false,
         handleBehavior: "none"
       });
@@ -245,7 +245,6 @@ export class ViewAllPage implements OnInit {
     let id = metaData.identifier;
     if(id.startsWith("do_")) {
       id = getYouTubeID(metaData.url);
-      console.log('id ', metaData.identifier, id, `https://img.youtube.com/vi/${id}/mqdefault.jpg`);
     }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
