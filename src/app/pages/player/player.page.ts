@@ -84,10 +84,11 @@ export class PlayerPage implements OnInit {
       if (this.playerType == 'pdf') {
         this.playerConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.playerConfig['metadata']['name'] = this.content?.metaData.name;
-        this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
         if ((this.content?.source === 'local' || this.content?.type === 'local') && this.content?.metaData.url.includes('file://')) {
           this.playerConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''))
+          this.playerConfig['metadata']['artifactUrl'] = ""
         } else {
+          this.playerConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || '';
           this.playerConfig['metadata']['streamingUrl'] = this.content?.metaData.url;
         }
         this.playerConfig['metadata']['isAvailableLocally'] = (this.content?.source === 'local' || this.content?.type === 'local')? true : false;
@@ -108,10 +109,12 @@ export class PlayerPage implements OnInit {
       } else if (this.playerType == "video") {
         this.videoConfig['metadata']['identifier'] = this.content?.metaData.identifier;
         this.videoConfig['metadata']['name'] = this.content?.metaData.name;
-        this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || this.content?.metaData.url || ""
         if ((this.content?.source === 'local' || this.content?.type === 'local') && this.content?.metaData.url.includes('file://')) {
           this.videoConfig['metadata']['streamingUrl'] = Capacitor.convertFileSrc(this.content?.metaData.url.replace('file://', ''));
           this.videoConfig['metadata']['artifactUrl'] = '';
+        } else {
+          this.videoConfig['metadata']['streamingUrl'] = '';
+          this.videoConfig['metadata']['artifactUrl'] = this.content?.metaData.artifactUrl || this.content?.metaData.url || ""
         }
         this.videoConfig['context']['cdata'] = this.cdata;
         this.videoConfig['metadata']['isAvailableLocally'] = (this.content?.source === 'local' || this.content?.type === 'local')? true : false;

@@ -70,5 +70,10 @@
     "Audio Books": "Audio Books",
     "Toys and Games": "Toys and Games",
     "Handbooks": "Handbooks",
-    "Charts": "Charts"
+    "Charts": "Charts",
+    "Download and Add": "Download and Add",
+    "Downloading ....": "Downloading ....",
+    "Downloaded successfully": "Downloaded successfully",
+    "Failed to download": "Failed to download",
+    "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported."
 }
