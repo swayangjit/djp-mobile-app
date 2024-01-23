@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { MimeType, PlayerType } from 'src/app/appConstants';
 import { ContentUtil } from 'src/app/services/content/util/content.util';
 import { Location } from '@angular/common';
-import { NavController } from '@ionic/angular';
+import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-create-playlist',
@@ -147,7 +147,11 @@ export class CreatePlaylistPage implements OnInit {
     })
   }
 
-  loadYoutubeImg(id: string): string {
+  loadYoutubeImg(metaData: any): string {
+    let id = metaData.identifier;
+    if(id.startsWith("do_")) {
+      id = getYouTubeID(metaData.url);
+    }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 

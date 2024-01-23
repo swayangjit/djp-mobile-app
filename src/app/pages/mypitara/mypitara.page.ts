@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonModal, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { EditRemovedModalComponent } from 'src/app/components/edit-removed-modal/edit-removed-modal.component';
 import { AppHeaderService } from 'src/app/services/app-header.service';
 import { ContentService } from 'src/app/services/content/content.service';
@@ -9,6 +9,7 @@ import { PlayList } from 'src/app/services/playlist/models/playlist.content';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import {PlayerType} from 'src/app/appConstants';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
+import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-mypitara',
@@ -64,7 +65,7 @@ export class MyPitaraPage implements OnTabViewWillEnter{
       this.contentList = result;
       this.contentList.forEach((ele: any) => {
         if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
-          ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData.identifier)
+          ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData)
         } else {
           ele.metaData['thumbnail'] = ContentUtil.getImagePath(ele.metaData.mimeType || ele.metaData.mimetype)
         }
@@ -109,7 +110,11 @@ export class MyPitaraPage implements OnTabViewWillEnter{
     });
   }
 
-  loadYoutubeImg(id: string): string {
+  loadYoutubeImg(metaData: any): string {
+    let id = metaData.identifier;
+    if(id.startsWith("do_")) {
+      id = getYouTubeID(metaData.url);
+    }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 

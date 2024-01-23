@@ -43,7 +43,7 @@
     <ion-item lines="none" *ngFor="let content of searchContentResult; let i = index" class="djp-card">
       <div class="djp-card__img" (click)="playContent($event, content)">
         <img src="assets/images/Audio.png" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
-        <img [src]="loadYoutubeImg(content.metaData.identifier)" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE">
+        <img appThumbnail [appThumbnail]="content?.metaData" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE">
         <img src="assets/images/Video.png" alt="" *ngIf="content.metaData.mimetype === mimeType.MP4">
         <img src="assets/images/PDF.png" alt="" *ngIf="content.metaData.mimetype === mimeType.PDF">
       </div>
