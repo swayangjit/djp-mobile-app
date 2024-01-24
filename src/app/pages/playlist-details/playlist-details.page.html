@@ -5,10 +5,10 @@
   <div class="djp-cards-container" *ngFor="let content of playlists; let i = index">
     <div class="djp-card" *ngIf="content?.metaData">
       <div class="djp-card__img" (click)="playContent(content)">
-        <img src="assets/images/Audio.png" alt="" *ngIf="content?.metaData?.mimetype === mimeType.AUDIO">
+        <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : 'assets/images/Audio.png'" alt="" *ngIf="content?.metaData?.mimetype === mimeType.AUDIO">
         <img appThumbnail [appThumbnail]="content?.metaData" alt="" *ngIf="content?.metaData?.mimetype === mimeType.YOUTUBE && !content.play">
-        <img src="assets/images/Video.png" alt="" *ngIf="content?.metaData?.mimetype === mimeType.MP4">
-        <img src="assets/images/PDF.png" alt="" *ngIf="content?.metaData?.mimetype === mimeType.PDF">
+        <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : 'assets/images/Video.png'" alt="" *ngIf="content?.metaData?.mimetype === mimeType.MP4">
+        <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : 'assets/images/PDF.png'" alt="" *ngIf="content?.metaData?.mimetype === mimeType.PDF">
         <!-- <ion-img *ngIf="content.metaData.thumbnail && !content.play" [src]="content.metaData.thumbnail" alt=""/>
         <ion-img *ngIf="!content.metaData.thumbnail && !content.play" [src]="loadYoutubeImg(content.metaData.identifier)" alt=""/> -->
         <!-- <div *ngIf="content.metaData.mimetype === 'video/x-youtube' && content.play">
