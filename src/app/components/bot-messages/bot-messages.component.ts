@@ -222,6 +222,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           msg.displayMsg = msg.message;
           msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
           msg.timeStamp = Date.now();
+          this.saveChatMessage(msg);
           this.disabled = false;
         }
       })
@@ -238,6 +239,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           this.botMessages[index-1].displayMsg = "Sorry, this language is not currently supported.";
         }
       }
+      this.saveChatMessage(this.botMessages[index-1]);
     })
   }
 
