@@ -81,4 +81,17 @@ ion-content{
       width: 10rem;
     }
   }
+
+  .footer-text {
+    position: fixed;
+    bottom: -41%;
+    width: 22.5rem;
+    height: 22.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    left: 77%;
+    transform: translateX(-50%);
+    font-size: 12px;
+  }
 }
