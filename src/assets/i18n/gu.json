@@ -16,11 +16,10 @@
     "Like": "ગમે છે",
     "Share": "શેર કરો",
     "Add to My Pitara": "મારા પિટારામાં ઉમેરો",
-    "My Pitara": "મારા પિટારામાં ઉમેરો",
     "New playlist": "નવી પ્લેલિસ્ટ",
     "Done": "થઈ ગયું",
     "My Jaadui Pitara": "મારો જાદુઈ પિટારો",
-    "Recently Viewed": "Rતાજેતરમાં જોવાયેલ",
+    "Recently Viewed": "તાજેતરમાં જોવાયેલ",
     "Playlists": "પ્લેલિસ્ટ્સ",
     "New Playlist": "નવી પ્લેલિસ્ટ",
     "Name of the playlist": "પ્લેલિસ્ટ નામ",
@@ -70,5 +69,11 @@
     "Audio Books": "ઓડિયો પુસ્તકો",
     "Toys and Games": "રમકડાં અને રમતો",
     "Handbooks": "હેન્ડબુક",
-    "Charts": "ચાર્ટ્સ"
+    "Charts": "ચાર્ટ્સ",
+    "My Pitara": "મારો પિટારા",
+    "Download and Add": "Download and Add",
+    "Downloading ....": "Downloading ....",
+    "Downloaded successfully": "Downloaded successfully",
+    "Failed to download": "Failed to download",
+    "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported."
 }

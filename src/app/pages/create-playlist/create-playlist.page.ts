@@ -139,7 +139,7 @@ export class CreatePlaylistPage implements OnInit {
     this.selectedContents.forEach((ele) => {
       if (!ele.metaData['thumbnail']) {
         if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
-          ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData.identifier);
+          ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData);
         } else {
           ele.metaData['thumbnail'] = ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
         }
@@ -149,7 +149,7 @@ export class CreatePlaylistPage implements OnInit {
 
   loadYoutubeImg(metaData: any): string {
     let id = metaData.identifier;
-    if(id.startsWith("do_")) {
+    if(id && id.startsWith("do_")) {
       id = getYouTubeID(metaData.url);
     }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;

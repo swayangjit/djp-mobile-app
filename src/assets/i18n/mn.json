@@ -16,7 +16,6 @@
     "Like": "ꯄꯥꯝꯕ",
     "Share": "ꯂꯥꯟꯅꯕ",
     "Add to My Pitara": "ꯑꯩꯒꯤ ꯄꯤꯇꯥꯔꯥꯗ ꯍꯥꯞꯆꯤꯜꯂꯨ",
-    "My Pitara": "ꯑꯩꯒꯤ ꯄꯤꯇꯥꯔꯥ꯫",
     "New playlist": "ꯑꯅꯧꯕ ꯄ꯭ꯂꯦꯂꯤꯁ꯭ꯠ",
     "Done": "ꯇꯧꯈ꯭ꯔꯦ",
     "My Jaadui Pitara": "ꯑꯩꯒꯤ ꯖꯥꯗꯨꯏ ꯄꯤꯇꯥꯔꯥ꯫",
@@ -70,5 +69,11 @@
     "Audio Books": "Audio Books",
     "Toys and Games": "Toys and Games",
     "Handbooks": "Handbooks",
-    "Charts": "Charts"
+    "Charts": "Charts",
+    "My Pitara": "My Pitara",
+    "Download and Add": "Download and Add",
+    "Downloading ....": "Downloading ....",
+    "Downloaded successfully": "Downloaded successfully",
+    "Failed to download": "Failed to download",
+    "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported."
 }

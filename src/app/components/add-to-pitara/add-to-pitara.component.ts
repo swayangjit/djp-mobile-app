@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController, NavParams } from '@ionic/angular';
-import { UtilService } from 'src/app/services';
-import { PlayList, PlayListContent } from 'src/app/services/playlist/models/playlist.content';
+import { ModalController, NavParams } from '@ionic/angular';
+import { PlayList } from 'src/app/services/playlist/models/playlist.content';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { NewPlaylistModalComponent } from '../new-playlist-modal/new-playlist-modal.component';
+import { DownlaodContentService } from 'src/app/services';
 
 @Component({
   selector: 'app-add-to-pitara',
@@ -15,12 +15,13 @@ export class AddToPitaraComponent  implements OnInit {
   content: any
   playlists: Array<any> = [];
   isOpen=false;
+  checked: boolean = false;
+  toast: any;
   constructor(
     private playListService: PlaylistService,
     private navParams: NavParams,
     private modalCtrl: ModalController,
-    private alertController: AlertController,
-    private utilService: UtilService) { }
+    private downlaodContentService: DownlaodContentService) { }
 
    ngOnInit() {
     this.content = this.navParams.get('content')
@@ -52,9 +53,16 @@ export class AddToPitaraComponent  implements OnInit {
   async saveContent() {
     console.log('/./.', this.selectedContentId);
     if (this.selectedContentId && this.content.metaData) {
+      if(this.checked) {
+        let res: any = await this.downlaodContentService.downlaodContent(this.content);
+        if(res?.uri) {
+          this.content.metaData.url = res.uri;
+          this.content.type = "local";
+        }
+      }
       let req : any = [{
         identifier: this.content.metaData.identifier,
-        type:  'content',
+        type: this.content.type == "local" ? "local" : 'content',
         localContent : this.content
       }]
       await this.playListService.addContentToPlayList(this.selectedContentId, req).then((data) => {

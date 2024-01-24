@@ -16,7 +16,6 @@
     "Like": "پسند",
     "Share": "بٲگرٲوِو",
     "Add to My Pitara": "میٲنِس پِتاراہس منز کْرِو جمع",
-    "My Pitara": "میٲنِس پِتاراہس منز کْرِو جمع",
     "New playlist": "نوٚو پلے لِسٹ",
     "Done": "کرنْہ آمُت",
     "My Jaadui Pitara": "میوٗن جادٗوِی پِتارٕ",
@@ -70,5 +69,11 @@
     "Audio Books": "Audio Books",
     "Toys and Games": "Toys and Games",
     "Handbooks": "Handbooks",
-    "Charts": "Charts"
+    "Charts": "Charts",
+    "My Pitara": "My Pitara",
+    "Download and Add": "Download and Add",
+    "Downloading ....": "Downloading ....",
+    "Downloaded successfully": "Downloaded successfully",
+    "Failed to download": "Failed to download",
+    "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported."
 }

@@ -16,7 +16,6 @@
     "Like": "ഇഷ്ടപ്പെടുക",
     "Share": "പങ്കിടുക",
     "Add to My Pitara": "എന്റെ പിടാരയിലേക്ക് ചേർക്കുക",
-    "My Pitara": "എന്റെ പിടാര",
     "New playlist": "പുതിയ പ്ലേലിസ്റ്റ്",
     "Done": "ചെയ്തു",
     "My Jaadui Pitara": "എന്റെ ജാദുയി പിടാര",
@@ -70,5 +69,11 @@
     "Audio Books": "ഓഡിയോ ബുക്കുകൾ",
     "Toys and Games": "കളിപ്പാട്ടങ്ങളും കളികളും",
     "Handbooks": "കൈപ്പുസ്തകങ്ങൾ",
-    "Charts": "ചാർട്ടുകൾ"
+    "Charts": "ചാർട്ടുകൾ",
+    "My Pitara": "എന്റെ പിടാര",
+    "Download and Add": "Download and Add",
+    "Downloading ....": "Downloading ....",
+    "Downloaded successfully": "Downloaded successfully",
+    "Failed to download": "Failed to download",
+    "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported."
 }

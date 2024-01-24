@@ -28,6 +28,7 @@ import { ScannerService } from './services/scan/scanner.service';
 import { PermissionsService } from './services/scan/permissions.service';
 import { TabsService } from './services/tabs.service';
 import { DirectivesModule } from './directives/directives.module';
+import { DownlaodContentService } from './services/downlaod-content.service';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -73,7 +74,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     Diagnostic,
     SearchService,
     TabsService,
-    BotApiService
+    BotApiService,
+    DownlaodContentService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

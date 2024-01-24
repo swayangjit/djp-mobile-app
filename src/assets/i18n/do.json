@@ -16,7 +16,6 @@
     "Like": "1. पसंद 2.जिʼयां",
     "Share": "सांझा",
     "Add to My Pitara": "मेरे पटारा च जोड़ो",
-    "My Pitara": "मेरे पटारा च जोड़ो",
     "New playlist": "नमीं प्लेलिस्ट",
     "Done": "होई गेआ",
     "My Jaadui Pitara": "मेरा जादुई पटारा",
@@ -70,5 +69,11 @@
     "Audio Books": "Audio Books",
     "Toys and Games": "Toys and Games",
     "Handbooks": "Handbooks",
-    "Charts": "Charts"
+    "Charts": "Charts",
+    "My Pitara": "My Pitara",
+    "Download and Add": "Download and Add",
+    "Downloading ....": "Downloading ....",
+    "Downloaded successfully": "Downloaded successfully",
+    "Failed to download": "Failed to download",
+    "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported."
 }

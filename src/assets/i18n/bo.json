@@ -1,5 +1,5 @@
 {
-    "e-Jaadui Pitara": "इ-जादुनि बाकसु",
+    "e-Jaadui Pitara": "ई-जादुनि बाकसु",
     "All": "गासैबो",
     "Rhymes": "राइम्स",
     "Stories": "सल'फोर",
@@ -16,7 +16,6 @@
     "Like": "जेरै",
     "Share": "सेयार खालाम",
     "Add to My Pitara": "आंनि बाकसुआव दाजाबदेर।",
-    "My Pitara": "आंनि बाकसुआव दाजाबदेर।",
     "New playlist": "गोदान प्लेलिस्ट",
     "Done": "जाबाय",
     "My Jaadui Pitara": "आंनि जादुनि बाकसु",
@@ -70,5 +69,11 @@
     "Audio Books": "Audio Books",
     "Toys and Games": "Toys and Games",
     "Handbooks": "Handbooks",
-    "Charts": "Charts"
+    "Charts": "Charts",
+    "My Pitara": "My Pitara",
+    "Download and Add": "Download and Add",
+    "Downloading ....": "Downloading ....",
+    "Downloaded successfully": "Downloaded successfully",
+    "Failed to download": "Failed to download",
+    "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported."
 }

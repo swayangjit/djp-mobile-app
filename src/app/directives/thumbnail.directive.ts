@@ -12,7 +12,7 @@ export class ThumbnailDirective implements OnChanges {
   ngOnChanges(changes: any): void {
     if (changes['appThumbnail']) {
       let id = changes['appThumbnail'].currentValue.identifier;
-      if(id.startsWith("do_")) {
+      if(id && id.startsWith("do_")) {
         id = getYouTubeID(changes.appThumbnail.currentValue.url);
       }
       const newSrc = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
