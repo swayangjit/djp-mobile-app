@@ -232,6 +232,12 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       this.botMessages[index-1].displayMsg = "An unknown error occured, please try after sometime";
       this.botMessages[index-1].time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
       this.botMessages[index-1].timeStamp = Date.now();
+      if(e.body.detail.length > 0) {
+        if (e.body.detail[0].type === 'type_error.enum') {
+          this.botMessages[index-1].message = "Sorry, this language is not currently supported.";
+          this.botMessages[index-1].displayMsg = "Sorry, this language is not currently supported.";
+        }
+      }
     })
   }
 

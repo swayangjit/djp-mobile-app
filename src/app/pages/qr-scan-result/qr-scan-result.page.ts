@@ -87,9 +87,9 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
           content: content
         },
         cssClass: 'sheet-modal',
-        breakpoints: [0.3],
+        breakpoints: [0.25],
         showBackdrop: false,
-        initialBreakpoint: 0.3,
+        initialBreakpoint: 0.25,
         handle: false,
         handleBehavior: "none"
       });
@@ -135,9 +135,5 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
     await modal.present();
     modal.onWillDismiss().then((result) => {
     });
-  }
-
-  loadYoutubeImg(id: string): string {
-    return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 }

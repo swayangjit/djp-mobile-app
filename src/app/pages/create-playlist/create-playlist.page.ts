@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MimeType, PlayerType } from 'src/app/appConstants';
 import { ContentUtil } from 'src/app/services/content/util/content.util';
 import { Location } from '@angular/common';
+import getYouTubeID from 'get-youtube-id';
 
 @Component({
   selector: 'app-create-playlist',
@@ -20,6 +21,7 @@ export class CreatePlaylistPage implements OnInit {
   playlists: any;
   playlistName = '';
   public files: PickedFile[] = [];
+  navigateBack: boolean = false;
   resolveNativePath = (path : string) =>
   new Promise((resolve, reject) => {
     (window as any).FilePath.resolveNativePath(path, resolve, (err : any) => {
@@ -68,7 +70,8 @@ export class CreatePlaylistPage implements OnInit {
       console.log('result', result)
     });
     this.headerService.headerEventEmitted$.subscribe((event) => {
-      if (event === 'back' && this.status === 'edit') {
+      if (event === 'back' && this.status === 'edit' && !this.navigateBack) {
+        this.navigateBack = true;
         this.location.back();
       }
     });
@@ -136,7 +139,7 @@ export class CreatePlaylistPage implements OnInit {
     this.selectedContents.forEach((ele) => {
       if (!ele.metaData['thumbnail']) {
         if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
-          ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData.identifier);
+          ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData);
         } else {
           ele.metaData['thumbnail'] = ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
         }
@@ -144,7 +147,11 @@ export class CreatePlaylistPage implements OnInit {
     })
   }
 
-  loadYoutubeImg(id: string): string {
+  loadYoutubeImg(metaData: any): string {
+    let id = metaData.identifier;
+    if(id && id.startsWith("do_")) {
+      id = getYouTubeID(metaData.url);
+    }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 

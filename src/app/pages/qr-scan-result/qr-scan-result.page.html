@@ -32,7 +32,7 @@
       <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
         <div class="djp-card__img" (click)="playContent($event, content)">
           <img src="assets/images/Audio.png" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
-          <img [src]="loadYoutubeImg(content.metaData.identifier)" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE && !content.play">
+          <img appThumbnail [appThumbnail]="content?.metaData" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE && !content.play">
           <img src="assets/images/Video.png" alt="" *ngIf="content.metaData.mimetype === mimeType.MP4 || content.metaData.mimetype === mimeType.WEBM">
           <img src="assets/images/PDF.png" alt="" *ngIf="content.metaData.mimetype === mimeType.PDF">
            
