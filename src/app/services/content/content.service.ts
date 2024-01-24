@@ -41,11 +41,11 @@ export class ContentService {
   }
 
   async getRecentlyViewedContent(uid: string): Promise<Array<RecentlyViewedContent>> {
-    const query = `SELECT rvc.* ,c.*
+    const query = `SELECT rvc.* ,c.*, cr.reaction_identifier as reaction_identifier
     FROM ${RecentlyViewedContentEntry.TABLE_NAME} rvc
-    LEFT JOIN ${ContentEntry.TABLE_NAME} c
-    ON rvc.content_identifier=c.identifier where rvc.uid='${uid}' ORDER BY rvc.ts DESC`;
-
+    LEFT JOIN ${ContentEntry.TABLE_NAME} c ON rvc.content_identifier=c.identifier 
+    LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON rvc.content_identifier = cr.reaction_identifier 
+    where rvc.uid='${uid}' ORDER BY rvc.ts DESC`;
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);
     const recentlyViewedContent: Array<RecentlyViewedContent> = []
     result?.map((contentRVC: ContentRVCEntry.ContentRVCMixedSchemaMap) => {

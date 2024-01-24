@@ -5,12 +5,20 @@ export namespace ContentReactionsEntry {
     export const TABLE_NAME = 'content_reactions';
     export const _ID = '_id';
     export const COLUMN_NAME_CONTENT_IDENTIFIER = 'content_identifier';
+    export const COLUMN_NAME_REACTION_IDENTIFIER = 'reaction_identifier';
     export const COLUMN_NAME_UID = 'uid';
     export const COLUMN_NAME_TIME_STAMP = 'ts';
 
     export interface SchemaMap {
         [_ID]?: string;
         [COLUMN_NAME_CONTENT_IDENTIFIER]: string;
+        [COLUMN_NAME_UID]: string;
+        [COLUMN_NAME_TIME_STAMP]: number;
+    }
+
+    export interface ReactionSchemaMap {
+        [_ID]?: string;
+        [COLUMN_NAME_REACTION_IDENTIFIER]: string;
         [COLUMN_NAME_UID]: string;
         [COLUMN_NAME_TIME_STAMP]: number;
     }

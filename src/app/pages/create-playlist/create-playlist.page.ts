@@ -106,7 +106,7 @@ export class CreatePlaylistPage implements OnInit {
         }
       }
     });
-    if (this.playlistName) {
+    if (this.playlistName.replace(/\s/g, '').length > 0) {
       let identifier = this.playlists ? this.playlists.identifier : undefined;
       this.playListService.createPlayList(this.playlistName, 'guest', request, identifier).then((data) => {
         // API
