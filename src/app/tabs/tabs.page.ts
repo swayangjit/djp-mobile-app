@@ -38,10 +38,10 @@ export class TabsPage implements OnTabViewWillEnter{
         modal = await this.modalCtrl.create({
           component: AppExitComponent,
           cssClass: 'sheet-modal',
-          breakpoints: [0.3],
+          breakpoints: [0.2],
           showBackdrop: false,
           backdropDismiss: false,
-          initialBreakpoint: 0.3,
+          initialBreakpoint: 0.2,
           handle: false,
           handleBehavior: "none"
         });

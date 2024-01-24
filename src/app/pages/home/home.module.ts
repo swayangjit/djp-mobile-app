@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from "../../components/components.module";
+import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
     declarations: [HomePage],
@@ -16,7 +17,8 @@ import { ComponentsModule } from "../../components/components.module";
         FormsModule,
         HomePageRoutingModule,
         TranslateModule,
-        ComponentsModule
+        ComponentsModule,
+        DirectivesModule
     ]
 })
 export class HomePageModule {}

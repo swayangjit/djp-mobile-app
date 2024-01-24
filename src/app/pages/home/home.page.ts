@@ -16,7 +16,7 @@ import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.
 import { TelemetryObject } from 'src/app/services/telemetry/models/telemetry';
 import confetti from 'canvas-confetti';
 import { NativeAudio } from '@capacitor-community/native-audio';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -241,9 +241,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
           content: content
         },
         cssClass: 'sheet-modal',
-        breakpoints: [0.3],
+        breakpoints: [0.25],
         showBackdrop: false,
-        initialBreakpoint: 0.3,
+        initialBreakpoint: 0.25,
         handle: false,
         handleBehavior: "none"
       });
@@ -340,10 +340,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   sanitiseUrl(url: string): SafeResourceUrl {
     let sanitizeUrl = url.split('&')[0]
     return this.domSanitiser.bypassSecurityTrustResourceUrl(sanitizeUrl.replace('watch?v=', 'embed/') + '?autoplay=1&controls=1');
-  }
-
-  loadYoutubeImg(id: string): string {
-    return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
   }
 
   navigateToSakhi(type: string) {
