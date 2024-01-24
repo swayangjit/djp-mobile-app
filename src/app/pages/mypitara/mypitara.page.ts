@@ -102,9 +102,9 @@ export class MyPitaraPage implements OnTabViewWillEnter{
     await modal.present();
     modal.onWillDismiss().then((result) => {
       this.isNavigate = true;
-      if(result && result.data.type === 'delete') {
+      if(result.data && result.data.type === 'delete') {
         this.deletePlaylist(content);
-      } else if (result && result.data.type === 'edit') {
+      } else if (result.data && result.data.type === 'edit') {
         this.router.navigate(['/create-playlist'], { state: { playlists: content, islocal: true , status: 'edit'} })
       }
     });
@@ -112,7 +112,7 @@ export class MyPitaraPage implements OnTabViewWillEnter{
 
   loadYoutubeImg(metaData: any): string {
     let id = metaData.identifier;
-    if(id.startsWith("do_")) {
+    if(id && id.startsWith("do_")) {
       id = getYouTubeID(metaData.url);
     }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;

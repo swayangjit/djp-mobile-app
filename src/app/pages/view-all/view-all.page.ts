@@ -243,7 +243,7 @@ export class ViewAllPage implements OnInit {
 
   loadYoutubeImg(metaData: any): string {
     let id = metaData.identifier;
-    if(id.startsWith("do_")) {
+    if(id && id.startsWith("do_")) {
       id = getYouTubeID(metaData.url);
     }
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
