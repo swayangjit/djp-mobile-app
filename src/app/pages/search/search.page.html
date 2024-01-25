@@ -42,10 +42,10 @@
   <ion-list *ngIf="!showSheenAnimation && searchContentResult.length > 0"> 
     <ion-item lines="none" *ngFor="let content of searchContentResult; let i = index" class="djp-card">
       <div class="djp-card__img" (click)="playContent($event, content)">
-        <img src="assets/images/Audio.png" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
+        <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail :'assets/images/Audio.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
         <img appThumbnail [appThumbnail]="content?.metaData" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE">
-        <img src="assets/images/Video.png" alt="" *ngIf="content.metaData.mimetype === mimeType.MP4">
-        <img src="assets/images/PDF.png" alt="" *ngIf="content.metaData.mimetype === mimeType.PDF">
+        <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail :'assets/images/Video.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.MP4">
+        <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail :'assets/images/PDF.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.PDF">
       </div>
         <div class="djp-card__metadata">
           <div class="djp-card__title">{{content.metaData?.name}}</div>
