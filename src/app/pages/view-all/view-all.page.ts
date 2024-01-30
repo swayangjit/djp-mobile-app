@@ -231,7 +231,7 @@ export class ViewAllPage implements OnInit {
       if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
         ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData);
       } else {
-        ele.metaData['thumbnail'] = ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
+        ele.metaData['thumbnail'] = ele.metaData.thumbnail || ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
       }
       if (isSelected) {
         ele['isSelected'] = true;
