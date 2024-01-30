@@ -83,7 +83,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
 
 export class AppModule {
   constructor(private translate: TranslateService) {
-    // this.setDefaultLanguage();
+    this.setDefaultLanguage();
   }
 
   private setDefaultLanguage() {
