@@ -1,13 +1,13 @@
 
 <ion-content [fullscreen]="true">
   <!-- recentlyviewed -->
-  <div class="djp-cards-container" [ngClass]="{'createList-cards': type==='playlist'}">
-    <div class="djp-card" *ngFor="let content of contentList; let i=index" (click)="playcontent(content)">
-      <div class="djp-card__img">
+  <div class="cards-container" [ngClass]="{'createList-cards': type==='playlist'}">
+    <div class="card" *ngFor="let content of contentList; let i=index" (click)="playcontent(content)">
+      <div class="card__img">
         <img [src] ="content?.metaData?.thumbnail" alt="Playlist Image">
       </div>
-      <div class="djp-card__metadata">
-        <div class="djp-card__title" *ngIf="content?.metaData?.name">{{content?.metaData?.name}}</div>
+      <div class="card__metadata">
+        <div class="card__title" *ngIf="content?.metaData?.name">{{content?.metaData?.name}}</div>
         <div (click)="openModal(content)" *ngIf="type==='recentlyviewed'">
           <ion-icon slot="end" aria-hidden="true" src="../../../assets/icon/kabab-icon.svg"></ion-icon>
         </div>
@@ -22,15 +22,15 @@
 <div *ngIf="type==='playlist'" class="view-all-btn">
   <!-- <ion-button expand="block" class="btn-info" (click)="createList()">Create a new playlist</ion-button> -->
 
-  <div class="djp-view-playlist">
-    <div class="djp-view-playlist__icon">
+  <div class="view-playlist">
+    <div class="view-playlist__icon">
       <div class="count">{{selectedContents.length}}</div>
       <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
     </div>
-    <div class="djp-view-playlist__icon" (click)="openFilePicker()">
+    <div class="view-playlist__icon" (click)="openFilePicker()">
       <ion-icon aria-hidden="true" src="assets/icon/file-upload.svg"></ion-icon>
     </div>
-    <div class="djp-view-playlist__button">
+    <div class="view-playlist__button">
       <ion-button fill="outline" class="view-playlist" [disabled]="!selectedContents.length" (click)="createList()">
         {{'createPlaylist' | translate}}
       </ion-button>

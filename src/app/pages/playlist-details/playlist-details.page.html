@@ -2,9 +2,9 @@
   <div class="bot-section" *ngIf="!playlists.length">
     <div class="bot-section__text">{{ 'Add content to the playlist' | translate}}</div>
   </div>
-  <div class="djp-cards-container" *ngFor="let content of playlists; let i = index">
-    <div class="djp-card" *ngIf="content?.metaData">
-      <div class="djp-card__img" (click)="playContent(content)">
+  <div class="cards-container" *ngFor="let content of playlists; let i = index">
+    <div class="card" *ngIf="content?.metaData">
+      <div class="card__img" (click)="playContent(content)">
         <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : 'assets/images/Audio.png'" alt="" *ngIf="content?.metaData?.mimetype === mimeType.AUDIO">
         <img appThumbnail [appThumbnail]="content?.metaData" alt="" *ngIf="content?.metaData?.mimetype === mimeType.YOUTUBE && !content.play">
         <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : 'assets/images/Video.png'" alt="" *ngIf="content?.metaData?.mimetype === mimeType.MP4">
@@ -18,8 +18,8 @@
           <ion-icon name="scan" size="large" color="light"></ion-icon>
         </div> -->
       </div>
-      <div class="djp-card__metadata">
-        <div class="djp-card__title">{{content.metaData?.name}}</div>
+      <div class="card__metadata">
+        <div class="card__title">{{content.metaData?.name}}</div>
         <ion-buttons>  
           <ion-icon aria-hidden="true" class="icon-right" src="assets/icon/sd-card.svg" *ngIf="content.source==='local'"></ion-icon>
           <ion-icon aria-hidden="true" class="icon-left" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>

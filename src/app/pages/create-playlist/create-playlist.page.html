@@ -6,12 +6,12 @@
     </ion-item>
     <div class="create-playlist-container">
       <div *ngIf="!selectedContents.length" class="bot-section__text">{{ 'Add content to the playlist' | translate}}</div>
-      <div class="djp-card" *ngFor="let content of selectedContents; let i=index">
-        <div class="djp-card__img">
+      <div class="card" *ngFor="let content of selectedContents; let i=index">
+        <div class="card__img">
           <img [src] ="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : '../../../assets/images/slider-img.svg'"  alt="Playlist Image">
         </div>
-        <div class="djp-card__metadata">
-          <div class="djp-card__title">{{content?.metaData?.name}}</div>
+        <div class="card__metadata">
+          <div class="card__title">{{content?.metaData?.name}}</div>
           <ion-checkbox [checked]="content.isSelected" (ionChange)="isContentSelect($event, i)"></ion-checkbox>
         </div>
       </div>
@@ -20,12 +20,12 @@
 </ion-content>
 
 <div class="view-all-btn">
-  <div class="djp-view-playlist">
-    <div class="djp-view-playlist__icon">
+  <div class="view-playlist">
+    <div class="view-playlist__icon">
       <div class="count">{{reSelectedContent.length}}</div>
       <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
     </div>
-    <div class="djp-view-playlist__button">
+    <div class="view-playlist__button">
       <ion-button fill="outline" class="view-playlist" [disabled]="!(playlistName && (reSelectedContent.length>0 || !selectedContents.length))" (click)="createList()">
         {{'Save Playlist' | translate}}
       </ion-button>

@@ -8,12 +8,12 @@
   </ion-refresher>
 
   <ion-list class="m-n" *ngIf="showSheenAnimation">
-    <div class="djp-cards-container" *ngFor="let i of [0,1,2,3,4,5,6,7,8]">
-      <div class="djp-card">
-        <div item-start class="djp-card__img">
+    <div class="cards-container" *ngFor="let i of [0,1,2,3,4,5,6,7,8]">
+      <div class="card">
+        <div item-start class="card__img">
           <app-skeleton-item height="15rem" width="100%" radius="16px"></app-skeleton-item>
         </div>
-        <div class="djp-card__metadata">
+        <div class="card__metadata">
           <div style="width: 90%;">
             <app-skeleton-item height="12px" width="100%"></app-skeleton-item>
           </div>
@@ -37,7 +37,7 @@
   </ion-list>
   <!-- Cards -->
   <div *ngIf="!showSheenAnimation && configContents.length > 0">
-    <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
+    <div class="cards-container" *ngFor="let content of configContents; let i = index">
       <div class="bot-section" *ngIf="i === 5">
         <div class="image" (click)="navigateToSakhi('story')">
           <img src="assets/images/Story_bot.svg" alt="">
@@ -48,8 +48,8 @@
           <div class="image-title">{{"Teacher Tara" | translate }}</div>
         </div>
       </div>
-      <div class="djp-card" *ngIf="content.metaData && content.metaData.name">
-        <div class="djp-card__img" (click)="playContent($event, content)">
+      <div class="card" *ngIf="content.metaData && content.metaData.name">
+        <div class="card__img" (click)="playContent($event, content)">
           <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : 'assets/images/Audio.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
           <img appThumbnail [appThumbnail]="content?.metaData" alt=""
             *ngIf="content.metaData.mimetype === mimeType.YOUTUBE">
@@ -65,8 +65,8 @@
               <ion-icon name="scan" size="large" color="light"></ion-icon>
             </div> -->
         </div>
-        <div class="djp-card__metadata">
-          <div class="djp-card__title">{{content.metaData?.name}}</div>
+        <div class="card__metadata">
+          <div class="card__title">{{content.metaData?.name}}</div>
           <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
         </div>
       </div>

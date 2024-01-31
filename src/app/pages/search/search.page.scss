@@ -1,4 +1,4 @@
-@import "./../../../assets/styles/djp-card-styles";
+@import "./../../../assets/styles/card";
 
 ion-header {
   box-shadow: none;
@@ -35,7 +35,7 @@ ion-icon {
     margin-left: 0;
 }
 
-.djp-card {
+.card {
   &__img {
     width: 40%;
     height: auto;

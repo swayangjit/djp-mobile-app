@@ -1,10 +1,10 @@
 // common styles for create-playlist and view-all pages
 
-.djp-cards-container {
+.cards-container {
     padding-top: 0.5rem;
 }
 
-.djp-card {
+.card {
     display: flex;
 
     &__img {
@@ -25,7 +25,7 @@
     }
 }
 
-.djp-view-playlist {
+.view-playlist {
     position: fixed;
     bottom: 0.188rem;
     width: 98%;

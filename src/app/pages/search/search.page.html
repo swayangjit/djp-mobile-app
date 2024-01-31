@@ -40,15 +40,15 @@
     </ion-item>
   </ion-list>
   <ion-list *ngIf="!showSheenAnimation && searchContentResult.length > 0"> 
-    <ion-item lines="none" *ngFor="let content of searchContentResult; let i = index" class="djp-card">
-      <div class="djp-card__img" (click)="playContent($event, content)">
+    <ion-item lines="none" *ngFor="let content of searchContentResult; let i = index" class="card">
+      <div class="card__img" (click)="playContent($event, content)">
         <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail :'assets/images/Audio.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
         <img appThumbnail [appThumbnail]="content?.metaData" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE">
         <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail :'assets/images/Video.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.MP4">
         <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail :'assets/images/PDF.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.PDF">
       </div>
-        <div class="djp-card__metadata">
-          <div class="djp-card__title">{{content.metaData?.name}}</div>
+        <div class="card__metadata">
+          <div class="card__title">{{content.metaData?.name}}</div>
           <ion-icon aria-hidden="true" src="assets/icon/kabab-icon.svg" (click)="moreOtions(content)"></ion-icon>
         </div>
     </ion-item>
