@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import { IonContent, Platform } from '@ionic/angular';
 import { BotMessage, Sakhi } from 'src/app/appConstants';
 import { AppHeaderService, BotApiService, RecordingService, StorageService } from 'src/app/services';
 import { Keyboard } from "@capacitor/keyboard";
@@ -39,7 +39,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     private messageApi: BotApiService,
     private translate: TranslateService,
     private telemetryGeneratorService: TelemetryGeneratorService,
-    private storage: StorageService
+    private storage: StorageService,
+    private platform: Platform
   ) { 
     this.defaultLoaderMsg = {identifier: "", message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: ""};
     this.botMessages = [];
@@ -48,6 +49,9 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.initialiseBot();
+    this.platform.backButton.subscribeWithPriority(11, async () => {
+      this.handleBackNavigation();
+    });
     this.headerService.headerEventEmitted$.subscribe((name: any) => {
       if (name == "back" && !this.navigated) {
         this.navigated = true;
@@ -222,6 +226,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           msg.displayMsg = msg.message;
           msg.time = new Date().toLocaleTimeString('en', {hour: '2-digit', minute:'2-digit'});
           msg.timeStamp = Date.now();
+          this.saveChatMessage(msg);
           this.disabled = false;
         }
       })
@@ -238,6 +243,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           this.botMessages[index-1].displayMsg = "Sorry, this language is not currently supported.";
         }
       }
+      this.saveChatMessage(this.botMessages[index-1]);
     })
   }
 

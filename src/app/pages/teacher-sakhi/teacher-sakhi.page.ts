@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
 import { AppHeaderService } from 'src/app/services';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
@@ -15,14 +14,10 @@ export class TeacherSakhiPage implements OnInit, OnDestroy {
   duration: any;
   constructor(private headerService: AppHeaderService,
     private router: Router,
-    private platform: Platform,
     private telemetry: TelemetryGeneratorService) {}
 
   ngOnInit() {
     this.config = {type: 'teacher'};
-    this.platform.backButton.subscribeWithPriority(11, async () => {
-      this.handleBotEvent();
-    });
   }
   
   tabViewWillEnter(): void {
