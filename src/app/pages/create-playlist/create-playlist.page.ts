@@ -141,9 +141,11 @@ export class CreatePlaylistPage implements OnInit {
         if (ele.metaData.mimetype === PlayerType.YOUTUBE) {
           ele.metaData['thumbnail'] = this.loadYoutubeImg(ele.metaData);
         } else {
-          ele.metaData['thumbnail'] = ele.metaData.thumbnail || ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
+          ele.metaData['thumbnail'] = (ele.metaData.thumbnail && !ele.metaData.identifier.startsWith('do_')) ? ele.metaData.thumbnail : ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
         }
-      }
+      } else if(ele.metaData.mimeType !== PlayerType.YOUTUBE) {
+          ele.metaData['thumbnail'] = (ele.metaData.thumbnail && !ele.metaData.identifier.startsWith('do_')) ? ele.metaData.thumbnail : ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
+        }
     })
   }
 
