@@ -95,14 +95,16 @@ export class CreatePlaylistPage implements OnInit {
     let request: Array<PlayListContent> = [];
     this.selectedContents.forEach((e: any) => {
       if (e['isSelected']) {
-        if (e['sourceType'] === 'local' || e['source'] === 'local') {
-          request.push({identifier: e['metaData']['identifier'], type: 'local', localContent: e, isDeleted: false})
+        if (e['type'] === 'local' || e['source'] === 'local') {
+          request.push({identifier: e['identifier'], type: 'local', localContent: e, isDeleted: false})
         } else {
           request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' , localContent: e});
         }
       } else {
-        if (e['sourceType'] === 'local' || e['source'] === 'local') {
-          request.push({identifier: e['metaData']['identifier'], localContent: e,type: 'local', isDeleted: true})
+        if (e['type'] === 'local' || e['source'] === 'local') {
+          request.push({identifier: e['identifier'], localContent: e,type: 'local', isDeleted: true})
+        } else {
+          request.push({identifier: e['identifier'], localContent: e,type: e['type'], isDeleted: true})
         }
       }
     });
