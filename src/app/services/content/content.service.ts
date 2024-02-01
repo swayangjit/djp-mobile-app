@@ -44,7 +44,7 @@ export class ContentService {
     const query = `SELECT rvc.* ,c.*, cr.content_identifier as reaction_identifier
     FROM ${RecentlyViewedContentEntry.TABLE_NAME} rvc
     LEFT JOIN ${ContentEntry.TABLE_NAME} c ON rvc.content_identifier=c.identifier 
-    LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON rvc.content_identifier = cr.reaction_identifier 
+    LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON rvc.content_identifier = reaction_identifier 
     where rvc.uid='${uid}' ORDER BY rvc.ts DESC`;
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);
     const recentlyViewedContent: Array<RecentlyViewedContent> = []
