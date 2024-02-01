@@ -50,7 +50,7 @@
       </div>
       <div class="card" *ngIf="content.metaData && content.metaData.name">
         <div class="card__img" (click)="playContent($event, content)">
-          <img [src]="content?.metaData?.thumbnail ? content?.metaData?.thumbnail : 'assets/images/Audio.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
+          <img [src]="(content?.metaData?.thumbnail && !content.metaData.identifier.startsWith('do_')) ? content?.metaData?.thumbnail : 'assets/images/Audio.png'" alt="" *ngIf="content.metaData.mimetype === mimeType.AUDIO">
           <img appThumbnail [appThumbnail]="content?.metaData" alt=""
             *ngIf="content.metaData.mimetype === mimeType.YOUTUBE">
           <!-- <img [src]="loadYoutubeImg(content.metaData.identifier)" alt="" *ngIf="content.metaData.mimetype === mimeType.YOUTUBE && !content.play"> -->
