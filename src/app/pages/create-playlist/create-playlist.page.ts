@@ -143,7 +143,9 @@ export class CreatePlaylistPage implements OnInit {
         } else {
           ele.metaData['thumbnail'] = (ele.metaData.thumbnail && !ele.metaData.identifier.startsWith('do_')) ? ele.metaData.thumbnail : ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
         }
-      }
+      } else if(ele.metaData.mimeType !== PlayerType.YOUTUBE) {
+          ele.metaData['thumbnail'] = (ele.metaData.thumbnail && !ele.metaData.identifier.startsWith('do_')) ? ele.metaData.thumbnail : ContentUtil.getImagePath(ele.metaData.mimetype || ele.metaData.mimeType)
+        }
     })
   }
 
