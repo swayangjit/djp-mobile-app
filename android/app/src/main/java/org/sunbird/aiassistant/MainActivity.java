@@ -1,4 +1,4 @@
-package in.gov.myjp.app;
+package org.sunbird.aiassistant;
 
 import com.getcapacitor.BridgeActivity;
 

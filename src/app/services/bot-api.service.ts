@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { config } from 'src/environments/environment.prod';
+import { config } from 'configuration/environment.prod';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService, DbService } from '.';
 import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';

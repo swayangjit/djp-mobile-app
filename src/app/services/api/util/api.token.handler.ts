@@ -3,7 +3,7 @@ import { ApiHttpRequestType, ApiRequest } from "../model/api.request";
 import * as dayjs from 'dayjs';
 import { UtilService } from "../..";
 import { ApiService } from "../api.service";
-import { config } from 'src/environments/environment.prod';
+import { config } from 'configuration/environment.prod';
 
 export class ApiTokenHandler {
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from './config/models/config';
-import { config } from 'src/environments/environment.prod';
+import { config } from 'configuration/environment.prod';
 import { ApiService } from './api/api.service';
 import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
 import { catchError, lastValueFrom, map, mapTo, tap, throwError } from 'rxjs';

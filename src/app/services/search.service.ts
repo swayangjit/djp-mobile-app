@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, lastValueFrom, map, tap, throwError } from 'rxjs';
-import { config } from 'src/environments/environment.prod';
+import { config } from 'configuration/environment.prod';
 import { ApiService } from './api/api.service';
 import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
 import { ApiResponse } from './api/model/api.response';
