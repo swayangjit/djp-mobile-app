@@ -1,7 +1,15 @@
 var fs = require('fs');
 
-console.log("****** gradle properties ");
-let appId = `applicationId "org.sunbird.aiassistant"`;
+// Example: Read properties from a file
+const filePath = 'configuration/config.properties';
+const properties = readPropertiesFile(filePath);
+
+// Accessing property values
+const appName = properties['app_name'];
+const appid = properties['app_id'];
+
+console.log("****** gradle properties ", properties);
+let appId = `applicationId "${appid}"`;
 let appendStr = '\t\tapplicationId app_id \n' +
     '\t\tresValue("string", "app_name", "${app_name}") \n' +  
     '\t\tresValue("string", "app_id", "${app_id}")'
@@ -27,7 +35,7 @@ fs.readFile("android/gradle.properties", "utf-8", (err, data) => {
 })
 
  // build gardle fix
- fs.readFile(androidbuild, 'utf8', (err, data) => {
+fs.readFile(androidbuild, 'utf8', (err, data) => {
     if (err) {
         console.error(err);
         return;
@@ -64,3 +72,22 @@ fs.readFile("android/gradle.properties", "utf-8", (err, data) => {
         }
     });
 });
+
+function readPropertiesFile(filePath) {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const lines = content.split('\n');
+    
+    const properties = {};
+
+    for (const line of lines) {
+        // Skip comments and empty lines
+        if (line.trim() === '' || line.trim().startsWith('#') || line.trim().startsWith(';')) {
+            continue;
+        }
+
+        const [key, value] = line.split('=');
+        properties[key.trim()] = value.trim();
+    }
+
+    return properties;
+}
