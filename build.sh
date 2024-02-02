@@ -5,8 +5,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
     APP_NAME=$(grep 'app_name' configuration/config.properties | cut -d'=' -f2)
     APP_ID=$(grep 'app_id' configuration/config.properties | cut -d'=' -f2)
 else
-    APP_NAME=$(powershell -Command "Get-Content -Path 'configuration/config.properties' | ForEach-Object { \$_ -split '=' } | Where-Object { \$_.Trim() -eq 'app_name' } | Select-Object -Last 1")
-    APP_ID=$(powershell -Command "Get-Content -Path 'configuration/config.properties' | ForEach-Object { \$_ -split '=' } | Where-Object { \$_.Trim() -eq 'app_id' } | Select-Object -Last 1")
+    APP_NAME=$(powershell.exe -Command "(Get-Content -Path 'configuration\config.properties' | Select-String 'app_name').ToString().Split('=')[1].Trim()")
+    APP_ID=$(powershell.exe -Command "(Get-Content -Path 'configuration\config.properties' | Select-String 'app_id').ToString().Split('=')[1].Trim()")
 fi
 
 # Update capacitor.config.ts
