@@ -1,0 +1,6 @@
+# android properties
+android.enableJetifier=true
+
+# config.properties
+app_name= app_name
+app_id = app_id

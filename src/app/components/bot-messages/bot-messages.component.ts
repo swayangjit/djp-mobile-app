@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import { IonContent, Platform } from '@ionic/angular';
 import { BotMessage, Sakhi } from 'src/app/appConstants';
 import { AppHeaderService, BotApiService, RecordingService, StorageService } from 'src/app/services';
 import { Keyboard } from "@capacitor/keyboard";
-import { Directory, FileInfo, Filesystem } from '@capacitor/filesystem';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 import { TranslateService } from '@ngx-translate/core';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
@@ -39,7 +39,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     private messageApi: BotApiService,
     private translate: TranslateService,
     private telemetryGeneratorService: TelemetryGeneratorService,
-    private storage: StorageService
+    private storage: StorageService,
+    private platform: Platform
   ) { 
     this.defaultLoaderMsg = {identifier: "", message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: ""};
     this.botMessages = [];
@@ -48,6 +49,9 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.initialiseBot();
+    this.platform.backButton.subscribeWithPriority(11, async () => {
+      this.handleBackNavigation();
+    });
     this.headerService.headerEventEmitted$.subscribe((name: any) => {
       if (name == "back" && !this.navigated) {
         this.navigated = true;

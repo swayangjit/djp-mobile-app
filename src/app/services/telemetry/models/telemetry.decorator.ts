@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import * as MD5 from 'crypto-js/md5';
-import { config } from "src/environments/environment.prod";
+import { config } from "configuration/environment.prod";
 import { UtilService } from "../..";
 import { Actor, Context, CorrelationData, DJPTelemetry, ProducerData } from "./telemetry";
 import Telemetry = DJPTelemetry.Telemetry;

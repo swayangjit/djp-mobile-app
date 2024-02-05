@@ -10,8 +10,6 @@ import { ContentRVCEntry } from './db/content.rvc';
 import { ContentRVCMixMapper } from './util/content.rvc.mix.entry.mapper';
 import { v4 as uuidv4 } from "uuid";
 import { ContentMetaData, MimeType } from 'src/app/appConstants';
-import { HttpResponse } from '@capacitor/core';
-import { ContentUtil } from './util/content.util';
 import { ApiHttpRequestType, ApiRequest } from '../api/model/api.request';
 import { ApiService } from '../api/api.service';
 import { DbService } from '..';
@@ -41,10 +39,10 @@ export class ContentService {
   }
 
   async getRecentlyViewedContent(uid: string): Promise<Array<RecentlyViewedContent>> {
-    const query = `SELECT rvc.* ,c.*, cr.reaction_identifier as reaction_identifier
+    const query = `SELECT rvc.* ,c.*, cr.content_identifier as reaction_identifier
     FROM ${RecentlyViewedContentEntry.TABLE_NAME} rvc
     LEFT JOIN ${ContentEntry.TABLE_NAME} c ON rvc.content_identifier=c.identifier 
-    LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON rvc.content_identifier = cr.reaction_identifier 
+    LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON rvc.content_identifier = reaction_identifier 
     where rvc.uid='${uid}' ORDER BY rvc.ts DESC`;
     const result: ContentRVCEntry.ContentRVCMixedSchemaMap[] = await this.dbService.executeQuery(query);
     const recentlyViewedContent: Array<RecentlyViewedContent> = []
@@ -55,7 +53,7 @@ export class ContentService {
   }
 
   async getAllContent(): Promise<Array<ContentMetaData>> {
-    const query = `SELECT c.*, cr.content_identifier from ${ContentEntry.TABLE_NAME} c LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON c.identifier = cr.content_identifier WHERE ${ContentEntry.COLUMN_NAME_SOURCE} != 'local' ORDER BY ${ContentEntry.COLUMN_NAME_TIME_STAMP}`;
+    const query = `SELECT c.*, cr.content_identifier from ${ContentEntry.TABLE_NAME} c LEFT JOIN ${ContentReactionsEntry.TABLE_NAME} cr ON c.identifier = cr.content_identifier WHERE ${ContentEntry.COLUMN_NAME_SOURCE} NOT IN ('local', 'dialcode') ORDER BY ${ContentEntry.COLUMN_NAME_TIME_STAMP}`;
     const contentList: Array<ContentMetaData> = []
     return this.dbService.readDbData(query).then((content: Array<any>) => {
       content.map((element) => {

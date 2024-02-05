@@ -1,6 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
 import { GestureController } from '@ionic/angular';
-import { Directory, Filesystem } from '@capacitor/filesystem';
 import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { Subject } from 'rxjs/internal/Subject';

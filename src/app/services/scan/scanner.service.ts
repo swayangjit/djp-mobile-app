@@ -4,8 +4,6 @@ import { Observable, ReplaySubject } from 'rxjs'
 import { UtilService } from '../util.service'
 import { PermissionsService, PermissionStatus, PermissionTypes } from './permissions.service'
 
-declare let QRScanner: any
-
 @Injectable({
     providedIn: 'root'
   })
