@@ -91,3 +91,20 @@ function readPropertiesFile(filePath) {
 
     return properties;
 }
+
+fs.readFile("android/variables.gradle", 'utf-8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    if(data.match("minSdkVersion = 22")) {
+        console.log("exist ");
+        let updatedData = data.replace('minSdkVersion = 22', 'minSdkVersion = 23')
+        fs.writeFile("android/variables.gradle", updatedData, (err) => {
+            if (err) {
+                console.error("********* err", err);
+            }
+        });
+    }
+
+})

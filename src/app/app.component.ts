@@ -67,7 +67,6 @@ export class AppComponent implements OnInit {
           console.warn(error);
         }
       );
-      // this.router.navigate(['/qr-scan-result'], {state: {scannedData: 'N2W6V1'}})
     } else if($event.name == "profile") {
       if(!this.langModalOpen) {
         this.presentModal($event);

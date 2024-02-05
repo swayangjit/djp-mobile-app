@@ -18,6 +18,7 @@ import confetti from 'canvas-confetti';
 import { NativeAudio } from '@capacitor-community/native-audio';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-home',
@@ -43,6 +44,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   offlineState: boolean = false
   networkChangeSub: Subscription | null = null;
   selectedLang: any = "";
+  appName: string = "";
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -59,6 +61,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private translateService: TranslateService,
     private toastController: ToastController,
     private botMessageApiService: BotApiService) {
+      App.getInfo().then(info => {this.appName = info.name});
     this.configContents = [];
     this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
       this.networkConnected = ev;
@@ -217,7 +220,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   }
 
   async tabViewWillEnter() {
-    await this.headerService.showHeader('e-Jaadui Pitara', false);
+    await this.headerService.showHeader(this.appName, false);
     setTimeout(() => {
       this.headerService.showStatusBar(false);
     }, 0);
