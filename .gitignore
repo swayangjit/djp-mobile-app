@@ -22,6 +22,7 @@ log.txt
 /www
 /platforms
 /plugins
+/android
 /capacitor.config.ts-e
 
 # Compiled output
