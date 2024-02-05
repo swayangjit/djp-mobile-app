@@ -1,6 +1,5 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Content } from 'src/app/appConstants';
 import { SearchService } from 'src/app/services/search.service';
 import { AppHeaderService, StorageService } from 'src/app/services';
@@ -44,7 +43,6 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
     private headerService: AppHeaderService,
     private location: Location,
     private record: RecordingService,
-    private tarnslate: TranslateService,
     private searchApi: SearchService,
     private modalCtrl: ModalController,
     private contentService: ContentService,

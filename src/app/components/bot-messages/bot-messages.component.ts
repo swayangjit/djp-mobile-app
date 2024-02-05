@@ -3,7 +3,7 @@ import { IonContent, Platform } from '@ionic/angular';
 import { BotMessage, Sakhi } from 'src/app/appConstants';
 import { AppHeaderService, BotApiService, RecordingService, StorageService } from 'src/app/services';
 import { Keyboard } from "@capacitor/keyboard";
-import { Directory, FileInfo, Filesystem } from '@capacitor/filesystem';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 import { TranslateService } from '@ngx-translate/core';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';

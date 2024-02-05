@@ -3,12 +3,11 @@ import { capSQLiteSet } from '@capacitor-community/sqlite';
 import { DbService } from '..';
 import { PlayListEntryMapper } from './utils/playlist.entry.mapper';
 import { v4 as uuidv4 } from "uuid";
-import { PlayList, PlayListContent, PlayListContentMix } from './models/playlist.content';
+import { PlayList, PlayListContent } from './models/playlist.content';
 import { PlaylistEntry } from './db/playlist.schema';
 import { PlaylistContentEntry } from './db/playlist.content.schema';
 import { ContentEntry } from '../content/db/content.schema';
 import { ContentMapper } from '../content/util/content.entry.mapper';
-import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
