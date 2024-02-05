@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Read properties from config.properties
-if [[ "$(uname)" == "Darwin" ]]; then
+if [[ "$(uname)" == "Darwin" ]] || [[ "$(uname)" == "Linux" ]]; then
     APP_NAME=$(grep 'app_name' configuration/config.properties | cut -d'=' -f2)
     APP_ID=$(grep 'app_id' configuration/config.properties | cut -d'=' -f2)
 else
