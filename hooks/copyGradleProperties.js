@@ -7,6 +7,7 @@ const properties = readPropertiesFile(filePath);
 // Accessing property values
 const appName = properties['app_name'];
 const appid = properties['app_id'];
+const verCode = properties['app_version_code'];
 
 console.log("****** gradle properties ", properties);
 let appId = `applicationId "${appid}"`;
@@ -14,6 +15,7 @@ let appendStr = '\t\tapplicationId app_id \n' +
     '\t\tresValue("string", "app_name", "${app_name}") \n' +  
     '\t\tresValue("string", "app_id", "${app_id}")'
 let androidbuild = "android/app/build.gradle";
+let appendStrCode = `\t\tversionCode ${verCode}`
 
 // update gradle.properties file
 fs.readFile("android/gradle.properties", "utf-8", (err, data) => {
@@ -45,6 +47,9 @@ fs.readFile(androidbuild, 'utf8', (err, data) => {
     arr.forEach((a, i)=> {
         if(a.match(appId)) {
             arr[i] = appendStr
+        }
+        if(a.match('versionCode') && !a.match(appendStrCode)) {
+            arr[i] = appendStrCode
         }
         if(a.match("signingConfigs {")) {
             exists = true;
