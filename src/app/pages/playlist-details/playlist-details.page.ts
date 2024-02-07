@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PlayerType } from 'src/app/appConstants';
 import { AppHeaderService } from 'src/app/services';
@@ -6,16 +6,18 @@ import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { ModalController } from '@ionic/angular';
 import { EditRemovedModalComponent } from 'src/app/components/edit-removed-modal/edit-removed-modal.component';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-playlist-details',
   templateUrl: './playlist-details.page.html',
   styleUrls: ['./playlist-details.page.scss'],
 })
-export class PlaylistDetailsPage implements OnInit {
+export class PlaylistDetailsPage implements OnInit, OnDestroy {
   playContentObject: any;
   playlists: Array<any> = [];
   mimeType = PlayerType;
   navigated = false;
+  headerEventSub: Subscription | null = null;
   constructor(private router: Router,
     private headerService: AppHeaderService,
     private modalCtrl: ModalController,
@@ -39,7 +41,7 @@ export class PlaylistDetailsPage implements OnInit {
         this.router.navigate(['/create-playlist'], { state: { playlists: this.playContentObject, islocal: true } })
       } else if (event === 'back' && !this.navigated) {
         this.navigated = true;
-        this.location.back();
+        this.router.navigate(['/tabs/my-pitara'])
       }
     })
   }
@@ -47,6 +49,14 @@ export class PlaylistDetailsPage implements OnInit {
   ionViewWillEnter() {
     this.navigated = false;
     this.headerService.showHeader(this.playContentObject.name, true, ['edit'])
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this.headerEventSub && this.headerEventSub.unsubscribe()  
+    } catch (error) {
+      console.log(`error in unsubscribe`, error)
+    }
   }
 
   async playContent(content: any) {

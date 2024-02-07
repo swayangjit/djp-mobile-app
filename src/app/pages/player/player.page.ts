@@ -41,7 +41,7 @@ export class PlayerPage implements OnInit {
     if (extras) {
       this.content = extras.state?.['content'] as Content;
       this.playerType = this.getPlayerType(this.content.metaData.mimetype);
-      this.srcUrl = this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url+'?rel=0&enablejsapi=1');
+      this.srcUrl = this.content.metaData.url.startsWith('https://') ? this.domSanitiser.bypassSecurityTrustResourceUrl(this.content.metaData.url) : this.domSanitiser.bypassSecurityTrustResourceUrl('https://'+this.content.metaData.url); 
       this.pageId = extras.state?.['pageid'];
     }
     this.populateCData();
