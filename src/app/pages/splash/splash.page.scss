@@ -36,12 +36,12 @@ ion-content{
   }
   .splash-screen-img{
     position: absolute;
-    top: 50%;
+    top: 47%;
     left: 50%;
     text-align: center;
-    transform: translate(-50%, -50%);
-    width: 13.8rem;
-    height: 13.8rem;
+    transform: translate(-47%,-50%);
+    width: 18rem;
+    height: 18rem;
     background-color: #fff;
     border-radius: 50%;
     display: flex;
@@ -49,8 +49,8 @@ ion-content{
     justify-content: center;
     .pm-logo {
       position: absolute;
-      width: 98px;
-      height: 98px;
+      width: 40%;
+      height: 40%;
       left: -24px;
       top: -24px;
       z-index: 1;
@@ -84,8 +84,8 @@ ion-content{
     bottom: -25%;
     background: white;
     border-radius: 50%;
-    width: 22.5rem;
-    height: 22.5rem;
+    width: 24rem;
+    height: 21rem;
     display: flex;
     align-items: flex-start;
     justify-content: center;
