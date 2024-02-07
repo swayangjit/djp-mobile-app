@@ -11,12 +11,22 @@ ion-content{
     align-items: center;
     padding: 2rem 1rem 0.5rem 1rem;
     background-color: #fff;
-    img{
-      &:first-child{
-        width: 100px;
+    .MOE-logos{
+      img{
+        &:first-child{
+          width: 100px;
+          margin-right: 1rem;
+        }
+        &:last-child{
+          width: 36px;
+        }
       }
-      &:last-child{
-        width: 36px;
+    }
+    .bhashini-logo{
+      width: 100px;
+      text-align: center;
+      .text{
+        font-size: 10px;
       }
     }
   }
@@ -80,18 +90,5 @@ ion-content{
     img {
       width: 10rem;
     }
-  }
-
-  .footer-text {
-    position: fixed;
-    bottom: 3%;
-    width: 100%;
-    height: 2%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    left: 80%;
-    transform: translateX(-50%);
-    font-size: 12px;
   }
 }
