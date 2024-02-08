@@ -61,7 +61,7 @@
   [swipeGesture]="false">
   <ion-header>
     <ion-toolbar>
-      <ion-title>{{'All Categories' | translate }}</ion-title>
+      <ion-title class="filter_title">{{'All Categories' | translate }}</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
@@ -72,8 +72,9 @@
     </ion-list>
   </ion-content>
   <ion-footer>
-    <ion-item lines="none">
-      <ion-label class="sb-menu-item" role="button" menuClose>{{"Version: " | translate}} {{appVersion}} (Powered by Bhashini)</ion-label>
-    </ion-item>
+    <div class="footer_menu">
+      <ion-label class="sb-menu-item" role="button" menuClose>{{"Version: " | translate}} {{appVersion}}</ion-label>
+      <ion-label role="button" menuClose><span>(Powered by Bhashini)</span></ion-label>
+    </div>
   </ion-footer>
 </ion-menu> 

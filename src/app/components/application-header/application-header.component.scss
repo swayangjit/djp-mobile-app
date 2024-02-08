@@ -58,10 +58,14 @@ ion-icon {
 }
 
 .sb-side-menu {
+  --max-width: 50%;
   ion-toolbar {
     --background:  var(--ion-color-primary-contrast);
     --color: var(--ion-color-secondary-contrast);
     margin: 0 0 0 1.5rem;
+    .filter_title {
+      width: 100% !important;
+    }
   }
   ion-label {
     display: flex;
@@ -76,6 +80,10 @@ ion-icon {
       margin: 0 0 0 0.5rem; 
     }
   }
+}
+
+span {
+  font-size: 12px;
 }
 
 //bot back panel styles
@@ -159,4 +167,11 @@ ion-title {
       background-position: 200% center;
     }
   }
+}
+
+.footer_menu {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0.5rem 1.5rem;
 }
