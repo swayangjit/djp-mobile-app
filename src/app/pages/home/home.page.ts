@@ -126,6 +126,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       req.request.filters = val.defaultFilter.filters;
       this.configContents = [];
       this.serverError = false;
+      this.showSheenAnimation = true;
       try {
         let lang = await this.storage.getData('lang')
         let content: Array<ContentMetaData> = await this.configService.getAllContent(req, lang);
