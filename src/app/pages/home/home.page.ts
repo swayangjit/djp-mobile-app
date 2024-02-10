@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRefresher, ModalController, ToastController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonRefresher, ModalController, ToastController } from '@ionic/angular';
 import { Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
 import { AppHeaderService, BotApiService, CachingService, SearchService, StorageService } from '../../../app/services';
 import { ContentService } from 'src/app/services/content/content.service';
@@ -27,7 +27,7 @@ import { Subscription } from 'rxjs';
 export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   refresh: boolean = false;
   showSheenAnimation: boolean = true;
-  contentList: Array<Content> = []
+  contentList: Array<any> = []
   filters!: Array<Filter>
   languages!: Array<Language>
   isOpen: boolean = false;
@@ -60,6 +60,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private toastController: ToastController,
     private botMessageApiService: BotApiService) {
     this.configContents = [];
+    this.contentList = [];
     this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
       this.networkConnected = ev;
       // if (this.networkConnected !== ev) {
@@ -125,6 +126,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       req.request.query = val.defaultFilter.query;
       req.request.filters = val.defaultFilter.filters;
       this.configContents = [];
+      this.contentList = [];
       this.serverError = false;
       this.showSheenAnimation = true;
       try {
@@ -146,7 +148,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
         let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filters }, await this.storage.getData('lang'));
         console.log('Response', res);
         this.mappUIContentList(res);
-
       }
       catch (e) {
         console.log('error', e);
@@ -158,15 +159,19 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       this.getServerMetaConfig();
     } else if (!this.networkConnected) {
       this.configContents = [];
+      this.contentList = [];
       let dbContent = await this.contentService.getAllContent();
-      this.configContents = dbContent;
-      if (this.configContents.length == 0) this.getServerMetaConfig();
+      this.contentList = dbContent;
+      this.generateItems();
+      if (this.contentList.length == 0) this.getServerMetaConfig();
       this.showSheenAnimation = false;
     } else {
       this.getServerMetaConfig();
       this.configContents = [];
+      this.contentList = [];
       let content = await this.contentService.getAllContent();
-      this.configContents = content;
+      this.contentList = content;
+      this.generateItems();
       this.showSheenAnimation = false;
     }
     await NativeAudio.preload({
@@ -185,6 +190,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     await this.contentService.deleteAllContents();
     this.showSheenAnimation = false;
     this.configContents = [];
+    this.contentList = [];
     if (content.length > 0) {
       this.noSearchData = false;
       console.log('content ', content);
@@ -194,12 +200,13 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
         list.source = 'djp'
         list.sourceType = 'djp-content'
         list.metaData = ele
-        this.configContents.push(list)
+        this.contentList.push(list)
+        if(i < 50) this.configContents.push(list)
       });
-      await this.contentService.saveContents(this.configContents)
+      await this.contentService.saveContents(this.contentList)
       this.contentService.getAllContent().then(val => {
-        this.configContents = [];
-        this.configContents = val;
+        this.contentList = [];
+        this.contentList = val;
       })
     } else {
       this.noSearchData = true;
@@ -350,5 +357,21 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     } else if (type == "teacher") {
       this.router.navigate(['/teacher-sakhi'])
     }
+  }
+
+  generateItems() {
+    const count = this.configContents.length + 50;
+    for (let i = this.configContents.length; i < this.contentList.length-1; i++) {
+      if(i <= count) {
+        this.configContents.push(this.contentList[i]);
+      }
+    }
+  }
+
+  onIonInfinite(ev: Event) {
+    setTimeout(() => {
+      this.generateItems();
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
   }
 }
