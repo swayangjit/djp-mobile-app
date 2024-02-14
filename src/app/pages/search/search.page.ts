@@ -70,50 +70,50 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   }
 
   async handleSearch(data?: any, audio: boolean = false) {
-    try {
-      if(audio) {
-        this.showSheenAnimation = true;
-        let res = await this.searchApi.postSearchContext({text: data, currentLang: await this.storage.getData('lang')}, audio);
-        if (res.input) {
-          if(res?.input?.sourceText) {
-            this.searchKeywords = res?.input?.sourceText;
-          }
-          this.handleContentSearch(res, audio);
-        } else {
-          this.disabled = false;
-          this.showSheenAnimation = false;
-          this.noSearchData = true;
-          this.searchContentResult = [];
-          this.errMsg = "Sorry, please try again!"
+    if(audio) {
+      this.showSheenAnimation = true;
+      let res = await this.makeSearchContextApiCall(data, audio);
+      if (res?.input) {
+        if(res.input?.sourceText) {
+          this.searchKeywords = res.input.sourceText;
         }
+        this.handleContentSearch(res, audio);
       } else {
-        if(this.searchKeywords.replace(/\s/g, '').length > 0) {
-          this.showSheenAnimation = true;
-          Keyboard.hide();
-          let res = await this.searchApi.postSearchContext({text: this.searchKeywords, currentLang:  await this.storage.getData('lang')}, audio);
-            // Content search api call
-          if(res?.input?.sourceText) {
-            this.searchKeywords = res?.input?.sourceText;
-          }
-          this.handleContentSearch(res, false);
-        }
-      }
-    } catch(e) {
-      if (audio) {
         this.disabled = false;
         this.showSheenAnimation = false;
         this.noSearchData = true;
         this.searchContentResult = [];
         this.errMsg = "Sorry, please try again!"
-      } else {
-        this.handleContentSearch('', false);
       }
+    } else if(this.searchKeywords.replace(/\s/g, '').length > 0) {
+      this.showSheenAnimation = true;
+      Keyboard.hide();
+      let res = await this.makeSearchContextApiCall(this.searchKeywords, audio);
+      if(res?.input?.sourceText) {
+        this.searchKeywords = res?.input?.sourceText;
+      }
+      this.handleContentSearch(res, false);
     }
   }
 
+  async makeSearchContextApiCall(data: string, audio: boolean): Promise<any> {
+    await this.searchApi.postSearchContext({text: data, currentLang:  await this.storage.getData('lang')}, audio).then(res => {
+      return res;
+    }).catch(err => {
+      if(audio) {
+        this.disabled = false;
+        this.showSheenAnimation = false;
+        this.noSearchData = true;
+        this.searchContentResult = [];
+        this.errMsg = err?.body?.detail?.toLowerCase() == "unsupported language!" ? "Sorry, this language is not currently supported." : "Sorry, please try again!"
+      } else {
+        this.handleContentSearch('', false);
+      }
+    });
+  }
+
   async handleContentSearch(res?: any, audio: boolean = false) {
-    try {
-      let searchRes = await this.searchApi.postContentSearch({query: res?.context ?? this.searchKeywords, filter: res?.filter ?? ''}, await this.storage.getData('lang'));
+    await this.searchApi.postContentSearch({query: res?.context ?? this.searchKeywords, filter: res?.filter ?? ''}, await this.storage.getData('lang')).then(searchRes => {
       console.log('searchRes ', searchRes);
       this.telemetryGeneratorService.generateSearchTelemetry(audio ? 'audio': 'text', audio ? '' : this.searchKeywords, searchRes.length, 'search', '' )
       this.disabled = false;
@@ -135,14 +135,13 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
         this.searchContentResult = [];
         this.errMsg = "No Result";
       }
-    }
-    catch {
+    }).catch(e => {
       this.disabled = false;
       this.showSheenAnimation = false;
       this.noSearchData = true;
       this.searchContentResult = [];
-      this.errMsg = "Sorry, please try again!"
-    }
+      this.errMsg = e?.body?.detail?.toLowerCase() == "unsupported language!" ? "Sorry, this language is not currently supported." : "Sorry, please try again!"
+    })
   }
 
   async moreOtions(content: any) {
