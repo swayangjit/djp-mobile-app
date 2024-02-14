@@ -105,7 +105,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
         this.showSheenAnimation = false;
         this.noSearchData = true;
         this.searchContentResult = [];
-        this.errMsg = err.body.detail.toLowerCase() == "unsupported language!" ? "Sorry, this language is not currently supported." : "Sorry, please try again!"
+        this.errMsg = err?.body?.detail?.toLowerCase() == "unsupported language!" ? "Sorry, this language is not currently supported." : "Sorry, please try again!"
       } else {
         this.handleContentSearch('', false);
       }
@@ -140,7 +140,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
       this.showSheenAnimation = false;
       this.noSearchData = true;
       this.searchContentResult = [];
-      this.errMsg = e.body.detail.toLowerCase() == "unsupported language!" ? "Sorry, this language is not currently supported." : "Sorry, please try again!"
+      this.errMsg = e?.body?.detail?.toLowerCase() == "unsupported language!" ? "Sorry, this language is not currently supported." : "Sorry, please try again!"
     })
   }
 
