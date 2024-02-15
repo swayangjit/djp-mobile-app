@@ -3,12 +3,13 @@ import { ContentService } from 'src/app/services/content/content.service';
 import { PlaylistService } from 'src/app/services/playlist/playlist.service';
 import { FilePicker, PickedFile } from '@capawesome/capacitor-file-picker';
 import { PlayListContent} from '../../services/playlist/models/playlist.content'
-import { AppHeaderService } from 'src/app/services';
+import { AppHeaderService, UtilService } from 'src/app/services';
 import { Router } from '@angular/router';
 import { MimeType, PlayerType } from 'src/app/appConstants';
 import { ContentUtil } from 'src/app/services/content/util/content.util';
 import { Location } from '@angular/common';
 import getYouTubeID from 'get-youtube-id';
+import { SHA1 } from 'crypto-js';
 
 @Component({
   selector: 'app-create-playlist',
@@ -40,7 +41,8 @@ export class CreatePlaylistPage implements OnInit {
     private playListService: PlaylistService,
     private headerService: AppHeaderService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private utilService: UtilService
   ) {
     let extras = this.router.getCurrentNavigation()?.extras;
     if (extras) {
@@ -72,7 +74,7 @@ export class CreatePlaylistPage implements OnInit {
     this.headerService.headerEventEmitted$.subscribe((event) => {
       if (event === 'back' && this.status === 'edit' && !this.navigateBack) {
         this.navigateBack = true;
-        this.location.back();
+        this.router.navigate(['/tabs/my-pitara'])
       }
     });
   }
@@ -94,17 +96,13 @@ export class CreatePlaylistPage implements OnInit {
   async createList() {
     let request: Array<PlayListContent> = [];
     this.selectedContents.forEach((e: any) => {
-      if (e['isSelected']) {
-        if (e['type'] === 'local' || e['source'] === 'local') {
-          request.push({identifier: e['identifier'], type: 'local', localContent: e, isDeleted: false})
-        } else {
-          request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' , localContent: e});
-        }
+      if (e['type'] === 'local' || e['source'] === 'local' ) {
+        request.push({identifier: e['identifier'], type: 'local', localContent: e, isDeleted: !e['isSelected']})
       } else {
-        if (e['type'] === 'local' || e['source'] === 'local') {
-          request.push({identifier: e['identifier'], localContent: e,type: 'local', isDeleted: true})
+        if(e['isSelected']) {
+          request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' , localContent: e});
         } else {
-          request.push({identifier: e['identifier'], localContent: e,type: e['type'], isDeleted: true})
+          request.push({identifier: e['identifier'], type: e['type'], localContent: e, isDeleted: true})
         }
       }
     });
@@ -129,12 +127,28 @@ export class CreatePlaylistPage implements OnInit {
     let mimeType: string[] = [MimeType.PDF];
     mimeType = mimeType.concat(MimeType.VIDEOS).concat(MimeType.AUDIO);
     const { files } = await FilePicker.pickFiles({ types: mimeType, multiple: true, readData: true });
-    this.files = files;
-    files.map(async (file: any)=>{
-      const path = await this.resolveNativePath(file.path!)
+    const loader = await this.utilService.getLoader()
+    await loader.present();
+    for (let i=0; i<files.length; i++) {
+      const path: string = await this.resolveNativePath(files[i].path!)as string;
       console.log('path', path);
-    })
-    console.log('Files:::', files);
+      const fileName = path.substring(path.lastIndexOf('/') + 1);
+      this.selectedContents.push({
+        source: 'local',
+        sourceType: 'local',
+        metaData: {
+          identifier: SHA1(path).toString(),
+          url: path,
+          name: fileName,
+          mimetype: ContentUtil.getMimeType(fileName),
+          thumbnail: ''
+        }
+      })
+    }
+    await loader.dismiss()
+    if (this.selectedContents.length) {
+      this.getContentImgPath();
+    }
   }
   
   getContentImgPath(){
