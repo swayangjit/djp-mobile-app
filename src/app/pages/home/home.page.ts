@@ -331,6 +331,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
 
   doRefresh(refresher: any) {
     this.refresh = true;
+    this.serverError = false;
     this.showSheenAnimation = true;
     this.getServerMetaConfig();
     setTimeout(() => {
