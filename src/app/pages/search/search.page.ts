@@ -212,7 +212,6 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   async onLongPressStart() {
     console.log('long press on search start');
     this.searchKeywords = "";
-    this.disabled = true;
     if(await (await VoiceRecorder.hasAudioRecordingPermission()).value) {
       this.record.startRecognition('search');
       this.disabled = true;
