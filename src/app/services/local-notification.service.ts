@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocalNotifications, ScheduleOptions } from '@capacitor/local-notifications';
+import { LocalNotificationSchema, LocalNotifications, ScheduleOptions } from '@capacitor/local-notifications';
 import { Subject } from 'rxjs';
 import { TabsService } from './tabs.service';
 
@@ -16,15 +16,29 @@ export class LocalNotificationService {
     private tabService: TabsService
   ) { }
 
-  async initializeLocalNotif(notificationConfig: any) {
+  async initializeLocalNotif(notificationConfig: LocalNotificationSchema) {
     let that = this;
     try {
       let res = await LocalNotifications.checkPermissions()
       if(res.display !== 'granted') {
         await LocalNotifications.requestPermissions();
       }
+      let notiData = {
+        id: notificationConfig.id,
+        title: notificationConfig.title,
+        body: notificationConfig.body,
+        extra: notificationConfig.extra,
+        largeIcon: 'res://drawable/ic_launcher',
+        smallIcon: 'res://drawable/ic_notification',
+        schedule: {
+          on: notificationConfig.schedule?.on,
+          repeats: notificationConfig.schedule?.repeats,
+          every: notificationConfig.schedule?.every,
+          allowWhileIdle: notificationConfig.schedule?.allowWhileIdle,
+        },
+      }
       let option: ScheduleOptions = {
-        notifications: [ notificationConfig ],
+        notifications: [notiData],
       }
       await LocalNotifications.schedule(option);
     }

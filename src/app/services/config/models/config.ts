@@ -39,11 +39,26 @@ export interface Notification {
     largeIcon?: string,
     smallIcon?: string,
     schedule: {
-        at: Date,
+        on: {year?: number;
+            month?: number;
+            day?: number;
+            weekday?: Weekday;
+            hour?: number;
+            minute?: number;
+            second?: number;},
         repeats: boolean,
-        every: string,
+        every: 'year' | 'month' | 'two-weeks' | 'week' | 'day' | 'hour' | 'minute' | 'second',
         allowWhileIdle: boolean
     }
+}
+export declare enum Weekday {
+    Sunday = 1,
+    Monday = 2,
+    Tuesday = 3,
+    Wednesday = 4,
+    Thursday = 5,
+    Friday = 6,
+    Saturday = 7
 }
 export interface MetadataMapping {
     mappingVersion: number;

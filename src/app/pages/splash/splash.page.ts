@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService, AppHeaderService, CachingService, ConfigService, LocalNotificationService, UtilService } from '../../../app/services';
+import { ApiService, AppHeaderService, CachingService, ConfigService, UtilService } from '../../../app/services';
 import { AppInitializeService } from '../../../app/services/appInitialize.service';
 import { StorageService } from '../../../app/services/storage.service';
 import { v4 as uuidv4 } from "uuid";
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiModule } from 'src/app/services/api/api.module';
-import { Config, Notification } from 'src/app/appConstants';
+import { Config } from 'src/app/appConstants';
 
 @Component({
   selector: 'app-splash',
@@ -24,8 +24,7 @@ export class SplashPage implements OnInit {
     private cachingService: CachingService,
     private configService: ConfigService,
     private translate: TranslateService,
-    private apiService: ApiService,
-    private lcoalNotifService: LocalNotificationService) {
+    private apiService: ApiService) {
       this.cachingService.initStorage();
     }
     
@@ -44,14 +43,6 @@ export class SplashPage implements OnInit {
     this.appinitialise.initialize();
     let config: Config = await this.configService.getConfigMeta();
     this.storage.setData('configMeta', JSON.stringify(config));
-    let notif: Notification = config?.notification?.android
-    if(notif) {
-      await this.lcoalNotifService.cancelNotification(notif.id);
-      notif.largeIcon = 'res://drawable/ic_launcher'
-      notif.smallIcon = 'res://drawable/ic_notification'
-      notif.schedule.at = new Date(notif.schedule.at)
-      this.lcoalNotifService.initializeLocalNotif(notif);
-    }
     let lang = await this.storage.getData('lang')
     if(lang) {
       // if(lang !== 'hi') {
