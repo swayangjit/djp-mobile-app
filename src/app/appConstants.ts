@@ -41,6 +41,9 @@ export class DbConstants {
 export interface Config {
     pageConfig: Array<PageConfig>,
     languages: Language[];
+    notification: {
+        android: Notification
+    };
 }
 
 export interface PageConfig {
@@ -66,6 +69,21 @@ export interface Language {
     id: string,
     label: string,
     default: boolean
+}
+
+export interface Notification {
+    id: number,
+    title: string,
+    body: string,
+    extra: string,
+    largeIcon?: string,
+    smallIcon?: string,
+    schedule: {
+        at: Date,
+        repeats: boolean,
+        every: string,
+        allowWhileIdle: boolean
+    }
 }
 
 export interface Content {

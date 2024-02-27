@@ -14,3 +14,4 @@ export { RecordingService } from './recording.service';
 export { SearchService } from './search.service';
 export { BotApiService } from './bot-api.service';
 export { DownlaodContentService } from  './downlaod-content.service';
+export { LocalNotificationService } from './local-notification.service'

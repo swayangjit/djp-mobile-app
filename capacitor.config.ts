@@ -15,6 +15,10 @@ const config: CapacitorConfig = {
     SplashScreen: {
       "launchShowDuration": 10
     },
+    LocalNotifications: {
+      iconColor: "#488AFF",
+      sound: "beep.wav",
+    },
   }
 };
 

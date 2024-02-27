@@ -10,10 +10,14 @@ export class TabsService {
     let scrollContent = document.querySelectorAll('.scroll-content');
     if (tabs !== null && tabsHome !== null) {
       Object.keys(tabs).map((key: any) => {
-        (tabs[key] as any).style.transform = 'translateY(5rem)';
+        if((tabs[key] as any).style.transform !== 'translateY(5rem)') {
+          (tabs[key]).style.transform = 'translateY(5rem)';
+        }
       });
       Object.keys(tabsHome).map((key: any) => {
-        (tabsHome[key] as any).style.transform = 'translateY(5.2rem)';
+        if((tabsHome[key] as any).style.transform !== 'translateY(5.2rem)') {
+          (tabsHome[key] as any).style.transform = 'translateY(5.2rem)';
+        }
       });
       // fix for removing the margin if you got scorllable content
       setTimeout(() =>{
@@ -29,10 +33,14 @@ export class TabsService {
     let tabsHome = document.querySelectorAll('.home-screen');
     if (tabs !== null && tabsHome !== null) {
       Object.keys(tabsHome).map((key: any) => {
-        (tabsHome[key] as any).style.transform = 'rotate(-45deg)';
+        if((tabsHome[key] as any).style.transform !== 'rotate(-45deg)') {
+          (tabsHome[key] as any).style.transform = 'rotate(-45deg)';
+        }
       });
       Object.keys(tabs).map((key: any) => {
-        (tabs[key] as any).style.transform = 'translateY(0px)';
+        if((tabs[key] as any).style.transform !== 'translateY(0px)') {
+          (tabs[key] as any).style.transform = 'translateY(0px)';
+        }
       });
     }
   }
