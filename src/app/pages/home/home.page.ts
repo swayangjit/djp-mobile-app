@@ -44,7 +44,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   offlineState: boolean = false
   networkChangeSub: Subscription | null = null;
   selectedLang: any = "";
-  config: any;
   constructor(
     private headerService: AppHeaderService,
     private router: Router,
@@ -107,13 +106,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       if(val == 'language') {
         let lang = await this.storage.getData('lang');
         console.log('lang ', lang, this.selectedLang);
-        let meta: any = await this.storage.getData('configMeta');
-        this.config = meta ? JSON.parse(meta) : await this.configService.getConfigMeta();
-        let notif: LocalNotificationSchema = this.config?.notification?.android
-        if(notif) {
-          await this.lcoalNotifService.cancelNotification(notif.id);
-          await this.lcoalNotifService.initializeLocalNotif(notif);
-        }
         if (this.selectedLang !== lang) {
           this.selectedLang = lang;
           this.showSheenAnimation = true;
@@ -224,11 +216,18 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   }
 
   async getServerMetaConfig() {
-    this.config.pageConfig.forEach((cfg: any) => {
+    let meta: any = await this.storage.getData('configMeta');
+    let config = meta ? JSON.parse(meta) : await this.configService.getConfigMeta();
+    let notif: LocalNotificationSchema = config?.notification?.android
+    if(notif) {
+      await this.lcoalNotifService.cancelNotification(notif.id);
+      await this.lcoalNotifService.initializeLocalNotif(notif);
+    }
+    config.pageConfig.forEach((cfg: any) => {
       this.filters = (cfg.additionalFilters).sort((a: Filter, b: Filter) => a.index - b.index);
     })
-    this.languages = this.config.languages.sort((a: Language, b: Language) => a.id.localeCompare(b.id));
-    this.headerService.filterEvent({ defaultFilter: this.config.pageConfig[0].defaultFilter, filter: this.filters, languages: this.languages });
+    this.languages = config.languages.sort((a: Language, b: Language) => a.id.localeCompare(b.id));
+    this.headerService.filterEvent({ defaultFilter: config.pageConfig[0].defaultFilter, filter: this.filters, languages: this.languages });
   }
 
   async tabViewWillEnter() {
