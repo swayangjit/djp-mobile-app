@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { InfiniteScrollCustomEvent, IonRefresher, ModalController, ToastController } from '@ionic/angular';
 import { Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
-import { AppHeaderService, BotApiService, CachingService, SearchService, StorageService } from '../../../app/services';
+import { AppHeaderService, BotApiService, CachingService, LocalNotificationService, SearchService, StorageService } from '../../../app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { ConfigService } from '../../../app/services/config.service';
 import { SunbirdPreprocessorService } from '../../services/sources/sunbird-preprocessor.service';
@@ -18,6 +18,7 @@ import confetti from 'canvas-confetti';
 import { NativeAudio } from '@capacitor-community/native-audio';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-home',
@@ -58,7 +59,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private searchService: SearchService,
     private translateService: TranslateService,
     private toastController: ToastController,
-    private botMessageApiService: BotApiService) {
+    private botMessageApiService: BotApiService,
+    private lcoalNotifService: LocalNotificationService) {
     this.configContents = [];
     this.contentList = [];
     this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
@@ -214,11 +216,15 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   }
 
   async getServerMetaConfig() {
-    let meta = await this.storage.getData('configMeta');
+    let meta: any = await this.storage.getData('configMeta');
     let config = meta ? JSON.parse(meta) : await this.configService.getConfigMeta();
-    console.log('config ', config);
-    config.pageConfig.forEach((config: any) => {
-      this.filters = (config.additionalFilters).sort((a: Filter, b: Filter) => a.index - b.index);
+    let notif: LocalNotificationSchema = config?.notification?.android
+    if(notif) {
+      await this.lcoalNotifService.cancelNotification(notif.id);
+      await this.lcoalNotifService.initializeLocalNotif(notif);
+    }
+    config.pageConfig.forEach((cfg: any) => {
+      this.filters = (cfg.additionalFilters).sort((a: Filter, b: Filter) => a.index - b.index);
     })
     this.languages = config.languages.sort((a: Language, b: Language) => a.id.localeCompare(b.id));
     this.headerService.filterEvent({ defaultFilter: config.pageConfig[0].defaultFilter, filter: this.filters, languages: this.languages });

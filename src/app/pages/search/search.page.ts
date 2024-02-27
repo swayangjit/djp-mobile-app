@@ -97,7 +97,7 @@ export class SearchPage implements OnInit, OnTabViewWillEnter {
   }
 
   async makeSearchContextApiCall(data: string, audio: boolean): Promise<any> {
-    await this.searchApi.postSearchContext({text: data, currentLang:  await this.storage.getData('lang')}, audio).then(res => {
+    return await this.searchApi.postSearchContext({text: data, currentLang:  await this.storage.getData('lang')}, audio).then(res => {
       return res;
     }).catch(err => {
       if(audio) {

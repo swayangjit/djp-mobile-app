@@ -21,6 +21,7 @@ export class CreatePlaylistPage implements OnInit {
   contentList: Array<any> = [];
   playlists: any;
   playlistName = '';
+  disableCreateBtn: boolean = true;
   public files: PickedFile[] = [];
   navigateBack: boolean = false;
   resolveNativePath = (path : string) =>
@@ -91,7 +92,17 @@ export class CreatePlaylistPage implements OnInit {
         this.reSelectedContent.push({ identifier: e['metaData']['contentIdentifier']});
       }
     });
-   }
+    this.disableCreateBtn = false;
+    if(this.reSelectedContent.length == 0) {
+      this.disableCreateBtn = true
+    }
+  }
+
+  playlistNameChange() {
+    if((this.playlistName.replace(/\s/g, '').length > 0 && this.selectedContents.length > 0) || this.playlistName !== this.playlists?.name) {
+      this.disableCreateBtn = false
+    }
+  }
 
   async createList() {
     let request: Array<PlayListContent> = [];
