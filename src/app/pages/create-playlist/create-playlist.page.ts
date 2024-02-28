@@ -99,8 +99,10 @@ export class CreatePlaylistPage implements OnInit {
   }
 
   playlistNameChange() {
-    if((this.playlistName.replace(/\s/g, '').length > 0 && this.selectedContents.length > 0) || this.playlistName !== this.playlists?.name) {
+    if((this.playlistName.replace(/\s/g, '').length > 0 && this.selectedContents.length > 0) || (this.playlistName !== "" && this.playlistName !== this.playlists?.name)) {
       this.disableCreateBtn = false
+    } else {
+      this.disableCreateBtn = true
     }
   }
 
