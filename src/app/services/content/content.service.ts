@@ -251,5 +251,13 @@ export class ContentService {
     console.log('Results', this.results);
   }
 
+  public readDikshaContents(identifier: string) {
+    const apiRequest = new ApiRequest.Builder()
+      .withHost('https://diksha.gov.in/api/content/v1/read/')
+      .withPath(`${identifier}`)
+      .withType(ApiHttpRequestType.GET)
+      .build()
+    return lastValueFrom(this.apiService.fetch(apiRequest));
+  }
 }
 

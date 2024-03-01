@@ -15,6 +15,8 @@ import { AddToPitaraComponent } from 'src/app/components/add-to-pitara/add-to-pi
 import { NativeAudio } from '@capacitor-community/native-audio';
 import confetti from 'canvas-confetti';
 import getYouTubeID from 'get-youtube-id';
+import { UploadLocalComponent } from 'src/app/components/upload-local/upload-local.component';
+import { NewPlaylistModalComponent } from 'src/app/components/new-playlist-modal/new-playlist-modal.component';
 
 @Component({
   selector: 'app-view-all',
@@ -255,4 +257,89 @@ export class ViewAllPage implements OnInit {
     }
   }
 
+  async uploadLocalContents() {
+    let modal: any;
+    if (!this.optModalOpen) {
+      this.optModalOpen = true;
+      modal = await this.modalCtrl.create({
+        component: UploadLocalComponent,
+        componentProps: {uploadType: [{type: 'url', label: "Upload from Youtube"}, {type: 'file', label: 'Upload from Local Files' }, {type: 'diksha', label: 'Upload from Diksha' }]},
+        cssClass: 'sheet-modal',
+        breakpoints: [0.25],
+        showBackdrop: false,
+        initialBreakpoint: 0.25,
+        handle: false,
+        handleBehavior: "none"
+      });
+      await modal.present();
+    }
+    modal.onDidDismiss().then(async (result: any) => {
+      this.optModalOpen = false;
+      if (result.data.type === 'file') {
+        this.openFilePicker();
+      } else {
+        this.createYoutubeContent(result.data.type);
+      }
+    })
+  }
+
+  async createYoutubeContent(type: string) {
+    const modal = await this.modalCtrl.create({
+      component: NewPlaylistModalComponent,
+      componentProps: {title: type == 'url' ? 'Add Youtube URL': 'Add Diksha URL', placeholder: 'Name'},
+      cssClass: 'auto-height'
+    });
+    await modal.present();
+    modal.onDidDismiss().then(async (result) => {
+      if (result && result.data.type === 'create' && result.data.name) {
+        let localContents: Array<Content> = []
+        const loader = await this.utilService.getLoader()
+        await loader.present();
+        let id = '' 
+        if(type === 'url') {
+          id = result.data?.url?.split('?v=')[1];
+          localContents.push({
+            source: 'local',
+            sourceType: 'local',
+            metaData: {
+              identifier: id[0],
+              url: result.data.url,
+              name: result.data.name,
+              mimetype: MimeType.YOUTUBE,
+              thumbnail: ''
+            }
+          });
+          localContents = this.getContentImgPath(localContents, true);
+          this.contentList = localContents.concat(this.contentList);
+        } else if(type === 'diksha') {
+          let arr = result.data.url.split('/')
+          id = arr.filter((a: string) => a.startsWith('do_'))
+          try {
+            await this.contentService.readDikshaContents(id[0]).then(async (res) => {
+              console.log('res ', res);
+              if(res.body?.result?.content?.dialcodes?.length > 0) {
+                await this.contentService.getContents(res.body.result.content.dialcodes[0]).then(data => {
+                  console.log('content data ', data);
+                  if(data.length > 0) {
+                    data.forEach(content => {
+                      content.source = "local"
+                      if(content.metaData.mimetype == MimeType.PDF || content.metaData.mimetype == MimeType.VIDEO) {
+                        localContents.push(content)
+                      }
+                    })
+                    localContents = this.getContentImgPath(localContents, true);
+                    this.contentList = localContents.concat(this.contentList);
+                  }
+                })
+              }
+            })
+          }
+          catch(err) {
+            console.log('server err ', err);
+          }
+        }
+        await loader.dismiss()
+      }
+    });
+  }
 }
