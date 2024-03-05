@@ -30,26 +30,26 @@ export class NewPlaylistModalComponent  implements OnInit {
   createPlaylist() {
     if (this.name) {
       if(this.title == 'Add Youtube URL' && this.url) {
-        var regExp = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        const regExp = /(?:youtu\.be\/|youtube\.com(?:\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=|shorts\/)|youtu\.be\/|embed\/|v\/|m\/|watch\?(?:[^=]+=[^&]+&)*?v=))([^"&?\/\s]{11})/gm;
         if(this.url.match(regExp)){
           this.modalCtrl.dismiss({type: 'create', name: this.name, url: this.url})
         } else {
           this.errMsg = "Please enter a valid url"
         }
-      } else if(this.title == 'Add Diksha URL' && this.url) {
-        let validUrl = false;
-        regDiksha.forEach(regExp => {
-          if(this.url.match(new RegExp(regExp.pattern))) {
-            validUrl = true;
-          }
-        })
-        if(validUrl){
-          this.modalCtrl.dismiss({type: 'create', name: this.name, url: this.url})
-        } else {
-          this.errMsg = "Please enter a valid url"
-        }
-      }else {
+      } else {
         this.modalCtrl.dismiss({type: 'create', playlistName: this.name})
+      }
+    } else if(this.title == 'Add Diksha URL' && this.url) {
+      let validUrl = false;
+      regDiksha.forEach(regExp => {
+        if(this.url.match(new RegExp(regExp.pattern))) {
+          validUrl = true;
+        }
+      })
+      if(validUrl){
+        this.modalCtrl.dismiss({type: 'create', url: this.url})
+      } else {
+        this.errMsg = "Please enter a valid url"
       }
     }
   }

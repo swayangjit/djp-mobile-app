@@ -3,10 +3,10 @@
       <div class="header-info">{{title | translate}}</div>
   </ion-toolbar>
 
- <ion-item class="roundedInput">
+ <ion-item class="roundedInput" *ngIf="title !== 'Add Diksha URL'">
    <ion-input type="text" [(ngModel)]="name" [placeholder]="placeholder | translate"></ion-input>
   </ion-item>
-  <ion-item class="roundedInput" *ngIf="title === 'Add Youtube URL' || title === 'Add Diksha URL'">
+  <ion-item class="roundedInput" *ngIf="title !== 'New Playlist'">
     <ion-input type="url" [(ngModel)]="url" [placeholder]="'url' | translate" (ionInput)="onInputChange()"></ion-input>
   </ion-item>
   <ion-item lines="none" *ngIf="errMsg">

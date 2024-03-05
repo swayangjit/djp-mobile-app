@@ -291,19 +291,20 @@ export class ViewAllPage implements OnInit {
     });
     await modal.present();
     modal.onDidDismiss().then(async (result) => {
-      if (result && result.data.type === 'create' && result.data.name) {
+      let url = result.data?.url
+      if (result && result.data.type === 'create') {
         let localContents: Array<Content> = []
         const loader = await this.utilService.getLoader()
         await loader.present();
         let id = '' 
         if(type === 'url') {
-          id = result.data?.url?.split('?v=')[1];
+          id = getYouTubeID(url) as string
           localContents.push({
             source: 'local',
             sourceType: 'local',
             metaData: {
-              identifier: id[0],
-              url: result.data.url,
+              identifier: id,
+              url: 'https://www.youtube.com/watch?v='+id,
               name: result.data.name,
               mimetype: MimeType.YOUTUBE,
               thumbnail: ''
@@ -312,25 +313,56 @@ export class ViewAllPage implements OnInit {
           localContents = this.getContentImgPath(localContents, true);
           this.contentList = localContents.concat(this.contentList);
         } else if(type === 'diksha') {
-          let arr = result.data.url.split('/')
+          let arr = url.split('/')
           id = arr.filter((a: string) => a.startsWith('do_'))
           try {
             await this.contentService.readDikshaContents(id[0]).then(async (res) => {
               console.log('res ', res);
-              if(res.body?.result?.content?.dialcodes?.length > 0) {
-                await this.contentService.getContents(res.body.result.content.dialcodes[0]).then(data => {
+              let content = res.body?.result?.content;
+              if(content.dialcodes?.length > 0) {
+                await this.contentService.getContents(content.dialcodes[0]).then(data => {
                   console.log('content data ', data);
                   if(data.length > 0) {
-                    data.forEach(content => {
-                      content.source = "local"
-                      if(content.metaData.mimetype == MimeType.PDF || content.metaData.mimetype == MimeType.VIDEO) {
-                        localContents.push(content)
+                    data.forEach(cont => {
+                      cont.source = "local"
+                      if(cont.metaData.mimetype == MimeType.PDF || cont.metaData.mimetype == MimeType.VIDEO) {
+                        localContents.push(cont)
                       }
                     })
                     localContents = this.getContentImgPath(localContents, true);
                     this.contentList = localContents.concat(this.contentList);
                   }
                 })
+              } else if(content.mediaType = "content") {
+                let localData: Content = {
+                  source: "local",
+                  sourceType: 'diksha',
+                  metaData: {
+                    identifier: content?.identifier,
+                    name: content?.name,
+                    thumbnail: content?.posterImage,
+                    description: content?.name,
+                    mimetype: content?.mimetype || content?.mimeType,
+                    url: content?.streamingUrl,
+                    focus: content?.focus,
+                    keyword: content?.keyword,
+                    domain: content?.domain,
+                    curriculargoal: content?.curriculargoal,
+                    competencies: content?.competencies,
+                    language: content?.language,
+                    category: content?.category,
+                    audience: content?.audience,
+                    status: content?.status,
+                    createdon: content?.createdOn,
+                    lastupdatedon: content?.lastupdatedon || content?.lastUpdatedOn,
+                    artifactUrl: content?.artifactUrl
+                  }
+                };
+                if(localData.metaData.mimetype == MimeType.PDF || localData.metaData.mimetype == MimeType.VIDEO) {
+                  localContents.push(localData)
+                  localContents = this.getContentImgPath(localContents, true);
+                  this.contentList = localContents.concat(this.contentList);
+                }
               }
             })
           }
