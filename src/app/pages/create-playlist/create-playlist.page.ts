@@ -116,7 +116,7 @@ export class CreatePlaylistPage implements OnInit {
     let request: Array<PlayListContent> = [];
     this.selectedContents.forEach((e: any) => {
       if (e['type'] === 'local' || e['source'] === 'local' ) {
-        request.push({identifier: e['identifier'], type: 'local', localContent: e, isDeleted: !e['isSelected']})
+        request.push({identifier: e['identifier'], type: (e.sourceType == "diksha") ? 'local_diksha' : 'local', localContent: e, isDeleted: !e['isSelected']})
       } else {
         if(e['isSelected']) {
           request.push({ identifier: e['contentIdentifier'], type: 'recentlyViewed' , localContent: e});

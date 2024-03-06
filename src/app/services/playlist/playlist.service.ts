@@ -44,7 +44,7 @@ export class PlaylistService {
 
         } else {
           if (!isEditMode) {
-            if (playListContent.type == 'local') {
+            if (playListContent.type == 'local' || playListContent.type == 'local_diksha') {
               const localData = await this.dbService.readDbData(ContentEntry.readQuery(), { 'identifier': playListContent.identifier })
               if (!localData) {
                 capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(playListContent.localContent!) })
@@ -54,7 +54,7 @@ export class PlaylistService {
             capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContent.identifier, playListContent.type, JSON.stringify(playListContent.localContent?.metaData)) })
           } else {
             if (!playListContent.identifier) {
-              if (playListContent.type == 'local') {
+              if (playListContent.type == 'local' || playListContent.type == 'local_diksha') {
                 const localData = await this.dbService.readDbData(ContentEntry.readQuery(), { 'identifier': playListContent.identifier })
                 if (!localData) {
                   capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(playListContent.localContent!) })
