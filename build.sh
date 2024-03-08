@@ -33,9 +33,10 @@ if [[ -f configuration/config.properties ]]; then
     npx cap add android
     npx @capacitor/assets generate --iconBackgroundColor '#ffffff' --iconBackgroundColorDark '#222222'
     
-    npm run ionic-build
-
     ionic build --prod && npx cap sync
+    
+    npm run ionic-build:ci
+
 else
     echo "File does not exists"
 fi
