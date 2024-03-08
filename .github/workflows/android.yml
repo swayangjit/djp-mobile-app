@@ -51,7 +51,7 @@ jobs:
         encodedString: ${{ secrets.ENV }}
 
     - name: Decode config file
-      id: decode_env
+      id: decode_config
       uses: timheuer/base64-to-file@v1.2
       with:
         fileName: 'config.properties'
