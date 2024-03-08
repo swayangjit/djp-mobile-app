@@ -47,11 +47,19 @@ jobs:
       uses: timheuer/base64-to-file@v1.2
       with:
         fileName: 'environment.prod.ts'
-        fileDir: '/home/runner/work/djp-mobile-app/djp-mobile-app/src/environments/'
+        fileDir: '/home/runner/work/djp-mobile-app/djp-mobile-app/configuration/'
         encodedString: ${{ secrets.ENV }}
 
-    - name: Build Ionic assets
-      run: ionic build --prod && npx cap sync
+    - name: Decode config file
+      id: decode_env
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: 'config.properties'
+        fileDir: '/home/runner/work/djp-mobile-app/djp-mobile-app/configuration/'
+        encodedString: ${{ secrets.CONFIG }}
+
+    - name: Transform Sunbird Assistant repo to EJP 
+      run: ./build.sh
 
     - name: Copy generated assets from Ionic to Capacitor Android platform
       run: npx cap copy android && npx cap update android

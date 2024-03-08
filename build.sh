@@ -26,9 +26,6 @@ if [[ -f configuration/config.properties ]]; then
 
     echo "updated appname and appid"
 
-    # Build your Ionic app
-    ionic build
-
     # Build your Ionic app, add android, generate icons and build
     npx cap add android
     # appIcon
@@ -37,8 +34,7 @@ if [[ -f configuration/config.properties ]]; then
     
     ionic build --prod && npx cap sync
     
-    npm run ionic-build:ci
-
+    
 else
     echo "File does not exists"
 fi
