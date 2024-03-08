@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { IonContent, Platform } from '@ionic/angular';
-import { BotMessage, Sakhi } from 'src/app/appConstants';
+import { BotMessage } from 'src/app/appConstants';
 import { AppHeaderService, BotApiService, RecordingService, StorageService } from 'src/app/services';
 import { Keyboard } from "@capacitor/keyboard";
 import { Directory, Filesystem } from '@capacitor/filesystem';
@@ -64,8 +64,10 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       this.content.scrollToBottom();
     })
     this.record.startEndEvent$.subscribe((res: any) => {
-      this.startRecording = res;
-      this.calculation();
+      this.ngZone.run(() => {
+        this.startRecording = res;
+        this.calculation();
+      })
     });
 
     document.addEventListener('visibilitychange', () => {
@@ -82,6 +84,14 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     });
   }
 
+  ngOnChanges() {
+    console.log('ng onchanges ', this.config);
+    if (this.config?.notification && this.config?.notif?.body) {
+      this.textMessage = this.config.notif.body;
+      this.handleMessage();
+    }
+  }
+
   ionViewWillEnter() {
     this.botMessages = [];
     this.navigated = false;
@@ -91,22 +101,15 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     this.record.gestureControl(this.recordbtn);
   }
 
-  initialiseBot() {
+  async initialiseBot() {
     this.botMessages = [];
-    if (this.config.type == Sakhi.STORY) {
-      if(this.botMessages.length === 0)
-        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_STORY_SAKHI", type: 'received'})
-    } else if (this.config.type == Sakhi.TEACHER) {
-      if(this.botMessages.length === 0)
-        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_TEACHER_SAKHI", type: 'received'})
-    } else if (this.config.type == Sakhi.PARENT) {
-      if(this.botMessages.length === 0)
-        this.botMessages.push({ messageType: 'text', displayMsg: "WELCOME_TO_PARENT_SAKHI", type: 'received'})
-    }
+    let textMsg = `WELCOME_TO_${this.config.type.toUpperCase()}_SAKHI`;
+    if(this.botMessages.length === 0)
+    this.botMessages.push({ messageType: 'text', displayMsg: textMsg, type: 'received'})
     this.content.scrollToBottom(300).then(() => {
       this.content.scrollToBottom(300)
     });
-    this.messageApi.getAllChatMessages(this.config.type).then((res) => {
+    await this.messageApi.getAllChatMessages(this.config.type).then((res) => {
       console.log('Bot response', res);
       res.forEach(chat => {
         let msg = {identifier: "", message: '', messageType: '', type: '', displayMsg: "", audio: { file: '', duration: '', play: false }, time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: ""}
@@ -124,8 +127,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         msg.time = new Date(JSON.parse(chat.ts)).toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' })
         msg.timeStamp = chat.ts
         msg.requestId = chat.requestId ?? ""
-        msg.likeMsg = chat.reaction == 1 ? true : false
-        msg.dislikeMsg = chat.reaction == 0 ? true : false
+        msg.likeMsg = chat.reaction == 1
+        msg.dislikeMsg = chat.reaction == 0
         if (chat.messageType == 'audio') {
           msg.audio.file = msg.type == 'sent' ? chat.mediaData : chat.mediaUrl
           msg.audio.duration = chat.duration ?? ""
@@ -134,26 +137,33 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       })
       console.log("botMessages ", this.botMessages);
     });
+    if(this.config.notif) {
+      this.textMessage = this.config.notif.body;
+      this.handleMessage();
+    }
   }
 
   async handleMessage() {
-    this.chat = {identifier: "", message: '', messageType: 'text', type: 'sent', displayMsg: "", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: ""}
-    if (this.textMessage.replace(/\s/g, '').length > 0) {
-      Keyboard.hide();
-      this.chat.message = this.textMessage;
-      this.chat.displayMsg = this.textMessage;
-      this.chat.timeStamp = Date.now()
-      this.botMessages.push(this.chat);
-      this.saveChatMessage(this.chat);
-      this.content.scrollToBottom(300).then(() => {
-        this.content.scrollToBottom(300)
-      })
-      this.botMessages.push(this.defaultLoaderMsg);
-      this.content.scrollToBottom(300).then(() => {
-        this.content.scrollToBottom(300)
-      })
-      await this.makeBotAPICall(this.textMessage, '');
-    }
+    this.ngZone.run(() => {
+      this.chat = {identifier: "", message: '', messageType: 'text', type: 'sent', displayMsg: "", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: ""}
+      if (this.textMessage.replace(/\s/g, '').length > 0) {
+        Keyboard.hide();
+        this.chat.message = this.textMessage;
+        this.chat.displayMsg = this.textMessage;
+        this.chat.timeStamp = Date.now()
+        this.botMessages.push(this.chat);
+        this.saveChatMessage(this.chat);
+        this.content.scrollToBottom(300).then(() => {
+          this.content.scrollToBottom(300)
+        })
+        this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
+        this.botMessages.push(this.defaultLoaderMsg);
+        this.content.scrollToBottom(300).then(() => {
+          this.content.scrollToBottom(300)
+        })
+      }
+    })
+    await this.makeBotAPICall(this.textMessage, '');
   }
 
   private saveChatMessage(message: BotMessage) {

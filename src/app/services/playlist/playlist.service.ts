@@ -51,6 +51,16 @@ export class PlaylistService {
 
             }
             capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContent.identifier, playListContent.type, JSON.stringify(playListContent.localContent?.metaData)) })
+          } else {
+            if (!playListContent.identifier) {
+              if (playListContent.type == 'local') {
+                const localData = await this.dbService.readDbData(ContentEntry.readQuery(), { 'identifier': playListContent.identifier })
+                if (!localData) {
+                  capSQLiteSet.push({ statement: ContentEntry.insertQuery(), values: ContentMapper.mapContentToValues(playListContent.localContent!) })
+                }
+                capSQLiteSet.push({ statement: PlaylistContentEntry.insertQueryWithColumns(), values: PlayListEntryMapper.mapContentToValues(uuidv4(), playListId, playListContent.identifier, playListContent.type, JSON.stringify(playListContent.localContent?.metaData)) })
+              }
+            }
           }
         }
 

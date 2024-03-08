@@ -17,7 +17,7 @@ import { UtilService } from './services/util.service';
 import { ContentService } from './services/content/content.service';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { ConfigService } from './services/config.service';
-import { ApiService, BotApiService, RecordingService, SearchService } from './services';
+import { ApiService, BotApiService, LocalNotificationService, RecordingService, SearchService } from './services';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx'
 import { TelemetryAutoSyncService } from './services/telemetry/telemetry.auto.sync.service';
 import { DikshaPreprocessorService, PreprocessorService, SunbirdPreprocessorService } from './services';
@@ -75,7 +75,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     SearchService,
     TabsService,
     BotApiService,
-    DownlaodContentService
+    DownlaodContentService,
+    LocalNotificationService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

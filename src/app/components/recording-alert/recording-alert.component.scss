@@ -5,15 +5,18 @@
   }
   
   .search_div {
-    position: relative;
-    top: 9rem;
-    left: 7.75rem;
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .msg_speak {
-    position: relative;
-    left: 8.5rem;
-    bottom: 4.5rem;
+    position: absolute;
+    left: 40%;
+    top: -2%;
+    bottom: 100%;
+    transform: translatex(-50%);
     ion-icon {
       height: 2rem !important;
       width: 2rem !important;

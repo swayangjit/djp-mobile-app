@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiModule } from 'src/app/services/api/api.module';
+import { Config } from 'src/app/appConstants';
 
 @Component({
   selector: 'app-splash',
@@ -40,7 +41,7 @@ export class SplashPage implements OnInit {
       this.router.navigate(['/tabs/home']);
     }, 2000);
     this.appinitialise.initialize();
-    let config = await this.configService.getConfigMeta();
+    let config: Config = await this.configService.getConfigMeta();
     this.storage.setData('configMeta', JSON.stringify(config));
     let lang = await this.storage.getData('lang')
     if(lang) {
@@ -50,7 +51,7 @@ export class SplashPage implements OnInit {
         this.translate.use(lang);
       // }
     } else {
-      config.languages.forEach(lang => {
+      config?.languages.forEach(lang => {
         if (lang?.default) {
           this.storage.setData('lang', lang.id);
           // if(lang.id !== 'hi') {

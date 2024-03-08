@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRefresher, ModalController, ToastController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonRefresher, ModalController, ToastController } from '@ionic/angular';
 import { Searchrequest, PlayerType, PageId, Content, ContentMetaData } from '../../../app/appConstants';
-import { AppHeaderService, BotApiService, CachingService, SearchService, StorageService } from '../../../app/services';
+import { AppHeaderService, BotApiService, CachingService, LocalNotificationService, SearchService, StorageService } from '../../../app/services';
 import { ContentService } from 'src/app/services/content/content.service';
 import { ConfigService } from '../../../app/services/config.service';
 import { SunbirdPreprocessorService } from '../../services/sources/sunbird-preprocessor.service';
@@ -19,6 +19,7 @@ import { NativeAudio } from '@capacitor-community/native-audio';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { App } from '@capacitor/app';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +29,7 @@ import { App } from '@capacitor/app';
 export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   refresh: boolean = false;
   showSheenAnimation: boolean = true;
-  contentList: Array<Content> = []
+  contentList: Array<any> = []
   filters!: Array<Filter>
   languages!: Array<Language>
   isOpen: boolean = false;
@@ -60,9 +61,11 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private searchService: SearchService,
     private translateService: TranslateService,
     private toastController: ToastController,
-    private botMessageApiService: BotApiService) {
+    private botMessageApiService: BotApiService,
+    private lcoalNotifService: LocalNotificationService) {
       App.getInfo().then(info => {this.appName = info.name});
     this.configContents = [];
+    this.contentList = [];
     this.networkChangeSub = this.networkService.networkConnection$.subscribe(ev => {
       this.networkConnected = ev;
       // if (this.networkConnected !== ev) {
@@ -128,7 +131,9 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       req.request.query = val.defaultFilter.query;
       req.request.filters = val.defaultFilter.filters;
       this.configContents = [];
+      this.contentList = [];
       this.serverError = false;
+      this.showSheenAnimation = true;
       try {
         let lang = await this.storage.getData('lang')
         let content: Array<ContentMetaData> = await this.configService.getAllContent(req, lang);
@@ -148,7 +153,6 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
         let res: any = await this.searchService.postContentSearch({ query: val.query, filter: val.filters }, await this.storage.getData('lang'));
         console.log('Response', res);
         this.mappUIContentList(res);
-
       }
       catch (e) {
         console.log('error', e);
@@ -160,15 +164,19 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
       this.getServerMetaConfig();
     } else if (!this.networkConnected) {
       this.configContents = [];
+      this.contentList = [];
       let dbContent = await this.contentService.getAllContent();
-      this.configContents = dbContent;
-      if (this.configContents.length == 0) this.getServerMetaConfig();
+      this.contentList = dbContent;
+      this.generateItems();
+      if (this.contentList.length == 0) this.getServerMetaConfig();
       this.showSheenAnimation = false;
     } else {
       this.getServerMetaConfig();
       this.configContents = [];
+      this.contentList = [];
       let content = await this.contentService.getAllContent();
-      this.configContents = content;
+      this.contentList = content;
+      this.generateItems();
       this.showSheenAnimation = false;
     }
     await NativeAudio.preload({
@@ -187,6 +195,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     await this.contentService.deleteAllContents();
     this.showSheenAnimation = false;
     this.configContents = [];
+    this.contentList = [];
     if (content.length > 0) {
       this.noSearchData = false;
       console.log('content ', content);
@@ -196,12 +205,13 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
         list.source = 'djp'
         list.sourceType = 'djp-content'
         list.metaData = ele
-        this.configContents.push(list)
+        this.contentList.push(list)
+        if(i < 50) this.configContents.push(list)
       });
-      await this.contentService.saveContents(this.configContents)
+      await this.contentService.saveContents(this.contentList)
       this.contentService.getAllContent().then(val => {
-        this.configContents = [];
-        this.configContents = val;
+        this.contentList = [];
+        this.contentList = val;
       })
     } else {
       this.noSearchData = true;
@@ -209,11 +219,15 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
   }
 
   async getServerMetaConfig() {
-    let meta = await this.storage.getData('configMeta');
+    let meta: any = await this.storage.getData('configMeta');
     let config = meta ? JSON.parse(meta) : await this.configService.getConfigMeta();
-    console.log('config ', config);
-    config.pageConfig.forEach((config: any) => {
-      this.filters = (config.additionalFilters).sort((a: Filter, b: Filter) => a.index - b.index);
+    let notif: LocalNotificationSchema = config?.notification?.android
+    if(notif) {
+      await this.lcoalNotifService.cancelNotification(notif.id);
+      await this.lcoalNotifService.initializeLocalNotif(notif);
+    }
+    config.pageConfig.forEach((cfg: any) => {
+      this.filters = (cfg.additionalFilters).sort((a: Filter, b: Filter) => a.index - b.index);
     })
     this.languages = config.languages.sort((a: Language, b: Language) => a.id.localeCompare(b.id));
     this.headerService.filterEvent({ defaultFilter: config.pageConfig[0].defaultFilter, filter: this.filters, languages: this.languages });
@@ -326,6 +340,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
 
   doRefresh(refresher: any) {
     this.refresh = true;
+    this.serverError = false;
     this.showSheenAnimation = true;
     this.getServerMetaConfig();
     setTimeout(() => {
@@ -352,5 +367,21 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     } else if (type == "teacher") {
       this.router.navigate(['/teacher-sakhi'])
     }
+  }
+
+  generateItems() {
+    const count = this.configContents.length + 50;
+    for (let i = this.configContents.length; i < this.contentList.length-1; i++) {
+      if(i <= count) {
+        this.configContents.push(this.contentList[i]);
+      }
+    }
+  }
+
+  onIonInfinite(ev: Event) {
+    setTimeout(() => {
+      this.generateItems();
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
   }
 }

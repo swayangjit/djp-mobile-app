@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppHeaderService } from 'src/app/services';
+import { AppHeaderService, LocalNotificationService } from 'src/app/services';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 
 @Component({
@@ -12,12 +12,20 @@ export class ParentSakhiPage implements OnInit, OnDestroy {
   config: any;
   cdata:  any;
   duration: any;
+  notification: any;
+  notifSubscription: any;
   constructor(private headerService: AppHeaderService,
     private router: Router,
-    private telemetry: TelemetryGeneratorService) {}
+    private telemetry: TelemetryGeneratorService,
+    private localNotification: LocalNotificationService) {
+      let extras = this.router.getCurrentNavigation()?.extras
+      if(extras) {
+        this.notification = extras?.state?.['notif'];
+      }
+    }
 
   ngOnInit() {
-    this.config = {type: 'parent'}
+    this.config = this.notification ? {type: 'parent', notif: this.notification} : {type: 'parent'}
   }
   
   tabViewWillEnter(): void {
@@ -25,9 +33,15 @@ export class ParentSakhiPage implements OnInit, OnDestroy {
   }
   
   ionViewWillEnter()  {
-    this.config = {type: 'parent'}
+    this.config = this.notification ? {type: 'parent', notif: this.notification} : {type: 'parent'};
     this.headerService.showHeader("Parent Tara", true, ['bot']);
     this.headerService.showStatusBar(false, '#FCB915');
+  }
+
+  ngAfterViewInit() {
+    this.notifSubscription = this.localNotification.notificationEventEmitted$.subscribe((notif: any) => {
+      this.config = {type: 'parent', notif: notif, notification: true}
+    });
   }
 
   handleBotEvent(event?: any) {

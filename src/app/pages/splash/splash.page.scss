@@ -6,6 +6,7 @@ ion-content{
 
 .splash-screen{
   .splash-screen-header{
+    height: 13%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,55 +24,34 @@ ion-content{
       }
     }
     .bhashini-logo{
-      width: 100px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      img{
+        width: 65px;
+      }
       .text{
         font-size: 10px;
       }
     }
   }
   .splash-screen-img{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    width: 13.8rem;
-    height: 13.8rem;
-    background-color: #fff;
-    border-radius: 50%;
+    padding-top: 1rem;
     display: flex;
-    align-items: center;
     justify-content: center;
-    .pm-logo {
-      position: absolute;
-      width: 98px;
-      height: 98px;
-      left: -24px;
-      top: -24px;
-      z-index: 1;
+    align-items: center;
+    height: 41%;
+    .pm-logo{
+      width: 70%;
     }
+  }
+  .splash-screen_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24%;
     .pitara-box{
-      width: 85%;
-      margin-top: -40px;
-    }
-    .splash-screen-logo{
-      padding-top: 30px;
-      .logo{
-        margin-bottom: 1.5rem;
-        // padding-left: 1rem;
-        img{
-          width: 150px;
-        }
-      }
-      .Jaadui-Pitara-txt{
-        color: var(--ion-color-primary-contrast);
-        background: #C8252C;
-        padding: 0.3rem 0;
-        font-size: 20px;
-        font-weight: 700;
-        letter-spacing: 2px;
-      }
+      width: 40%;
     }
   }
 
@@ -80,8 +60,8 @@ ion-content{
     bottom: -25%;
     background: white;
     border-radius: 50%;
-    width: 22.5rem;
-    height: 22.5rem;
+    width: 100%;
+    height: 46%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
