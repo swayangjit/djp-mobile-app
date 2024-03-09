@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "capacitor:copy:before": "node hooks/copyGradleProperties.js android",
     "capacitor:sync:before": "node hooks/updateManifest.js android",
-    "capacitor:copy:after": "ls && node hooks/uploadAppIcon.js android",
+    "capacitor:copy:after": "node hooks/copyNecessoryFiles.js android",
     "ionic-build:ci": "ng build && ionic cap build android --no-open --source-map=true",
     "ionic-build": "ng build && ionic cap run android --source-map=true --target emulator-5554"
   },
