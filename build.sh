@@ -32,7 +32,7 @@ if [[ -f configuration/config.properties ]]; then
     # Build your Ionic app, add android, generate icons and build
     npx cap add android
     # appIcon
-    npm run capacitor:copy:after
+    node hooks/uploadAppIcon.js
     npx @capacitor/assets generate --iconBackgroundColor '#ffffff' --iconBackgroundColorDark '#222222'
     
     ionic build --prod && npx cap sync
