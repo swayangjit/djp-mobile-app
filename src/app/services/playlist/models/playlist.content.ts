@@ -3,7 +3,7 @@ import { PlaylistContentEntry } from "../db/playlist.content.schema";
 
 export interface PlayListContent {
     identifier: string;
-    type:  'recentlyViewed' | 'local' | 'content';
+    type:  'recentlyViewed' | 'local' | 'content' | 'local_diksha';
     localContent ?: Content;
     isDeleted?: boolean;
 }

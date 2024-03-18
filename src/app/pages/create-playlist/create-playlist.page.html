@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <div class="create-playlist">
     <ion-item>
-      <ion-input type="text" [(ngModel)]="playlistName" (ionChange)="playlistNameChange()" placeholder="Name Your Playlist" opacity="0.5"></ion-input>
+      <ion-input type="text" [(ngModel)]="playlistName" (ionInput)="playlistNameChange()" placeholder="Name Your Playlist" opacity="0.5"></ion-input>
       <ion-icon slot="end" aria-hidden="true" src="assets/icon/edit.svg"></ion-icon>
     </ion-item>
     <div class="create-playlist-container">
@@ -25,7 +25,7 @@
       <div class="count">{{reSelectedContent.length}}</div>
       <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
     </div>
-    <div class="djp-view-playlist__icon" (click)="openFilePicker()">
+    <div class="djp-view-playlist__icon" (click)="uploadLocalContents()">
       <ion-icon aria-hidden="true" src="assets/icon/file-upload.svg"></ion-icon>
     </div>
     <div class="djp-view-playlist__button">

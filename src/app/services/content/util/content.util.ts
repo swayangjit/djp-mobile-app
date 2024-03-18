@@ -50,6 +50,9 @@ export class ContentUtil {
         case 'wav':
         mimeType = MimeType.RECOEDED_AUDIO
         break;
+      case 'youtube':
+        mimeType = MimeType.YOUTUBE      
+        break;
       default:
         break;
     }
