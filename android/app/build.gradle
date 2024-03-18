@@ -1,10 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "in.gov.myjp.app"
+    namespace "org.sunbird.aiassistant"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "in.gov.myjp.app"
+		applicationId app_id 
+		resValue("string", "app_name", "${app_name}") 
+		resValue("string", "app_id", "${app_id}")
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 14
@@ -16,17 +18,17 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    signingConfigs {
-      release {
-            storeFile = file("keystore/android_keystore.jks")
-            storePassword System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword System.getenv("SIGNING_KEY_PASSWORD")
-        }
-     }
-    buildTypes {
+signingConfigs {
+                release {
+                    storeFile = file("keystore/android_keystore.jks")
+                    storePassword System.getenv("SIGNING_STORE_PASSWORD")
+                    keyAlias System.getenv("SIGNING_KEY_ALIAS")
+                    keyPassword System.getenv("SIGNING_KEY_PASSWORD")
+                }
+            }
+            buildTypes {
         release {
-            signingConfig signingConfigs.release
+signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

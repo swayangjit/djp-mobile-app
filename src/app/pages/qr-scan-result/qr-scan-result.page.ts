@@ -64,6 +64,8 @@ export class QrScanResultPage implements OnInit, OnTabViewWillEnter {
       this.showSheenAnimation = false;
       console.log('Result: ', result);
       this.configContents = result;
+    }).catch(err => {
+      this.showSheenAnimation = false;
     })
   }
 

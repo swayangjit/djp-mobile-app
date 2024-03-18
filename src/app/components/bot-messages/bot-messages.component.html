@@ -1,7 +1,7 @@
 <ion-content id="content" [fullscreen]="true">
-  <div class="djp-bot" *ngIf="botMessages.length > 0">
+  <div class="bot-content" *ngIf="botMessages.length > 0">
     <div *ngFor="let msg of botMessages; let i = index">
-      <div *ngIf="msg?.type !== ''" class="djp-bot__message {{msg?.type}}" [ngClass]="i !==0 ? 'msg-block': ''">
+      <div *ngIf="msg?.type !== ''" class="bot-content__message {{msg?.type}}" [ngClass]="i !==0 ? 'msg-block': ''">
         <ion-text>{{msg?.displayMsg | translate }}</ion-text>
         <ion-button *ngIf="msg?.readMore" fill="clear" size="small" (click)="readmore(msg)">{{'Read more...' | translate}}</ion-button>
         <div class="audio_msg" *ngIf="msg?.messageType == 'audio'" (click)="playFile(msg)">
@@ -29,7 +29,7 @@
       </div>
     </div>
   </div>
-  <div class="djp-bot-input">
+  <div class="bot-input">
     <ion-input *ngIf="!startRecording" [disabled]="disabled" aria-label="" value="" [placeholder]="'Type here' | translate" (keyup.enter)="handleMessage()" fill="outline" shape="round" [(ngModel)]="textMessage"></ion-input>
     <div class="input_record" *ngIf="startRecording">
       <ion-icon aria-hidden="true" class="audio-record-mic on-record" name="mic"></ion-icon>

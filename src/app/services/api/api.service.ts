@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { ToastController } from "@ionic/angular";
-import { TranslateService } from "@ngx-translate/core";
 import { catchError, from, mergeMap, Observable, of, throwError } from "rxjs";
 import { StorageService, UtilService } from "..";
 import { ApiModule } from "./api.module";
@@ -28,8 +27,7 @@ export class ApiService {
         private readonly httpService: HttpService,
         private readonly storageService: StorageService,
         private readonly utilService: UtilService,
-        private toastController: ToastController,
-        private translate: TranslateService
+        private toastController: ToastController
     ) {
         Network.addListener('networkStatusChange', async (status: any) => {
             this.connected = status.connected;

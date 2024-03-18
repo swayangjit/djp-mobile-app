@@ -9,7 +9,7 @@ import { TelemetrySyncStat } from '../models/telemetry.sync.stat';
 import { v4 as uuidv4 } from "uuid";
 import { TelemetrySyncPreprocessor } from '../models/telemetry-sync-preprocessor';
 import { TelemetryEntriesToStringPreprocessor } from './telemetry.string.preprocessor';
-import { config } from 'src/environments/environment.prod';
+import { config } from 'configuration/environment.prod';
 import { ApiService } from '../../api/api.service';
 import { ApiHttpRequestType, ApiRequest } from '../../api/model/api.request';
 
