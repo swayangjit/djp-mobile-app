@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <div class="create-playlist">
     <ion-item>
-      <ion-input type="text" [(ngModel)]="playlistName" (ionChange)="playlistNameChange()" placeholder="Name Your Playlist" opacity="0.5"></ion-input>
+      <ion-input type="text" [(ngModel)]="playlistName" (ionInput)="playlistNameChange()" placeholder="Name Your Playlist" opacity="0.5"></ion-input>
       <ion-icon slot="end" aria-hidden="true" src="assets/icon/edit.svg"></ion-icon>
     </ion-item>
     <div class="create-playlist-container">

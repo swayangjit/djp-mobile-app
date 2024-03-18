@@ -93,14 +93,16 @@ export class CreatePlaylistPage implements OnInit {
       }
     });
     this.disableCreateBtn = false;
-    if(this.reSelectedContent.length == 0) {
+    if(this.reSelectedContent.length == 0 || this.playlistName.length == 0) {
       this.disableCreateBtn = true
     }
   }
 
   playlistNameChange() {
-    if((this.playlistName.replace(/\s/g, '').length > 0 && this.selectedContents.length > 0) || this.playlistName !== this.playlists?.name) {
+    if((this.playlistName.replace(/\s/g, '').length > 0 && this.selectedContents.length > 0) || (this.playlistName !== "" && this.playlistName !== this.playlists?.name)) {
       this.disableCreateBtn = false
+    } else {
+      this.disableCreateBtn = true
     }
   }
 
