@@ -77,5 +77,9 @@
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",
     "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported.",
-    "Searching...": "Searching..."
+    "Searching...": "Searching...",
+    "Update Downloaded": "Update Downloaded",
+    "The update has been downloaded. Would you like to restart the app to complete the update now?": "The update has been downloaded. Would you like to restart the app to complete the update now?",
+    "Later": "Later",
+    "Restart Now": "Restart Now"
 }

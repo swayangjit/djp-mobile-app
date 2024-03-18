@@ -16,6 +16,7 @@ import { AppExitComponent } from './app-exit/app-exit.component';
 import { RecordingAlertComponent } from './recording-alert/recording-alert.component';
 import { QrcodePopupComponent } from './qrcode-popup/qrcode-popup.component';
 import { UploadLocalComponent } from './upload-local/upload-local.component';
+import { AppUpdateComponent } from './app-update/app-update.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { UploadLocalComponent } from './upload-local/upload-local.component';
         AppExitComponent,
         RecordingAlertComponent,
         QrcodePopupComponent,
-        UploadLocalComponent
+        UploadLocalComponent,
+        AppUpdateComponent
     ],
     imports: [
         CommonModule,
@@ -52,7 +54,8 @@ import { UploadLocalComponent } from './upload-local/upload-local.component';
         AppExitComponent,
         RecordingAlertComponent,
         QrcodePopupComponent,
-        UploadLocalComponent
+        UploadLocalComponent,
+        AppUpdateComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [

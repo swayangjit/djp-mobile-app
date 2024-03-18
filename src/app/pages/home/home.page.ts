@@ -20,6 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { App } from '@capacitor/app';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { AppUpdateService } from 'src/app/services/app-update/app-update.service';
 
 @Component({
   selector: 'app-home',
@@ -62,7 +63,8 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     private translateService: TranslateService,
     private toastController: ToastController,
     private botMessageApiService: BotApiService,
-    private lcoalNotifService: LocalNotificationService) {
+    private lcoalNotifService: LocalNotificationService,
+    private appUpdateService: AppUpdateService) {
       App.getInfo().then(info => {this.appName = info.name});
     this.configContents = [];
     this.contentList = [];
@@ -189,6 +191,7 @@ export class HomePage implements OnInit, OnTabViewWillEnter, OnDestroy {
     this.botMessageApiService.deleteExpiredChatMessages().catch((err) => {
       console.error(err);
     });
+    this.appUpdateService.checkForUpdate();
   }
 
   async mappUIContentList(content: Array<ContentMetaData>) {

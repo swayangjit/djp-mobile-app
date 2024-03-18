@@ -32,6 +32,12 @@ ion-popover.lang-modal {
     }
 }
 
+ion-popover.update-modal {
+    &::part(content) {
+        border-radius: 16px;
+    }
+}
+
 ion-modal.sheet-modal {
     --width: 90%;
     --border-radius: 20px;
