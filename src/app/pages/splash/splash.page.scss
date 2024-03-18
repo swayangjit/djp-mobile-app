@@ -49,9 +49,9 @@ ion-content{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 24%;
+    height: 55%;
     .pitara-box{
-      width: 40%;
+      width: 80%;
     }
   }
 
@@ -61,14 +61,14 @@ ion-content{
     background: white;
     border-radius: 50%;
     width: 100%;
-    height: 46%;
+    height: 50%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     left: 50%;
     transform: translateX(-50%);
     img {
-      width: 10rem;
+      width: 11rem;
     }
   }
 }

@@ -75,6 +75,7 @@ export class AddToPitaraComponent  implements OnInit {
   async newPitaraList() {
     const modal = await this.modalCtrl.create({
       component: NewPlaylistModalComponent,
+      componentProps: {title: 'New Playlist', placeholder: 'Name of the playlist'},
       cssClass: 'auto-height'
     });
     await modal.present();

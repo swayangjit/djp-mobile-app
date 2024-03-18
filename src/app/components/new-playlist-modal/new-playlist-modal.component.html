@@ -1,12 +1,17 @@
 <div class="inner-content">
   <ion-toolbar>
-      <div class="header-info">{{'New Playlist' | translate}}</div>
+      <div class="header-info">{{title | translate}}</div>
   </ion-toolbar>
 
- <ion-item class="roundedInput">
-   <ion-input type="text" [(ngModel)]="playlistName" [placeholder]="'Name of the playlist' | translate"></ion-input>
- </ion-item>
-
+ <ion-item class="roundedInput" *ngIf="title !== 'Add Diksha URL'">
+   <ion-input type="text" [(ngModel)]="name" [placeholder]="placeholder | translate"></ion-input>
+  </ion-item>
+  <ion-item class="roundedInput" *ngIf="title !== 'New Playlist'">
+    <ion-input type="url" [(ngModel)]="url" [placeholder]="'url' | translate" (ionInput)="onInputChange()"></ion-input>
+  </ion-item>
+  <ion-item lines="none" *ngIf="errMsg">
+    <ion-label color="danger">{{errMsg | translate}}</ion-label>
+  </ion-item>
   
  <div class="btn-row">
   <ion-row>

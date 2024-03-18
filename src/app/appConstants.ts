@@ -241,7 +241,29 @@ export class MimeType {
         'application/pdf', 'application/epub', 'application/vnd.ekstep.ecml-archive', 'application/vnd.ekstep.h5p-archive',
         'application/vnd.ekstep.html-archive'
     ];
+    public static readonly YOUTUBE = "video/x-youtube"
 }
+
+export const regDiksha = [{
+    "name": "content deatil",
+    "code": "contentDetail",
+    "pattern": "(?:/(?:resources/play/content|play/content|play/quiz)/(?<quizId>\\w+))",
+    "route": "content-details"
+  },
+  {
+    "name": "Textbook content detail",
+    "code": "textbookContentDetail",
+    "pattern": "(?:/play/(?:collection)/(?<content_id>\\w+)\\?(?=.*\\bcontentId\\b=(?<contentId>([^&]*)).*))",
+    "route": "collection-detail-etb",
+    "priority": 1
+  },
+  {
+    "name": "Course Detail",
+    "code": "courseDetail",
+    "pattern": "(?:/(?:explore-course|learn)/course/(?<course_id>\\w+))",
+    "route": "enrolled-course-details",
+    "priority": 3
+  }]
 
 export enum TrackingEnabled {
     YES = "Yes",
