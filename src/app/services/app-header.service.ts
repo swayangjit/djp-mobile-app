@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Animation, StatusBar, Style } from '@capacitor/status-bar';
 import { Subject } from 'rxjs/internal/Subject';
-import { UtilService } from './util.service';
 import { HeaderConfig } from '../appConstants';
+import { App } from '@capacitor/app';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppHeaderService {
-  constructor(private utilService: UtilService) { }
+  appName: string = ''
+  constructor() { 
+    App.getInfo().then(info => {this.appName = info.name});
+  }
   private headerEvent = new Subject<any>();
   headerEventEmitted$ = this.headerEvent.asObservable();
 
@@ -52,7 +55,7 @@ export class AppHeaderService {
   getDefaultPageConfig() {
     const defaultConfig: HeaderConfig = {
       showHeader: true,
-      pageTitle: 'e-Jaadui Pitara',
+      pageTitle: this.appName,
       showbackButton: false,
       actionButtons: [''],
     };
@@ -61,7 +64,7 @@ export class AppHeaderService {
 
   async showHeader(pageTitle?: string, backbutton?: boolean, actionButtons?: Array<string>) {
     const defaultConfig = this.getDefaultPageConfig();
-    defaultConfig.pageTitle = pageTitle ?? 'e-Jaadui Pitara';
+    defaultConfig.pageTitle = pageTitle ?? this.appName;
     defaultConfig.showbackButton = backbutton ?? false;
     defaultConfig.actionButtons = actionButtons ?? ['']
     this.updatePageConfig(defaultConfig);

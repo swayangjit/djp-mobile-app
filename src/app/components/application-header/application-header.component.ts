@@ -18,6 +18,7 @@ export class ApplicationHeaderComponent  implements OnInit {
   filters: Array<any> = []
   defaultFilter!: any;
   appVersion: string = ''
+  appName: string = ""
   constructor(private utilService: UtilService,
     private telemetryGeneratorService: TelemetryGeneratorService,
     public menuCtrl: MenuController,
@@ -25,6 +26,7 @@ export class ApplicationHeaderComponent  implements OnInit {
     ) {
       App.getInfo().then(val => {
         this.appVersion = `v${val.version}.${val.build}`
+        this.appName = val.name
       })
     }
 

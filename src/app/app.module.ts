@@ -29,6 +29,7 @@ import { PermissionsService } from './services/scan/permissions.service';
 import { TabsService } from './services/tabs.service';
 import { DirectivesModule } from './directives/directives.module';
 import { DownlaodContentService } from './services/downlaod-content.service';
+import { AppUpdateService } from './services/app-update/app-update.service';
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -76,7 +77,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     TabsService,
     BotApiService,
     DownlaodContentService,
-    LocalNotificationService
+    LocalNotificationService,
+    AppUpdateService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

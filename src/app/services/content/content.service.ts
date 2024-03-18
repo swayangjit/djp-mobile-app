@@ -10,8 +10,6 @@ import { ContentRVCEntry } from './db/content.rvc';
 import { ContentRVCMixMapper } from './util/content.rvc.mix.entry.mapper';
 import { v4 as uuidv4 } from "uuid";
 import { ContentMetaData, MimeType } from 'src/app/appConstants';
-import { HttpResponse } from '@capacitor/core';
-import { ContentUtil } from './util/content.util';
 import { ApiHttpRequestType, ApiRequest } from '../api/model/api.request';
 import { ApiService } from '../api/api.service';
 import { DbService } from '..';

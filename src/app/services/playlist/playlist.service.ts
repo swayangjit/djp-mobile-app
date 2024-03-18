@@ -8,7 +8,6 @@ import { PlaylistEntry } from './db/playlist.schema';
 import { PlaylistContentEntry } from './db/playlist.content.schema';
 import { ContentEntry } from '../content/db/content.schema';
 import { ContentMapper } from '../content/util/content.entry.mapper';
-import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

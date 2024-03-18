@@ -1,5 +1,5 @@
 {
-  "name": "khel-khel-me",
+  "name": "Sunbird-AIAssistant",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -10,6 +10,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "capacitor:copy:before": "node hooks/copyGradleProperties.js android && cat android/app/build.gradle",
+    "capacitor:sync:before": "node hooks/updateManifest.js android",
     "ionic-build:ci": "ng build && ionic cap build android --no-open --source-map=true",
     "ionic-build": "ng build && ionic cap run android --source-map=true --target emulator-5554"
   },
@@ -40,6 +42,7 @@
     "@capacitor/share": "^5.0.6",
     "@capacitor/status-bar": "5.0.6",
     "@capawesome/capacitor-file-picker": "^5.1.1",
+    "@capawesome/capacitor-app-update": "^5.0.1",
     "@ionic/angular": "^7.0.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
@@ -47,7 +50,7 @@
     "@project-sunbird/sunbird-video-player-web-component": "1.1.1",
     "canvas-confetti": "^1.9.2",
     "capacitor-voice-recorder": "^5.0.0",
-    "cordova-plugin-filepath": " git+https://github.com/swayangjit/cordova-plugin-filepath.git",
+    "cordova-plugin-filepath": "git+https://github.com/swayangjit/cordova-plugin-filepath.git",
     "cordova-plugin-qr-scanner": "github:project-sunbird/cordova-plugin-qr-scanner#release-7.0.0_cap",
     "cordova.plugins.diagnostic": "^7.1.4",
     "crypto-js": "^4.2.0",

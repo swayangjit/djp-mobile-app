@@ -1,9 +1,9 @@
 <ion-content [fullscreen]="true">
-  <!--djp new slider-->
-  <div class="djp-grid-slider">
-    <div class="djp-grid-slider__header">
+  <!--slider-->
+  <div class="grid-slider">
+    <div class="grid-slider__header">
       <div class="">{{'Recently Viewed'|translate}}</div>
-      <div class="djp-grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{"View All" | translate}}</div>
+      <div class="grid-slider__header__link" (click)="viewAllCards('recentlyviewed')">{{"View All" | translate}}</div>
     </div>
     <div class="viewed-content" *ngIf="!contentList.length">
       <div class="viewed-content__info" >
@@ -13,8 +13,8 @@
         <div class="viewed-content__info__text">{{'No contents' | translate}}</div>
       </div>
     </div>
-    <div class="djp-grid-slider__container">
-      <div class="djp-grid-slider__container__card" *ngFor="let content of contentList">
+    <div class="grid-slider__container">
+      <div class="grid-slider__container__card" *ngFor="let content of contentList">
         <div (click)="playContent(content)">
           <ion-card *ngIf="content?.metaData?.thumbnail">
             <img [src]="content.metaData.thumbnail" alt="" />
@@ -24,13 +24,13 @@
       </div>
     </div>
   </div>
-  <!--djp new slider ends here-->
+  <!--slider ends here-->
 
-  <!--djp my playlist cards-->
-  <div class="djp-playlist">
-    <div class="djp-playlist__header">
+  <!--my playlist cards-->
+  <div class="playlist">
+    <div class="playlist__header">
       <div class="">{{"My Playlist" | translate}}</div>
-      <div class="djp-grid-slider__header__button" (click)="viewAllCards('playlist')">
+      <div class="playlist__header__button" (click)="viewAllCards('playlist')">
         <ion-button>{{"New Playlist" | translate}} <ion-icon slot="end" aria-hidden="true"
             src="../../../assets/icon/Add-circle-outline.svg"></ion-icon></ion-button>
       </div>
@@ -43,17 +43,17 @@
           <div class="playlist-bot__text">{{'Click on New Playlist button to create your first playlist' | translate}}</div>
         </div>
       </div>
-    <div class="djp-playlist__container">
+    <div class="playlist__container">
       <div *ngFor="let playlist of playlists" >
-        <div class="djp-playlist__container__items" (click)="navigateToDetails(playlist)">
-          <div class="djp-playlist__container__items__cards">
+        <div class="playlist__container__items" (click)="navigateToDetails(playlist)">
+          <div class="playlist__container__items__cards">
             <ion-card>
               <img src="/assets/images/Playlist.png" alt="" />
             </ion-card>
             <div class="layer1"></div>
             <div class="layer2"></div>
           </div>
-          <div class="djp-playlist__container__items__metadata" *ngIf="playlist?.name">
+          <div class="playlist__container__items__metadata" *ngIf="playlist?.name">
             {{playlist.name}}
           </div>
           <div class="kabab-menu-icon" (click)="openModal(playlist)">

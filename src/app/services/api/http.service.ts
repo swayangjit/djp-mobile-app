@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
-import { from, lastValueFrom, Observable, of } from "rxjs";
+import { from, lastValueFrom, Observable } from "rxjs";
 import { ApiModule } from "./api.module";
 import { HttpCapacitorAdapter } from "./http.capacitor.adapter";
-import { HttpClient } from "./http.client";
 import { BearerTokenInjectRequestInterceptor } from "./interceptor/bearer.token.inject.request.interceptor";
 import { ApiHttpRequestType, ApiRequest, HttpResponseCode } from "./model/api.request";
 import { ApiRequestInterceptor } from "./model/api.request.interceptor";
