@@ -25,11 +25,11 @@
       <div class="count">{{reSelectedContent.length}}</div>
       <ion-icon aria-hidden="true" src="assets/icon/pitara-blue.svg"></ion-icon>
     </div>
-    <div class="djp-view-playlist__icon" (click)="uploadLocalContents()">
+    <div class="view-playlist__icon" (click)="uploadLocalContents()">
       <ion-icon aria-hidden="true" src="assets/icon/file-upload.svg"></ion-icon>
     </div>
-    <div class="djp-view-playlist__button">
-      <ion-button fill="outline" class="view-playlist" [disabled]="disableCreateBtn" (click)="createList()">
+    <div class="view-playlist__button">
+      <ion-button fill="outline" class="new-playlist__btn" [disabled]="disableCreateBtn" (click)="createList()">
         {{'Save Playlist' | translate}}
       </ion-button>
     </div>

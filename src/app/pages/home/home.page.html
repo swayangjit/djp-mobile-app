@@ -37,7 +37,7 @@
   </ion-list>
   <!-- Cards -->
   <ion-list *ngIf="!showSheenAnimation && configContents.length > 0">
-    <div class="djp-cards-container" *ngFor="let content of configContents; let i = index">
+    <div class="cards-container" *ngFor="let content of configContents; let i = index">
       <div class="bot-section" *ngIf="i === 5">
         <div class="image" (click)="navigateToSakhi('story')">
           <img src="assets/images/Story_bot.svg" alt="">
