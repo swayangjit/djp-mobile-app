@@ -37,6 +37,7 @@ export class SplashPage implements OnInit {
     this.apiService.onInit().subscribe();
     let sid = uuidv4();
     this.storage.setData("sid", sid);
+    this.setDefaultBotPermission();
     this.appinitialise.initialize();
     setTimeout(async () => {
       console.log('route');
@@ -70,6 +71,14 @@ export class SplashPage implements OnInit {
           // }
         }
       })
+    }
+  }
+
+  async setDefaultBotPermission() {
+    if (await this.storage.getData('story') == undefined || await this.storage.getData('teacher') === undefined || await this.storage.getData('parent') === undefined) {
+      this.storage.setData('story', 'false') 
+      this.storage.setData('teacher', 'false')
+      this.storage.setData('parent', 'false')
     }
   }
 

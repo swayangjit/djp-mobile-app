@@ -12,6 +12,7 @@ export class TabsService {
       Object.keys(tabs).map((key: any) => {
         if((tabs[key] as any).style.transform !== 'translateY(5rem)') {
           (tabs[key]).style.transform = 'translateY(5rem)';
+          (tabs[key]).style.display = 'none'
         }
       });
       Object.keys(tabsHome).map((key: any) => {
@@ -40,6 +41,7 @@ export class TabsService {
       Object.keys(tabs).map((key: any) => {
         if((tabs[key] as any).style.transform !== 'translateY(0px)') {
           (tabs[key] as any).style.transform = 'translateY(0px)';
+          (tabs[key] as any).style.display = 'flex'
         }
       });
     }
