@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService, AppHeaderService, CachingService, ConfigService, UtilService } from '../../../app/services';
+import { ApiService, AppHeaderService, CachingService, ConfigService, LocalNotificationService, UtilService } from '../../../app/services';
 import { AppInitializeService } from '../../../app/services/appInitialize.service';
 import { StorageService } from '../../../app/services/storage.service';
 import { v4 as uuidv4 } from "uuid";
@@ -8,6 +8,7 @@ import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.
 import { TranslateService } from '@ngx-translate/core';
 import { ApiModule } from 'src/app/services/api/api.module';
 import { Config } from 'src/app/appConstants';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-splash',
@@ -24,7 +25,8 @@ export class SplashPage implements OnInit {
     private cachingService: CachingService,
     private configService: ConfigService,
     private translate: TranslateService,
-    private apiService: ApiService) {
+    private apiService: ApiService,
+    private lcoalNotifService: LocalNotificationService) {
       this.cachingService.initStorage();
     }
     
@@ -35,13 +37,19 @@ export class SplashPage implements OnInit {
     this.apiService.onInit().subscribe();
     let sid = uuidv4();
     this.storage.setData("sid", sid);
+    this.setDefaultBotPermission();
+    this.appinitialise.initialize();
     setTimeout(async () => {
       console.log('route');
       this.startTelemetry()
       this.router.navigate(['/tabs/home']);
     }, 2000);
-    this.appinitialise.initialize();
     let config: Config = await this.configService.getConfigMeta();
+    let notif: LocalNotificationSchema = config?.notification?.android
+    if(notif) {
+      await this.lcoalNotifService.cancelNotification(notif.id);
+      await this.lcoalNotifService.initializeLocalNotif(notif);
+    }
     this.storage.setData('configMeta', JSON.stringify(config));
     let lang = await this.storage.getData('lang')
     if(lang) {
@@ -63,6 +71,14 @@ export class SplashPage implements OnInit {
           // }
         }
       })
+    }
+  }
+
+  async setDefaultBotPermission() {
+    if (await this.storage.getData('story') == undefined || await this.storage.getData('teacher') === undefined || await this.storage.getData('parent') === undefined) {
+      this.storage.setData('story', 'false') 
+      this.storage.setData('teacher', 'false')
+      this.storage.setData('parent', 'false')
     }
   }
 
