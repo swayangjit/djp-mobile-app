@@ -15,6 +15,7 @@ import { BotMessagesComponent } from './bot-messages/bot-messages.component';
 import { AppExitComponent } from './app-exit/app-exit.component';
 import { RecordingAlertComponent } from './recording-alert/recording-alert.component';
 import { QrcodePopupComponent } from './qrcode-popup/qrcode-popup.component';
+import { BotPermissionComponent } from './bot-permission/bot-permission.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { QrcodePopupComponent } from './qrcode-popup/qrcode-popup.component';
         BotMessagesComponent,
         AppExitComponent,
         RecordingAlertComponent,
-        QrcodePopupComponent
+        QrcodePopupComponent,
+        BotPermissionComponent
     ],
     imports: [
         CommonModule,
@@ -49,7 +51,8 @@ import { QrcodePopupComponent } from './qrcode-popup/qrcode-popup.component';
         BotMessagesComponent,
         AppExitComponent,
         RecordingAlertComponent,
-        QrcodePopupComponent
+        QrcodePopupComponent,
+        BotPermissionComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [
