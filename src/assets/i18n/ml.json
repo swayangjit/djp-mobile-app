@@ -73,11 +73,14 @@
     "My Pitara": "എന്റെ പിടാര",
     "Jaadui Pitara Box": "ജാദുയി പിതാര ബോക്സ്",
     "Download and Add": "ഡൗൺലോഡ് ചെയ്ത് ചേർക്കുക",
+    "DISCLAIMER_BOT_MSG": "നിരാകരണം: \n ബോട്ടുകൾ ജനറേറ്റീവ് AI സാങ്കേതികവിദ്യ ഉപയോഗിക്കുന്നു, അത് 100% കൃത്യമല്ല. അതിനാൽ ബോട്ടുകൾ നൽകുന്ന പ്രതികരണങ്ങളിൽ അവയുടെ ഉള്ളടക്കത്തിലും ഭാഷയിലും തെറ്റുകൾ ഉണ്ടായേക്കാം. പ്രതികരണങ്ങൾ കേവലം നിർദേശിക്കുന്നവയാണ്, നിങ്ങൾക്കും നിങ്ങളുടെ സന്ദർഭത്തിനും അതിൻ്റെ അനുയോജ്യതയും പ്രസക്തിയും നിർണ്ണയിക്കാൻ ജാഗ്രതയോടെ ഉപയോഗിക്കണം. തുടരുന്നതിലൂടെ, നിങ്ങൾ ഇത് പൂർണ്ണമായും മനസ്സിലാക്കുകയും അംഗീകരിക്കുകയും ചെയ്യുന്നു",
+    "Accept": "സ്വീകരിക്കുക",
+    "Decline": "നിരസിക്കുക",
+
+
     "Downloading ....": "Downloading ....",
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",
     "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported.",
-    "Searching...": "Searching...",
-    "Decline": "Decline",
-    "Accept": "Accept"
+    "Searching...": "Searching..."
 }

@@ -73,11 +73,14 @@
     "My Pitara": "నా పిటారా",
     "Jaadui Pitara Box": "జాదూయీ పిటారా బాక్స్",
     "Download and Add": "డౌన్‌లోడ్ చేసి జోడించండి",
+    "DISCLAIMER_BOT_MSG": "నిరాకరణ: \n బాట్‌లు జనరేటివ్ AI సాంకేతికతను ఉపయోగిస్తాయి, ఇది 100% ఖచ్చితమైనది కాకపోవచ్చు. అందువల్ల బాట్‌లు ఇచ్చిన ప్రతిస్పందనలలో వాటి కంటెంట్ మరియు భాషలో తప్పులు ఉండవచ్చు. ప్రతిస్పందనలు కేవలం సూచనాత్మకమైనవి మరియు మీకు మరియు మీ సందర్భానికి దాని అనుకూలత మరియు ఔచిత్యాన్ని నిర్ణయించడానికి జాగ్రత్తగా ఉపయోగించాలి. కొనసాగడం ద్వారా, మీరు దీన్ని పూర్తిగా అర్థం చేసుకుంటారు మరియు అంగీకరిస్తారు",
+    "Accept": "అంగీకరించు",
+    "Decline": "తిరస్కరించు",
+
+
     "Downloading ....": "Downloading ....",
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",
     "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported.",
-    "Searching...": "Searching...",
-    "Decline": "Decline",
-    "Accept": "Accept"
+    "Searching...": "Searching..."
 }
