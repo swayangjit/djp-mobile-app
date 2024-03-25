@@ -386,7 +386,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     console.log('long press end');
     await this.record.stopRecognition('audio').then(async result => {
       console.log('result on recorded data ', result);
-      if(result.value && result.value.recordDataBase64) {
+      if(result?.value?.recordDataBase64) {
         this.chat = {identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
         const recordData = result.value.recordDataBase64;
         console.log('..................', result, this.durationDisplay);
