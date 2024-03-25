@@ -73,11 +73,14 @@
     "My Pitara": "ನನ್ನ ಪೆಟ್ಟಿಗೆ",
     "Jaadui Pitara Box": "ಜಾದುಯಿ ಪಿಟಾರಾ ಬಾಕ್ಸ್",
     "Download and Add": "ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಮತ್ತು ಸೇರಿಸಿ",
+    "DISCLAIMER_BOT_MSG": "ಹಕ್ಕು ನಿರಾಕರಣೆ: \n ಬಾಟ್‌ಗಳು ಜನರೇಟಿವ್ ಎಐ ತಂತ್ರಜ್ಞಾನವನ್ನು ಬಳಸುತ್ತವೆ ಅದು 100% ನಿಖರವಾಗಿರುವುದಿಲ್ಲ. ಆದ್ದರಿಂದ ಬಾಟ್‌ಗಳು ನೀಡಿದ ಪ್ರತಿಕ್ರಿಯೆಗಳು ಅವುಗಳ ವಿಷಯ ಮತ್ತು ಭಾಷೆಯಲ್ಲಿ ತಪ್ಪುಗಳನ್ನು ಹೊಂದಿರಬಹುದು. ಪ್ರತಿಕ್ರಿಯೆಗಳು ಕೇವಲ ಸೂಚಿಸುವಂತಿವೆ ಮತ್ತು ನಿಮಗೆ ಮತ್ತು ನಿಮ್ಮ ಸಂದರ್ಭಕ್ಕೆ ಅದರ ಸೂಕ್ತತೆ ಮತ್ತು ಪ್ರಸ್ತುತತೆಯನ್ನು ನಿರ್ಧರಿಸಲು ಎಚ್ಚರಿಕೆಯಿಂದ ಬಳಸಬೇಕು. ಮುಂದುವರಿಯುವ ಮೂಲಕ, ನೀವು ಇದನ್ನು ಸಂಪೂರ್ಣವಾಗಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳುತ್ತೀರಿ ಮತ್ತು ಸ್ವೀಕರಿಸುತ್ತೀರಿ",
+    "Accept": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
+    "Decline": "ನಿರಾಕರಿಸು",
+
+
     "Downloading ....": "Downloading ....",
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",
     "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported.",
-    "Searching...": "Searching...",
-    "Decline": "Decline",
-    "Accept": "Accept"
+    "Searching...": "Searching..."
 }

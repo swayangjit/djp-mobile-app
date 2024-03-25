@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { AppHeaderService, BotApiService, LocalNotificationService } from 'src/app/services';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
@@ -22,7 +23,8 @@ export class ParentSakhiPage implements OnInit, OnTabViewWillEnter {
     private router: Router,
     private telemetry: TelemetryGeneratorService,
     private localNotification: LocalNotificationService,
-    private messageApi: BotApiService) {
+    private messageApi: BotApiService,
+    private modalCtrl: ModalController) {
       let extras = this.router.getCurrentNavigation()?.extras
       if(extras) {
         this.notification = extras?.state?.['notif'];
@@ -35,6 +37,9 @@ export class ParentSakhiPage implements OnInit, OnTabViewWillEnter {
     this.headerService.deviceBackbtnEmitted$.subscribe((ev: any) => {
       console.log('bot message back event ', ev);
       if(ev.name == 'backBtn') {
+        if(this.modalCtrl) {
+          this.modalCtrl.dismiss({type: 'decline'})
+        }
         this.handleBackNavigation();
       }
     })
@@ -70,44 +75,32 @@ export class ParentSakhiPage implements OnInit, OnTabViewWillEnter {
   }
 
   async handleBackNavigation() {
-      let botDuration = Date.now() - this.botStartTimeStamp;
-      if (this.parentBotMsg.length > 0) {
-        this.parentBotMsg.forEach((msg: any) => {
-          if (msg.messageType == 'audio') {
-            if(msg.audioRef) {
-              if(msg.audio) {
-                msg.audio.play = false;
-              }
-              msg.audioRef.pause();
-            }
+    let botDuration = Date.now() - this.botStartTimeStamp;
+    await this.messageApi.getAllChatMessages(this.config.type).then((res) => {
+      let result = { audio: 0, text: 0 };
+      if(res.length > 0) {
+        console.log('Bot response', res);
+        res.forEach(chat => {
+          if (chat.messageType == 'text') {
+            result.text++;
+          } else if (chat.messageType == 'audio') {
+            result.audio++;
           }
         });
-      }
-      await this.messageApi.getAllChatMessages(this.config.type).then((res) => {
-        let result = { audio: 0, text: 0 };
-        if(res.length > 0) {
-          console.log('Bot response', res);
-          res.forEach(chat => {
-            if (chat.messageType == 'text') {
-              result.text++;
-            } else if (chat.messageType == 'audio') {
-              result.audio++;
-            }
-          });
-          this.cdata = {
-            "audioMessagesCount": result.audio,
-            "textMessagesCount": result.text
-          }
-          this.duration = botDuration/1000;
-        } else {
-          this.cdata = {
-            "audioMessagesCount": result.audio,
-            "textMessagesCount": result.text
-          }
+        this.cdata = {
+          "audioMessagesCount": result.audio,
+          "textMessagesCount": result.text
         }
-      })
-      this.parentBot = false;
-      this.telemetry.generateEndTelemetry('bot', 'end', 'parent-sakhi', 'parent-sakhi', undefined, undefined, undefined, this.duration, this.cdata); 
-      this.router.navigate(['/tabs/home']);
-    }
+        this.duration = botDuration/1000;
+      } else {
+        this.cdata = {
+          "audioMessagesCount": result.audio,
+          "textMessagesCount": result.text
+        }
+      }
+    })
+    this.parentBot = false;
+    this.telemetry.generateEndTelemetry('bot', 'end', 'parent-sakhi', 'parent-sakhi', undefined, undefined, undefined, this.duration, this.cdata); 
+    this.router.navigate(['/tabs/home']);
+  }
 }

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular';
 import { BotMessage } from 'src/app/appConstants';
-import { BotApiService, RecordingService, StorageService } from 'src/app/services';
+import { AppHeaderService, BotApiService, RecordingService, StorageService } from 'src/app/services';
 import { Keyboard } from "@capacitor/keyboard";
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { TranslateService } from '@ngx-translate/core';
@@ -42,7 +42,8 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     private telemetryGeneratorService: TelemetryGeneratorService,
     private storage: StorageService,
     private modalCtrl: ModalController,
-    private router: Router
+    private router: Router,
+    private headerService: AppHeaderService
   ) { 
     this.defaultLoaderMsg = {identifier: "", message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: ""};
     this.botMessages = [];
@@ -108,6 +109,20 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     if(this.config.disable) {
       this.disabled = false
     }
+    this.headerService.deviceBackbtnEmitted$.subscribe((ev: any) => {
+      if(ev.name == 'backBtn') {
+        if(this.modalCtrl) {
+          this.modalCtrl.dismiss({type: 'decline'})
+        }
+        this.handleBackNavigation()
+      }
+    })
+
+    this.headerService.headerEventEmitted$.subscribe((name: any) => {
+      if(name == 'back') {
+        this.handleBackNavigation()
+      }
+    })
     if(await this.storage.getData(this.config.type) === 'false') {
       this.checkBotPermission();
     }
@@ -126,6 +141,21 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.record.gestureControl(this.recordbtn);
+  }
+
+  handleBackNavigation() {
+    if (this.botMessages.length > 0) {
+      this.botMessages.forEach(msg => {
+        if (msg.messageType == 'audio') {
+          if(this.audioRef) {
+            if(msg.audio) {
+              msg.audio.play = false;
+            }
+            this.audioRef.pause();
+          }
+        }
+      });
+    }
   }
 
   async initialiseBot() {
@@ -386,7 +416,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     console.log('long press end');
     await this.record.stopRecognition('audio').then(async result => {
       console.log('result on recorded data ', result);
-      if(result.value && result.value.recordDataBase64) {
+      if(result?.value?.recordDataBase64) {
         this.chat = {identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
         const recordData = result.value.recordDataBase64;
         console.log('..................', result, this.durationDisplay);

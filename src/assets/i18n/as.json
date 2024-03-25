@@ -73,11 +73,14 @@
     "My Pitara": "মোৰ পিটাৰা",
     "Jaadui Pitara Box": "জাদুই পিটাৰা বাকচ",
     "Download and Add": "ডাউনলোড আৰু যোগ কৰক",
+    "DISCLAIMER_BOT_MSG": "অস্বীকাৰ: \n বটবোৰে Generative AI প্ৰযুক্তি ব্যৱহাৰ কৰে যিটো ১০০% সঠিক নহ’বও পাৰে। সেয়েহে বটসমূহে দিয়া সঁহাৰিসমূহৰ বিষয়বস্তু আৰু ভাষাত ভুল থাকিব পাৰে। সঁহাৰিসমূহ কেৱল ইংগিতদায়ক আৰু আপোনাৰ আৰু আপোনাৰ প্ৰসংগৰ বাবে ইয়াৰ উপযুক্ততা আৰু প্ৰাসংগিকতা নিৰ্ণয় কৰি সাৱধানে ব্যৱহাৰ কৰিব লাগিব। আগবাঢ়ি গৈ আপুনি এইটো সম্পূৰ্ণৰূপে বুজি পাইছে আৰু মানি লৈছে",
+    "Accept": "গ্ৰহণ কৰা",
+    "Decline": "অস্বীকাৰ কৰা",
+
+
     "Downloading ....": "Downloading ....",
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",
     "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported.",
-    "Searching...": "Searching...",
-    "Decline": "Decline",
-    "Accept": "Accept"
+    "Searching...": "Searching..."
 }

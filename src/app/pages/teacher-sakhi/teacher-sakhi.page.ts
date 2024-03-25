@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { AppHeaderService, BotApiService } from 'src/app/services';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
@@ -19,13 +20,17 @@ export class TeacherSakhiPage implements OnInit, OnTabViewWillEnter {
   constructor(private headerService: AppHeaderService,
     private router: Router,
     private telemetry: TelemetryGeneratorService,
-    private messageApi: BotApiService) {}
+    private messageApi: BotApiService,
+    private modalCtrl: ModalController) {}
 
   ngOnInit() {
     this.config = {type: 'teacher'};
     this.headerService.deviceBackbtnEmitted$.subscribe((ev: any) => {
       console.log('bot message back event ', ev);
       if(ev.name == 'backBtn') {
+        if(this.modalCtrl) {
+          this.modalCtrl.dismiss({type: 'decline'})
+        }
         this.handleBackNavigation();
       }
     })
@@ -55,18 +60,6 @@ export class TeacherSakhiPage implements OnInit, OnTabViewWillEnter {
 
   async handleBackNavigation() {
     let botDuration = Date.now() - this.botStartTimeStamp;
-    if (this.teacherBotMsg.length > 0) {
-      this.teacherBotMsg.forEach((msg: any) => {
-        if (msg.messageType == 'audio') {
-          if(msg.audioRef) {
-            if(msg.audio) {
-              msg.audio.play = false;
-            }
-            msg.audioRef.pause();
-          }
-        }
-      });
-    }
     await this.messageApi.getAllChatMessages(this.config.type).then((res) => {
       let result = { audio: 0, text: 0 };
       if(res.length > 0) {
