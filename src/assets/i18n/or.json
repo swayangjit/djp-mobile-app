@@ -73,11 +73,14 @@
     "My Pitara": "ମୋର ପିଟାରା |",
     "Jaadui Pitara Box": "ଜାଡୁଇ ପିଟାରା ବାକ୍ସ |",
     "Download and Add": "ଡାଉନଲୋଡ୍ ଏବଂ ଯୋଡନ୍ତୁ |",
+    "DISCLAIMER_BOT_MSG": "ପ୍ରତ୍ୟାଖ୍ୟାନ | \n ବଟ୍ଗୁଡ଼ିକ ଜେନେରେଟିଭ୍ AI ଟେକ୍ନୋଲୋଜି ବ୍ୟବହାର କରେ ଯାହା 100% ସଠିକ୍ ହୋଇନପାରେ | ତେଣୁ ବଟ୍ ଦ୍ୱାରା ଦିଆଯାଇଥିବା ପ୍ରତିକ୍ରିୟାଗୁଡ଼ିକରେ ସେମାନଙ୍କର ବିଷୟବସ୍ତୁ ଏବଂ ଭାଷାରେ ତ୍ରୁଟି ରହିପାରେ | ପ୍ରତିକ୍ରିୟାଗୁଡ଼ିକ କେବଳ ପରାମର୍ଶଦାୟକ ଏବଂ ତୁମ ଏବଂ ତୁମର ପ୍ରସଙ୍ଗ ପାଇଁ ଏହାର ଉପଯୁକ୍ତତା ଏବଂ ପ୍ରାସଙ୍ଗିକତା ନିର୍ଣ୍ଣୟ କରି ସତର୍କତାର ସହିତ ବ୍ୟବହାର କରାଯିବା ଆବଶ୍ୟକ | ଅଗ୍ରଗତି କରି, ଆପଣ ଏହାକୁ ସମ୍ପୂର୍ଣ୍ଣ ଭାବରେ ବୁ ନ୍ତି ଏବଂ ଗ୍ରହଣ କରନ୍ତି |",
+    "Accept": "ଗ୍ରହଣ କରନ୍ତୁ |",
+    "Decline": "ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ |",
+
+
     "Downloading ....": "Downloading ....",
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",
     "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported.",
-    "Searching...": "Searching...",
-    "Decline": "Decline",
-    "Accept": "Accept"
+    "Searching...": "Searching..."
 }

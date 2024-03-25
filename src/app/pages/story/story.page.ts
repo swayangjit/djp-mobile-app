@@ -3,6 +3,7 @@ import { AppHeaderService, BotApiService } from '../../../app/services';
 import { Router } from '@angular/router';
 import { OnTabViewWillEnter } from 'src/app/tabs/on-tabs-view-will-enter';
 import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.generator.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-story',
@@ -19,13 +20,17 @@ export class StoryPage implements OnInit, OnTabViewWillEnter {
   constructor(private headerService: AppHeaderService,
     private router: Router,
     private telemetry: TelemetryGeneratorService,
-    private messageApi: BotApiService) {}
+    private messageApi: BotApiService,
+    private modalCtrl: ModalController) {}
     
     ngOnInit() {
       this.config = {type: 'story'}
       this.headerService.deviceBackbtnEmitted$.subscribe((ev: any) => {
         console.log('bot message back event ', ev);
         if(ev.name == 'backBtn') {
+          if(this.modalCtrl) {
+            this.modalCtrl.dismiss({type: 'decline'})
+          }
           this.handleBackNavigation();
         }
       })

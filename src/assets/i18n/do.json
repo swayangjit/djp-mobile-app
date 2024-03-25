@@ -73,11 +73,14 @@
     "My Pitara": "My Pitara",
     "Jaadui Pitara Box": "Jaadui Pitara Box",
     "Download and Add": "Download and Add",
+    "DISCLAIMER_BOT_MSG": "अस्वीकरण दी: \n बॉट जेनरेटिव ऐई तकनीक दा इस्तेमाल करदे न जेह् ड़ी 100% सटीक नेईं होई सकदी ऐ। इस करी बॉटें आसेआ दित्ते गेदे प्रतिक्रियाएं च उंदी सामग्री ते भाशा च गलती होई सकदी ऐ। प्रतिक्रियाएं सिर्फ सुझाऽ देने आह्ले न ते तुंदे ते तुंदे संदर्भ कन्नै इसदी उपयुक्तता ते प्रासंगिकता गी निर्धारत करने च सावधानी कन्नै इस्तेमाल कीता जाना लोड़चदा ऐ। अग्गें बधदे होई तुस इसगी पूरी चाल्ली समझदे ओ ते स्वीकार करदे ओ",
+    "Accept": "मंजूर करो",
+    "Decline": "पतन",
+
+
     "Downloading ....": "Downloading ....",
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",
     "Sorry, this language is not currently supported.": "Sorry, this language is not currently supported.",
-    "Searching...": "Searching...",
-    "Decline": "Decline",
-    "Accept": "Accept"
+    "Searching...": "Searching..."
 }
