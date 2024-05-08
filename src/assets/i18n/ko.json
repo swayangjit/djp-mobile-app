@@ -73,6 +73,11 @@
     "My Pitara": "My Pitara",
     "Jaadui Pitara Box": "Jaadui Pitara Box",
     "Download and Add": "Download and Add",
+    "DISCLAIMER_BOT_MSG": "DISCLAIMER: \n The bots use Generative AI technology which may not be 100% accurate. Hence the responses given by the bots may have mistakes in their content and language. The responses are merely suggestive and must be used with caution determining its suitability and relevance to you and your context. By proceeding, you completely understand and accept to this",
+    "Accept": "Accept",
+    "Decline": "Decline",
+
+
     "Downloading ....": "Downloading ....",
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",

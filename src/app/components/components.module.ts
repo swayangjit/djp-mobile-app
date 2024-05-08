@@ -17,6 +17,7 @@ import { RecordingAlertComponent } from './recording-alert/recording-alert.compo
 import { QrcodePopupComponent } from './qrcode-popup/qrcode-popup.component';
 import { UploadLocalComponent } from './upload-local/upload-local.component';
 import { AppUpdateComponent } from './app-update/app-update.component';
+import { BotPermissionComponent } from './bot-permission/bot-permission.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { AppUpdateComponent } from './app-update/app-update.component';
         RecordingAlertComponent,
         QrcodePopupComponent,
         UploadLocalComponent,
-        AppUpdateComponent
+        AppUpdateComponent,
+        BotPermissionComponent
     ],
     imports: [
         CommonModule,
@@ -55,7 +57,8 @@ import { AppUpdateComponent } from './app-update/app-update.component';
         RecordingAlertComponent,
         QrcodePopupComponent,
         UploadLocalComponent,
-        AppUpdateComponent
+        AppUpdateComponent,
+        BotPermissionComponent
     ],
     providers: [UtilService, TelemetryService, StorageService],
     schemas: [

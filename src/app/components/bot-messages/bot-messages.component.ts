@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { IonContent, Platform } from '@ionic/angular';
+import { IonContent, ModalController } from '@ionic/angular';
 import { BotMessage } from 'src/app/appConstants';
 import { AppHeaderService, BotApiService, RecordingService, StorageService } from 'src/app/services';
 import { Keyboard } from "@capacitor/keyboard";
@@ -10,6 +10,8 @@ import { TelemetryGeneratorService } from 'src/app/services/telemetry/telemetry.
 import { CorrelationData } from 'src/app/services/telemetry/models/telemetry';
 import { ChatMessage } from 'src/app/services/bot/db/models/chat.message';
 import { v4 as uuidv4 } from "uuid";
+import { BotPermissionComponent } from '../bot-permission/bot-permission.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bot-messages',
@@ -21,7 +23,6 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   textMessage: string = ''
   chat!: BotMessage;
   defaultLoaderMsg!: BotMessage;
-  botStartTimeStamp = Date.now();
   @Input() config: any = {};
   @Output() botMessageEvent = new EventEmitter();
   @ViewChild('recordbtn', { read: ElementRef }) recordbtn: ElementRef | any;
@@ -32,15 +33,17 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   durationDisplay = '';
   disabled = false;
   audioRef!: HTMLAudioElement;
+  perModalOpen: boolean = false;
   constructor(
     private record: RecordingService,
     private ngZone: NgZone,
-    private headerService: AppHeaderService,
     private messageApi: BotApiService,
     private translate: TranslateService,
     private telemetryGeneratorService: TelemetryGeneratorService,
     private storage: StorageService,
-    private platform: Platform
+    private modalCtrl: ModalController,
+    private router: Router,
+    private headerService: AppHeaderService
   ) { 
     this.defaultLoaderMsg = {identifier: "", message: this.translate.instant('Loading...'), messageType: 'text', displayMsg: this.translate.instant('Loading...'), type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: ""};
     this.botMessages = [];
@@ -48,17 +51,6 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.initialiseBot();
-    this.platform.backButton.subscribeWithPriority(11, async () => {
-      this.handleBackNavigation();
-    });
-    this.headerService.headerEventEmitted$.subscribe((name: any) => {
-      if (name == "back" && !this.navigated) {
-        this.navigated = true;
-        console.log('bot message back event ');
-        this.handleBackNavigation();
-      }
-    })
     Keyboard.addListener('keyboardWillShow', () => {
       console.log('keyboard will show');
       this.content.scrollToBottom();
@@ -84,10 +76,60 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnChanges() {
+  async checkBotPermission() {
+    if (!this.perModalOpen) {
+      this.perModalOpen = true
+      const modal = await this.modalCtrl.create({
+        component: BotPermissionComponent,
+        componentProps: {
+          type: this.config.type
+        },
+        cssClass: 'add-to-pitara',
+        breakpoints: [0, 1],
+        showBackdrop: false,
+        backdropDismiss: false,
+        initialBreakpoint: 1,
+        handle: false,
+        handleBehavior: "none"
+      });
+      await modal.present();
+      await modal.onDidDismiss().then((res) => {
+        this.perModalOpen = false;
+        if(res.data.type === "decline") {
+          this.telemetryGeneratorService.generateInteractTelemetry('CLICK', 'decline-bot', 'bot-message', 'bot-message');
+          this.router.navigate(['/tabs/home']);
+        }
+        this.telemetryGeneratorService.generateInteractTelemetry('CLICK', 'accept-bot', 'bot-message', 'bot-message');
+      })
+    }
+  }
+
+  async ngOnChanges() {
     console.log('ng onchanges ', this.config);
+    if(this.config.disable) {
+      this.disabled = false
+    }
+    this.headerService.deviceBackbtnEmitted$.subscribe((ev: any) => {
+      if(ev.name == 'backBtn') {
+        if(this.modalCtrl) {
+          this.modalCtrl.dismiss({type: 'decline'})
+        }
+        this.handleBackNavigation()
+      }
+    })
+
+    this.headerService.headerEventEmitted$.subscribe((name: any) => {
+      if(name == 'back') {
+        this.handleBackNavigation()
+      }
+    })
+    if(await this.storage.getData(this.config.type) === 'false') {
+      this.checkBotPermission();
+    }
+    this.initialiseBot();
     if (this.config?.notification && this.config?.notif?.body) {
       this.textMessage = this.config.notif.body;
+      this.disabled = false;
       this.handleMessage();
     }
   }
@@ -99,6 +141,21 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.record.gestureControl(this.recordbtn);
+  }
+
+  handleBackNavigation() {
+    if (this.botMessages.length > 0) {
+      this.botMessages.forEach(msg => {
+        if (msg.messageType == 'audio') {
+          if(this.audioRef) {
+            if(msg.audio) {
+              msg.audio.play = false;
+            }
+            this.audioRef.pause();
+          }
+        }
+      });
+    }
   }
 
   async initialiseBot() {
@@ -137,6 +194,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
       })
       console.log("botMessages ", this.botMessages);
     });
+    this.botMessageEvent.emit({msg: this.botMessages})
     if(this.config.notif) {
       this.textMessage = this.config.notif.body;
       this.handleMessage();
@@ -153,6 +211,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         this.chat.timeStamp = Date.now()
         this.botMessages.push(this.chat);
         this.saveChatMessage(this.chat);
+        this.botMessageEvent.emit({msg: this.botMessages})
         this.content.scrollToBottom(300).then(() => {
           this.content.scrollToBottom(300)
         })
@@ -240,6 +299,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
           this.disabled = false;
         }
       })
+      this.botMessageEvent.emit({msg: this.botMessages})
     }).catch(e => {
       this.disabled = false;
       console.log('catch error ', e);
@@ -254,6 +314,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
         }
       }
       this.saveChatMessage(this.botMessages[index-1]);
+      this.botMessageEvent.emit({msg: this.botMessages})
     })
   }
 
@@ -317,31 +378,6 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     this.audioRef.onended = () => {audio.play = false; this.audioRef.pause();}
   }
 
-  handleBackNavigation() {
-    let botDuration = Date.now() - this.botStartTimeStamp;
-    if (this.botMessages.length > 0) {
-      let result = { audio: 0, text: 0 };
-      this.botMessages.forEach(msg => {
-        if (msg.messageType == 'text') {
-          result.text++;
-        } else if (msg.messageType == 'audio') {
-          result.audio++;
-          if(this.audioRef) {
-            if(msg.audio) {
-              msg.audio.play = false;
-            }
-            this.audioRef.pause();
-          }
-        }
-      });
-      console.log('result count ', result);
-      this.botMessageEvent.emit({ audio: result.audio, text: result.text, duration: botDuration/1000 })
-    } else {
-      this.botMessageEvent.emit({ audio: 0, text: 0, duration: botDuration/1000 })
-    }
-    this.botMessages = [];
-  }
-
   async cancelRecording() {
     console.log('cancel recording');
     await this.record.stopRecognition('audio').then(res => {
@@ -380,7 +416,7 @@ export class BotMessagesComponent  implements OnInit, AfterViewInit {
     console.log('long press end');
     await this.record.stopRecognition('audio').then(async result => {
       console.log('result on recorded data ', result);
-      if(result.value && result.value.recordDataBase64) {
+      if(result?.value?.recordDataBase64) {
         this.chat = {identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
         const recordData = result.value.recordDataBase64;
         console.log('..................', result, this.durationDisplay);

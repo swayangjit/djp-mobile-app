@@ -73,6 +73,11 @@
     "My Pitara": "My Pitara",
     "Jaadui Pitara Box": "Jaadui Pitara Box",
     "Download and Add": "Download and Add",
+    "DISCLAIMER_BOT_MSG": "अस्वीकरण: \n बटहरूले जेनेरेटिभ एआई टेक्नोलोजी प्रयोग गर्दछ जुन 100% सही नहुन सक्छ। तसर्थ बट्स द्वारा दिइएका प्रतिक्रियाहरूमा तिनीहरूको सामग्री र भाषामा त्रुटिहरू हुन सक्छन्। प्रतिक्रियाहरू केवल सुझावात्मक छन् र सावधानीका साथ यसको उपयुक्तता र तपाईं र तपाईंको सन्दर्भमा प्रासंगिकता निर्धारण गर्न प्रयोग गर्नुपर्छ। अगाडि बढेर, तपाइँ यसलाई पूर्ण रूपमा बुझ्नुहुन्छ र स्वीकार गर्नुहुन्छ",
+    "Accept": "स्वीकार गर्नुहोस्",
+    "Decline": "अस्वीकार गर्नुहोस्",
+
+
     "Downloading ....": "Downloading ....",
     "Downloaded successfully": "Downloaded successfully",
     "Failed to download": "Failed to download",

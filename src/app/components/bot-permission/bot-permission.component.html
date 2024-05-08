@@ -1,0 +1,11 @@
+<div class="inner-content">
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-label>{{'DISCLAIMER_BOT_MSG' | translate}}</ion-label>
+    </ion-item>
+  </ion-toolbar>
+  <ion-toolbar class="buttons">
+    <ion-button class="btn-info decline" slot="end" shape="round" fill="outline" (click)="handleClick('decline')">{{"Decline" | translate }}</ion-button>
+    <ion-button class="btn-info" slot="end" shape="round" (click)="handleClick('accept')">{{"Accept" | translate }}</ion-button>
+  </ion-toolbar>
+</div>
