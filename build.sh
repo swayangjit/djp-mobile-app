@@ -5,7 +5,6 @@ if [[ -f configuration/config.properties ]]; then
     echo "File exists"
     # Simple script to clean install
     rm -rf node_modules
-    rm -rf android
     rm -rf www
     rm package-lock.json
 
